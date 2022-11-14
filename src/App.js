@@ -1,8 +1,17 @@
-import logo from "./logo.svg";
-import "./App.css";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { ThemeProvider } from "styled-components";
+import Router from "./shared/Router/Router";
+import { lightMode } from "./shared/Styles/theme";
 
 function App() {
-  return <div>d</div>;
+  return (
+    <>
+      <ThemeProvider theme={lightMode}>
+        <Router />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
+    </>
+  );
 }
 
 export default App;
