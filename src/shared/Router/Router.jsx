@@ -4,6 +4,7 @@ import Group from "../../pages/Group";
 import Join from "../../pages/Join";
 import Login from "../../pages/Login";
 import Main from "../../pages/Main";
+import Notice from "../../pages/Notice";
 import Schedule from "../../pages/Schedule";
 
 const Router = () => {
