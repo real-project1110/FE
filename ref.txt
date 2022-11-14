@@ -1,0 +1,67 @@
+assets  => img / svg
+
+components 
+- 폴더 첫이름은 대문자 안에는 index.jsx / styles.jsx 
+- styles jsx에는 index.jsx의 스타일 컴포넌트
+- 
+
+src 
+  - apis
+    - instance => axios 인스턴스
+    - query => react-query에 사용되는 apis 
+
+  - assets
+    - img => img들을 모아 놓는 폴더 
+    - svg => svg들을 모아 놓는 폴더
+
+  - components 
+    - Elements => 재사용 가능한 input button 등을 모아 놓는 폴더 
+    - Layout => Home / workspace에서 사용하는 사이드바 헤더를 모아 놓는 폴더 
+  
+  - pages
+    - page들을 모아 놓는 폴더
+  
+  - shared
+    - Atoms  => recoil의 atom을 모아놓는 폴더 
+    - Cookie => Cookie 관련 코드 
+    - Router => Router 관련 코드 
+    - Styles => GlobalStyle / custom style을 모아놓는 폴더 
+
+  - utils
+    - util 함수들을 모아 놓는 폴더
+
+
+urls 
+
+로그인
+- /
+
+회원가입
+- /signup 
+
+메인 페이지 
+- /main 
+
+팀 스페이스 생성 페이지
+- /group
+
+팀 스페이스 (달력)
+- /group/:id 
+
+팀 스페이스 공지게시판
+- /group/:id/notice
+(상세페이지 추후)
+
+팀 스페이스 자유게시판
+- /group/:id/free
+(상세페이지 추후)
+
+팀 스페이스 채팅 (userId)
+- /chats/:id
+
+
+
+
+
+
+
