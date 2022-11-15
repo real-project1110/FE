@@ -5,25 +5,31 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import kakaoLogin from "../assets/kakao_login_medium_narrow.png";
 import googleLogin from "../assets/btn_google_signin_light_normal_web@2x.png";
 import naverLogin from "../assets/btnG_완성형.png";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <LoginBox>
       <LoginButton>로그인하기</LoginButton>
-      <EmailLogin>
+      <EmailLogin
+        onClick={() => {
+          navigate(`/signup`);
+        }}
+      >
         <FontAwesomeIcon style={{ width: "50px" }} icon={faEnvelope} />
         <span style={{ marginLeft: "21px" }}>이메일로 시작하기</span>
       </EmailLogin>
       <div style={{ marginLeft: "177.5px", marginTop: "20px" }}>간편하게 가입하세요!</div>
       <SocialBox>
         <KakaoLogin>
-          <img src={kakaoLogin} alt="kakaoLogin" width="80%" height="50px" />
+          <img src={kakaoLogin} alt="kakaoLogin" width="80%" height="55px" />
         </KakaoLogin>
         <NaverLogin>
-          <img src={naverLogin} alt="naverLogin" width="80%" height="50px" />
+          <img src={naverLogin} alt="naverLogin" width="80%" height="55px" />
         </NaverLogin>
         <GoogleLogin>
-          <img src={googleLogin} alt="googleLogin" width="80%" height="50px" />
+          <img src={googleLogin} alt="googleLogin" width="80%" height="55px" />
         </GoogleLogin>
       </SocialBox>
     </LoginBox>
@@ -34,7 +40,7 @@ export default Login;
 
 const LoginBox = styled.div`
   width: 500px;
-  margin: 20% auto;
+  margin: auto;
 `;
 
 const LoginButton = styled.div`
@@ -54,8 +60,9 @@ const LoginButton = styled.div`
 
   :hover {
     cursor: pointer;
-    background-color: #01df74;
-    box-shadow: 0 5px 20px ${(props) => props.theme.color.gray};
+    background-color: #35ad70;
+    opacity: 50;
+    box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
   }
 `;
 

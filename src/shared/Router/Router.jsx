@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Group from "../../pages/Group";
-import Join from "../../pages/Join";
 import Login from "../../pages/Login";
+import Join from "../../pages/Join";
 import Main from "../../pages/Main";
 import Notice from "../../pages/Notice";
 import Schedule from "../../pages/Schedule";
