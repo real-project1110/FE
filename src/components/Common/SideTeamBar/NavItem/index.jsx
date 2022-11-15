@@ -3,7 +3,7 @@ import { Link, useMatch } from "react-router-dom";
 import { GroupItem } from "./styles";
 
 const NavItem = ({ groupId }) => {
-  const groupMatch = useMatch(`/group/${groupId}`);
+  const groupMatch = useMatch(`/group/${groupId}/*`);
   return (
     <Link to={`/group/${groupId}`}>
       <GroupItem
