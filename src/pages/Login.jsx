@@ -2,16 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import kakaoLogin from "../assets/kakao_login_medium_narrow.png";
-import googleLogin from "../assets/btn_google_signin_light_normal_web@2x.png";
-import naverLogin from "../assets/btnG_완성형.png";
+import kakaoLogin from "../assets/image/kakao_login_medium_narrow.png";
+import googleLogin from "../assets/image/btn_google_signin_light_normal_web@2x.png";
+import naverLogin from "../assets/image/btnG_완성형.png";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
   return (
     <LoginBox>
-      <LoginButton>로그인하기</LoginButton>
+      <LoginButton
+        onClick={() => {
+          navigate(`/signin`);
+        }}
+      >
+        로그인하기
+      </LoginButton>
       <EmailLogin
         onClick={() => {
           navigate(`/signup`);

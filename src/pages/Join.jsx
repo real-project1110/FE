@@ -1,8 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const Join = () => {
   const {
@@ -14,18 +12,7 @@ const Join = () => {
 
   const password = watch("password");
 
-  const navigate = useNavigate();
-
-  const onSubmit = (data) => {
-    axios.post(process.env.REACT_APP_USER_REGIST, data).then((response) => {
-      if (response.status === 201) {
-        window.alert(response.data.msg);
-        navigate("/login");
-      } else if (response.status === 409) {
-        alert("중복된 아이디 입니다.");
-      }
-    });
-  };
+  const onSubmit = (data) => {};
 
   const emailAuth = async (e) => {
     e.preventDefault();
