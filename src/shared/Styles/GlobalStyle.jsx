@@ -9,7 +9,11 @@ export const GlobalStyle = createGlobalStyle`
   *{
     box-sizing: border-box;
     color:#1C1C1C;
-
+  }
+  body{
+    background-color: ${(props) => props.theme.boardColor.lightGray};
+    height:100vh;
+    overflow-y: hidden;
   }
   button{
     border:none;
