@@ -11,6 +11,7 @@ function App() {
         <Router />
         <GlobalStyle />
         <ReactQueryDevtools initialIsOpen={true} />
+        <GlobalStyle />
       </ThemeProvider>
     </>
   );

@@ -6,6 +6,7 @@ import Login from "../../pages/Login";
 import Main from "../../pages/Main";
 import Notice from "../../pages/Notice";
 import Schedule from "../../pages/Schedule";
+import Signin from "../../pages/Signin";
 import Group from "../../pages/Group";
 
 const Router = () => {
@@ -13,6 +14,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Join />} />
         <Route path="/main" element={<Main />}>
           <Route path="write" element={<WriteGroup />} />
