@@ -4,8 +4,8 @@ import WriteGroup from "../../pages/WriteGroup";
 import Join from "../../pages/Join";
 import Login from "../../pages/Login";
 import Main from "../../pages/Main";
-import Notice from "../../pages/Notice";
-import Schedule from "../../pages/Schedule";
+import Notice from "../../pages/Group/Notice";
+import Schedule from "../../pages/Group/Schedule";
 import Signin from "../../pages/Signin";
 import Group from "../../pages/Group";
 
