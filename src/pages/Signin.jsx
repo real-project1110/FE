@@ -26,23 +26,21 @@ function Signin() {
   const onSubmit = (data) => {};
   return (
     <LoginInput>
-      <div style={{ margin: "auto" }}>로그인</div>
-      <form style={{ marginTop: "30px" }} onSubmit={handleSubmit(onSubmit)}>
-        <div style={{ textAlign: "left", marginLeft: "82px", paddingBottom: "3px", fontSize: "0.8rem" }}>이메일</div>
-        <Label>
-          <Emailinput
-            aria-invalid={errors.email ? "#FF2D53" : "#35ad70"}
-            placeholder="이메일 입력"
-            onKeyUp={ActiveIsPassedLogin}
-            {...register("email", {
-              required: "이메일을 입력해주세요",
-              pattern: {
-                value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
-                message: "올바른 이메일 형식을 입력해주세요.",
-              },
-            })}
-          />
-        </Label>
+      <Title>로그인</Title>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <EmailDiv>이메일</EmailDiv>
+        <Emailinput
+          aria-invalid={errors.email ? "#FF2D53" : "#35ad70"}
+          placeholder="이메일 입력"
+          onKeyUp={ActiveIsPassedLogin}
+          {...register("email", {
+            required: "이메일을 입력해주세요",
+            pattern: {
+              value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
+              message: "올바른 이메일 형식을 입력해주세요.",
+            },
+          })}
+        />
         <p
           style={{
             textAlign: "left",
@@ -55,7 +53,7 @@ function Signin() {
         >
           {errors.email?.message}
         </p>
-        <div style={{ textAlign: "left", marginLeft: "82px", marginTop: "10px", paddingBottom: "3px", fontSize: "0.8rem" }}>비밀번호</div>
+        <PasswordDiv>비밀번호</PasswordDiv>
         <PasswordInput
           type="password"
           placeholder="비밀번호를 입력해주세요."
@@ -91,45 +89,59 @@ function Signin() {
         </p>
         <ButtonWrap>
           <button>계정 찾기</button>
-          <button style={{ marginLeft: "30px" }}>비밀번호 찾기</button>
+          <FindPassword>비밀번호 찾기</FindPassword>
         </ButtonWrap>
         <LoginButton className={isActive ? "activeLoginBtn" : "loginBtn"}>로그인</LoginButton>
-        <p style={{ marginTop: "60px", color: "gray" }}>또는</p>
+        <Or>또는</Or>
         <SocialButtonWrap>
           <img src={NaverLogin} alt="kakaoLogin" width="32px" height="32px" />
           <img src={kakaoLogin} alt="kakaoLogin" width="32px" height="32px" />
           <img src={GoogleLogin} alt="kakaoLogin" width="32px" height="32px" />
         </SocialButtonWrap>
-      </form>
+      </Form>
     </LoginInput>
   );
 }
 
 export default Signin;
 
+const Title = styled.div`
+  margin: auto;
+`;
+
+const Form = styled.form`
+  margin-top: 30px;
+`;
+
+const EmailDiv = styled.div`
+  text-align: left;
+  margin-left: 82px;
+  padding-bottom: 3px;
+  font-size: 0.8rem;
+`;
+
+const Or = styled.p`
+  margin-top: 60px;
+  color: gray;
+`;
+
+const FindPassword = styled.button`
+  margin-left: 30px;
+`;
+
+const PasswordDiv = styled.div`
+  text-align: left;
+  margin-left: 82px;
+  margin-top: 10px;
+  padding-bottom: 3px;
+  font-size: 0.8rem;
+`;
+
 const LoginInput = styled.div`
   width: 500px;
   margin: auto;
   text-align: center;
   font-weight: 600;
-`;
-
-const Label = styled.label`
-  position: relative;
-
-  button {
-    width: 97px;
-    height: 33px;
-    top: -5px;
-    right: 5px;
-    position: absolute;
-
-    border: 2px solid ${(props) => props.theme.color.gray};
-    border-radius: 5px;
-
-    cursor: pointer;
-    font-size: 0.8rem;
-  }
 `;
 
 const Emailinput = styled.input`
@@ -188,4 +200,5 @@ const SocialButtonWrap = styled.div`
   margin: 30px auto;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 `;
