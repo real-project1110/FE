@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import WriteGroup from "../../pages/WriteGroup";
+import CreateGroup from "../../components/CreateGroup";
 import Join from "../../pages/Join";
 import Login from "../../pages/Login";
 import Main from "../../pages/Main";
@@ -17,7 +17,7 @@ const Router = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Join />} />
         <Route path="/main" element={<Main />}>
-          <Route path="write" element={<WriteGroup />} />
+          <Route path="write" element={<CreateGroup />} />
         </Route>
         <Route path="/group" element={<Group />}>
           <Route path=":id" element={<Schedule />} />
