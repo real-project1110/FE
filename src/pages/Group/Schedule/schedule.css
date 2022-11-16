@@ -1,0 +1,62 @@
+.event-color-c {
+  display: flex;
+  align-items: center;
+  margin: 16px;
+  cursor: pointer;
+}
+
+.event-color-label {
+  flex: 1 0 auto;
+}
+
+.event-color {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  margin-left: 240px;
+  background: #5ac8fa;
+  border-radius: 15px;
+}
+
+.crud-color-row {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+
+.crud-color-c {
+  margin: 2px;
+  padding: 3px;
+}
+
+.crud-color {
+  position: relative;
+  min-width: 46px;
+  min-height: 46px;
+  margin: 2px;
+  background: #5ac8fa;
+  border-radius: 23px;
+  cursor: pointer;
+}
+
+.crud-color-c.selected,
+.crud-color-c:hover {
+  border-radius: 48px;
+  box-shadow: inset 0 0 0 3px #007bff;
+}
+
+.crud-color:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+  margin-top: -10px;
+  margin-left: -10px;
+  color: #f7f7f7;
+  font-size: 20px;
+  text-shadow: 0 0 3px #000;
+}
+
+.crud-color-c.selected .crud-color:before {
+  display: block;
+}
