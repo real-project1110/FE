@@ -1,8 +1,17 @@
 import React from "react";
-import { Eventcalendar, snackbar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
+import {
+  Eventcalendar,
+  snackbar,
+  setOptions,
+  Popup,
+  Button,
+  Input,
+  Textarea,
+  Datepicker,
+} from "@mobiscroll/react";
 
 import { useState, useCallback, useMemo, useRef } from "react";
-import "./schedule.css";
+//import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
 setOptions({
@@ -64,7 +73,18 @@ const colorPopup = {
     buttons: [],
   },
 };
-const colors = ["#ffeb3c", "#ff9900", "#f44437", "#ea1e63", "#9c26b0", "#3f51b5", "", "#009788", "#4baf4f", "#7e5d4e"];
+const colors = [
+  "#ffeb3c",
+  "#ff9900",
+  "#f44437",
+  "#ea1e63",
+  "#9c26b0",
+  "#3f51b5",
+  "",
+  "#009788",
+  "#4baf4f",
+  "#7e5d4e",
+];
 
 const Schedule = () => {
   const [myEvents, setMyEvents] = useState(defaultEvents);
@@ -83,6 +103,7 @@ const Schedule = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [tempColor, setTempColor] = useState("");
   const colorPicker = useRef();
+
   const colorButtons = useMemo(
     () => [
       "cancel",
@@ -109,6 +130,7 @@ const Schedule = () => {
       // color: tempEvent.color, //
       color: selectedColor,
     };
+
     if (isEdit) {
       // update the event in the list
       const index = myEvents.findIndex((x) => x.id === tempEvent.id);
@@ -129,7 +151,15 @@ const Schedule = () => {
     setSelectedDate(popupEventDate[0]);
     // close the popup
     setOpen(false);
-  }, [isEdit, myEvents, popupEventDate, popupEventDescription, popupEventTitle, tempEvent, selectedColor]);
+  }, [
+    isEdit,
+    myEvents,
+    popupEventDate,
+    popupEventDescription,
+    popupEventTitle,
+    tempEvent,
+    selectedColor,
+  ]);
 
   const deleteEvent = useCallback(
     (event) => {
@@ -221,7 +251,10 @@ const Schedule = () => {
   }, []);
 
   // popup options
-  const headerText = useMemo(() => (isEdit ? "Edit event" : "New Event"), [isEdit]);
+  const headerText = useMemo(
+    () => (isEdit ? "Edit event" : "New Event"),
+    [isEdit]
+  );
   const popupButtons = useMemo(() => {
     if (isEdit) {
       return [
@@ -313,19 +346,39 @@ const Schedule = () => {
       >
         <div className="mbsc-form-group">
           <Input label="Title" value={popupEventTitle} onChange={titleChange} />
-          <Textarea label="Description" value={popupEventDescription} onChange={descriptionChange} />
+          <Textarea
+            label="Description"
+            value={popupEventDescription}
+            onChange={descriptionChange}
+          />
         </div>
         <div className="mbsc-form-group">
           <Input ref={startRef} label="Starts" />
           <Input ref={endRef} label="Ends" />
-          <Datepicker select="range" touchUi={true} startInput={start} endInput={end} showRangeLabels={false} onChange={dateChange} value={popupEventDate} />
+          <Datepicker
+            select="range"
+            touchUi={true}
+            startInput={start}
+            endInput={end}
+            showRangeLabels={false}
+            onChange={dateChange}
+            value={popupEventDate}
+          />
           <div onClick={openColorPicker} className="event-color-c">
             <div className="event-color-label">Color</div>
-            <div className="event-color" style={{ background: selectedColor }}></div>
+            <div
+              className="event-color"
+              style={{ background: selectedColor }}
+            ></div>
           </div>
           {isEdit ? (
             <div className="mbsc-button-group">
-              <Button className="mbsc-button-block" color="danger" variant="outline" onClick={onDeleteClick}>
+              <Button
+                className="mbsc-button-block"
+                color="danger"
+                variant="outline"
+                onClick={onDeleteClick}
+              >
                 Delete event
               </Button>
             </div>
@@ -347,8 +400,18 @@ const Schedule = () => {
           {colors.map((color, index) => {
             if (index < 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;
@@ -358,8 +421,18 @@ const Schedule = () => {
           {colors.map((color, index) => {
             if (index >= 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;
