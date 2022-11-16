@@ -29,20 +29,18 @@ function Signin() {
       <div style={{ margin: "auto" }}>로그인</div>
       <form style={{ marginTop: "30px" }} onSubmit={handleSubmit(onSubmit)}>
         <div style={{ textAlign: "left", marginLeft: "82px", paddingBottom: "3px", fontSize: "0.8rem" }}>이메일</div>
-        <Label>
-          <Emailinput
-            aria-invalid={errors.email ? "#FF2D53" : "#35ad70"}
-            placeholder="이메일 입력"
-            onKeyUp={ActiveIsPassedLogin}
-            {...register("email", {
-              required: "이메일을 입력해주세요",
-              pattern: {
-                value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
-                message: "올바른 이메일 형식을 입력해주세요.",
-              },
-            })}
-          />
-        </Label>
+        <Emailinput
+          aria-invalid={errors.email ? "#FF2D53" : "#35ad70"}
+          placeholder="이메일 입력"
+          onKeyUp={ActiveIsPassedLogin}
+          {...register("email", {
+            required: "이메일을 입력해주세요",
+            pattern: {
+              value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
+              message: "올바른 이메일 형식을 입력해주세요.",
+            },
+          })}
+        />
         <p
           style={{
             textAlign: "left",
@@ -112,24 +110,6 @@ const LoginInput = styled.div`
   margin: auto;
   text-align: center;
   font-weight: 600;
-`;
-
-const Label = styled.label`
-  position: relative;
-
-  button {
-    width: 97px;
-    height: 33px;
-    top: -5px;
-    right: 5px;
-    position: absolute;
-
-    border: 2px solid ${(props) => props.theme.color.gray};
-    border-radius: 5px;
-
-    cursor: pointer;
-    font-size: 0.8rem;
-  }
 `;
 
 const Emailinput = styled.input`

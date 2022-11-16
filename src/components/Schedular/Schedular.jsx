@@ -180,7 +180,7 @@ const Schedular = () => {
 
   const onSelectedDateChange = useCallback((event) => {
     setSelectedDate(event.date);
-  });
+  }, []);
 
   const onEventClick = useCallback(
     (args) => {
