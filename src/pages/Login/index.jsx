@@ -1,11 +1,11 @@
 import React from "react";
-import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import kakaoLogin from "../assets/image/kakao_login_medium_narrow.png";
-import googleLogin from "../assets/image/btn_google_signin_light_normal_web@2x.png";
-import naverLogin from "../assets/image/btnG_완성형.png";
+import kakaoLogin from "../../assets/image/kakao_login_medium_narrow.png";
+import googleLogin from "../../assets/image/btn_google_signin_light_normal_web@2x.png";
+import naverLogin from "../../assets/image/btnG_완성형.png";
 import { useNavigate } from "react-router-dom";
+import { LoginBox, LoginButton, EmailLogin, SocialBox, KakaoLogin, NaverLogin, GoogleLogin } from "./styles";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -43,60 +43,3 @@ const Login = () => {
 };
 
 export default Login;
-
-const LoginBox = styled.div`
-  width: 500px;
-  margin: auto;
-`;
-
-const LoginButton = styled.div`
-  width: 244px;
-  height: 43px;
-  margin: auto;
-  background-color: ${(props) => props.theme.color.green};
-
-  border: none;
-  border-radius: 5px;
-
-  text-align: center;
-  line-height: 43px;
-  font-weight: 700;
-  font-size: 1rem;
-  color: #ffffff;
-
-  :hover {
-    cursor: pointer;
-    background-color: #35ad70;
-    opacity: 50;
-    box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
-  }
-`;
-
-const EmailLogin = styled.div`
-  width: 100%;
-  height: 43px;
-  margin: 25% auto auto 23%;
-
-  font-weight: 600;
-  line-height: 43px;
-
-  cursor: pointer;
-`;
-
-const SocialBox = styled.div`
-  width: 300px;
-  margin-left: 130px;
-`;
-
-const KakaoLogin = styled.div`
-  margin-top: 10px;
-  cursor: pointer;
-`;
-
-const GoogleLogin = styled.div`
-  cursor: pointer;
-`;
-
-const NaverLogin = styled.div`
-  cursor: pointer;
-`;

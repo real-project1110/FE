@@ -1,10 +1,23 @@
 import React from "react";
-import styled from "styled-components";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import kakaoLogin from "../assets/image/kakaotalk-icon.png";
-import NaverLogin from "../assets/image/btnG_아이콘원형.png";
-import GoogleLogin from "../assets/image/icons8-구글-로고-48.png";
+import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
+import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
+import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
+import {
+  LoginInput,
+  Title,
+  Form,
+  EmailDiv,
+  PasswordDiv,
+  FindPassword,
+  Or,
+  Emailinput,
+  PasswordInput,
+  ButtonWrap,
+  LoginButton,
+  SocialButtonWrap,
+} from "./styles";
 
 function Signin() {
   const {
@@ -104,101 +117,3 @@ function Signin() {
 }
 
 export default Signin;
-
-const Title = styled.div`
-  margin: auto;
-`;
-
-const Form = styled.form`
-  margin-top: 30px;
-`;
-
-const EmailDiv = styled.div`
-  text-align: left;
-  margin-left: 82px;
-  padding-bottom: 3px;
-  font-size: 0.8rem;
-`;
-
-const Or = styled.p`
-  margin-top: 60px;
-  color: gray;
-`;
-
-const FindPassword = styled.button`
-  margin-left: 30px;
-`;
-
-const PasswordDiv = styled.div`
-  text-align: left;
-  margin-left: 82px;
-  margin-top: 10px;
-  padding-bottom: 3px;
-  font-size: 0.8rem;
-`;
-
-const LoginInput = styled.div`
-  width: 500px;
-  margin: auto;
-  text-align: center;
-  font-weight: 600;
-`;
-
-const Emailinput = styled.input`
-  width: 334px;
-  height: 40px;
-  padding-left: 10px;
-
-  border: 2px solid ${(props) => props["aria-invalid"]};
-  border-radius: 5px;
-
-  &:focus {
-    box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
-  }
-`;
-
-const PasswordInput = styled.input`
-  width: 334px;
-  height: 40px;
-  padding-left: 10px;
-
-  border: 2px solid ${(props) => props["aria-invalid"]};
-  border-radius: 5px;
-
-  &:focus {
-    box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
-  }
-`;
-
-const ButtonWrap = styled.div`
-  width: 334px;
-  height: 17px;
-  margin: 30px auto auto auto;
-`;
-
-const LoginButton = styled.button`
-  width: 213px;
-  height: 43px;
-  margin-top: 90px;
-  border-radius: 5px;
-  color: #ffffff;
-
-  font-size: 1.2rem;
-  font-weight: 700;
-
-  &.activeLoginBtn {
-    background-color: #35ad70;
-  }
-
-  &.loginBtn {
-    background-color: ${(props) => props.theme.color.gray};
-  }
-`;
-
-const SocialButtonWrap = styled.div`
-  width: 40%;
-  margin: 30px auto;
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-`;
