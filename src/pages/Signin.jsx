@@ -200,4 +200,5 @@ const SocialButtonWrap = styled.div`
   margin: 30px auto;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 `;
