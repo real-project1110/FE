@@ -1,5 +1,7 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Input from "../components/Common/Elements/Input";
 
@@ -12,8 +14,18 @@ const Join = () => {
   } = useForm({ mode: "onChange" });
 
   const password = watch("password");
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+    axios.post("https://222.111.114.132:4000/users/signup", data).then((res) => {
+      console.log(res);
+      if (res.status === 201) {
+        alert("회원가입 성공");
+        navigate("/");
+      }
+    });
+  };
 
   const emailAuth = async (e) => {
     e.preventDefault();
@@ -21,9 +33,9 @@ const Join = () => {
 
   return (
     <EmailAuthInput>
-      <div style={{ margin: "auto" }}>이메일로 시작하기</div>
-      <form style={{ marginTop: "30px" }} onSubmit={handleSubmit(onSubmit)}>
-        <div style={{ textAlign: "left", marginLeft: "82px", paddingBottom: "3px", fontSize: "0.8rem" }}>이메일</div>
+      <Title>이메일로 시작하기</Title>
+      <JoinForm onSubmit={handleSubmit(onSubmit)}>
+        <StTitle>이메일</StTitle>
         <Label>
           <Emailinput
             aria-invalid={errors.email ? "#FF2D53" : "#35ad70"}
@@ -68,7 +80,7 @@ const Join = () => {
         >
           {errors.auth?.message}
         </p> */}
-        <div style={{ textAlign: "left", marginLeft: "82px", marginTop: "10px", paddingBottom: "3px", fontSize: "0.8rem" }}>닉네임</div>
+        <StTitle>닉네임</StTitle>
         <Input
           register={{
             ...register("nickname", {
@@ -91,7 +103,7 @@ const Join = () => {
           errors={errors}
           errorName={"nickname"}
         />
-        <div style={{ textAlign: "left", marginLeft: "82px", marginTop: "10px", paddingBottom: "3px", fontSize: "0.8rem" }}>비밀번호</div>
+        <StTitle>비밀번호</StTitle>
         <Input
           register={{
             ...register("password", {
@@ -114,7 +126,7 @@ const Join = () => {
           errors={errors}
           errorName={"password"}
         />
-        <div style={{ textAlign: "left", marginLeft: "82px", marginTop: "10px", paddingBottom: "3px", fontSize: "0.8rem" }}>비밀번호 확인</div>
+        <StTitle>비밀번호 확인</StTitle>
         <Input
           register={{
             ...register("confirm", {
@@ -128,7 +140,8 @@ const Join = () => {
           errors={errors}
           errorName={"confirm"}
         />
-      </form>
+        <button>가입</button>
+      </JoinForm>
     </EmailAuthInput>
   );
 };
@@ -171,4 +184,20 @@ const Emailinput = styled.input`
   &:focus {
     box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
   }
+`;
+
+const Title = styled.div`
+  margin: auto;
+`;
+
+const JoinForm = styled.form`
+  margin-top: 30px;
+`;
+
+const StTitle = styled.div`
+  text-align: left;
+  margin-left: 82px;
+  margin-top: 10px;
+  padding-bottom: 3px;
+  font-size: 0.8rem;
 `;
