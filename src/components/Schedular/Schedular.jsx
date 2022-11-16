@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { Eventcalendar, snackbar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
 
 import { useState, useCallback, useMemo, useRef } from "react";
@@ -285,7 +286,7 @@ const Schedular = () => {
   );
 
   return (
-    <div>
+    <Wrapper>
       <Eventcalendar
         view={viewSettings}
         data={myEvents}
@@ -366,8 +367,12 @@ const Schedular = () => {
           })}
         </div>
       </Popup>
-    </div>
+    </Wrapper>
   );
 };
 
 export default Schedular;
+
+const Wrapper = styled.div`
+  height: 91%;
+`;

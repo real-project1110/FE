@@ -2,8 +2,8 @@ import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import Input from "../components/Common/Elements/Input";
+import Input from "../../components/Common/Elements/Input";
+import { EmailAuthInput, Title, JoinForm, StTitle, Label, Emailinput } from "./styles";
 
 const Join = () => {
   const {
@@ -147,57 +147,3 @@ const Join = () => {
 };
 
 export default Join;
-
-const EmailAuthInput = styled.div`
-  width: 500px;
-  margin: auto;
-  text-align: center;
-  font-weight: 600;
-`;
-
-const Label = styled.label`
-  position: relative;
-
-  button {
-    position: absolute;
-    top: -5px;
-    right: 5px;
-    width: 97px;
-    height: 33px;
-
-    font-size: 0.8rem;
-    border: 2px solid ${(props) => props.theme.color.gray};
-
-    border-radius: 5px;
-    cursor: pointer;
-  }
-`;
-
-const Emailinput = styled.input`
-  width: 334px;
-  height: 40px;
-  padding-left: 10px;
-
-  border: 2px solid ${(props) => props["aria-invalid"]};
-  border-radius: 5px;
-
-  &:focus {
-    box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
-  }
-`;
-
-const Title = styled.div`
-  margin: auto;
-`;
-
-const JoinForm = styled.form`
-  margin-top: 30px;
-`;
-
-const StTitle = styled.div`
-  text-align: left;
-  margin-left: 82px;
-  margin-top: 10px;
-  padding-bottom: 3px;
-  font-size: 0.8rem;
-`;
