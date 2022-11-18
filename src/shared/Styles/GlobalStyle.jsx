@@ -40,8 +40,8 @@ export const GlobalStyle = createGlobalStyle`
 
   body{
     background-color: ${(props) => props.theme.boardColor.lightGray};
-    height:100vh;
-    overflow-y: hidden;
+    height: 100vh;
+    max-height: 100vh;
     color:#1C1C1C;
     transition: color 0.1s linear;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;

@@ -15,4 +15,8 @@ export const lightMode = {
   hoverColor: {
     lightGray: "#F4F4F4",
   },
+  bodyHeight: {
+    normal: "calc(100vh - 80px)",
+    halfNormal: "calc(50vh - 40px)",
+  },
 };

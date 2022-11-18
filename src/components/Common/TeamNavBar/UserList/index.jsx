@@ -1,21 +1,28 @@
-import React from "react";
-import { UserImg, UserItem, Wrapper } from "./styles";
+import React, { useState } from "react";
+import ArrowSvg from "../../../../assets/svg/ArrowSvg";
+import UserItem from "../UserItem";
+import { ToggleUsers, UserItems, Wrapper } from "./styles";
 
 const UserList = () => {
+  const [isFocus, setIsFocus] = useState(true);
+
   return (
     <Wrapper>
-      {userData.map((user) => (
-        <UserItem key={user.groupUserId}>
-          <UserImg>
-            <img
-              src={`https://avatars.dicebear.com/api/identicon/wooncloud${user.groupUserId}.svg`}
-              alt={user.groupNickname}
-            />
-            {user.isLoggedIn ? <div /> : null}
-          </UserImg>
-          <span>{user.groupNickname}</span>
-        </UserItem>
-      ))}
+      <ToggleUsers onClick={() => setIsFocus((prev) => !prev)}>
+        <span>
+          <ArrowSvg isActive={isFocus} />
+        </span>
+        <strong>다이렉트 메세지</strong>
+      </ToggleUsers>
+      {isFocus && (
+        <UserItems>
+          <UserItem user={userData[0]} />
+
+          {userData.slice(1).map((user) => (
+            <UserItem key={user?.id} user={user} />
+          ))}
+        </UserItems>
+      )}
     </Wrapper>
   );
 };
@@ -29,4 +36,10 @@ const userData = [
   { groupUserId: 3, groupNickname: "김정현", isLoggedIn: false },
   { groupUserId: 4, groupNickname: "정현진", isLoggedIn: false },
   { groupUserId: 5, groupNickname: "유동희", isLoggedIn: false },
+  { groupUserId: 6, groupNickname: "김장훈", isLoggedIn: false },
+  { groupUserId: 7, groupNickname: "박장훈", isLoggedIn: false },
+  { groupUserId: 8, groupNickname: "이장훈", isLoggedIn: false },
+  { groupUserId: 9, groupNickname: "왕장훈", isLoggedIn: false },
+  { groupUserId: 10, groupNickname: "정장훈", isLoggedIn: false },
+  { groupUserId: 11, groupNickname: "윤장훈", isLoggedIn: false },
 ];
