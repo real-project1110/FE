@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
 import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
@@ -28,15 +29,20 @@ function Signin() {
   } = useForm({ mode: "onChange" });
 
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   const email = watch("email");
   const password = watch("password");
 
   const ActiveIsPassedLogin = () => {
-    return email.includes("@") && password.length >= 8 && !errors.password ? setIsActive(true) : setIsActive(false);
+    return email.includes("@") && password.length >= 8 && !errors.password
+      ? setIsActive(true)
+      : setIsActive(false);
   };
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    navigate("/main");
+  };
   return (
     <LoginInput>
       <Title>로그인</Title>
@@ -83,7 +89,8 @@ function Signin() {
               message: "8자리 이상으로 작성해주세요",
             },
             pattern: {
-              value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+              value:
+                /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
               message: "영어, 특수문자 포함 8~20자리 입니다.",
             },
           })}
@@ -104,7 +111,9 @@ function Signin() {
           <button>계정 찾기</button>
           <FindPassword>비밀번호 찾기</FindPassword>
         </ButtonWrap>
-        <LoginButton className={isActive ? "activeLoginBtn" : "loginBtn"}>로그인</LoginButton>
+        <LoginButton className={isActive ? "activeLoginBtn" : "loginBtn"}>
+          로그인
+        </LoginButton>
         <Or>또는</Or>
         <SocialButtonWrap>
           <img src={NaverLogin} alt="kakaoLogin" width="32px" height="32px" />
