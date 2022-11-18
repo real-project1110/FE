@@ -24,17 +24,23 @@ export const RightNav = styled.ul`
   justify-content: flex-end;
   li {
     ${FlexCenterBox};
-    width: 3rem;
-    height: 3rem;
+    width: 2.4rem;
+    height: 2.4rem;
     margin-left: 1rem;
-    background-color: ${(props) => props.theme.color.lightGray};
     border-radius: 50%;
     cursor: pointer;
+    &:nth-child(2) {
+      margin-left: 0.5rem;
+    }
     img {
-      width: 3rem;
-      height: 3rem;
+      width: 2.4rem;
+      height: 2.4rem;
       object-fit: cover;
+      background-color: ${(props) => props.theme.color.extraLightGray};
       border-radius: 50%;
+    }
+    &:hover {
+      background-color: ${(props) => props.theme.color.extraLightGray};
     }
   }
 `;

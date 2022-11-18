@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
+import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
 import { RightNav, Nav, SearchForm, Wrapper } from "./styles";
 
@@ -20,6 +21,9 @@ const HomeHeader = () => {
           />
         </SearchForm>
         <RightNav>
+          <li>
+            <QuestionSvg />
+          </li>
           <li>
             <BellSvg />
           </li>
