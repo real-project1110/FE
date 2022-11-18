@@ -5,7 +5,15 @@ import kakaoLogin from "../../assets/image/kakao_login_medium_narrow.png";
 import googleLogin from "../../assets/image/btn_google_signin_light_normal_web@2x.png";
 import naverLogin from "../../assets/image/btnG_완성형.png";
 import { useNavigate } from "react-router-dom";
-import { LoginBox, LoginButton, EmailLogin, SocialBox, KakaoLogin, NaverLogin, GoogleLogin } from "./styles";
+import {
+  LoginBox,
+  LoginButton,
+  EmailLogin,
+  SocialBox,
+  KakaoLogin,
+  NaverLogin,
+  GoogleLogin,
+} from "./styles";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,9 +32,11 @@ const Login = () => {
         }}
       >
         <FontAwesomeIcon style={{ width: "50px" }} icon={faEnvelope} />
-        <span style={{ marginLeft: "21px" }}>이메일로 시작하기</span>
+        <span style={{ marginLeft: "6.7%" }}>이메일로 시작하기</span>
       </EmailLogin>
-      <div style={{ marginLeft: "177.5px", marginTop: "20px" }}>간편하게 가입하세요!</div>
+      <div style={{ marginLeft: "38%", marginTop: "20px" }}>
+        간편하게 가입하세요!
+      </div>
       <SocialBox>
         <KakaoLogin>
           <img src={kakaoLogin} alt="kakaoLogin" width="80%" height="55px" />
