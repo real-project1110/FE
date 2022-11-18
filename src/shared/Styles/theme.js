@@ -5,6 +5,7 @@ export const lightMode = {
     extraLightGray: "rgba(0,0,0,0.05)",
     gray: "#BBBBBB",
     black: "#1C1C1C",
+    white: "#FFFFFF",
   },
   boardColor: {
     lightGray: "#F2F2F6",

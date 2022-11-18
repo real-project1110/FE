@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
+import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { ToggleUsers, UserItems, Wrapper } from "./styles";
 
 const UserList = () => {
   const [isFocus, setIsFocus] = useState(true);
+  const [status, setStatus] = useState(userData[0].status);
 
+  const changeStatus = useCallback((num) => {
+    setStatus((prev) => (prev === 0 ? num : 0));
+  }, []);
   return (
     <Wrapper>
       <ToggleUsers onClick={() => setIsFocus((prev) => !prev)}>
@@ -14,15 +19,23 @@ const UserList = () => {
         </span>
         <strong>다이렉트 메세지</strong>
       </ToggleUsers>
-      {isFocus && (
-        <UserItems>
-          <UserItem user={userData[0]} />
 
-          {userData.slice(1).map((user) => (
-            <UserItem key={user?.id} user={user} />
-          ))}
-        </UserItems>
-      )}
+      <UserItems>
+        <UserItem user={userData[0]} isMe={true} status={status} />
+
+        <IconList
+          user={userData[0]}
+          changeStatus={changeStatus}
+          status={status}
+        />
+        {isFocus && (
+          <>
+            {userData.slice(1).map((user) => (
+              <UserItem key={user?.groupUserId} user={user} />
+            ))}
+          </>
+        )}
+      </UserItems>
     </Wrapper>
   );
 };
@@ -30,10 +43,34 @@ const UserList = () => {
 export default UserList;
 
 const userData = [
-  { groupUserId: 0, groupNickname: "문예진", isLoggedIn: true },
-  { groupUserId: 1, groupNickname: "한세준", isLoggedIn: false },
-  { groupUserId: 2, groupNickname: "안치영", isLoggedIn: false },
-  { groupUserId: 3, groupNickname: "김정현", isLoggedIn: false },
+  {
+    groupUserId: 0,
+    groupNickname: "문예진",
+    isLoggedIn: true,
+    status: 2,
+    statusMessage: "피곤행...",
+  },
+  {
+    groupUserId: 1,
+    groupNickname: "한세준",
+    isLoggedIn: false,
+    status: 1,
+    statusMessage: "피곤행...",
+  },
+  {
+    groupUserId: 2,
+    groupNickname: "안치영",
+    isLoggedIn: false,
+    status: 3,
+    statusMessage: "피곤행...",
+  },
+  {
+    groupUserId: 3,
+    groupNickname: "김정현",
+    isLoggedIn: false,
+    status: 0,
+    statusMessage: "휴가중~~~",
+  },
   { groupUserId: 4, groupNickname: "정현진", isLoggedIn: false },
   { groupUserId: 5, groupNickname: "유동희", isLoggedIn: false },
   { groupUserId: 6, groupNickname: "김장훈", isLoggedIn: false },

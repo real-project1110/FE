@@ -30,5 +30,5 @@ export const ToggleUsers = styled.div`
 
 export const UserItems = styled.ul`
   ${FlexColumnBox};
-  padding: 0 0.3rem;
+  //padding: 0 0.3rem;
 `;

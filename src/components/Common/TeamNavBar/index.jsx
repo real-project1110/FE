@@ -11,6 +11,7 @@ const TeamNavBar = () => {
   const calendarMatch = useMatch("/group/:id");
   const noticeMatch = useMatch("/group/:id/notice");
   const freeMatch = useMatch("/group/:id/free");
+
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>
@@ -25,13 +26,7 @@ const TeamNavBar = () => {
           <Link to={"/group/1/notice"}>
             <GroupNavItem isFocus={noticeMatch}>
               <PostSvg />
-              <strong>공지 게시판</strong>
-            </GroupNavItem>
-          </Link>
-          <Link to={"/group/1/free"}>
-            <GroupNavItem isFocus={freeMatch}>
-              <PostSvg />
-              <strong>자유 게시판</strong>
+              <strong>게시판</strong>
             </GroupNavItem>
           </Link>
           <Link to={"#"}>
