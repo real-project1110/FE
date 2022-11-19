@@ -3,7 +3,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Common/Elements/Input";
-import { EmailAuthInput, Title, JoinForm, StTitle, Label, Emailinput } from "./styles";
+import {
+  EmailAuthInput,
+  Title,
+  JoinForm,
+  StTitle,
+  Label,
+  Emailinput,
+} from "./styles";
 
 const Join = () => {
   const {
@@ -17,11 +24,10 @@ const Join = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
-    axios.post("https://222.111.114.132:4000/users/signup", data).then((res) => {
-      console.log(res);
+    delete data.confirm;
+    axios.post("http://222.111.114.132:4000/users/signup", data).then((res) => {
       if (res.status === 201) {
-        alert("회원가입 성공");
+        alert(res.data.message);
         navigate("/");
       }
     });
@@ -117,8 +123,9 @@ const Join = () => {
                 message: "8자리 이상으로 작성해주세요",
               },
               pattern: {
-                value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
-                message: "영어, 특수문자 포함 8~20자리 입니다.",
+                value:
+                  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+                message: "영어, 숫자, 특수문자 포함 8~20자리 입니다.",
               },
             }),
           }}
@@ -132,7 +139,8 @@ const Join = () => {
             ...register("confirm", {
               required: "비밀번호를 확인해주세요.",
               validate: {
-                confirmPw: (v) => v === password || "비밀번호가 일치하지 않습니다.",
+                confirmPw: (v) =>
+                  v === password || "비밀번호가 일치하지 않습니다.",
               },
             }),
           }}

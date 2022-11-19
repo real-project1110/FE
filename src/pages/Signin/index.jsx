@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
@@ -41,7 +42,13 @@ function Signin() {
   };
 
   const onSubmit = (data) => {
-    navigate("/main");
+    console.log(data);
+    axios.post("http://222.111.114.132:4000/users/login", data).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        navigate("/main");
+      }
+    });
   };
   return (
     <LoginInput>
