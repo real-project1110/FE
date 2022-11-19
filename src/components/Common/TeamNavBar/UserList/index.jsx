@@ -69,7 +69,7 @@ const userData = [
     groupNickname: "김정현",
     isLoggedIn: false,
     status: 0,
-    statusMessage: "휴가중~~~",
+    statusMessage: "",
   },
   { groupUserId: 4, groupNickname: "정현진", isLoggedIn: false },
   { groupUserId: 5, groupNickname: "유동희", isLoggedIn: false },

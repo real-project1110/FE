@@ -10,7 +10,6 @@ import Scrollbars from "react-custom-scrollbars-2";
 const TeamNavBar = () => {
   const calendarMatch = useMatch("/group/:id");
   const noticeMatch = useMatch("/group/:id/notice");
-  const freeMatch = useMatch("/group/:id/free");
 
   return (
     <Wrapper as="aside">
