@@ -1,62 +1,34 @@
 import React from "react";
-import BoldSvg from "../../../assets/svg/BoldSvg";
-import TextUnderlineSvg from "../../../assets/svg/TextUnderlineSvg";
-import TiltSvg from "../../../assets/svg/TiltSvg";
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
-import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
-import {
-  Form,
-  PostTextArea,
-  Property,
-  FontProperty,
-  SubmitBtn,
-  Vector,
-  Tilt,
-  UnderLine,
-  PostButton,
-  Posting,
-} from "./styles";
+import { Form, SubmitBtn, PostButton, Posting } from "./styles";
 import { Title } from "../NoticeCarousel/styles";
 
 function PostForm() {
-  // 클릭시 textarea 속성 변경 해줘야함
-  const textBold = () => {};
-  const textTilt = () => {};
-  const textUnderLine = () => {};
   return (
     <Form>
-      <Title>새 글 작성</Title>
-      <PostTextArea placeholder="공유하고 싶은 소식이 있나요? 사소한 이야기라도 좋아요 :)" />
-      <Property>
-        <FontProperty>
-          <div onClick={textBold}>
-            <BoldSvg />
-          </div>
-          <Tilt onClick={textTilt}>
-            <TiltSvg />
-          </Tilt>
-          <UnderLine onClick={textUnderLine}>
-            <TextUnderlineSvg />
-          </UnderLine>
-          <Vector>|</Vector>
-          <FontAwesomeIcon
-            style={{ width: "15px", height: "14px" }}
-            icon={faArrowUpFromBracket}
-          />
-          <FontAwesomeIcon
-            style={{ width: "15px", height: "14px", marginLeft: "10px" }}
-            icon={faFaceSmile}
-          />
-        </FontProperty>
-        <SubmitBtn>
-          <Posting>게시</Posting>
-          <PostButton>
-            <PostButtonSvg />
-          </PostButton>
-        </SubmitBtn>
-      </Property>
+      <Title style={{ marginBottom: "1%" }}>새 글 작성</Title>
+      <Editor
+        placeholder="공유하고 싶은 소식이 있나요? 사소한 이야기라도 좋아요:)"
+        previewStyle="vertical" // 미리보기 스타일 지정
+        height="300px" // 에디터 창 높이
+        initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+        toolbarItems={[
+          // 툴바 옵션 설정
+          ["heading", "bold", "italic", "strike"],
+          ["hr", "quote"],
+          ["ul", "ol", "task", "indent", "outdent"],
+          ["table", "image", "link"],
+          ["code", "codeblock"],
+        ]}
+      />
+      <SubmitBtn>
+        <Posting>게시</Posting>
+        <PostButton>
+          <PostButtonSvg />
+        </PostButton>
+      </SubmitBtn>
     </Form>
   );
 }

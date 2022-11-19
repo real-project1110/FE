@@ -52,6 +52,7 @@ export const PostContent = styled.div`
   line-height: 21px;
   letter-spacing: -0.055em;
   color: ${(props) => props.theme.color.gray};
+  overflow-y: hidden;
 `;
 
 export const PostInfoWrap = styled.div`
