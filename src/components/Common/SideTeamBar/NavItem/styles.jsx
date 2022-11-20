@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const GroupItem = styled.div`
   position: relative;
@@ -21,7 +21,17 @@ export const GroupImg = styled.img`
         props.isFocus ? props.theme.color.green : props.theme.color.lightGray};
   }
 `;
-
+const GroupNameAni = keyframes`
+  0%{
+    opacity: 0;
+  }
+  99%{
+    opacity:0;
+  }
+  100%{
+    opacity: 1;
+  }
+`;
 export const GroupName = styled.p`
   padding: 0.5rem;
   position: absolute;
@@ -33,4 +43,5 @@ export const GroupName = styled.p`
   z-index: 100;
   white-space: nowrap;
   font-size: 0.9rem;
+  animation: ${GroupNameAni} 0.2s linear;
 `;

@@ -32,3 +32,18 @@ export const UserItems = styled.ul`
   ${FlexColumnBox};
   //padding: 0 0.3rem;
 `;
+
+export const AddUserBtn = styled.div`
+  ${FlexAlignBox};
+  padding: 0 0.5rem;
+  cursor: pointer;
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    color: ${(props) => props.theme.color.gray};
+  }
+`;

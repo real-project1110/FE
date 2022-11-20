@@ -1,13 +1,16 @@
 import React, { useCallback, useState } from "react";
+import { useSetRecoilState } from "recoil";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
+import PlusSvg from "../../../../assets/svg/PlusSvg";
+import { inviteModalAtom } from "../../../../shared/Atoms/groupModal";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
-import { ToggleUsers, UserItems, Wrapper } from "./styles";
+import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
 
 const UserList = () => {
   const [isFocus, setIsFocus] = useState(true);
   const [status, setStatus] = useState(userData[0].status);
-
+  const setIsInviteModal = useSetRecoilState(inviteModalAtom);
   const changeStatus = useCallback((num) => {
     setStatus((prev) => (prev === 0 ? num : 0));
   }, []);
@@ -22,7 +25,6 @@ const UserList = () => {
 
       <UserItems>
         <UserItem user={userData[0]} isMe={true} status={status} />
-
         <IconList
           user={userData[0]}
           changeStatus={changeStatus}
@@ -35,6 +37,10 @@ const UserList = () => {
             ))}
           </>
         )}
+        <AddUserBtn onClick={() => setIsInviteModal(true)}>
+          <PlusSvg />
+          <span>팀원 추가하기</span>
+        </AddUserBtn>
       </UserItems>
     </Wrapper>
   );

@@ -32,7 +32,7 @@ const UserItem = ({ user, isMe = false, status }) => {
         </span>
         <Icon>{getIcon(isMe ? status : user?.status)}</Icon>
         {isHover && user?.statusMessage && (
-          <UserStatusModal style={{ left: mouseX, top: mouseY - 20 }}>
+          <UserStatusModal style={{ left: mouseX + 20, top: mouseY - 20 }}>
             {user?.statusMessage}
           </UserStatusModal>
         )}
