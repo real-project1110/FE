@@ -22,17 +22,18 @@ export const Nav = styled.div`
 export const RightNav = styled.ul`
   ${FlexAlignBox};
   justify-content: flex-end;
-  li {
-    ${FlexCenterBox};
+  & > li {
+    position: relative;
     width: 2.4rem;
     height: 2.4rem;
     margin-left: 1rem;
     border-radius: 50%;
     cursor: pointer;
+    ${FlexCenterBox};
     &:nth-child(2) {
       margin-left: 0.5rem;
     }
-    img {
+    & > img {
       width: 2.4rem;
       height: 2.4rem;
       object-fit: cover;

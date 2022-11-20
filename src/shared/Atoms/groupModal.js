@@ -5,3 +5,8 @@ export const inviteModalAtom = atom({
   key: "inviteModal",
   default: false,
 });
+
+export const headerMenuAtom = atom({
+  key: "headerMenuAtom",
+  default: false,
+});

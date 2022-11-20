@@ -1,12 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
+import { headerMenuAtom } from "../../../../shared/Atoms/groupModal";
+import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, SearchForm, Wrapper } from "./styles";
 
 const HomeHeader = () => {
+  const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   return (
     <Wrapper as="header">
       <Nav as="nav">
@@ -27,11 +31,12 @@ const HomeHeader = () => {
           <li>
             <BellSvg />
           </li>
-          <li>
+          <li onClick={() => setHeaderMenu(true)}>
             <img
               src={"https://avatars.dicebear.com/api/identicon/wooncloud5.svg"}
               alt=""
             />
+            {headerMenu && <HeaderMenu />}
           </li>
         </RightNav>
       </Nav>
