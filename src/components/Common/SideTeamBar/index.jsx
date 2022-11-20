@@ -8,8 +8,8 @@ const SideTeamBar = () => {
   return (
     <Wrapper as="aside">
       <GroupList>
-        {[1, 2, 3].map((item) => (
-          <NavItem key={item} groupId={item} />
+        {groups.map((group) => (
+          <NavItem key={group.groupId} group={group} />
         ))}
       </GroupList>
       <Link to="/main/write">
@@ -22,3 +22,9 @@ const SideTeamBar = () => {
 };
 
 export default SideTeamBar;
+
+const groups = [
+  { groupId: 0, groupName: "항해 99팀" },
+  { groupId: 1, groupName: "항해99 프론트엔드" },
+  { groupId: 2, groupName: "항해99 백엔드" },
+];

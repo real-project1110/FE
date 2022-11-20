@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import HomeHeader from "../../components/Common/Header/HomeHeader/HomeHeader";
+import HomeHeader from "../../components/Common/Header/HomeHeader";
 import SideTeamBar from "../../components/Common/SideTeamBar";
 import TeamNavBar from "../../components/Common/TeamNavBar";
 import { Wrapper, Body } from "./styles";

@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useMatch } from "react-router-dom";
-import { GroupItem } from "./styles";
+import { GroupImg, GroupItem, GroupName } from "./styles";
 
-const NavItem = ({ groupId }) => {
-  const groupMatch = useMatch(`/group/${groupId}/*`);
+const NavItem = ({ group }) => {
+  const groupMatch = useMatch(`/group/${group?.groupId}/*`);
+  const [isHover, setIsHover] = useState(false);
+
   return (
-    <Link to={`/group/${groupId}`}>
+    <Link to={`/group/${group?.groupId}`}>
       <GroupItem
-        isFocus={groupMatch}
-        src={`https://avatars.dicebear.com/api/identicon/wooncloud${groupId}.svg`}
-        alt=""
-      />
+        onMouseOver={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        <GroupImg
+          isFocus={groupMatch}
+          src={`https://avatars.dicebear.com/api/identicon/wooncloud${group.groupId}.svg`}
+          alt=""
+        />
+        {isHover && <GroupName>{group?.groupName}</GroupName>}
+      </GroupItem>
     </Link>
   );
 };
