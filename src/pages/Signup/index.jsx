@@ -27,6 +27,7 @@ const Signup = () => {
   const onSubmit = useCallback(
     async (data) => {
       delete data.confirm;
+      delete data.emailNum;
       const response = await signup(data);
       if (response.status === 201) {
         alert(response.data.message);

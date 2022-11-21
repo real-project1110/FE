@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
@@ -9,6 +9,7 @@ import {
   headerAlertAtom,
   headerMenuAtom,
 } from "../../../../shared/Atoms/modalAtoms";
+import { existCookie } from "../../../../utils/existCookie";
 import AlertModal from "../../../Modals/AlertModal";
 import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
@@ -16,6 +17,16 @@ import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   const [headerAlert, setHeaderAlert] = useRecoilState(headerAlertAtom);
+  const navigate = useNavigate();
+  const { groupId } = useParams();
+
+  useEffect(() => {
+    const cookie = existCookie();
+    if (!cookie) {
+      return navigate("/");
+    }
+  }, [navigate]);
+
   return (
     <Wrapper as="header">
       <Nav as="nav">
@@ -41,7 +52,7 @@ const HomeHeader = () => {
               src={"https://avatars.dicebear.com/api/identicon/wooncloud5.svg"}
               alt=""
             />
-            {headerMenu && <HeaderMenu />}
+            {headerMenu && <HeaderMenu groupId={groupId && groupId} />}
           </li>
         </RightNav>
       </Nav>

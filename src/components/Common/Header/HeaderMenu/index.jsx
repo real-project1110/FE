@@ -1,20 +1,16 @@
 import React, { useCallback } from "react";
 import { useMutation } from "react-query";
-import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { removeGroup } from "../../../../apis/groupApi";
-import UseUser from "../../../../hooks/UseUser";
 import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
 import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
 import Menu from "../../../Modals/Menu";
 
-const HeaderMenu = () => {
-  const { id: groupId } = useParams();
+const HeaderMenu = ({ groupId, userId }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
   const { mutate: GroupOutFn } = useMutation(removeGroup);
-  const user = UseUser();
-  console.log(user);
+
   const onCloseModal = useCallback(
     (e) => {
       e.stopPropagation();
@@ -50,6 +46,7 @@ const HeaderMenu = () => {
     },
     [setHeaderMenu]
   );
+
   return (
     <Menu onCloseModal={onCloseModal}>
       <MenuList onClick={onCloseModal}>

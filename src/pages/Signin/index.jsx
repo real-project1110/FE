@@ -43,11 +43,9 @@ function Signin() {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
     const response = await signin(data);
     console.log(response);
     if (response.status === 200) {
-      // accessToken
       setAccessToken(response.data.accessToken);
       navigate("/main");
     }

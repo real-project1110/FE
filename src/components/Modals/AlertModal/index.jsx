@@ -34,8 +34,8 @@ const AlertModal = ({ setHeaderAlert }) => {
       <SideContainer>
         <Title>알림</Title>
         <AlertList onClick={(e) => e.stopPropagation()}>
-          {invites?.map((invite, idx) => (
-            <AlertItem key={idx}>
+          {invites?.map((invite) => (
+            <AlertItem key={invite.inviteId}>
               <InviteInfo>
                 <img
                   src={`https://avatars.dicebear.com/api/identicon/wooncloud5.svg`}
