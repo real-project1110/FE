@@ -11,3 +11,9 @@ export const headerMenuAtom = atom({
   key: "headerMenuAtom",
   default: false,
 });
+
+// header 알림 버튼 클릭 시 나오는 모달
+export const headerAlertAtom = atom({
+  key: "headerAlertAtom",
+  default: false,
+});

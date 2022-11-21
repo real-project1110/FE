@@ -1,13 +1,20 @@
 import React, { useCallback } from "react";
+import { useMutation } from "react-query";
+import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { removeGroup } from "../../../../apis/groupApi";
+import UseUser from "../../../../hooks/UseUser";
 import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
 import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
 import Menu from "../../../Modals/Menu";
 
 const HeaderMenu = () => {
+  const { id: groupId } = useParams();
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
-
+  const { mutate: GroupOutFn } = useMutation(removeGroup);
+  const user = UseUser();
+  console.log(user);
   const onCloseModal = useCallback(
     (e) => {
       e.stopPropagation();
@@ -20,6 +27,16 @@ const HeaderMenu = () => {
   const onClickLogout = useCallback(
     (e) => {
       e.stopPropagation();
+      setHeaderMenu(false);
+    },
+    [setHeaderMenu]
+  );
+
+  // 그룹에서 나가는 함수
+  const onClickGroupout = useCallback(
+    async (e) => {
+      e.stopPropagation();
+      // mutate(groupId);
       setHeaderMenu(false);
     },
     [setHeaderMenu]
@@ -44,7 +61,8 @@ const HeaderMenu = () => {
           <span>문예진(9기)</span>
         </UserInfo>
         <li onClick={onClickShowEditProfile}>프로필 편집</li>
-        <li onClick={onClickLogout}>항해99팀에서 로그아웃</li>
+        <li onClick={onClickGroupout}>항해99팀에서 나가기</li>
+        <li onClick={onClickLogout}>로그아웃</li>
       </MenuList>
     </Menu>
   );

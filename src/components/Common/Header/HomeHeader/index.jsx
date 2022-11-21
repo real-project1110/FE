@@ -5,12 +5,17 @@ import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
-import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
+import {
+  headerAlertAtom,
+  headerMenuAtom,
+} from "../../../../shared/Atoms/modalAtoms";
+import AlertModal from "../../../Modals/AlertModal";
 import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
+  const [headerAlert, setHeaderAlert] = useRecoilState(headerAlertAtom);
   return (
     <Wrapper as="header">
       <Nav as="nav">
@@ -28,7 +33,7 @@ const HomeHeader = () => {
           <li>
             <QuestionSvg />
           </li>
-          <li>
+          <li onClick={() => setHeaderAlert(true)}>
             <BellSvg />
           </li>
           <li onClick={() => setHeaderMenu(true)}>
@@ -40,6 +45,7 @@ const HomeHeader = () => {
           </li>
         </RightNav>
       </Nav>
+      {headerAlert ? <AlertModal setHeaderAlert={setHeaderAlert} /> : null}
     </Wrapper>
   );
 };
