@@ -1,4 +1,4 @@
-import instance, { postApi } from "../instance";
+import instance, { postApi } from "../shared/instance";
 
 /** 그룹 생성  { groupName } */
 export const addGroup = async (payload) => {
@@ -38,7 +38,7 @@ export const editGroupImage = async (payload) => {
 };
 
 /** 그룹 초대  { id,body:{ email } } */
-export const inviteGroup = async (payload) => {
+export const inviteUsers = async (payload) => {
   const data = await instance.post(
     `groups/${payload.id}/invites`,
     payload.body
