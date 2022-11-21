@@ -20,8 +20,8 @@ const Router = () => {
           <Route path="write" element={<CreateGroup />} />
         </Route>
         <Route path="/group" element={<Group />}>
-          <Route path=":id" element={<Schedule />} />
-          <Route path=":id/notice" element={<Notice />} />
+          <Route path=":groupId" element={<Schedule />} />
+          <Route path=":groupId/notice" element={<Notice />} />
         </Route>
       </Routes>
     </BrowserRouter>

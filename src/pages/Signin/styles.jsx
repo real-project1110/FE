@@ -92,7 +92,7 @@ export const LoginButton = styled.button`
 
 export const SocialButtonWrap = styled.div`
   width: 40%;
-  margin: 30px auto;
+  margin: 30px auto auto auto;
   display: flex;
   justify-content: space-between;
   cursor: pointer;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const EmailAuthInput = styled.div`
   width: 500px;
   margin: auto;
+  padding-top: 10%;
   text-align: center;
   font-weight: 600;
 `;
@@ -12,12 +13,14 @@ export const Label = styled.label`
 
   button {
     position: absolute;
-    top: -5px;
-    right: 5px;
+    right: 3px;
     width: 97px;
     height: 33px;
-
-    font-size: 0.8rem;
+    margin-top: 3.4px;
+    font-weight: 400;
+    font-size: 0.85rem;
+    font-family: "Pretendard";
+    font-style: normal;
     border: 2px solid ${(props) => props.theme.color.gray};
 
     border-radius: 5px;
