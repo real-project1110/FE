@@ -76,3 +76,10 @@ urls
 
 (현진) url = https://hyunjin9603.shop/
 (정현) url = https://rlawjdgus.shop/
+
+
+[] 로그인 
+[] 회원가입 
+[] 이메일 인증
+[] 그룹 생성 
+[] 해당 그룹 조회

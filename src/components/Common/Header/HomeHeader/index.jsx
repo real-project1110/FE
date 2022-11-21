@@ -17,7 +17,6 @@ import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   const [headerAlert, setHeaderAlert] = useRecoilState(headerAlertAtom);
-
   const { groupId } = useParams();
 
   return (
