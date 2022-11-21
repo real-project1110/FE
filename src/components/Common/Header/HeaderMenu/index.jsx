@@ -1,16 +1,18 @@
 import React, { useCallback } from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { removeGroup } from "../../../../apis/groupApi";
 import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
+import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
 import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
 import Menu from "../../../Modals/Menu";
 
 const HeaderMenu = ({ groupId, userId }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
-  const { mutate: GroupOutFn } = useMutation(removeGroup);
-
+  //const { mutate: GroupOutFn } = useMutation(removeGroup);
+  const navigate = useNavigate();
   const onCloseModal = useCallback(
     (e) => {
       e.stopPropagation();
@@ -24,8 +26,10 @@ const HeaderMenu = ({ groupId, userId }) => {
     (e) => {
       e.stopPropagation();
       setHeaderMenu(false);
+      removeCookieToken();
+      navigate("/");
     },
-    [setHeaderMenu]
+    [setHeaderMenu, navigate]
   );
 
   // 그룹에서 나가는 함수

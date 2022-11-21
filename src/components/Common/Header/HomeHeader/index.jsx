@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
@@ -14,7 +14,6 @@ import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   const [headerAlert, setHeaderAlert] = useRecoilState(headerAlertAtom);
-  const navigate = useNavigate();
   const { groupId } = useParams();
 
   //useEffect(() => {

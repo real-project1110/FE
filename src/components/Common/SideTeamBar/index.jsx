@@ -1,14 +1,21 @@
 import React from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { readGroups } from "../../../apis/groupApi";
 import PlusSvg from "../../../assets/svg/PlusSvg";
 import NavItem from "./NavItem";
 import { GroupList, PlusBtn, Wrapper } from "./styles";
 
 const SideTeamBar = () => {
+  const { data: groupsData } = useQuery(["groupList"], readGroups, {
+    staleTime: 10000,
+    retry: 3,
+  });
+
   return (
     <Wrapper as="aside">
       <GroupList>
-        {groups.map((group) => (
+        {groupsData?.map((group) => (
           <NavItem key={group.groupId} group={group} />
         ))}
       </GroupList>
@@ -22,9 +29,3 @@ const SideTeamBar = () => {
 };
 
 export default SideTeamBar;
-
-const groups = [
-  { groupId: 0, groupName: "항해 99팀" },
-  { groupId: 1, groupName: "항해99 프론트엔드" },
-  { groupId: 2, groupName: "항해99 백엔드" },
-];

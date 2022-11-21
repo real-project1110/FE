@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { FlexColumnBox } from "../../../shared/Styles/flex";
+import {
+  FlexAlignBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   position: fixed;
@@ -20,24 +24,38 @@ export const SideContainer = styled.div`
   background-color: white;
 `;
 
+export const TitleBox = styled.div`
+  ${FlexAlignBox};
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
+  span {
+    ${FlexCenterBox};
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    svg {
+      width: 1.5rem;
+    }
+    &:hover {
+      background-color: ${(props) => props.theme.color.lightGray};
+    }
+  }
+`;
 export const Title = styled.h3`
   font-weight: 600;
   font-size: 1.2rem;
-  padding: 1.5rem;
-  border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
 `;
 export const AlertList = styled.ul``;
 export const AlertItem = styled.li`
-  &:hover {
-    background-color: ${(props) => props.theme.color.extraLightGray};
-    cursor: pointer;
-  }
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
 `;
 
 export const InviteInfo = styled.div`
   display: flex;
   padding: 1rem 1.5rem;
+  border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
   img {
     width: 3rem;
     height: 3rem;
@@ -45,11 +63,16 @@ export const InviteInfo = styled.div`
     background-color: ${(props) => props.theme.color.extraLightGray};
     border-radius: 8px;
   }
+  &:hover {
+    background-color: ${(props) => props.theme.color.extraLightGray};
+    cursor: pointer;
+  }
 `;
 
 export const InviteDescription = styled.div`
   ${FlexColumnBox};
   padding: 0.1rem 0;
+  justify-content: space-between;
   p {
     width: 17rem;
     overflow: hidden;
@@ -60,26 +83,30 @@ export const InviteDescription = styled.div`
       font-size: 1.1rem;
     }
   }
-  & > div {
-    display: flex;
-    align-items: center;
-    margin-top: 0.2rem;
-  }
-  div > span {
+  span {
+    margin-bottom: 0.4rem;
     color: rgba(0, 0, 0, 0.6);
     font-size: 0.8rem;
   }
 `;
 
 export const InviteBtns = styled.div`
-  margin-left: 0.3rem;
-  margin-top: 0.1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 export const InviteBtn = styled.button`
-  padding: 0.3rem;
+  background-color: ${(props) =>
+    props.isTrue ? props.theme.color.green : "inherit"};
+  padding: 0.7rem;
+
+  color: ${(props) =>
+    props.isTrue ? props.theme.color.white : props.theme.color.black};
+
   &:hover {
-    color: ${(props) =>
-      props.isTrue ? props.theme.color.green : props.theme.color.red};
+    background-color: ${(props) =>
+      props.isTrue
+        ? props.theme.color.hoverGreen
+        : props.theme.color.lightGray};
   }
 `;

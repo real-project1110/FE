@@ -8,7 +8,7 @@ const myToken = getCookieToken();
 export const instance = axios.create({
   baseURL,
   headers: {
-    Authorization: myToken,
+    Authorization: `Bearer ${myToken}`,
     "Cache-Control": "no-cache",
     withCredentials: true,
   },
@@ -17,7 +17,7 @@ export const instance = axios.create({
 export const postApi = axios.create({
   baseURL,
   headers: {
-    Authorization: myToken,
+    Authorization: `Bearer ${myToken}`,
     "Content-Type": "multipart/form-data",
     "Cache-Control": "no-cache",
     withCredentials: true,
