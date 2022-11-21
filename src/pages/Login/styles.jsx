@@ -1,14 +1,50 @@
 import styled from "styled-components";
 
 export const LoginBox = styled.div`
-  width: 500px;
+  width: 802px;
+  margin: auto;
+  padding-top: 10%;
+`;
+
+export const LogoBox = styled.div`
+  width: 172px;
+  height: 58px;
   margin: auto;
 `;
 
+export const Info = styled.div`
+  text-align: center;
+`;
+
+export const BigMent = styled.p`
+  height: 31px;
+  margin-bottom: 58px;
+  font-family: "SF Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+`;
+
+export const SmallMent = styled.p`
+  margin-bottom: 15px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+`;
+
+export const Ment = styled.div`
+  margin-top: 15px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+`;
+
 export const LoginButton = styled.div`
-  width: 244px;
+  width: 330px;
   height: 43px;
-  margin: auto;
+  margin: 120px auto auto auto;
   background-color: ${(props) => props.theme.color.green};
 
   border: none;
@@ -17,7 +53,6 @@ export const LoginButton = styled.div`
   text-align: center;
   line-height: 43px;
   font-weight: 700;
-  font-size: 1rem;
   color: #ffffff;
 
   :hover {
@@ -31,7 +66,8 @@ export const LoginButton = styled.div`
 export const EmailLogin = styled.div`
   width: 100%;
   height: 43px;
-  margin: 25% auto auto 23%;
+  text-align: center;
+  margin: 10% auto 5% -2.3%;
 
   font-weight: 600;
   line-height: 43px;
@@ -39,20 +75,6 @@ export const EmailLogin = styled.div`
   cursor: pointer;
 `;
 
-export const SocialBox = styled.div`
-  width: 300px;
-  margin-left: 130px;
-`;
-
-export const KakaoLogin = styled.div`
-  margin-top: 10px;
-  cursor: pointer;
-`;
-
-export const GoogleLogin = styled.div`
-  cursor: pointer;
-`;
-
-export const NaverLogin = styled.div`
-  cursor: pointer;
+export const EasyJoin = styled.span`
+  margin-left: 43%;
 `;

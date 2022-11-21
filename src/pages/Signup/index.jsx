@@ -6,6 +6,8 @@ import { ToastContainer } from "react-toastify";
 import { checkEmail, signup, checkEmailNum } from "../../apis/userApi";
 import Input from "../../components/Common/Elements/Input";
 import { EmailAuthInput, Title, JoinForm, StTitle, Label, Emailinput } from "./styles";
+import { LogoBox, BigMent } from "../Login/styles";
+import BigLogoSvg from "../../assets/svg/BigLogoSvg";
 
 const Signup = () => {
   const {
@@ -14,7 +16,12 @@ const Signup = () => {
     formState: { errors },
     watch,
   } = useForm({ mode: "onChange" });
+
+  // 인증번호 전송 유/무에 의한 버튼 변경
   const [authEmailMode, setAuthEmailMode] = useState(false);
+
+  // submit 시 이메일 인증 여부 체크
+  const [isAuth, setIsAuth] = useState(false);
 
   const notify = () => toast("회원가입 성공!");
 
@@ -23,16 +30,21 @@ const Signup = () => {
 
   const onSubmit = useCallback(
     async (data) => {
-      delete data.confirm;
-      const response = await signup(data);
-      if (response.status === 201) {
-        alert(response.data.message);
-        navigate("/");
+      if (isAuth === true) {
+        delete data.confirm;
+        delete data.emailNum;
+        const response = await signup(data);
+        if (response.status === 201) {
+          alert(response.data.message);
+          navigate("/");
+        } else {
+          return alert("회원가입 실패");
+        }
       } else {
-        return alert("회원가입 실패");
+        return alert("이메일 인증을 해주세요");
       }
     },
-    [navigate]
+    [navigate, isAuth]
   );
 
   // 이메일 중복 검사 및 인증 번호 받기
@@ -51,40 +63,47 @@ const Signup = () => {
   // 이메일 인증번호 보내기
   const checkEmailAuth = async (e) => {
     e.preventDefault();
-    console.log("클릭");
     const response = await checkEmailNum({
       email: watch("email"),
       certificationNum: Number(watch("emailNum")),
     });
-    console.log(response);
     if (response.status === 200) {
       alert("인증성공");
+      setIsAuth(true);
     }
   };
 
   return (
     <EmailAuthInput>
+      <LogoBox>
+        <BigLogoSvg />
+      </LogoBox>
+      <BigMent>Manage all the statuses of your team.</BigMent>
       <Title>이메일로 시작하기</Title>
       <JoinForm onSubmit={handleSubmit(onSubmit)}>
         <ToastContainer />
         <StTitle>이메일</StTitle>
         <Label>
+          <Emailinput
+            aria-invalid={errors.email ? "#FF2D53" : "#35ad70"}
+            placeholder="example@gmail.com"
+            {...register("email", {
+              required: "이메일을 입력해주세요",
+              pattern: {
+                value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
+                message: "올바른 이메일 형식을 입력해주세요.",
+              },
+            })}
+          />
           {authEmailMode ? (
-            <Emailinput {...register("emailNum")} type="number" />
+            <button style={{ backgroundColor: "#58C08B", color: "#ffffff" }} onClick={checkEmailAuth}>
+              인증 확인
+            </button>
           ) : (
-            <Emailinput
-              aria-invalid={errors.email ? "#FF2D53" : "#35ad70"}
-              placeholder="example@gmail.com"
-              {...register("email", {
-                required: "이메일을 입력해주세요",
-                pattern: {
-                  value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
-                  message: "올바른 이메일 형식을 입력해주세요.",
-                },
-              })}
-            />
+            <button style={{ backgroundColor: "#BBBBBB", color: "#000000" }} onClick={emailAuth}>
+              인증번호 발송
+            </button>
           )}
-          {authEmailMode ? <button onClick={checkEmailAuth}>인증 확인</button> : <button onClick={emailAuth}>인증번호 발송</button>}
         </Label>
         <p
           style={{
@@ -98,24 +117,7 @@ const Signup = () => {
         >
           {errors.email?.message}
         </p>
-        {/* <div style={{ textAlign: "left", marginLeft: "82px", marginTop: "10px", paddingBottom: "3px", fontSize: "0.8rem" }}>인증번호</div>
-        <AuthNumber
-          {...register("auth", {
-            required: "인증번호를 입력해주세요",
-          })}
-        />
-        <p
-          style={{
-            textAlign: "left",
-            margin: "3px auto",
-            width: "334px",
-            color: "#FF2D53",
-            fontSize: "0.8rem",
-            fontWeight: "400",
-          }}
-        >
-          {errors.auth?.message}
-        </p> */}
+        {authEmailMode ? <Emailinput {...register("emailNum")} type="number" /> : null}
         <StTitle>닉네임</StTitle>
         <Input
           register={{

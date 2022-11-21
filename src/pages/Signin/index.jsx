@@ -30,6 +30,8 @@ function Signin() {
     watch,
   } = useForm({ mode: "onChange" });
 
+  // currentPage가 있으면 currentPage로 이동시키기
+
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
 
