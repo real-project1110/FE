@@ -23,6 +23,7 @@ export const checkEmail = async (payload) => {
   const data = await instance.post("users/emailcheck", payload);
   return data;
 };
+
 /** 인증번호 확인하기 */
 export const checkEmailNum = async (payload) => {
   const data = await instance.post("users/emailcheck/auth", payload);
