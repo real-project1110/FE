@@ -5,7 +5,7 @@ import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
-import { headerMenuAtom } from "../../../../shared/Atoms/groupModal";
+import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
 import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 

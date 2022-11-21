@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
-import { inviteModalAtom } from "../../../../shared/Atoms/groupModal";
+import { inviteModalAtom } from "../../../../shared/Atoms/modalAtoms";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";

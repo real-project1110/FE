@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { headerMenuAtom } from "../../../../shared/Atoms/groupModal";
+import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
 import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
 import Menu from "../../../Modals/Menu";
 
