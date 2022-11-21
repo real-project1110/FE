@@ -2,8 +2,12 @@ import instance, { postApi } from "../shared/instance";
 
 /** 그룹 생성  { groupName } */
 export const addGroup = async (payload) => {
-  const { data } = await instance.post("groups", payload);
-  return data;
+  try {
+    const { data } = await instance.post("groups", payload);
+    return data.data;
+  } catch (e) {
+    return e;
+  }
 };
 
 /** 그룹 이름 수정 { id,body:{ groupName } } */
@@ -22,7 +26,7 @@ export const readGroup = async (payload) => {
 export const readGroups = async () => {
   const { data } = await instance.get("groups");
   // 이거 아마 data.data로 리턴해야할 듯?
-  return data;
+  return data.data;
 };
 
 /** 그룹 나가기(삭제?)  ( id ) */

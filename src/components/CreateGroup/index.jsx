@@ -1,6 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { queryClient } from "../..";
+import { addGroup } from "../../apis/groupApi";
+
 import {
   Button,
   DeleteImgBtn,
@@ -22,21 +26,29 @@ const CreateGroup = () => {
   const [groupId, setGroupId] = useState(null);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
+
+  const { mutate: addGroupFn } = useMutation(addGroup, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["groupList"]);
+      setGroupId(data);
+      setStep((prev) => prev + 1);
+    },
+    onError: (error) => console.log(error),
+  });
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
 
   // 다음 버튼 클릭 시 실행되는 함수
   const onValid = useCallback(
     (data) => {
       if (step === 1) {
         // 그룹추가하는 요청
-        // setGroupId()로 response에 담긴 groupId 담기
-        setStep((prev) => prev + 1);
+        addGroupFn({ groupName: data.groupName });
       } else if (step === 2) {
         // 초대 요청
         setStep((prev) => prev + 1);
@@ -44,10 +56,10 @@ const CreateGroup = () => {
         // 그룹 이미지 수정 요청
         setStep((prev) => prev + 1);
       } else if (step === 4) {
-        navigate("/group/1");
+        navigate(`/group/${groupId}`);
       }
     },
-    [step, navigate]
+    [step, navigate, addGroupFn, groupId]
   );
 
   // 나중에 할래요. 클릭시 실행되는 함수

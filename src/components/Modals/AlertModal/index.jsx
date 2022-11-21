@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import CancelSvg from "../../../assets/svg/CancelSvg";
 import {
   AlertItem,
   AlertList,
@@ -8,6 +9,7 @@ import {
   InviteInfo,
   SideContainer,
   Title,
+  TitleBox,
   Wrapper,
 } from "./styles";
 
@@ -32,7 +34,13 @@ const AlertModal = ({ setHeaderAlert }) => {
   return (
     <Wrapper onClick={onCloseModal}>
       <SideContainer>
-        <Title>알림</Title>
+        <TitleBox>
+          <Title>알림</Title>
+          <span>
+            <CancelSvg />
+          </span>
+        </TitleBox>
+
         <AlertList onClick={(e) => e.stopPropagation()}>
           {invites?.map((invite) => (
             <AlertItem key={invite.inviteId}>
@@ -46,19 +54,17 @@ const AlertModal = ({ setHeaderAlert }) => {
                     <strong>{invite.groupName}</strong>으로부터 초대장이
                     도착했습니다.
                   </p>
-                  <div>
-                    <span>1시간 전</span>
-                    <InviteBtns>
-                      <InviteBtn isTrue={true} onClick={onClickCall}>
-                        수락
-                      </InviteBtn>
-                      <InviteBtn isTrue={false} onClick={onClickRefuse}>
-                        거절
-                      </InviteBtn>
-                    </InviteBtns>
-                  </div>
+                  <span>1시간 전</span>
                 </InviteDescription>
               </InviteInfo>
+              <InviteBtns>
+                <InviteBtn isTrue={true} onClick={onClickCall}>
+                  수락
+                </InviteBtn>
+                <InviteBtn isTrue={false} onClick={onClickRefuse}>
+                  거절
+                </InviteBtn>
+              </InviteBtns>
             </AlertItem>
           ))}
         </AlertList>

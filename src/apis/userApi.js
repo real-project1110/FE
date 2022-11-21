@@ -14,8 +14,8 @@ export const signin = async (payload) => {
 
 /** 내 정보 가져오기 */
 export const readUser = async () => {
-  const { data } = await instance.get("users/myProfile");
-  return data;
+  const { data } = await instance.get("users/myprofile");
+  return data.data;
 };
 
 /** 이메일 인증 보내기 */
