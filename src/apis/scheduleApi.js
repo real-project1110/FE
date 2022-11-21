@@ -1,4 +1,4 @@
-import instance from "../instance";
+import instance from "../shared/instance";
 
 /** 일정 생성 { title, description, start, end, colorId } */
 export const addSchedule = async (payload) => {

@@ -1,4 +1,4 @@
-import instance from "../instance";
+import instance from "../shared/instance";
 
 /** 댓글 생성  { id,body:{ comment } } */
 export const addComment = async (payload) => {

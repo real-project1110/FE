@@ -74,3 +74,5 @@ urls
 
 
 
+(현진) url = https://hyunjin9603.shop/
+(정현) url = https://rlawjdgus.shop/

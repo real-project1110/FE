@@ -7,7 +7,7 @@ import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
 import { headerMenuAtom } from "../../../../shared/Atoms/groupModal";
 import HeaderMenu from "../HeaderMenu";
-import { RightNav, Nav, SearchForm, Wrapper } from "./styles";
+import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
@@ -19,7 +19,7 @@ const HomeHeader = () => {
         </Link>
         <SearchForm>
           <SearchSvg />
-          <input
+          <SearchInput
             type="text"
             placeholder="일정을 알고 싶은 팀원, 프로젝트를 검색해보세요"
           />

@@ -50,21 +50,29 @@ export const SearchForm = styled.form`
   ${FlexAlignBox};
   position: relative;
   justify-self: center;
-
+  &:focus-within {
+    svg {
+      color: ${(props) => props.theme.color.black};
+    }
+  }
   svg {
     position: absolute;
     left: 1rem;
+    color: rgba(0, 0, 0, 0.6);
   }
-  input {
-    width: 30vw;
-    max-width: 420px;
-    padding: 1rem 1rem 1rem 3rem;
-    background-color: #fbfbfa;
-    border: none;
-    border-radius: 100px;
+`;
 
-    &::placeholder {
-      color: #aaaaaa;
-    }
+export const SearchInput = styled.input`
+  width: 30vw;
+  max-width: 420px;
+  padding: 1rem 1rem 1rem 3rem;
+  background-color: #fbfbfa;
+  border: none;
+  border-radius: 100px;
+  &:focus {
+    border: 1px solid ${(props) => props.theme.color.gray};
+  }
+  &::placeholder {
+    color: #aaaaaa;
   }
 `;
