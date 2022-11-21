@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
+import { inviteUsers } from "../../../apis/groupApi";
 //import { useParams } from "react-router-dom";
 import CancelSvg from "../../../assets/svg/CancelSvg";
 import { inviteModalAtom } from "../../../shared/Atoms/groupModal";
@@ -40,13 +41,16 @@ const InviteModal = () => {
 
   // email list를 서버에 post 요청하는 함수
   const submitEmails = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
+      if (emails.length == 0) return;
       // 서버에 email 보내는 요청
+      const response = await inviteUsers({ emails });
+      if (response.status === 400) return alert("초대 실패");
       setIsInviteModal(false);
       setEmails([]);
     },
-    [setIsInviteModal]
+    [setIsInviteModal, emails]
   );
 
   const deleteEmail = useCallback((num) => {

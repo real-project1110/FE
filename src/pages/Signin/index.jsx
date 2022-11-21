@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
@@ -20,6 +19,8 @@ import {
   LoginButton,
   SocialButtonWrap,
 } from "./styles";
+import { signin } from "../../apis/userApi";
+import { setAccessToken } from "../../shared/Cookie/Cookie";
 
 function Signin() {
   const {
@@ -41,14 +42,15 @@ function Signin() {
       : setIsActive(false);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
-    axios.post("http://222.111.114.132:4000/users/login", data).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        navigate("/main");
-      }
-    });
+    const response = await signin(data);
+    console.log(response);
+    if (response.status === 200) {
+      // accessToken
+      setAccessToken(response.data.accessToken);
+      navigate("/main");
+    }
   };
   return (
     <LoginInput>

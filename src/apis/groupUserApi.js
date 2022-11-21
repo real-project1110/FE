@@ -1,4 +1,4 @@
-import instance, { postApi } from "../instance";
+import instance, { postApi } from "../shared/instance";
 
 /** 그룹내 나의 닉네임 수정  { id,body:{ groupUserNickname } } */
 export const editGroupUserNickname = async (payload) => {
