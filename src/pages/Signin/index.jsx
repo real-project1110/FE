@@ -18,6 +18,7 @@ import {
   ButtonWrap,
   LoginButton,
   SocialButtonWrap,
+  SignInLogo,
 } from "./styles";
 import { signin } from "../../apis/userApi";
 import { setAccessToken } from "../../shared/Cookie/Cookie";
@@ -54,10 +55,12 @@ function Signin() {
   };
   return (
     <LoginInput>
-      <LogoBox>
-        <BigLogoSvg />
-      </LogoBox>
-      <BigMent>Manage all the statuses of your team.</BigMent>
+      <SignInLogo>
+        <LogoBox>
+          <BigLogoSvg />
+        </LogoBox>
+        <BigMent>Manage all the statuses of your team.</BigMent>
+      </SignInLogo>
       <Title>로그인</Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <EmailDiv>이메일</EmailDiv>

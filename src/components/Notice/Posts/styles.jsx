@@ -24,6 +24,7 @@ export const Post = styled.div`
   font-size: 14px;
   letter-spacing: -5.5%;
   line-height: 46px;
+  cursor: pointer;
 `;
 
 export const New = styled.div`
@@ -61,6 +62,7 @@ export const PostMenu = styled.div`
 `;
 
 export const PostUserInfo = styled.div`
+  width: 100%;
   display: flex;
 `;
 
@@ -211,7 +213,7 @@ export const CommentUserImg = styled.div`
 `;
 
 export const CommentInput = styled.input`
-  width: 360px;
+  width: 100%;
   margin: 0 5%;
   padding-left: 2%;
   border: 1px solid ${(props) => props.theme.color.lightGray};
@@ -221,7 +223,7 @@ export const CommentInput = styled.input`
 `;
 
 export const CommentSubmitBtn = styled.button`
-  width: auto;
+  width: 15%;
   height: 28px;
   display: flex;
   vertical-align: middle;
@@ -231,6 +233,7 @@ export const CommentSubmitBtn = styled.button`
 `;
 
 export const SendComment = styled.div`
+  width: 100%;
   margin: 5px 0px 0px 5px;
   color: #1c1c1c;
   font-weight: 400;

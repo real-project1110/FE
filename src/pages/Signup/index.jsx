@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { checkEmail, signup, checkEmailNum } from "../../apis/userApi";
 import Input from "../../components/Common/Elements/Input";
-import { EmailAuthInput, Title, JoinForm, StTitle, Label, Emailinput, NextButton, Join, SuccessNextButton } from "./styles";
+import { EmailAuthInput, SignUpLogo, Title, JoinForm, StTitle, Label, Emailinput, NextButton, Join, SuccessNextButton } from "./styles";
 import { LogoBox, BigMent } from "../Login/styles";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
 
@@ -82,10 +82,12 @@ const Signup = () => {
 
   return (
     <EmailAuthInput>
-      <LogoBox>
-        <BigLogoSvg />
-      </LogoBox>
-      <BigMent>Manage all the statuses of your team.</BigMent>
+      <SignUpLogo>
+        <LogoBox>
+          <BigLogoSvg />
+        </LogoBox>
+        <BigMent>Manage all the statuses of your team.</BigMent>
+      </SignUpLogo>
       <Title>이메일로 시작하기</Title>
       <JoinForm onSubmit={handleSubmit(onSubmit)}>
         <ToastContainer />
