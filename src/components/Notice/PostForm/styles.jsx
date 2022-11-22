@@ -1,15 +1,22 @@
 import styled from "styled-components";
+import { FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const Form = styled.form`
   width: 100%;
   margin: 4% auto 4% auto;
+  ${FlexColumnBox};
+  div {
+    width: 100%;
+    &:first-child {
+      width: 100%;
+    }
+  }
 `;
 
 export const SubmitBtn = styled.button`
   width: 68px;
   height: 28px;
   margin-top: 0.5%;
-  margin-right: 0px;
   display: flex;
   position: relative;
   float: right;

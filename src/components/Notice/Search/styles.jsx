@@ -11,7 +11,6 @@ export const SearchForm = styled.div`
     right: 3rem;
     cursor: pointer;
   }
-
   input {
     width: 100%;
     height: 46px;
