@@ -46,11 +46,18 @@ function Signin() {
 
   const onSubmit = async (data) => {
     const response = await signin(data);
-    console.log(response);
-    if (response.status === 200) {
-      setAccessToken(response.data.accessToken);
-      localStorage.setItem("token", response.data.refreshToken);
-      navigate("/main");
+    const {
+      status,
+      data: { accessToken, refreshToken, currentPage },
+    } = response;
+    if (status === 200) {
+      setAccessToken(accessToken);
+      localStorage.setItem("token", refreshToken);
+      if (currentPage) {
+        return navigate(`/groups/${currentPage}`);
+      } else {
+        return navigate("/main/write");
+      }
     }
   };
 

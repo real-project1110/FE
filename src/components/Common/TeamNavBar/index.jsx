@@ -8,20 +8,20 @@ import UserList from "./UserList";
 import Scrollbars from "react-custom-scrollbars-2";
 
 const TeamNavBar = ({ group }) => {
-  const calendarMatch = useMatch("/group/:id");
-  const noticeMatch = useMatch("/group/:id/notice");
+  const calendarMatch = useMatch(`/groups/${group?.groupId}`);
+  const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>
         <GroupNav>
           <GroupName>{group?.groupName || ""}</GroupName>
-          <Link to={"/group/1"}>
+          <Link to={`/groups/${group?.groupId}`}>
             <GroupNavItem isFocus={calendarMatch}>
               <CalendarSvg />
               <strong>캘린더</strong>
             </GroupNavItem>
           </Link>
-          <Link to={"/group/1/notice"}>
+          <Link to={`/groups/${group?.groupId}/notice`}>
             <GroupNavItem isFocus={noticeMatch}>
               <PostSvg />
               <strong>게시판</strong>

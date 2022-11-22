@@ -14,7 +14,7 @@ const NavItem = ({ group }) => {
       >
         <GroupImg
           isFocus={groupMatch}
-          src={`https://avatars.dicebear.com/api/identicon/wooncloud${group.groupId}.svg`}
+          src={`https://avatars.dicebear.com/api/identicon/wooncloud${group?.groupId}.svg`}
           alt=""
         />
         {isHover && <GroupName>{group?.groupName}</GroupName>}

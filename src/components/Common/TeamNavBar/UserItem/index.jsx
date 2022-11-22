@@ -7,6 +7,7 @@ const UserItem = ({ user, isMe = false, status }) => {
   const [isHover, setIsHover] = useState(false);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
+
   const onHover = (e) => {
     setMouseX(e.pageX);
     setMouseY(e.pageY);

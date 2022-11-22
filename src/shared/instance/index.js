@@ -4,6 +4,7 @@ import { getCookieToken } from "../../shared/Cookie/Cookie";
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 const myToken = getCookieToken();
+
 const refreshToken = localStorage.getItem("token");
 
 export const instance = axios.create({
