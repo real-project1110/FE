@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const EmailAuthInput = styled.div`
   width: 500px;
   margin: auto;
-  padding-top: 10%;
+  padding-top: 5%;
   text-align: center;
   font-weight: 600;
 `;
