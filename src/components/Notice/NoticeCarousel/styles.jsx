@@ -1,10 +1,4 @@
 import styled from "styled-components";
-import { FlexColumnBox } from "../../../shared/Styles/flex";
-
-export const Wrapper = styled.div`
-  width: 100%;
-  ${FlexColumnBox};
-`;
 
 export const Wrapper = styled.div`
   width: 50%;

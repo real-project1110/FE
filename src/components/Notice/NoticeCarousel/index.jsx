@@ -19,7 +19,6 @@ import {
   PostDate,
   PostLike,
   LikeCount,
-  Wrapper,
 } from "./styles";
 
 function NoticeCarousel() {
