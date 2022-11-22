@@ -1,8 +1,20 @@
 import styled from "styled-components";
+import { FlexCenterBox } from "../../../shared/Styles/flex";
+
+export const Wrapper = styled.div`
+  ${FlexCenterBox}
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+`;
 
 export const Form = styled.form`
-  width: 100%;
+  width: 800px;
   margin: 4% auto 4% auto;
+  z-index: 9999;
 `;
 
 export const SubmitBtn = styled.button`
