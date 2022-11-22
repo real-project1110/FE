@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const SignInLogo = styled.div`
+  padding-top: 35%;
+`;
+
 export const Title = styled.div`
   margin: auto;
 `;
@@ -35,7 +39,6 @@ export const PasswordDiv = styled.div`
 export const LoginInput = styled.div`
   width: 500px;
   margin: auto;
-  padding-top: 5%;
   text-align: center;
   font-weight: 600;
 `;

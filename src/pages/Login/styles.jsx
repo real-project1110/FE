@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
+export const Logo = styled.div`
+  padding-top: 22%;
+`;
+
 export const LoginBox = styled.div`
   width: 802px;
   margin: auto;
-  padding-top: 5%;
 `;
 
 export const LogoBox = styled.div`

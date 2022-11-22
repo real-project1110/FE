@@ -4,12 +4,7 @@ import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import { MenuBox } from "../../Modals/Menu";
-import {
-  AllPost,
-  NoticeTitle,
-  PostLike,
-  Wrapper,
-} from "../NoticeCarousel/styles";
+import { AllPost, NoticeTitle, PostLike, Wrapper } from "../NoticeCarousel/styles";
 import {
   PostHeader,
   New,
@@ -49,6 +44,7 @@ import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 function Posts() {
   const [openModal, setOpenModal] = useState(false);
   const [openCommentModal, setOpenCommentModal] = useState(false);
+  const [CommentOpen, setCommentOpen] = useState(false);
   const setIsForm = useSetRecoilState(PostFormModalAtom);
 
   // 게시글 모달 이벤트
@@ -73,6 +69,11 @@ function Posts() {
   const onCloseModal = () => {
     setOpenModal(false);
     setOpenCommentModal(false);
+  };
+
+  // 댓글 여닫기
+  const openComment = () => {
+    setCommentOpen((prev) => !prev);
   };
 
   return (
@@ -126,66 +127,70 @@ function Posts() {
                 <SpaceLikeSvg />
                 <PostLikeCount>5</PostLikeCount>
               </PostLike>
-              <PostComment>
+              <PostComment onClick={() => openComment()}>
                 <CommentSvg />
                 <CommentCount>1</CommentCount>
               </PostComment>
             </PostResponse>
           </FreePost>
-          <FreeComment>
-            <CommentMenu>
-              {/* 댓글 map 돌려야함 */}
-              <PostUserInfo>
-                <UserImg>
-                  <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWgoKAG03+7AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
-                    alt="profile"
-                  />
-                </UserImg>
-                <Nickname>닉네임</Nickname>
-              </PostUserInfo>
-              {/* 본인댓글만 보이게 */}
-              <PostOption onClick={CommentModalOpen}>
-                {openCommentModal ? (
-                  <MenuBox right={"1rem"} top={"1.5rem"}>
-                    <MenuList>
-                      <li>댓글 수정</li>
-                      <li>삭제</li>
-                    </MenuList>
-                  </MenuBox>
-                ) : null}
-                <PostOptionSvg />
-              </PostOption>
-            </CommentMenu>
-            <CommentContent>
-              내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글
-            </CommentContent>
-            <PostResponse>
-              <CommentLoadTime>1분전</CommentLoadTime>
-              <CommentLike>
-                <SpaceLikeSvg />
-                <PostLikeCount>5</PostLikeCount>
-              </CommentLike>
-              <CommentLoadTime>답글쓰기</CommentLoadTime>
-            </PostResponse>
-          </FreeComment>
-          <FreePostComment>
-            <PostUserInfo>
-              <CommentUserImg>
-                <img
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWgoKAG03+7AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
-                  alt="profile"
-                />
-              </CommentUserImg>
-              <CommentInput placeholder="댓글을 남겨주세요." />
-            </PostUserInfo>
-            <CommentSubmitBtn>
-              <SendComment>보내기</SendComment>
-              <PostCommentButton>
-                <CommentPostSvg />
-              </PostCommentButton>
-            </CommentSubmitBtn>
-          </FreePostComment>
+          {CommentOpen ? (
+            <>
+              <FreeComment>
+                <CommentMenu>
+                  {/* 댓글 map 돌려야함 */}
+                  <PostUserInfo>
+                    <UserImg>
+                      <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWgoKAG03+7AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
+                        alt="profile"
+                      />
+                    </UserImg>
+                    <Nickname>닉네임</Nickname>
+                  </PostUserInfo>
+                  {/* 본인댓글만 보이게 */}
+                  <PostOption onClick={CommentModalOpen}>
+                    {openCommentModal ? (
+                      <MenuBox right={"1rem"} top={"1.5rem"}>
+                        <MenuList>
+                          <li>댓글 수정</li>
+                          <li>삭제</li>
+                        </MenuList>
+                      </MenuBox>
+                    ) : null}
+                    <PostOptionSvg />
+                  </PostOption>
+                </CommentMenu>
+                <CommentContent>
+                  내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글
+                </CommentContent>
+                <PostResponse>
+                  <CommentLoadTime>1분전</CommentLoadTime>
+                  <CommentLike>
+                    <SpaceLikeSvg />
+                    <PostLikeCount>5</PostLikeCount>
+                  </CommentLike>
+                  <CommentLoadTime>답글쓰기</CommentLoadTime>
+                </PostResponse>
+              </FreeComment>
+              <FreePostComment>
+                <PostUserInfo>
+                  <CommentUserImg>
+                    <img
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWgoKAG03+7AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
+                      alt="profile"
+                    />
+                  </CommentUserImg>
+                  <CommentInput placeholder="댓글을 남겨주세요." />
+                </PostUserInfo>
+                <CommentSubmitBtn>
+                  <SendComment>보내기</SendComment>
+                  <PostCommentButton>
+                    <CommentPostSvg />
+                  </PostCommentButton>
+                </CommentSubmitBtn>
+              </FreePostComment>
+            </>
+          ) : null}
         </Scrollbars>
       </AllPost>
     </Wrapper>
