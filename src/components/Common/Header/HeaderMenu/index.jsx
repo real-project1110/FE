@@ -1,16 +1,20 @@
 import React, { useCallback } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { removeGroup } from "../../../../apis/groupApi";
 import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
+import { userAtom } from "../../../../shared/Atoms/userAtoms";
 import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
 import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
 import Menu from "../../../Modals/Menu";
 
-const HeaderMenu = ({ groupId, userId }) => {
+const HeaderMenu = ({ isMain = false }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
+  //const user = useRecoilValue(userAtom);
+  //const groupUser = {};
+  // const groupUser = useRecoilValue(groupUserAtom);
   //const { mutate: GroupOutFn } = useMutation(removeGroup);
   const navigate = useNavigate();
   const onCloseModal = useCallback(
@@ -52,7 +56,7 @@ const HeaderMenu = ({ groupId, userId }) => {
   );
 
   return (
-    <Menu onCloseModal={onCloseModal}>
+    <Menu onCloseModal={onCloseModal} right={"4rem"} top={"60px"}>
       <MenuList onClick={onCloseModal}>
         <UserInfo>
           <img

@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const Menu = ({ children, onCloseModal }) => {
+const Menu = ({ children, onCloseModal, right = 0, top = 0 }) => {
   return (
     <Wrapper onClick={onCloseModal}>
-      <MenuBox>{children}</MenuBox>
+      <MenuBox right={right} top={top}>
+        {children}
+      </MenuBox>
     </Wrapper>
   );
 };
@@ -31,6 +33,6 @@ export const MenuBox = styled.div`
   z-index: 512;
   max-height: calc(100vh - 20px);
   color: rgb(29, 28, 29);
-  right: 4rem;
-  top: 60px;
+  right: ${(props) => props.right};
+  top: ${(props) => props.top};
 `;

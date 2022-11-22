@@ -3,11 +3,11 @@ import { Link, useMatch } from "react-router-dom";
 import { GroupImg, GroupItem, GroupName } from "./styles";
 
 const NavItem = ({ group }) => {
-  const groupMatch = useMatch(`/group/${group?.groupId}/*`);
+  const groupMatch = useMatch(`/groups/${group?.groupId}/*`);
   const [isHover, setIsHover] = useState(false);
 
   return (
-    <Link to={`/group/${group?.groupId}`}>
+    <Link to={`/groups/${group?.groupId}`}>
       <GroupItem
         onMouseOver={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}

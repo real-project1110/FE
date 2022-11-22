@@ -19,7 +19,7 @@ const Router = () => {
         <Route path="/main" element={<Main />}>
           <Route path="write" element={<CreateGroup />} />
         </Route>
-        <Route path="/group" element={<Group />}>
+        <Route path="/groups" element={<Group />}>
           <Route path=":groupId" element={<Schedule />} />
           <Route path=":groupId/notice" element={<Notice />} />
         </Route>

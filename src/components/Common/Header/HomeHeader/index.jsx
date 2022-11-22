@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
@@ -17,7 +17,8 @@ import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   const [headerAlert, setHeaderAlert] = useRecoilState(headerAlertAtom);
-  const { groupId } = useParams();
+
+  //const { groupId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const HomeHeader = () => {
               src={"https://avatars.dicebear.com/api/identicon/wooncloud5.svg"}
               alt=""
             />
-            {headerMenu && <HeaderMenu groupId={groupId && groupId} />}
+            {headerMenu && <HeaderMenu />}
           </li>
         </RightNav>
       </Nav>

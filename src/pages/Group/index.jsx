@@ -1,6 +1,8 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { useQuery } from "react-query";
+import { Outlet, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { readGroup } from "../../apis/groupApi";
 import HomeHeader from "../../components/Common/Header/HomeHeader";
 import SideTeamBar from "../../components/Common/SideTeamBar";
 import TeamNavBar from "../../components/Common/TeamNavBar";
@@ -10,6 +12,15 @@ import { inviteModalAtom } from "../../shared/Atoms/modalAtoms";
 import { Wrapper, Body } from "./styles";
 
 const Group = () => {
+  const { groupId } = useParams();
+  const { data: group } = useQuery(
+    ["group", groupId],
+    () => readGroup(groupId),
+    {
+      staleTime: 10000,
+      retry: 1,
+    }
+  );
   const isInviteModal = useRecoilValue(inviteModalAtom);
 
   return (
@@ -17,7 +28,7 @@ const Group = () => {
       <HomeHeader />
       <Body>
         <SideTeamBar />
-        <TeamNavBar />
+        <TeamNavBar group={group} />
         <Outlet />
         {isInviteModal ? <InviteModal /> : null}
       </Body>

@@ -25,7 +25,6 @@ const Main = () => {
   }, [navigate, pathname]);
 
   useEffect(() => {
-    console.log("로딩");
     if (userData) {
       setUser(userData);
     }
@@ -35,7 +34,7 @@ const Main = () => {
       <HomeHeader />
       <Body>
         <SideTeamBar />
-        <Outlet user={userData} />
+        <Outlet />
       </Body>
     </Wrapper>
   );

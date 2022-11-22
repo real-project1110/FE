@@ -19,7 +19,7 @@ export const EditGroupName = async (payload) => {
 /** 상세 그룹 조회(캘린더?)  ( id ) */
 export const readGroup = async (payload) => {
   const { data } = await instance.get(`groups/${payload}`);
-  return data;
+  return data.data;
 };
 
 /** 자신이 속해 있는 그룹 목록 조회 */
@@ -43,9 +43,12 @@ export const editGroupImage = async (payload) => {
 
 /** 그룹 초대  { id,body:{ email } } */
 export const inviteUsers = async (payload) => {
-  const data = await instance.post(
-    `groups/${payload.id}/invites`,
-    payload.body
-  );
+  const data = await instance.post(`invites/${payload.id}`, payload.body);
   return data;
+};
+
+/** 초대 목록 가져오기 */
+export const readInvites = async () => {
+  const { data } = await instance.get("invites");
+  return data.data;
 };

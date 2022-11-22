@@ -21,14 +21,15 @@ export const SideContainer = styled.div`
   right: 0;
   width: 25rem;
   height: 100%;
-  background-color: white;
+  background-color: ${(props) => props.theme.boardColor.lightGray};
 `;
 
 export const TitleBox = styled.div`
   ${FlexAlignBox};
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
+  background-color: ${(props) => props.theme.color.white};
   span {
     ${FlexCenterBox};
     width: 1.8rem;
@@ -50,6 +51,8 @@ export const Title = styled.h3`
 export const AlertList = styled.ul``;
 export const AlertItem = styled.li`
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
+  background-color: ${(props) => props.theme.color.white};
+  margin-bottom: 0.8rem;
 `;
 
 export const InviteInfo = styled.div`

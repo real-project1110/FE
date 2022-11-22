@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { inviteUsers } from "../../../apis/groupApi";
 //import { useParams } from "react-router-dom";
@@ -21,7 +22,7 @@ import {
 } from "./styles";
 
 const InviteModal = () => {
-  //const { id } = useParams();
+  const { groupId } = useParams();
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
   const { register, reset, handleSubmit } = useForm();
   const [emails, setEmails] = useState([]);
@@ -30,6 +31,7 @@ const InviteModal = () => {
     setIsInviteModal(false);
   }, [setIsInviteModal]);
 
+  console.log(emails);
   // email을 목록에 추가하는 함수
   const onValid = useCallback(
     (data) => {
@@ -45,12 +47,15 @@ const InviteModal = () => {
       e.preventDefault();
       if (emails.length == 0) return;
       // 서버에 email 보내는 요청
-      const response = await inviteUsers({ emails });
+      const response = await inviteUsers({
+        id: groupId,
+        body: { email: emails[0] },
+      });
       if (response.status === 400) return alert("초대 실패");
       setIsInviteModal(false);
       setEmails([]);
     },
-    [setIsInviteModal, emails]
+    [setIsInviteModal, emails, groupId]
   );
 
   const deleteEmail = useCallback((num) => {
@@ -84,7 +89,7 @@ const InviteModal = () => {
           <InviteList>
             <Scrollbars>
               {emails?.map((email, idx) => (
-                <InviteItem>
+                <InviteItem key={email}>
                   <p>{email}</p>
                   <span onClick={() => deleteEmail(idx)}>취소</span>
                 </InviteItem>

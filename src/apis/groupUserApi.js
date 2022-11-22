@@ -35,3 +35,10 @@ export const readGroupUsers = async (payload) => {
   const { data } = await instance.get(`groups/${payload}/groupUsers`);
   return data;
 };
+
+/** 그룹 유저 추가 {groupId:groupId} */
+export const addGroupUsers = async (payload) => {
+  console.log(payload);
+  const data = await instance.post(`groups/groupUsers`, payload);
+  return data;
+};
