@@ -1,4 +1,10 @@
 import styled from "styled-components";
+import { FlexColumnBox } from "../../../shared/Styles/flex";
+
+export const Wrapper = styled.div`
+  width: 100%;
+  ${FlexColumnBox};
+`;
 
 export const Title = styled.p`
   margin-top: 1.5%;
@@ -7,7 +13,7 @@ export const Title = styled.p`
 `;
 
 export const Carousel = styled.div`
-  width: 1062px;
+  width: 30vw;
   max-height: 132px;
   margin: 1% auto auto auto;
   background-color: #ffffff;

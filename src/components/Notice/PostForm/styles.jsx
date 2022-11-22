@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Form = styled.form`
   margin-top: 4%;
   margin-bottom: 4%;
+  width: 100%;
 `;
 
 export const SubmitBtn = styled.button`
