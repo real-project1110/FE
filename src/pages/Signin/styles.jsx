@@ -35,7 +35,6 @@ export const PasswordDiv = styled.div`
 export const LoginInput = styled.div`
   width: 500px;
   margin: auto;
-  padding-top: 10%;
   text-align: center;
   font-weight: 600;
 `;
@@ -45,7 +44,7 @@ export const Emailinput = styled.input`
   height: 40px;
   padding-left: 10px;
 
-  border: 1px solid ${(props) => props["aria-invalid"]};
+  border: 2px solid ${(props) => props["aria-invalid"]};
   border-radius: 5px;
 
   &:focus {
@@ -58,7 +57,7 @@ export const PasswordInput = styled.input`
   height: 40px;
   padding-left: 10px;
 
-  border: 1px solid ${(props) => props["aria-invalid"]};
+  border: 2px solid ${(props) => props["aria-invalid"]};
   border-radius: 5px;
 
   &:focus {

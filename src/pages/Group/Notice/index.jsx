@@ -3,18 +3,16 @@ import NoticeCarousel from "../../../components/Notice/NoticeCarousel";
 import PostForm from "../../../components/Notice/PostForm";
 import Search from "../../../components/Notice/Search";
 import Posts from "../../../components/Notice/Posts";
-import { NoticeWrap, BoardWrap } from "./styles";
+import { NoticeWrap } from "./styles";
 
 const Notice = () => {
   return (
-    <BoardWrap>
-      <NoticeWrap>
-        <Search />
-        <PostForm />
-        <Posts />
-      </NoticeWrap>
+    <NoticeWrap>
+      <Search />
       <NoticeCarousel />
-    </BoardWrap>
+      <PostForm />
+      <Posts />
+    </NoticeWrap>
   );
 };
 

@@ -21,7 +21,7 @@ export const Label = styled.label`
     font-size: 0.85rem;
     font-family: "Pretendard";
     font-style: normal;
-    border: 1px solid ${(props) => props.theme.color.gray};
+    border: 2px solid ${(props) => props.theme.color.gray};
 
     border-radius: 5px;
     cursor: pointer;
@@ -33,7 +33,7 @@ export const Emailinput = styled.input`
   height: 40px;
   padding-left: 10px;
 
-  border: 1px solid ${(props) => props["aria-invalid"]};
+  border: 2px solid ${(props) => props["aria-invalid"]};
   border-radius: 5px;
 
   &:focus {
@@ -55,47 +55,4 @@ export const StTitle = styled.div`
   margin-top: 10px;
   padding-bottom: 3px;
   font-size: 0.8rem;
-`;
-
-export const Join = styled.button`
-  width: 334px;
-  height: 43px;
-  margin-top: 10%;
-  background-color: #58c08b;
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-`;
-
-export const NextButton = styled.button`
-  width: 334px;
-  height: 43px;
-  margin-top: 10%;
-  background-color: ${(props) => props.theme.color.gray};
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  cursor: auto;
-`;
-
-export const SuccessNextButton = styled.button`
-  width: 334px;
-  height: 43px;
-  margin-top: 10%;
-  background-color: #58c08b;
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
 `;

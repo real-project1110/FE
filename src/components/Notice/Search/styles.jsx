@@ -5,16 +5,15 @@ export const SearchForm = styled.div`
   ${FlexAlignBox}
   position: relative;
   justify-self: center;
-  justify-content: center;
 
   svg {
     position: absolute;
-    left: 45rem;
+    left: 69rem;
     cursor: pointer;
   }
 
   input {
-    width: 100%;
+    width: 1062px;
     height: 46px;
     padding: 0px 16px 0px 16px;
     font-weight: 400;
