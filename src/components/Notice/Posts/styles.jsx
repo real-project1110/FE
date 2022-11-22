@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PostHeader = styled.div`
-  width: 90%;
+  width: 100%;
   margin: auto;
   display: flex;
   justify-content: space-between;

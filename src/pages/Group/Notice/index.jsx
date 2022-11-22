@@ -13,7 +13,9 @@ const Notice = () => {
         <PostForm />
         <Posts />
       </NoticeWrap>
-      <NoticeCarousel />
+      <div style={{ paddingRight: "3%" }}>
+        <NoticeCarousel />
+      </div>
     </BoardWrap>
   );
 };
