@@ -6,6 +6,10 @@ export const Wrapper = styled.div`
   ${FlexColumnBox};
 `;
 
+export const Wrapper = styled.div`
+  width: 50%;
+`;
+
 export const Title = styled.p`
   margin-top: 1.5%;
   font-weight: 700;

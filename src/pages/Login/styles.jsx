@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const LoginBox = styled.div`
   width: 802px;
   margin: auto;
-  padding-top: 10%;
+  padding-top: 5%;
 `;
 
 export const LogoBox = styled.div`
