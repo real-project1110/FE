@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  width: 50%;
+  width: 100%;
 `;
 
 export const Title = styled.p`
@@ -11,7 +11,7 @@ export const Title = styled.p`
 `;
 
 export const Carousel = styled.div`
-  width: 30vw;
+  width: 100%;
   max-height: 132px;
   margin: 1% auto auto auto;
   background-color: #ffffff;

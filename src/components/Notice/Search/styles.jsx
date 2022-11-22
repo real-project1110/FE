@@ -4,11 +4,11 @@ import { FlexAlignBox } from "../../../shared/Styles/flex";
 export const SearchForm = styled.div`
   ${FlexAlignBox}
   position: relative;
-  justify-self: center;
+  justify-content: center;
 
   svg {
     position: absolute;
-    left: 35rem;
+    right: 3rem;
     cursor: pointer;
   }
 
