@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { LoginBox, LoginButton, EmailLogin, LogoBox, Info, BigMent, SmallMent, Ment, EasyJoin } from "./styles";
+import { LoginBox, LoginButton, EmailLogin, LogoBox, Info, BigMent, SmallMent, Ment, EasyJoin, Logo } from "./styles";
 import { SocialButtonWrap } from "../Signin/styles";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
@@ -14,16 +14,18 @@ const Login = () => {
   const navigate = useNavigate();
   return (
     <LoginBox>
-      <LogoBox>
-        <BigLogoSvg />
-      </LogoBox>
-      <Info>
-        <BigMent>Manage all the statuses of your team.</BigMent>
-        <Ment>
-          <SmallMent>일을 잘하는 것만큼 내 팀의 상태를 파악하는 것도 중요하죠.</SmallMent>
-          <LogoSvg />는 일일이 물어보지 않아도 실시간 팀원, 프로젝트의 일정 상태를 한눈에 확인할 수 있는 곳입니다.
-        </Ment>
-      </Info>
+      <Logo>
+        <LogoBox>
+          <BigLogoSvg />
+        </LogoBox>
+        <Info>
+          <BigMent>Manage all the statuses of your team.</BigMent>
+          <Ment>
+            <SmallMent>일을 잘하는 것만큼 내 팀의 상태를 파악하는 것도 중요하죠.</SmallMent>
+            <LogoSvg />는 일일이 물어보지 않아도 실시간 팀원, 프로젝트의 일정 상태를 한눈에 확인할 수 있는 곳입니다.
+          </Ment>
+        </Info>
+      </Logo>
       <LoginButton
         onClick={() => {
           navigate(`/signin`);

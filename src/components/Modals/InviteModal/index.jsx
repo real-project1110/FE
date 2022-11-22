@@ -7,19 +7,7 @@ import { inviteUsers } from "../../../apis/groupApi";
 //import { useParams } from "react-router-dom";
 import CancelSvg from "../../../assets/svg/CancelSvg";
 import { inviteModalAtom } from "../../../shared/Atoms/modalAtoms";
-import {
-  BtnBox,
-  FormHeader,
-  FormWrapper,
-  InputBox,
-  InviteForm,
-  InviteItem,
-  InviteList,
-  Label,
-  ModalOutBtn,
-  TeamName,
-  Wrapper,
-} from "./styles";
+import { BtnBox, FormHeader, FormWrapper, InputBox, InviteForm, InviteItem, InviteList, Label, ModalOutBtn, TeamName, Wrapper } from "./styles";
 
 const InviteModal = () => {
   const { groupId } = useParams();
@@ -45,7 +33,7 @@ const InviteModal = () => {
   const submitEmails = useCallback(
     async (e) => {
       e.preventDefault();
-      if (emails.length == 0) return;
+      if (emails.length === 0) return;
       // 서버에 email 보내는 요청
       const response = await inviteUsers({
         id: groupId,
@@ -63,10 +51,7 @@ const InviteModal = () => {
   }, []);
   return (
     <Wrapper onClick={() => setIsInviteModal(false)}>
-      <InviteForm
-        onSubmit={handleSubmit(onValid)}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <InviteForm onSubmit={handleSubmit(onValid)} onClick={(e) => e.stopPropagation()}>
         <FormWrapper>
           <FormHeader>
             <TeamName>항해99에 초대 요청</TeamName>
@@ -78,11 +63,7 @@ const InviteModal = () => {
           <Label>
             <span>받는 사람:</span>
             <InputBox>
-              <input
-                {...register("email")}
-                type="text"
-                placeholder="name@gmail.com"
-              />
+              <input {...register("email")} type="text" placeholder="name@gmail.com" />
               <button>추가</button>
             </InputBox>
           </Label>

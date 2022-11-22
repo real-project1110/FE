@@ -8,6 +8,10 @@ export const EmailAuthInput = styled.div`
   font-weight: 600;
 `;
 
+export const SignUpLogo = styled.div`
+  padding-top: 16%;
+`;
+
 export const Label = styled.label`
   position: relative;
   button {

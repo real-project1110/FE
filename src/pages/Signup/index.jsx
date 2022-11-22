@@ -7,6 +7,7 @@ import { checkEmail, signup, checkEmailNum } from "../../apis/userApi";
 import Input from "../../components/Common/Elements/Input";
 import {
   EmailAuthInput,
+  SignUpLogo,
   Title,
   JoinForm,
   StTitle,
@@ -92,10 +93,12 @@ const Signup = () => {
 
   return (
     <EmailAuthInput>
-      <LogoBox>
-        <BigLogoSvg />
-      </LogoBox>
-      <BigMent>Manage all the statuses of your team.</BigMent>
+      <SignUpLogo>
+        <LogoBox>
+          <BigLogoSvg />
+        </LogoBox>
+        <BigMent>Manage all the statuses of your team.</BigMent>
+      </SignUpLogo>
       <Title>이메일로 시작하기</Title>
       <JoinForm onSubmit={handleSubmit(onSubmit)}>
         <ToastContainer />
