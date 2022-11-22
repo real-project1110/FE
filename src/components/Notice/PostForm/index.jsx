@@ -16,11 +16,7 @@ function PostForm() {
         initialEditType="wysiwyg"
         toolbarItems={[
           // 툴바 옵션 설정
-          ["heading", "bold", "italic", "strike"],
-          ["hr", "quote"],
-          ["ul", "ol", "task", "indent", "outdent"],
-          ["table", "image", "link"],
-          ["code", "codeblock"],
+          ["heading", "bold", "italic", "strike", "image", "link"],
         ]}
       />
       <SubmitBtn>
