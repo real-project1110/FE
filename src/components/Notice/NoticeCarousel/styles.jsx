@@ -3,9 +3,11 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: 1%;
   background-color: #ffffff;
   border-radius: 5px;
+  max-height: ${(props) => props.theme.bodyHeight.normal};
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Title = styled.p`
@@ -22,11 +24,16 @@ export const NoticeTitle = styled.div`
   font-weight: 400;
   font-size: 14px;
   letter-spacing: -5.5%;
-  line-height: 60px;
+  line-height: 46px;
 `;
 
 export const AllPost = styled.div`
   height: 100%;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 export const PostImg = styled.img`
@@ -39,7 +46,7 @@ export const PostImg = styled.img`
 export const Post = styled.div`
   width: 90%;
   height: 127px;
-  margin: 3% auto auto auto;
+  margin: 3% auto 3% auto;
   padding: 10px 10px 10px 10px;
   display: flex;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
