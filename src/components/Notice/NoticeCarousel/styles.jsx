@@ -119,7 +119,7 @@ export const PostLike = styled.span`
 
 export const LikeCount = styled.span`
   margin-left: 5px;
-  margin-top: 1.5px;
+  margin-top: 2px;
   position: absolute;
   font-weight: 300;
   font-size: 12px;

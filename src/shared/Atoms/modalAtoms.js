@@ -17,3 +17,8 @@ export const headerAlertAtom = atom({
   key: "headerAlertAtom",
   default: false,
 });
+
+export const PostFormModalAtom = atom({
+  key: "PostFormModalAtom",
+  default: false,
+});
