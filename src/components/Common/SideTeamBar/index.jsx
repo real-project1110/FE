@@ -9,7 +9,7 @@ import { GroupList, PlusBtn, Wrapper } from "./styles";
 const SideTeamBar = () => {
   const { data: groupsData } = useQuery(["groupList"], readGroups, {
     staleTime: 10000,
-    retry: 3,
+    retry: 2,
     refetchOnWindowFocus: false,
   });
 
@@ -17,7 +17,7 @@ const SideTeamBar = () => {
     <Wrapper as="aside">
       <GroupList>
         {groupsData?.map((group) => (
-          <NavItem key={group.groupId} group={group} />
+          <NavItem key={group?.groupId} group={group} />
         ))}
       </GroupList>
       <Link to="/main/write">

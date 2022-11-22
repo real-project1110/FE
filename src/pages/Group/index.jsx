@@ -21,6 +21,7 @@ const Group = () => {
       retry: 1,
     }
   );
+  //const {data:groupUser} = useQuery(["groupUser"])
   const isInviteModal = useRecoilValue(inviteModalAtom);
 
   return (

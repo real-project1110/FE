@@ -43,6 +43,7 @@ export const editGroupImage = async (payload) => {
 
 /** 그룹 초대  { id,body:{ email } } */
 export const inviteUsers = async (payload) => {
+  console.log(payload);
   const data = await instance.post(`invites/${payload.id}`, payload.body);
   return data;
 };

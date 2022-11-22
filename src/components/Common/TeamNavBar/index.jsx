@@ -10,11 +10,12 @@ import Scrollbars from "react-custom-scrollbars-2";
 const TeamNavBar = ({ group }) => {
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
+  console.log(group);
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>
         <GroupNav>
-          <GroupName>{group?.groupName || ""}</GroupName>
+          <GroupName>{group && group.groupName}</GroupName>
           <Link to={`/groups/${group?.groupId}`}>
             <GroupNavItem isFocus={calendarMatch}>
               <CalendarSvg />
