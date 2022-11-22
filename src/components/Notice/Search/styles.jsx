@@ -9,12 +9,12 @@ export const SearchForm = styled.div`
 
   svg {
     position: absolute;
-    left: 35rem;
+    right: 3rem;
     cursor: pointer;
   }
 
   input {
-    width: 90%;
+    width: 100%;
     height: 46px;
     padding: 0px 16px 0px 16px;
     font-weight: 400;
