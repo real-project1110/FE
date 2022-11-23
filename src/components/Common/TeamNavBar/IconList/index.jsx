@@ -1,18 +1,29 @@
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { editGroupUserState } from "../../../../apis/groupUserApi";
 import { Icon, MessageModal, StatusIcons } from "./styles";
 
-const IconList = ({ status, changeStatus }) => {
+const IconList = ({ status, changeStatus, groupId }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showForm, setShowForm] = useState(false);
+  const { mutate: editStatusFn } = useMutation(editGroupUserState);
   // 상태메시지 바꾸는 함수
   const onValid = useCallback(
     (data) => {
       // 상태 메시지와 status를 서버에 전달
+      const payload = {
+        id: groupId,
+        body: {
+          status,
+          statusMessage: data.statusMessage,
+        },
+      };
+      editStatusFn(payload);
       setShowForm(false);
       reset();
     },
-    [reset]
+    [reset, editStatusFn, groupId, status]
   );
 
   const iconClick = useCallback(

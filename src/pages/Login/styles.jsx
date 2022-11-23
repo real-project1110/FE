@@ -1,18 +1,27 @@
 import styled from "styled-components";
+import {
+  FlexAlignBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../shared/Styles/flex";
 
-export const Logo = styled.div`
-  padding-top: 22%;
+export const Wrapper = styled.div`
+  ${FlexCenterBox};
+  width: 100%;
+  height: 100vh;
 `;
-
 export const LoginBox = styled.div`
+  ${FlexColumnBox};
+  align-items: center;
   width: 802px;
-  margin: auto;
+`;
+export const Logo = styled.div`
+  ${FlexColumnBox};
+  align-items: center;
 `;
 
 export const LogoBox = styled.div`
-  width: 172px;
-  height: 58px;
-  margin: auto;
+  width: 12rem;
 `;
 
 export const Info = styled.div`
@@ -20,64 +29,113 @@ export const Info = styled.div`
 `;
 
 export const BigMent = styled.p`
-  height: 31px;
-  margin-bottom: 58px;
-  font-family: "SF Pro";
-  font-style: normal;
   font-weight: 400;
-  font-size: 26px;
+  font-size: 1.7rem;
+  margin: 2rem 0 3rem 0;
 `;
 
 export const SmallMent = styled.p`
-  margin-bottom: 15px;
-  font-family: "Pretendard";
-  font-style: normal;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
   font-weight: 400;
-  font-size: 18px;
 `;
 
 export const Ment = styled.div`
-  margin-top: 15px;
-  font-family: "Pretendard";
-  font-style: normal;
+  ${FlexColumnBox};
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 1.2rem;
   font-weight: 400;
-  font-size: 18px;
-`;
-
-export const LoginButton = styled.div`
-  width: 330px;
-  height: 43px;
-  margin: 120px auto auto auto;
-  background-color: ${(props) => props.theme.color.green};
-
-  border: none;
-  border-radius: 5px;
-
-  text-align: center;
-  line-height: 43px;
-  font-weight: 700;
-  color: #ffffff;
-
-  :hover {
-    background-color: #35ad70;
-    box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
-    cursor: pointer;
-    opacity: 50;
+  div {
+    ${FlexAlignBox};
+    strong {
+      font-weight: 600;
+    }
   }
 `;
 
-export const EmailLogin = styled.div`
+export const ButtonContainer = styled.div`
+  width: 330px;
+  ${FlexColumnBox};
+  margin-top: 3rem;
+`;
+export const LoginButton = styled.div`
+  ${FlexCenterBox};
   width: 100%;
-  height: 43px;
-  text-align: center;
-  margin: 10% auto 5% -2.3%;
-
-  font-weight: 600;
-  line-height: 43px;
-
+  height: 2.9rem;
+  background-color: ${(props) => props.theme.color.green};
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: ${(props) => props.theme.color.white};
   cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.color.hoverGreen};
+  }
+`;
+
+export const Line = styled.div`
+  width: 100%;
+  border-top: 1px solid ${(props) => props.theme.color.gray};
+  margin: 2rem 0;
+`;
+
+export const EmailLogin = styled.div`
+  position: relative;
+  ${FlexAlignBox};
+  width: 100%;
+  height: 2.9rem;
+  border: 1px solid ${(props) => props.theme.color.gray};
+  padding: 0 2rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.color.extraLightGray};
+  }
+  svg {
+    color: ${(props) => props.theme.color.gray};
+    font-size: 1.2rem;
+  }
+  span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-align: center;
+  }
 `;
 
 export const EasyJoin = styled.span`
-  margin-left: 43%;
+  ${FlexCenterBox};
+  color: rgba(0, 0, 0, 0.6);
+  margin: 2rem 0 1.5rem 0;
+`;
+
+export const SocialList = styled.ul`
+  width: 100%;
+  ${FlexColumnBox};
+`;
+
+export const SocialItem = styled(EmailLogin)`
+  color: white;
+  border: none;
+  box-shadow: 0px 2px 3px ${(props) => props.theme.color.lightGray};
+  margin-bottom: 0.6rem;
+  img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+  }
+  &:first-child {
+    background-color: #02c75a;
+  }
+  &:nth-child(2) {
+    color: inherit;
+    background-color: #ffe80f;
+  }
+  &:last-child {
+    color: inherit;
+    background-color: white;
+  }
 `;

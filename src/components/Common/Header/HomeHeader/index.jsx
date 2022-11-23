@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
-import {
-  headerAlertAtom,
-  headerMenuAtom,
-} from "../../../../shared/Atoms/modalAtoms";
+import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
 import { existCookie } from "../../../../utils/existCookie";
 import AlertModal from "../../../Modals/AlertModal";
 import HeaderMenu from "../HeaderMenu";
@@ -16,7 +13,7 @@ import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
-  const [headerAlert, setHeaderAlert] = useRecoilState(headerAlertAtom);
+  const [headerAlert, setHeaderAlert] = useState(false);
 
   //const { groupId } = useParams();
   const navigate = useNavigate();

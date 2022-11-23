@@ -1,15 +1,36 @@
 import React from "react";
-import { JoinInput } from "./styles";
+import { ErrorMessage, JoinInput, Label } from "./styles";
 
-const Input = ({ type, register, errors = {}, errorName = "" }) => {
+const Input = ({
+  register,
+  type,
+  errors,
+  errorName,
+  _border,
+  label,
+  onKeyUp,
+}) => {
   return (
-    <>
-      <JoinInput aria-invalid={errors[errorName] ? "#FF2D53" : "#35ad70"} {...register} type={type} />
-      <p style={{ fontSize: "0.8rem", fontWeight: "400", textAlign: "left", margin: "7px auto", width: "334px", color: "#ff2D53" }}>
-        {errors[errorName]?.message}
-      </p>
-    </>
+    <Label>
+      <span>{label}</span>
+      <JoinInput
+        _border={_border}
+        {...register}
+        type={type}
+        onKeyUp={onKeyUp}
+      />
+      <ErrorMessage>{errors[errorName]?.message}</ErrorMessage>
+    </Label>
   );
 };
 
 export default Input;
+
+Input.defaultProps = {
+  type: "text",
+  errors: {},
+  errorName: "",
+  _border: "inherit",
+  label: "",
+  onKeyUp: () => {},
+};

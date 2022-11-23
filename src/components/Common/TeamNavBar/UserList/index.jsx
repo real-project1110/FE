@@ -1,5 +1,12 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import {
+  editGroupUserState,
+  readGroupUser,
+  readGroupUsers,
+} from "../../../../apis/groupUserApi";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
 import { inviteModalAtom } from "../../../../shared/Atoms/modalAtoms";
@@ -8,12 +15,41 @@ import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
 
 const UserList = () => {
+  const { groupId } = useParams();
   const [isFocus, setIsFocus] = useState(true);
-  const [status, setStatus] = useState(userData[0].status);
+  const [status, setStatus] = useState(0);
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
-  const changeStatus = useCallback((num) => {
-    setStatus((prev) => (prev === 0 ? num : 0));
-  }, []);
+
+  const { data: userList } = useQuery(
+    ["groupUserList", groupId],
+    () => readGroupUsers(groupId),
+    { retry: 2 }
+  );
+  const { data: groupUser } = useQuery(
+    ["groupUser", groupId],
+    () => readGroupUser(groupId),
+    { retry: 2 }
+  );
+
+  const changeStatus = useCallback(
+    async (num) => {
+      if (status > 0) {
+        const payload = {
+          id: groupId,
+          body: { status: 0, statusMessage: null },
+        };
+        await editGroupUserState(payload);
+      }
+      setStatus((prev) => (prev === 0 ? num : 0));
+    },
+    [status]
+  );
+
+  useEffect(() => {
+    if (groupUser) {
+      setStatus(groupUser.status);
+    }
+  }, [groupUser]);
   return (
     <Wrapper>
       <ToggleUsers onClick={() => setIsFocus((prev) => !prev)}>
@@ -22,26 +58,32 @@ const UserList = () => {
         </span>
         <strong>다이렉트 메세지</strong>
       </ToggleUsers>
-
-      <UserItems>
-        <UserItem user={userData[0]} isMe={true} status={status} />
-        <IconList
-          user={userData[0]}
-          changeStatus={changeStatus}
-          status={status}
-        />
-        {isFocus && (
-          <>
-            {userData.slice(1).map((user) => (
-              <UserItem key={user?.groupUserId} user={user} />
-            ))}
-          </>
-        )}
-        <AddUserBtn onClick={() => setIsInviteModal(true)}>
-          <PlusSvg />
-          <span>팀원 추가하기</span>
-        </AddUserBtn>
-      </UserItems>
+      {groupUser && (
+        <UserItems>
+          <UserItem user={groupUser} isMe={true} status={status} />
+          <IconList
+            user={groupUser}
+            changeStatus={changeStatus}
+            status={status}
+            groupId={groupId}
+          />
+          {isFocus && (
+            <>
+              {userList &&
+                groupUser &&
+                userList
+                  .filter((user) => user.groupUserId !== groupUser.groupUserId)
+                  .map((user) => (
+                    <UserItem key={user?.groupUserId} user={user} />
+                  ))}
+            </>
+          )}
+          <AddUserBtn onClick={() => setIsInviteModal(true)}>
+            <PlusSvg />
+            <span>팀원 추가하기</span>
+          </AddUserBtn>
+        </UserItems>
+      )}
     </Wrapper>
   );
 };
