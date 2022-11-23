@@ -1,20 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Eventcalendar,
-  snackbar,
-  setOptions,
-  Popup,
-  Button,
-  Input,
-  Textarea,
-  Datepicker,
-} from "@mobiscroll/react";
+import { Eventcalendar, snackbar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
 
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 import axios from "axios";
+import { useMutation, useQuery } from "react-query";
+import { addSchedule, editSchedule, readSchedule, removeSchedule } from "../../apis/scheduleApi";
 
 setOptions({
   theme: "ios",
@@ -22,40 +15,8 @@ setOptions({
 });
 
 const now = new Date();
-const defaultEvents = [
-  {
-    id: 1,
-    start: "2022-11-08T13:00",
-    end: "2022-11-08T13:45",
-    title: "Lunch @ Butcher's",
-    description: "",
-    color: "#009788",
-  },
-  {
-    id: 2,
-    start: "2022-11-14T15:00",
-    end: "2022-11-14T16:00",
-    title: "General orientation",
-    description: "",
-    color: "#ff9900",
-  },
-  {
-    id: 3,
-    start: "2022-11-13T18:00",
-    end: "2022-11-13T22:00",
-    title: "Dexter BD",
-    description: "",
-    color: "#3f51b5",
-  },
-  {
-    id: 4,
-    start: "2022-11-15T10:30",
-    end: "2022-11-15T11:30",
-    title: "Stakeholder mtg.",
-    description: "",
-    color: "#f44437",
-  },
-];
+
+const defaultEvents = []; // get 요청한값 받아오기
 
 const viewSettings = {
   calendar: { labels: true },
@@ -75,21 +36,10 @@ const colorPopup = {
     buttons: [],
   },
 };
-const colors = [
-  "#ffeb3c",
-  "#ff9900",
-  "#f44437",
-  "#ea1e63",
-  "#9c26b0",
-  "#3f51b5",
-  "",
-  "#009788",
-  "#4baf4f",
-  "#7e5d4e",
-];
+const colors = ["#ffeb3c", "#ff9900", "#f44437", "#ea1e63", "#9c26b0", "#3f51b5", "", "#009788", "#4baf4f", "#7e5d4e"];
 
 const Schedular = () => {
-  const [myEvents, setMyEvents] = useState(defaultEvents);
+  const [myEvents, setMyEvents] = useState(defaultEvents || []);
   const [tempEvent, setTempEvent] = useState(null);
   const [isOpen, setOpen] = useState(false);
   const [isEdit, setEdit] = useState(false);
@@ -105,6 +55,27 @@ const Schedular = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [tempColor, setTempColor] = useState("");
   const colorPicker = useRef();
+
+  const { isLoading, isError, data, error, refetch } = useQuery(["schedules", 1], () => readSchedule(1), {
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onSuccess: (data) => {
+      setMyEvents(data);
+    },
+    onError: (e) => {
+      alert(e.message);
+    },
+  });
+  const { mutate: addMutate } = useMutation(addSchedule, {
+    onSuccess: () => refetch(),
+  });
+  const { mutate: editMutate } = useMutation(editSchedule, {
+    onSuccess: () => refetch(),
+  });
+
+  const { mutate: removeMutate } = useMutation(removeSchedule, {
+    onSuccess: () => refetch(),
+  });
 
   const colorButtons = useMemo(
     () => [
@@ -134,47 +105,28 @@ const Schedular = () => {
     };
 
     if (isEdit) {
-      // update the event in the list
       const index = myEvents.findIndex((x) => x.id === tempEvent.id);
       const newEventList = [...myEvents];
-
       newEventList.splice(index, 1, newEvent);
       setMyEvents(newEventList);
-      // here you can update the event in your storage as well
-      // ...
-      // console.log("new", newEvent); 수정시 데이터 전달 newEvent로
+      const scheduleId = tempEvent.scheduleId;
+      const { title, description, start, end, color, groupId, groupUserId } = newEvent;
+      const editEvent = { id: scheduleId, body: { title, description, start, end, color, groupId, groupUserId } };
+      editMutate(editEvent);
     } else {
-      // add the new event to the list
       setMyEvents([...myEvents, newEvent]);
-      // here you can add the event to your storage as well
-      // ...
-      // 추가시 데이터 전달 부분
-      console.log(newEvent);
-      axios
-        .post(
-          `https://a5fb-211-104-97-82.jp.ngrok.io/schedules/${newEvent.groupId}`,
-          newEvent
-        )
-        .then((res) => {
-          alert("일정 추가 완료");
-          console.log(res);
-        });
+      // groupUserId는 나중에 빼기
+      const { title, description, start, end, color, groupId, groupUserId } = newEvent;
+      const addEvent = { id: groupId, body: { title, description, start, end, color, groupUserId } };
+      addMutate(addEvent);
     }
     setSelectedDate(popupEventDate[0]);
-    // close the popup
     setOpen(false);
-  }, [
-    isEdit,
-    myEvents,
-    popupEventDate,
-    popupEventDescription,
-    popupEventTitle,
-    tempEvent,
-    selectedColor,
-  ]);
+  }, [isEdit, myEvents, popupEventDate, popupEventDescription, popupEventTitle, tempEvent, selectedColor, addMutate, editMutate]);
 
   const deleteEvent = useCallback(
     (event) => {
+      removeMutate(event.scheduleId);
       setMyEvents(myEvents.filter((item) => item.id !== event.id));
       setTimeout(() => {
         snackbar({
@@ -188,8 +140,7 @@ const Schedular = () => {
         });
       });
     },
-    [myEvents]
-    // 삭제시 api 요청
+    [myEvents, removeMutate]
   );
 
   const loadPopupForm = useCallback((event) => {
@@ -257,16 +208,18 @@ const Schedular = () => {
     [deleteEvent]
   );
 
-  const onEventUpdated = useCallback((args) => {
-    // here you can update the event in your storage as well, after drag & drop or resize
-    // ...
-  }, []);
+  const onEventUpdated = useCallback(
+    (args) => {
+      // 드래그앤 드롭, 리사이징 수정부분 api 요청
+      const { scheduleId, title, description, start, end, color, groupId, groupUserId } = args.event;
+      const editEvent = { id: scheduleId, body: { title, description, start, end, color, groupId, groupUserId } };
+      editMutate(editEvent);
+    },
+    [editMutate]
+  );
 
   // popup options
-  const headerText = useMemo(
-    () => (isEdit ? "Edit event" : "New Event"),
-    [isEdit]
-  );
+  const headerText = useMemo(() => (isEdit ? "Edit event" : "New Event"), [isEdit]);
   const popupButtons = useMemo(() => {
     if (isEdit) {
       return [
@@ -358,40 +311,20 @@ const Schedular = () => {
       >
         <div className="mbsc-form-group">
           <Input label="Title" value={popupEventTitle} onChange={titleChange} />
-          <Textarea
-            label="Description"
-            value={popupEventDescription}
-            onChange={descriptionChange}
-          />
+          <Textarea label="Description" value={popupEventDescription} onChange={descriptionChange} />
         </div>
         <div className="mbsc-form-group">
           <Input ref={startRef} label="Starts" />
           <Input ref={endRef} label="Ends" />
-          <Datepicker
-            select="range"
-            touchUi={true}
-            startInput={start}
-            endInput={end}
-            showRangeLabels={false}
-            onChange={dateChange}
-            value={popupEventDate}
-          />
+          <Datepicker select="range" touchUi={true} startInput={start} endInput={end} showRangeLabels={false} onChange={dateChange} value={popupEventDate} />
           <div onClick={openColorPicker} className="event-color-c">
             <div className="event-color-label">Color</div>
-            <div
-              className="event-color"
-              style={{ background: selectedColor }}
-            ></div>
+            <div className="event-color" style={{ background: selectedColor }}></div>
           </div>
           {isEdit ? (
             <div className="mbsc-button-group">
-              <Button
-                className="mbsc-button-block"
-                color="danger"
-                variant="outline"
-                onClick={onDeleteClick}
-              >
-                Delete event
+              <Button className="mbsc-button-block" color="danger" variant="outline" onClick={onDeleteClick}>
+                일정 삭제하기
               </Button>
             </div>
           ) : null}
@@ -412,18 +345,8 @@ const Schedular = () => {
           {colors.map((color, index) => {
             if (index < 5) {
               return (
-                <div
-                  key={index}
-                  onClick={changeColor}
-                  className={
-                    "crud-color-c " + (tempColor === color ? "selected" : "")
-                  }
-                  data-value={color}
-                >
-                  <div
-                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                    style={{ background: color }}
-                  ></div>
+                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
+                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
                 </div>
               );
             } else return null;
@@ -433,18 +356,8 @@ const Schedular = () => {
           {colors.map((color, index) => {
             if (index >= 5) {
               return (
-                <div
-                  key={index}
-                  onClick={changeColor}
-                  className={
-                    "crud-color-c " + (tempColor === color ? "selected" : "")
-                  }
-                  data-value={color}
-                >
-                  <div
-                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                    style={{ background: color }}
-                  ></div>
+                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
+                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
                 </div>
               );
             } else return null;
