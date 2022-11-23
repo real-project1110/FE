@@ -94,6 +94,7 @@ const Signup = () => {
     setCheckIsAuth(true);
   };
 
+  console.log(watch());
   return (
     <Wrapper>
       <SignUpContainer>
@@ -120,7 +121,7 @@ const Signup = () => {
                     },
                   })}
                   _border={
-                    watch("email")?.length === 0
+                    !watch("email")
                       ? "#BBBBBB"
                       : errors.email
                       ? "#FF2D53"
@@ -161,7 +162,9 @@ const Signup = () => {
                   register={{ ...register("emailNum") }}
                   type={"number"}
                   _border={
-                    watch("emailNum")?.length < 5 ? "#BBBBBB" : "#5FCB94"
+                    !watch("emailNum") || watch("emailNum")?.length < 5
+                      ? "#BBBBBB"
+                      : "#5FCB94"
                   }
                   label={"인증번호"}
                 ></Input>

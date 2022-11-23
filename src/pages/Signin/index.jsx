@@ -93,7 +93,7 @@ function Signin() {
             _border={
               watch("email")?.length === 0
                 ? "#BBBBBB"
-                : errors.password
+                : errors.email
                 ? "#FF2D53"
                 : "#5FCB94"
             }
