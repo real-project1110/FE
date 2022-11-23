@@ -6,7 +6,7 @@ import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
 import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
-import { existCookie } from "../../../../utils/existCookie";
+//import { existCookie } from "../../../../utils/existCookie";
 import AlertModal from "../../../Modals/AlertModal";
 import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
@@ -16,14 +16,14 @@ const HomeHeader = () => {
   const [headerAlert, setHeaderAlert] = useState(false);
 
   //const { groupId } = useParams();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  useEffect(() => {
-    const cookie = existCookie();
-    if (!cookie) {
-      return navigate("/");
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const cookie = existCookie();
+  //   if (!cookie) {
+  //     return navigate("/");
+  //   }
+  // }, [navigate]);
 
   return (
     <Wrapper as="header">
