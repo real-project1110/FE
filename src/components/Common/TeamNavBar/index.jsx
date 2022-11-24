@@ -21,7 +21,6 @@ const TeamNavBar = () => {
   );
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
-  console.log(group);
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>

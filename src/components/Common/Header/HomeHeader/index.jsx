@@ -8,8 +8,6 @@ import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
 import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
-import { userAtom } from "../../../../shared/Atoms/userAtoms";
-import { decodeUser } from "../../../../utils/decodeUser";
 import { existCookie } from "../../../../utils/existCookie";
 import AlertModal from "../../../Modals/AlertModal";
 import HeaderMenu from "../HeaderMenu";
@@ -18,18 +16,11 @@ import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 const HomeHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   const [headerAlert, setHeaderAlert] = useState(false);
-  const setUser = useSetRecoilState(userAtom);
-  const userToken = decodeUser();
-  const { data: user } = useQuery(["user", userToken?.userId], readUser, {
+  const { data: user } = useQuery(["user"], readUser, {
     staleTime: 10000,
     retry: 1,
   });
 
-  useEffect(() => {
-    if (user) {
-      setUser(user);
-    }
-  }, [setUser, user]);
   const navigate = useNavigate();
 
   useEffect(() => {
