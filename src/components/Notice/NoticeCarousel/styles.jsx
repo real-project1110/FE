@@ -1,41 +1,62 @@
 import styled from "styled-components";
 
+export const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  max-height: ${(props) => props.theme.bodyHeight.normal};
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Title = styled.p`
   margin-top: 1.5%;
   font-weight: 700;
   font-size: 14px;
 `;
 
-export const Carousel = styled.div`
-  width: 1062px;
-  max-height: 132px;
-  margin: 1% auto auto auto;
-  background-color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+export const NoticeTitle = styled.div`
+  height: 46px;
+  padding-left: 2%;
+  border-bottom: 1px solid #e7e7e7;
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: -5.5%;
+  line-height: 46px;
 `;
 
-export const Slide = styled.div`
-  width: 960px;
-  max-height: 132px;
-  padding: 12px;
-  display: flex !important;
-  border: none;
-  border-radius: 8px;
+export const AllPost = styled.div`
+  height: 100%;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 export const PostImg = styled.img`
-  width: 327px;
-  height: 108px;
+  width: 170px;
+  height: 103.15px;
   border: none;
   border-radius: 8px;
 `;
 
 export const Post = styled.div`
-  width: 700px;
-  height: 108px;
-  margin-left: 10px;
+  width: 90%;
+  height: 127px;
+  margin: 3% auto 3% auto;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+`;
+
+export const ContentBox = styled.div`
+  margin-left: 3%;
+  width: 70%;
 `;
 
 export const PostTitle = styled.p`
@@ -52,6 +73,7 @@ export const PostContent = styled.div`
   line-height: 21px;
   letter-spacing: -0.055em;
   color: ${(props) => props.theme.color.gray};
+  overflow-y: hidden;
 `;
 
 export const PostInfoWrap = styled.div`
@@ -97,7 +119,7 @@ export const PostLike = styled.span`
 
 export const LikeCount = styled.span`
   margin-left: 5px;
-  margin-top: 1.5px;
+  margin-top: 2px;
   position: absolute;
   font-weight: 300;
   font-size: 12px;

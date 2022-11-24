@@ -1,18 +1,19 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import NoticeCarousel from "../../../components/Notice/NoticeCarousel";
 import PostForm from "../../../components/Notice/PostForm";
-import Search from "../../../components/Notice/Search";
 import Posts from "../../../components/Notice/Posts";
-import { NoticeWrap } from "./styles";
+import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
+import { BoardWrap } from "./styles";
 
 const Notice = () => {
+  const isForm = useRecoilValue(PostFormModalAtom);
   return (
-    <NoticeWrap>
-      <Search />
-      <NoticeCarousel />
-      <PostForm />
+    <BoardWrap>
       <Posts />
-    </NoticeWrap>
+      <NoticeCarousel />
+      {isForm && <PostForm />}
+    </BoardWrap>
   );
 };
 

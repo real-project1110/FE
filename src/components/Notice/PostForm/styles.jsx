@@ -1,57 +1,75 @@
 import styled from "styled-components";
+import { FlexCenterBox } from "../../../shared/Styles/flex";
 
-export const Form = styled.form`
-  margin-top: 4%;
+export const Wrapper = styled.div`
+  ${FlexCenterBox}
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
-export const PostTextArea = styled.textarea`
-  width: 1062px;
-  height: 142px;
-  margin-top: 1%;
-  padding: 16px;
-  border: none;
-  border-radius: 8px;
+export const EditorWrapper = styled.div`
+  width: 900px;
+  margin: 4% auto 4% auto;
+`;
+
+export const Carousel = styled.div`
+  width: 100%;
+  margin: auto;
+  text-align: center;
+`;
+
+export const Editor = styled.form`
+  width: 100%;
+  height: 600px;
+  padding: 1rem 1rem;
   background-color: #ffffff;
-
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20.5px;
-  letter-spacing: -0.3px;
-  resize: none;
+  border: none;
+  border-radius: 10px;
 `;
 
-export const Property = styled.div`
-  margin: -25px 18px 0px 18px;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const FontProperty = styled.div`
-  display: flex;
-  width: 300px;
+export const PhotoLabel = styled.label`
+  padding: 6px 25px;
+  background-color: ${(props) => props.theme.color.green};
+  border: none;
+  border-radius: 4px;
+  line-height: 30px;
+  color: white;
   cursor: pointer;
 `;
 
-export const Tilt = styled.div`
-  margin-left: 7px;
+export const ImgInput = styled.input`
+  display: none;
 `;
 
-export const UnderLine = styled.div`
-  margin-left: 10px;
+export const Preview = styled.div`
+  margin-top: 2%;
+`;
+
+export const PreviewImg = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+`;
+
+export const PreviewBox = styled.div`
+  width: 100%;
+  display: flex;
 `;
 
 export const SubmitBtn = styled.button`
   width: 68px;
   height: 28px;
+  margin-top: 0.5%;
+  display: flex;
+  position: relative;
+  float: right;
   background-color: ${(props) => props.theme.color.green};
   border: none;
   border-radius: 5px;
-  display: flex;
-  margin-top: -10px;
-  margin-right: -10px;
 `;
 
 export const Posting = styled.span`
@@ -64,14 +82,4 @@ export const Posting = styled.span`
 
 export const PostButton = styled.div`
   margin: 6px 0px 0px 5px;
-`;
-
-export const Vector = styled.span`
-  margin-top: 2px;
-  margin-left: 5%;
-  margin-right: 5%;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 12px;
-  color: ${(props) => props.theme.color.gray};
 `;

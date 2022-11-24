@@ -1,9 +1,13 @@
-import instance, { postApi } from "../instance";
+import instance, { postApi } from "../shared/instance";
 
 /** 그룹 생성  { groupName } */
 export const addGroup = async (payload) => {
-  const { data } = await instance.post("groups", payload);
-  return data;
+  try {
+    const { data } = await instance.post("groups", payload);
+    return data.data;
+  } catch (e) {
+    return e;
+  }
 };
 
 /** 그룹 이름 수정 { id,body:{ groupName } } */
@@ -15,14 +19,14 @@ export const EditGroupName = async (payload) => {
 /** 상세 그룹 조회(캘린더?)  ( id ) */
 export const readGroup = async (payload) => {
   const { data } = await instance.get(`groups/${payload}`);
-  return data;
+  return data.data;
 };
 
 /** 자신이 속해 있는 그룹 목록 조회 */
 export const readGroups = async () => {
   const { data } = await instance.get("groups");
   // 이거 아마 data.data로 리턴해야할 듯?
-  return data;
+  return data.data;
 };
 
 /** 그룹 나가기(삭제?)  ( id ) */
@@ -38,10 +42,21 @@ export const editGroupImage = async (payload) => {
 };
 
 /** 그룹 초대  { id,body:{ email } } */
-export const inviteGroup = async (payload) => {
-  const data = await instance.post(
-    `groups/${payload.id}/invites`,
-    payload.body
-  );
+export const inviteUsers = async (payload) => {
+  console.log(payload);
+  const data = await instance.post(`invites/${payload.id}`, payload.body);
+  return data;
+};
+
+/** 초대 목록 가져오기 */
+export const readInvites = async () => {
+  const { data } = await instance.get("invites");
+  console.log(data);
+  return data.data;
+};
+
+/** 초대 삭제하기 */
+export const removeInvite = async (payload) => {
+  const data = await instance.delete(`invites/${payload}`);
   return data;
 };

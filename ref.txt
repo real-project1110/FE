@@ -68,6 +68,15 @@ urls
 [] 컬러 관련 api 생성
 [] 프로필 클릭 시 모달 
 [] 그룹내 유저 클릭시 모달
+[] 그룹내 유저 hover 시 상태 메시지 
+[] 나의 싱태에 대한 icon 및 메시지 입력창 
+[] 다이렉트 메시지 클릭 시 그룹 내 유저 펼쳐지게 
 
 
 
+(현진) url = https://hyunjin9603.shop/
+(정현) url = https://rlawjdgus.shop/
+
+
+[] 그룹 유저 atom 생성
+[] 
