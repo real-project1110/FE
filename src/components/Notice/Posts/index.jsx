@@ -41,21 +41,24 @@ import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import { useSetRecoilState } from "recoil";
 import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 import { useMutation, useQuery } from "react-query";
-import { editPost, readPost, removePost } from "../../../apis/postApi";
+import { editPost, readFreePosts, removePost } from "../../../apis/postApi";
+import { useParams } from "react-router-dom";
 
 function Posts() {
   const [openModal, setOpenModal] = useState(false);
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [CommentOpen, setCommentOpen] = useState(false);
   const setIsForm = useSetRecoilState(PostFormModalAtom);
-  const { isLoading, isError, data, error, refetch } = useQuery(["posts", 1], () => readPost(1), {
+  const { groupId } = useParams();
+
+  const { isLoading, isError, data, error, refetch } = useQuery(["freePosts", groupId], () => readFreePosts(groupId), {
     refetchOnWindowFocus: false,
     retry: 1,
     onSuccess: (data) => {
       // 데이터 state
     },
     onError: (e) => {
-      alert(e.message);
+      console.log(e.message);
     },
   });
 
