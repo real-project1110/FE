@@ -1,46 +1,47 @@
-import React, { useRef, useState } from "react";
-import { Editor } from "@toast-ui/react-editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
-import { SubmitBtn, PostButton, Posting, Wrapper, EditorWrapper } from "./styles";
-import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
+import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
+import { useParams } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
+import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 import { addPost } from "../../../apis/postApi";
 import { queryClient } from "../../..";
-import { useParams } from "react-router-dom";
+import { SubmitBtn, PostButton, Posting, Wrapper, EditorWrapper, Carousel, Editor, PhotoLabel, Preview, PreviewImg, ImgInput, PreviewBox } from "./styles";
 
 function PostForm() {
   const { groupId } = useParams();
-  const [images, setImages] = useState([]);
+  const setIsForm = useSetRecoilState(PostFormModalAtom);
   const { mutate: addMutate } = useMutation(addPost, {
     onSuccess: () => queryClient.invalidateQueries(["freePosts", groupId]),
   });
 
-  const setIsForm = useSetRecoilState(PostFormModalAtom);
-  const editorRef = useRef(null);
+  const [showImages, setShowImages] = useState([]);
+  // 이미지 상대경로 저장
+  const handleAddImages = (event) => {
+    const imageLists = event.target.files;
+    let imageUrlLists = [...showImages];
 
-  // useEffect(() => {
-  //   if (editorRef.current) {
-  //     editorRef.current.getInstance().removeHook("addImageBlobHook");
-  //     editorRef.current.getInstance().addHook("addImageBlobHook", (blob, callback) => {
-  //       (async () => {
-  //         const formData = new FormData();
-  //         formData.append("file", blob);
+    for (let i = 0; i < imageLists.length; i++) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      imageUrlLists.push(currentImageUrl);
+    }
 
-  //         axios.defaults.withCredentials = true;
-  //         const { data: url } = await axios.post("url", formData, {
-  //           header: { "content-type": "multipart/formdata" },
-  //         });
-  //         callback(url, "alt text");
-  //       })();
+    if (imageUrlLists.length > 10) {
+      imageUrlLists = imageUrlLists.slice(0, 10);
+    }
 
-  //       return false;
-  //     });
-  //   }
+    setShowImages(imageUrlLists);
+  };
 
-  //   return () => {};
-  // }, [editorRef]);
+  // X버튼 클릭 시 이미지 삭제
+  const handleDeleteImage = (id) => {
+    setShowImages(showImages.filter((_, index) => index !== id));
+  };
+  // setImages((prev) => [...prev, blob]);
+  //             const fileBlob = URL.createObjectURL(blob);
 
   const onCloseModal = (e) => {
     e.stopPropagation();
@@ -48,60 +49,50 @@ function PostForm() {
   };
 
   const Submit = () => {
-    let content = editorRef.current.getRootElement().querySelector("p").innerText;
-    // let image = editorRef.current.getRootElement().querySelectorAll("p > img")[0].currentSrc;
-    // let arr = Object.values(image);
-    // arr.pop();
-    // let postImg = [];
-    // for (let i = 0; i < arr.length; i++) {
-    //   postImg.push(arr[i].currentSrc);
-    // }
-    const postData = {
-      groupId,
-      body: {
-        content: content,
-        image: images[0],
-      },
-    };
-    addMutate(postData);
+    // const postData = {
+    //   groupId,
+    //   body: {
+    //     content: content,
+    //     image: images[0],
+    //   },
+    // };
+    // addMutate(postData);
   };
+
+  // const settings = {
+  //   arrows: true,
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  // };
 
   return (
     <Wrapper onClick={onCloseModal}>
       <EditorWrapper onClick={(e) => e.stopPropagation()}>
-        <Editor
-          placeholder="공유하고 싶은 소식이 있나요? 사소한 이야기라도 좋아요:)"
-          previewStyle="vertical"
-          height="400px"
-          initialEditType="wysiwyg"
-          hideModeSwitch={true}
-          language="ko-KR"
-          usageStatistics={false}
-          toolbarItems={[
-            // 툴바 옵션 설정
-            ["heading", "bold", "italic", "strike", "image", "link"],
-          ]}
-          ref={editorRef}
-          hooks={{
-            addImageBlobHook: async (blob, callback) => {
-              setImages((prev) => [...prev, blob]);
-              const fileBlob = URL.createObjectURL(blob);
-              callback(fileBlob, "alt");
-              // const formData = new FormData();
-              // formData.append(blob);
-              // const { data } = await axios.post(`${SERVER}/`, formData, {
-              //   header: { "content-type": "multipart/formdata" },
-              // });
-              // callback(data, "파일 alt");
-            },
-          }}
-        />
-        <SubmitBtn onClick={Submit}>
-          <Posting>게시</Posting>
-          <PostButton>
-            <PostButtonSvg />
-          </PostButton>
-        </SubmitBtn>
+        <Editor>
+          <Carousel>
+            <PhotoLabel htmlFor="input-file" onChange={handleAddImages}>
+              이미지 업로드
+              <ImgInput type="file" id="input-file" multiple />
+            </PhotoLabel>
+            <PreviewBox>
+              {showImages.map((image, id) => (
+                <Preview key={id}>
+                  <PreviewImg src={image} alt={`${image}-${id}`} />
+                  <button onClick={() => handleDeleteImage(id)}>삭제</button>
+                </Preview>
+              ))}
+            </PreviewBox>
+          </Carousel>
+          <SubmitBtn onClick={Submit}>
+            <Posting>게시</Posting>
+            <PostButton>
+              <PostButtonSvg />
+            </PostButton>
+          </SubmitBtn>
+        </Editor>
       </EditorWrapper>
     </Wrapper>
   );
