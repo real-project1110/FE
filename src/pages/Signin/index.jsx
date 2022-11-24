@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
 import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
@@ -22,7 +21,6 @@ import {
 import Input from "../../components/Common/Elements/Input";
 import { signin } from "../../apis/userApi";
 import { setAccessToken } from "../../shared/Cookie/Cookie";
-
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
 
 function Signin() {
@@ -36,7 +34,6 @@ function Signin() {
   // currentPage가 있으면 currentPage로 이동시키기
 
   const [isActive, setIsActive] = useState(false);
-  const navigate = useNavigate();
 
   const email = watch("email");
   const password = watch("password");
@@ -56,10 +53,11 @@ function Signin() {
     if (status === 200) {
       setAccessToken(accessToken);
       localStorage.setItem("token", refreshToken);
+
       if (currentPage) {
-        return navigate(`/groups/${currentPage}`);
+        return window.location.replace(`/groups/${currentPage}`);
       } else {
-        return navigate("/main/write");
+        return window.location.replace("/main/write");
       }
     }
   };

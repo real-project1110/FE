@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { queryClient } from "../../../..";
 import { removeGroup } from "../../../../apis/groupApi";
 import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
 import { userAtom } from "../../../../shared/Atoms/userAtoms";
@@ -32,6 +33,7 @@ const HeaderMenu = ({ user, isMain = false }) => {
       e.stopPropagation();
       setHeaderMenu(false);
       removeCookieToken();
+      queryClient.clear();
       navigate("/");
     },
     [setHeaderMenu, navigate]
