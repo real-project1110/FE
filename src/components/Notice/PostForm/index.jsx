@@ -5,7 +5,8 @@ import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
 import { Form, SubmitBtn, PostButton, Posting, Wrapper } from "./styles";
 import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 import { useSetRecoilState } from "recoil";
-import axios from "axios";
+import { useMutation, useQuery } from "react-query";
+import { addPost, readPost } from "../../../apis/postApi";
 
 function PostForm() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);
@@ -44,6 +45,21 @@ function PostForm() {
     // const content = editorRef.current?.getInstance().getHTML();
     console.log(content);
   };
+
+  const { isLoading, isError, data, error, refetch } = useQuery(["posts", 1], () => readPost(1), {
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onSuccess: (data) => {
+      // 데이터 state
+    },
+    onError: (e) => {
+      alert(e.message);
+    },
+  });
+
+  const { mutate: addMutate } = useMutation(addPost, {
+    onSuccess: () => refetch(),
+  });
 
   return (
     <Wrapper onClick={onCloseModal}>
