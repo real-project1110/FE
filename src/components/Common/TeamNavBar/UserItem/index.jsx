@@ -23,12 +23,12 @@ const UserItem = ({ user, isMe = false, status }) => {
         <UserImg>
           <img
             src={`https://avatars.dicebear.com/api/identicon/wooncloud${user.groupUserId}.svg`}
-            alt={user.groupNickname}
+            alt={user.groupUserNickname}
           />
-          {user.isLoggedIn ? <div /> : null}
+          {user?.isLoggedIn ? <div /> : null}
         </UserImg>
         <span>
-          {user.groupNickname}
+          {user.groupUserNickname}
           {isMe && <strong>나</strong>}
         </span>
         <Icon>{getIcon(isMe ? status : user?.status)}</Icon>

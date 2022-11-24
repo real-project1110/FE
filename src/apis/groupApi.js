@@ -51,5 +51,12 @@ export const inviteUsers = async (payload) => {
 /** 초대 목록 가져오기 */
 export const readInvites = async () => {
   const { data } = await instance.get("invites");
+  console.log(data);
   return data.data;
+};
+
+/** 초대 삭제하기 */
+export const removeInvite = async (payload) => {
+  const data = await instance.delete(`invites/${payload}`);
+  return data;
 };

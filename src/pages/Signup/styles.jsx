@@ -1,43 +1,68 @@
 import styled from "styled-components";
+import {
+  FlexAlignBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../shared/Styles/flex";
 
-export const EmailAuthInput = styled.div`
+export const Wrapper = styled.div`
+  ${FlexCenterBox};
+  width: 100%;
+  height: 100vh;
+`;
+
+export const SignUpContainer = styled.div`
+  ${FlexColumnBox};
+  align-items: center;
   width: 500px;
-  margin: auto;
-  padding-top: 5%;
-  text-align: center;
   font-weight: 600;
+  margin-bottom: 10vh;
 `;
 
 export const SignUpLogo = styled.div`
-  padding-top: 16%;
+  ${FlexColumnBox};
+  align-items: center;
+`;
+
+export const JoinForm = styled.form`
+  ${FlexColumnBox};
+  width: 22rem;
+  align-items: center;
+  margin-top: 30px;
+`;
+
+export const InputBox = styled.div`
+  ${FlexColumnBox};
+  width: 100%;
 `;
 
 export const Label = styled.label`
   position: relative;
-  button {
-    position: absolute;
-    right: 3px;
-    width: 97px;
-    height: 33px;
-    margin-top: 3.4px;
-    font-weight: 400;
-    font-size: 0.85rem;
-    font-family: "Pretendard";
-    font-style: normal;
-    border: 1px solid ${(props) => props.theme.color.gray};
-    border-radius: 5px;
-    cursor: pointer;
-  }
+  ${FlexAlignBox};
+`;
+
+export const AuthBtn = styled.button`
+  position: absolute;
+  right: 3px;
+  min-width: 5.5rem;
+  background-color: ${(props) =>
+    props.isValid ? props.theme.color.lightGray : props.theme.color.gray};
+  color: white;
+
+  padding: 0.6rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
 export const Emailinput = styled.input`
-  width: 334px;
-  height: 40px;
-  padding-left: 10px;
-  border: 1px solid ${(props) => props["aria-invalid"]};
+  width: 100%;
+  padding: 0.8rem;
+  border: 1.3px solid ${(props) => props._border};
   border-radius: 5px;
   &:focus {
-    box-shadow: 2px 2px 5px ${(props) => props.theme.color.gray};
+    border: none;
+    box-shadow: 0px 0px 5px ${(props) => props._border};
   }
 `;
 
@@ -45,57 +70,39 @@ export const Title = styled.div`
   margin: auto;
 `;
 
-export const JoinForm = styled.form`
-  margin-top: 30px;
-`;
-
 export const StTitle = styled.div`
   text-align: left;
-  margin-left: 82px;
   margin-top: 10px;
-  padding-bottom: 3px;
+  margin-bottom: 0.5rem;
   font-size: 0.8rem;
 `;
 
 export const Join = styled.button`
-  width: 334px;
+  width: 100%;
   height: 43px;
   margin-top: 10%;
-  background-color: #58c08b;
-  border: none;
+  background-color: ${(props) => props.theme.color.green};
   border-radius: 5px;
   color: #ffffff;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  &:hover {
+    background-color: ${(props) => props.theme.color.hoverGreen};
+  }
 `;
 
 export const NextButton = styled.button`
   width: 334px;
-  height: 43px;
+  padding: 0.7rem;
   margin-top: 10%;
   background-color: ${(props) => props.theme.color.gray};
-  border: none;
   border-radius: 5px;
-  color: #ffffff;
-  font-family: "Pretendard";
-  font-style: normal;
+  color: ${(props) => props.theme.color.white};
   font-weight: 500;
-  font-size: 18px;
+  font-size: 1.1rem;
   cursor: auto;
 `;
 
-export const SuccessNextButton = styled.button`
-  width: 334px;
-  height: 43px;
-  margin-top: 10%;
-  background-color: #58c08b;
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
-  font-family: "Pretendard";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
+export const SuccessNextButton = styled(NextButton)`
+  background-color: ${(props) => props.theme.color.green};
 `;

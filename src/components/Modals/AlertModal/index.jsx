@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { readInvites } from "../../../apis/groupApi";
+import { queryClient } from "../../..";
+import { readInvites, removeInvite } from "../../../apis/groupApi";
 import { addGroupUsers } from "../../../apis/groupUserApi";
 import CancelSvg from "../../../assets/svg/CancelSvg";
 import {
@@ -23,9 +24,11 @@ const AlertModal = ({ setHeaderAlert }) => {
   const { data: invites, isLoading } = useQuery(["alerts"], readInvites);
 
   // 초대 삭제하는 요청
-  // const {mutate:deleteAlertFn} = useMutation(fetcher,{
-  //  onSuccess: () => {queryClient.invalidateQueries(["alerts"])}
-  //})
+  const { mutate: deleteAlertFn } = useMutation(removeInvite, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["alerts"]);
+    },
+  });
   const onCloseModal = useCallback(
     (e) => {
       e.stopPropagation();
@@ -36,23 +39,26 @@ const AlertModal = ({ setHeaderAlert }) => {
 
   // 수락 버튼
   const onClickCall = useCallback(
-    async (num) => {
+    async (groupId, inviteId) => {
+      console.log(groupId, inviteId);
       //e.stopPropagation();
-      const response = await addGroupUsers({ groupId: num });
+      const response = await addGroupUsers({ groupId });
       if (response.status === 201) {
+        deleteAlertFn(inviteId);
         setHeaderAlert(false);
-        navigate(`/groups/${num}`);
+        navigate(`/groups/${groupId}`);
       }
     },
-    [setHeaderAlert, navigate]
+    [setHeaderAlert, navigate, deleteAlertFn]
   );
 
   // 거절 버튼
-  const onClickRefuse = useCallback((num) => {
-    //e.stopPropagation();
-    // deleteAlertFn(num);
-    console.log(num);
-  }, []);
+  const onClickRefuse = useCallback(
+    (num) => {
+      deleteAlertFn(num);
+    },
+    [deleteAlertFn]
+  );
   return (
     <Wrapper onClick={onCloseModal}>
       <SideContainer>
@@ -85,7 +91,9 @@ const AlertModal = ({ setHeaderAlert }) => {
                   <InviteBtns>
                     <InviteBtn
                       isTrue={true}
-                      onClick={() => onClickCall(invite.groupId)}
+                      onClick={() =>
+                        onClickCall(invite.groupId, invite.inviteId)
+                      }
                     >
                       수락
                     </InviteBtn>
