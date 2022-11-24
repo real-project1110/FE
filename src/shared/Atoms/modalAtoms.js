@@ -18,6 +18,7 @@ export const headerAlertAtom = atom({
   default: false,
 });
 
+// post form 여닫기 모달
 export const PostFormModalAtom = atom({
   key: "PostFormModalAtom",
   default: false,

@@ -12,9 +12,52 @@ export const Wrapper = styled.div`
 `;
 
 export const EditorWrapper = styled.div`
-  width: 800px;
+  width: 900px;
   margin: 4% auto 4% auto;
-  z-index: 9999;
+`;
+
+export const Carousel = styled.div`
+  width: 100%;
+  margin: auto;
+  text-align: center;
+`;
+
+export const Editor = styled.form`
+  width: 100%;
+  height: 600px;
+  padding: 1rem 1rem;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+`;
+
+export const PhotoLabel = styled.label`
+  padding: 6px 25px;
+  background-color: ${(props) => props.theme.color.green};
+  border: none;
+  border-radius: 4px;
+  line-height: 30px;
+  color: white;
+  cursor: pointer;
+`;
+
+export const ImgInput = styled.input`
+  display: none;
+`;
+
+export const Preview = styled.div`
+  margin-top: 2%;
+`;
+
+export const PreviewImg = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+`;
+
+export const PreviewBox = styled.div`
+  width: 100%;
+  display: flex;
 `;
 
 export const SubmitBtn = styled.button`
