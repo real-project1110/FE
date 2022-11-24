@@ -1,20 +1,26 @@
 import instance from "../shared/instance";
 
-/** 일정 생성 { id:groupId, body: {title, description, start, end, color} } */
+// /** 일정 조회  (groupId) */
+export const readSchedule = async (payload) => {
+  const { data } = await instance.get(`groups/${payload}/schedules`);
+  return data.data;
+};
+
+/** 일정 생성 { groupId, body: {title, description, start, end, color} } */
 export const addSchedule = async (payload) => {
   console.log(payload);
   const data = await instance.post(
-    `groups/schedules/${payload.id}`,
+    `groups/${payload.groupId}/schedules`,
     payload.body
   );
   return data;
 };
 
-/** 일정 수정 { id:groupId, body:{ title, description, start, end, color  } } */
+/** 일정 수정 { scheduleId,groupId, body:{ title, description, start, end, color  } } */
 export const editSchedule = async (payload) => {
   console.log(payload);
   const data = await instance.put(
-    `groups/schedules/${payload.id}`,
+    `groups/${payload.groupId}/schedules/${payload.scheduleId}`,
     payload.body
   );
   return data;
@@ -24,10 +30,4 @@ export const editSchedule = async (payload) => {
 export const removeSchedule = async (payload) => {
   const data = await instance.delete(`groups/schedules/${payload}`);
   return data;
-};
-
-// /** 일정 조회  (groupId) */
-export const readSchedule = async (payload) => {
-  const { data } = await instance.get(`groups/schedules/${payload}`);
-  return data.data;
 };

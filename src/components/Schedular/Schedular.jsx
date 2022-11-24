@@ -131,8 +131,8 @@ const Schedular = () => {
       start: popupEventDate[0],
       end: popupEventDate[1],
       color: selectedColor,
-      groupId: 1,
-      groupUserId: 1,
+      // groupId: 1,
+      // groupUserId: 1,
     };
 
     if (isEdit) {
@@ -141,22 +141,27 @@ const Schedular = () => {
       newEventList.splice(index, 1, newEvent);
       setMyEvents(newEventList);
       const scheduleId = tempEvent.scheduleId;
-      const { title, description, start, end, color, groupId, groupUserId } =
-        newEvent;
+      const { title, description, start, end, color } = newEvent;
+      // const { title, description, start, end, color, groupId, groupUserId } =
+      //   newEvent;
       const editEvent = {
-        id: scheduleId,
-        body: { title, description, start, end, color, groupId, groupUserId },
+        scheduleId,
+        groupId,
+        body: { title, description, start, end, color },
+        // body: { title, description, start, end, color, groupId, groupUserId },
       };
 
       editMutate(editEvent);
     } else {
       setMyEvents([...myEvents, newEvent]);
       // groupUserId는 나중에 빼기
-      const { title, description, start, end, color, groupId, groupUserId } =
-        newEvent;
+      // const { title, description, start, end, color, groupId, groupUserId } =
+      //   newEvent;
+      const { title, description, start, end, color } = newEvent;
       const addEvent = {
-        id: groupId,
-        body: { title, description, start, end, color, groupUserId },
+        groupId,
+        body: { title, description, start, end, color },
+        //body: { title, description, start, end, color, groupUserId },
       };
       addMutate(addEvent);
     }
@@ -172,6 +177,7 @@ const Schedular = () => {
     selectedColor,
     addMutate,
     editMutate,
+    groupId,
   ]);
 
   const deleteEvent = useCallback(
@@ -272,8 +278,9 @@ const Schedular = () => {
         groupUserId,
       } = args.event;
       const editEvent = {
-        id: scheduleId,
-        body: { title, description, start, end, color, groupId, groupUserId },
+        scheduleId,
+        groupId,
+        body: { title, description, start, end, color },
       };
       editMutate(editEvent);
     },
