@@ -9,11 +9,6 @@ import { existCookie } from "../../utils/existCookie";
 import { useSetRecoilState } from "recoil";
 import { userAtom } from "../../shared/Atoms/userAtoms";
 const Main = () => {
-  const { data: userData } = useQuery(["user"], readUser, {
-    staleTime: 10000,
-    retry: 1,
-  });
-  const setUser = useSetRecoilState(userAtom);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -24,14 +19,9 @@ const Main = () => {
     }
   }, [navigate, pathname]);
 
-  useEffect(() => {
-    if (userData) {
-      setUser(userData);
-    }
-  }, [setUser, userData]);
   return (
     <Wrapper>
-      <HomeHeader />
+      <HomeHeader isMain={true} />
       <Body>
         <SideTeamBar />
         <Outlet />

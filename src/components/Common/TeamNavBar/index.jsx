@@ -1,13 +1,24 @@
 import React from "react";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useParams } from "react-router-dom";
 import CalendarSvg from "../../../assets/svg/CalendarSvg";
 import FolderSvg from "../../../assets/svg/FolderSvg";
 import PostSvg from "../../../assets/svg/PostSvg";
 import { GroupName, GroupNav, GroupNavItem, Wrapper } from "./styles";
 import UserList from "./UserList";
 import Scrollbars from "react-custom-scrollbars-2";
+import { useQuery } from "react-query";
+import { readGroup } from "../../../apis/groupApi";
 
-const TeamNavBar = ({ group }) => {
+const TeamNavBar = () => {
+  const { groupId } = useParams();
+  const { data: group } = useQuery(
+    ["group", groupId],
+    () => readGroup(groupId),
+    {
+      staleTime: 10000,
+      retry: 1,
+    }
+  );
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
   console.log(group);

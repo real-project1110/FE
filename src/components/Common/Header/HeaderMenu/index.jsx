@@ -10,13 +10,14 @@ import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
 import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
 import Menu from "../../../Modals/Menu";
 
-const HeaderMenu = ({ isMain = false }) => {
+const HeaderMenu = ({ user, isMain = false }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
   //const user = useRecoilValue(userAtom);
   //const groupUser = {};
   // const groupUser = useRecoilValue(groupUserAtom);
   //const { mutate: GroupOutFn } = useMutation(removeGroup);
   const navigate = useNavigate();
+
   const onCloseModal = useCallback(
     (e) => {
       e.stopPropagation();
@@ -60,13 +61,15 @@ const HeaderMenu = ({ isMain = false }) => {
       <MenuList onClick={onCloseModal}>
         <UserInfo>
           <img
-            src={"https://avatars.dicebear.com/api/identicon/wooncloud5.svg"}
+            src={`https://avatars.dicebear.com/api/identicon/wooncloud${
+              isMain ? user?.userId : user?.groupUserId
+            }.svg`}
             alt=""
           />
-          <span>문예진(9기)</span>
+          <span>{isMain ? user?.nickname : user?.groupUserNickname}</span>
         </UserInfo>
         <li onClick={onClickShowEditProfile}>프로필 편집</li>
-        <li onClick={onClickGroupout}>항해99팀에서 나가기</li>
+        {!isMain && <li onClick={onClickGroupout}>항해99팀에서 나가기</li>}
         <li onClick={onClickLogout}>로그아웃</li>
       </MenuList>
     </Menu>
