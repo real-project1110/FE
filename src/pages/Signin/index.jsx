@@ -16,8 +16,6 @@ import {
   SocialButtonWrap,
   SignInLogo,
   Wrapper,
-  Label,
-  ErrorMessage,
   BigMent,
   LogoBox,
 } from "./styles";
