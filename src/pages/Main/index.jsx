@@ -11,7 +11,7 @@ import { userAtom } from "../../shared/Atoms/userAtoms";
 const Main = () => {
   const { data: userData } = useQuery(["user"], readUser, {
     staleTime: 10000,
-    retry: 3,
+    retry: 1,
   });
   const setUser = useSetRecoilState(userAtom);
   const navigate = useNavigate();

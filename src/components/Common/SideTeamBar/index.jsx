@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { readGroups } from "../../../apis/groupApi";
@@ -7,11 +7,15 @@ import NavItem from "./NavItem";
 import { GroupList, PlusBtn, Wrapper } from "./styles";
 
 const SideTeamBar = () => {
-  const { data: groupsData } = useQuery(["groupList"], readGroups, {
+  const { data: groupsData, refetch } = useQuery(["groupList"], readGroups, {
     staleTime: 10000,
     retry: 2,
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <Wrapper as="aside">
