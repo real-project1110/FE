@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
-export const Form = styled.form`
+export const EditorWrapper = styled.div`
   width: 800px;
   margin: 4% auto 4% auto;
   z-index: 9999;
