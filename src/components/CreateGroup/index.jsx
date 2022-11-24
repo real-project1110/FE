@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { queryClient } from "../..";
-import { addGroup } from "../../apis/groupApi";
+import { addGroup, inviteUsers } from "../../apis/groupApi";
 
 import {
   Button,
@@ -36,27 +36,28 @@ const CreateGroup = () => {
     },
     onError: (error) => console.log(error),
   });
+
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm();
 
   // 다음 버튼 클릭 시 실행되는 함수
   const onValid = useCallback(
-    (data) => {
+    async (data) => {
       if (step === 1) {
         // 그룹추가하는 요청
         addGroupFn({ groupName: data.groupName });
       } else if (step === 2) {
-        // 초대 요청
         setStep((prev) => prev + 1);
       } else if (step === 3) {
         // 그룹 이미지 수정 요청
         setStep((prev) => prev + 1);
       } else if (step === 4) {
-        navigate(`/group/${groupId}`);
+        navigate(`/groups/${groupId}`);
       }
     },
     [step, navigate, addGroupFn, groupId]
@@ -80,6 +81,31 @@ const CreateGroup = () => {
     setFile(null);
   }, []);
 
+  const clickInvite = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const response = await inviteUsers({
+        id: groupId,
+        body: { email: [watch("email")] },
+      });
+      console.log(response);
+      if (response.status !== 201) return alert("초대 실패");
+      else {
+        setValue("email", "");
+      }
+    },
+    [groupId, watch]
+  );
+
+  const enterInvite = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        return clickInvite(e);
+      }
+    },
+    [clickInvite]
+  );
   return (
     <Wrapper as="main">
       <Step isThree={step >= 3} isFour={step === 4}>
@@ -111,8 +137,9 @@ const CreateGroup = () => {
                 {...register("email", { required: true, minLength: 2 })}
                 type="email"
                 placeholder="예: hanghae99@gmail.com, mklee@naver.com"
+                onKeyDown={enterInvite}
               />
-              <button>초대하기</button>
+              <button onClick={clickInvite}>초대하기</button>
             </Label>
             <Button isValid={watch("email")}>다음</Button>
             <LaterButton onClick={clickLater}>나중에 할래요.</LaterButton>
