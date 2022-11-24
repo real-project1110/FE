@@ -40,12 +40,32 @@ import {
 import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import { useSetRecoilState } from "recoil";
 import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
+import { useMutation, useQuery } from "react-query";
+import { editPost, readPost, removePost } from "../../../apis/postApi";
 
 function Posts() {
   const [openModal, setOpenModal] = useState(false);
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [CommentOpen, setCommentOpen] = useState(false);
   const setIsForm = useSetRecoilState(PostFormModalAtom);
+  const { isLoading, isError, data, error, refetch } = useQuery(["posts", 1], () => readPost(1), {
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onSuccess: (data) => {
+      // 데이터 state
+    },
+    onError: (e) => {
+      alert(e.message);
+    },
+  });
+
+  const { mutate: editMutate } = useMutation(editPost, {
+    onSuccess: () => refetch(),
+  });
+
+  const { mutate: removeMutate } = useMutation(removePost, {
+    onSuccess: () => refetch(),
+  });
 
   // 게시글 모달 이벤트
   const modalOpen = (e) => {
