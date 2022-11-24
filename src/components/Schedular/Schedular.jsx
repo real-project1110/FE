@@ -1,13 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import { Eventcalendar, snackbar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
+import {
+  Eventcalendar,
+  snackbar,
+  setOptions,
+  Popup,
+  Button,
+  Input,
+  Textarea,
+  Datepicker,
+} from "@mobiscroll/react";
 
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 import axios from "axios";
 import { useMutation, useQuery } from "react-query";
-import { addSchedule, editSchedule, readSchedule, removeSchedule } from "../../apis/scheduleApi";
+import {
+  addSchedule,
+  editSchedule,
+  readSchedule,
+  removeSchedule,
+} from "../../apis/scheduleApi";
+import { useParams } from "react-router-dom";
 
 setOptions({
   theme: "ios",
@@ -36,7 +51,18 @@ const colorPopup = {
     buttons: [],
   },
 };
-const colors = ["#ffeb3c", "#ff9900", "#f44437", "#ea1e63", "#9c26b0", "#3f51b5", "", "#009788", "#4baf4f", "#7e5d4e"];
+const colors = [
+  "#ffeb3c",
+  "#ff9900",
+  "#f44437",
+  "#ea1e63",
+  "#9c26b0",
+  "#3f51b5",
+  "",
+  "#009788",
+  "#4baf4f",
+  "#7e5d4e",
+];
 
 const Schedular = () => {
   const [myEvents, setMyEvents] = useState(defaultEvents || []);
@@ -55,17 +81,22 @@ const Schedular = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [tempColor, setTempColor] = useState("");
   const colorPicker = useRef();
+  const { groupId } = useParams();
 
-  const { isLoading, isError, data, error, refetch } = useQuery(["schedules", 1], () => readSchedule(1), {
-    refetchOnWindowFocus: false,
-    retry: 1,
-    onSuccess: (data) => {
-      setMyEvents(data);
-    },
-    onError: (e) => {
-      alert(e.message);
-    },
-  });
+  const { isLoading, isError, data, error, refetch } = useQuery(
+    ["schedules", groupId],
+    () => readSchedule(groupId),
+    {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      onSuccess: (data) => {
+        setMyEvents(data);
+      },
+      onError: (e) => {
+        alert(e.message);
+      },
+    }
+  );
   const { mutate: addMutate } = useMutation(addSchedule, {
     onSuccess: () => refetch(),
   });
@@ -110,19 +141,38 @@ const Schedular = () => {
       newEventList.splice(index, 1, newEvent);
       setMyEvents(newEventList);
       const scheduleId = tempEvent.scheduleId;
-      const { title, description, start, end, color, groupId, groupUserId } = newEvent;
-      const editEvent = { id: scheduleId, body: { title, description, start, end, color, groupId, groupUserId } };
+      const { title, description, start, end, color, groupId, groupUserId } =
+        newEvent;
+      const editEvent = {
+        id: scheduleId,
+        body: { title, description, start, end, color, groupId, groupUserId },
+      };
+
       editMutate(editEvent);
     } else {
       setMyEvents([...myEvents, newEvent]);
       // groupUserId는 나중에 빼기
-      const { title, description, start, end, color, groupId, groupUserId } = newEvent;
-      const addEvent = { id: groupId, body: { title, description, start, end, color, groupUserId } };
+      const { title, description, start, end, color, groupId, groupUserId } =
+        newEvent;
+      const addEvent = {
+        id: groupId,
+        body: { title, description, start, end, color, groupUserId },
+      };
       addMutate(addEvent);
     }
     setSelectedDate(popupEventDate[0]);
     setOpen(false);
-  }, [isEdit, myEvents, popupEventDate, popupEventDescription, popupEventTitle, tempEvent, selectedColor, addMutate, editMutate]);
+  }, [
+    isEdit,
+    myEvents,
+    popupEventDate,
+    popupEventDescription,
+    popupEventTitle,
+    tempEvent,
+    selectedColor,
+    addMutate,
+    editMutate,
+  ]);
 
   const deleteEvent = useCallback(
     (event) => {
@@ -211,15 +261,30 @@ const Schedular = () => {
   const onEventUpdated = useCallback(
     (args) => {
       // 드래그앤 드롭, 리사이징 수정부분 api 요청
-      const { scheduleId, title, description, start, end, color, groupId, groupUserId } = args.event;
-      const editEvent = { id: scheduleId, body: { title, description, start, end, color, groupId, groupUserId } };
+      const {
+        scheduleId,
+        title,
+        description,
+        start,
+        end,
+        color,
+        groupId,
+        groupUserId,
+      } = args.event;
+      const editEvent = {
+        id: scheduleId,
+        body: { title, description, start, end, color, groupId, groupUserId },
+      };
       editMutate(editEvent);
     },
     [editMutate]
   );
 
   // popup options
-  const headerText = useMemo(() => (isEdit ? "Edit event" : "New Event"), [isEdit]);
+  const headerText = useMemo(
+    () => (isEdit ? "Edit event" : "New Event"),
+    [isEdit]
+  );
   const popupButtons = useMemo(() => {
     if (isEdit) {
       return [
@@ -311,19 +376,39 @@ const Schedular = () => {
       >
         <div className="mbsc-form-group">
           <Input label="Title" value={popupEventTitle} onChange={titleChange} />
-          <Textarea label="Description" value={popupEventDescription} onChange={descriptionChange} />
+          <Textarea
+            label="Description"
+            value={popupEventDescription}
+            onChange={descriptionChange}
+          />
         </div>
         <div className="mbsc-form-group">
           <Input ref={startRef} label="Starts" />
           <Input ref={endRef} label="Ends" />
-          <Datepicker select="range" touchUi={true} startInput={start} endInput={end} showRangeLabels={false} onChange={dateChange} value={popupEventDate} />
+          <Datepicker
+            select="range"
+            touchUi={true}
+            startInput={start}
+            endInput={end}
+            showRangeLabels={false}
+            onChange={dateChange}
+            value={popupEventDate}
+          />
           <div onClick={openColorPicker} className="event-color-c">
             <div className="event-color-label">Color</div>
-            <div className="event-color" style={{ background: selectedColor }}></div>
+            <div
+              className="event-color"
+              style={{ background: selectedColor }}
+            ></div>
           </div>
           {isEdit ? (
             <div className="mbsc-button-group">
-              <Button className="mbsc-button-block" color="danger" variant="outline" onClick={onDeleteClick}>
+              <Button
+                className="mbsc-button-block"
+                color="danger"
+                variant="outline"
+                onClick={onDeleteClick}
+              >
                 일정 삭제하기
               </Button>
             </div>
@@ -345,8 +430,18 @@ const Schedular = () => {
           {colors.map((color, index) => {
             if (index < 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;
@@ -356,8 +451,18 @@ const Schedular = () => {
           {colors.map((color, index) => {
             if (index >= 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;
