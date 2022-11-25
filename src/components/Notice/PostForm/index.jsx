@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
@@ -33,7 +33,7 @@ function PostForm() {
   });
   const [isHover, setIsHover] = useState(0);
   const [showImages, setShowImages] = useState([]);
-  const [Image, setImage] = useState(null);
+  const [Image, setImage] = useState([]);
   const [textValue, setTextValue] = useState();
 
   console.log("IMAGE", Image);
@@ -73,22 +73,28 @@ function PostForm() {
 
   // input에 들어간 img state 저장
   const onLoadImg = (e) => {
-    setImage(e.target.files);
+    // const dataTransfer = new DataTransfer();
+    // Array.from(e.target.files).forEach((file) => dataTransfer.items.add(file));
+    setImage((prev) => [...prev, ...Array.from(e.target.files)]);
+    // setImage(dataTransfer.files);
   };
 
   const Submit = (e) => {
     e.preventDefault();
-    console.log(Image);
+    const formData = new FormData();
+    for (let i = 0; i < Image.length; i++) {
+      formData.append("image", Image[i]);
+    }
+    formData.append("content", textValue);
     const postData = {
       groupId,
-      body: {
-        content: textValue,
-        image: Image,
-      },
+      body:
+        // content: textValue,
+        // image: Image,
+        formData,
     };
     addMutate(postData);
   };
-
   return (
     <Wrapper onClick={onCloseModal}>
       <EditorWrapper onClick={(e) => e.stopPropagation()}>

@@ -113,11 +113,17 @@ export const MenuList = styled.ul`
 export const PostContent = styled.div`
   width: 100%;
   height: auto;
-  margin-top: 1.5%;
+  margin: 1.5% auto auto auto;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.3px;
   line-height: 1.4;
+`;
+
+export const Content = styled.div``;
+
+export const ImageWrap = styled.div`
+  height: 200px;
 `;
 
 export const PostResponse = styled.div`

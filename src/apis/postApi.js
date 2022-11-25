@@ -2,13 +2,15 @@ import instance, { postApi } from "../shared/instance";
 
 /** 게시글 생성 { id, body:{ content,postImg,category } } */
 export const addPost = async (payload) => {
-  const { data } = await postApi.post(`groups/${payload.groupId}/posts`, payload.body);
+  const { data } = await postApi.post(
+    `groups/${payload.groupId}/posts`,
+    payload.body
+  );
   return data;
 };
 
 /** 자유 게시글 전체 조회 { id,category } */
 export const readFreePosts = async (payload) => {
-  console.log("pay", payload);
   const { data } = await instance.get(`groups/${payload}/posts?category=0`);
   return data;
 };
