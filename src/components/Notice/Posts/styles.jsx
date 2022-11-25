@@ -4,15 +4,24 @@ export const PostHeader = styled.div`
   width: 100%;
   height: 46px;
   margin: auto;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #e7e7e7;
 `;
 
+export const AllFreePost = styled.div`
+  height: 100%;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+`;
+
 export const WritePost = styled.div`
   width: 50%;
   display: flex;
-  padding-left: 1%;
 `;
 
 export const Post = styled.div`
@@ -28,7 +37,6 @@ export const Post = styled.div`
 `;
 
 export const New = styled.div`
-  padding-right: 2%;
   cursor: pointer;
   line-height: 44px;
 `;
@@ -46,10 +54,9 @@ export const NewestComment = styled.span`
 `;
 
 export const FreePost = styled.div`
-  width: 90%;
+  width: 100%;
   height: auto;
-  margin: 3% auto auto auto;
-  padding: 10px 1rem;
+  padding: 1.3rem 2rem;
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -77,24 +84,24 @@ export const UserImg = styled.div`
 `;
 
 export const Nickname = styled.div`
-  margin-left: 5px;
+  margin-left: 0.6rem;
   line-height: 37px;
   letter-spacing: -0.3px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
 `;
 
 export const LoadTime = styled.div`
-  margin-left: 5px;
+  margin-left: 0.4rem;
   line-height: 37px;
   letter-spacing: -0.3px;
   font-size: 12px;
   font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
 `;
 
 export const PostOption = styled.div`
   line-height: 40px;
-  padding-right: 10px;
   position: relative;
   cursor: pointer;
 `;
@@ -113,11 +120,35 @@ export const MenuList = styled.ul`
 export const PostContent = styled.div`
   width: 100%;
   height: auto;
-  margin-top: 1.5%;
+  margin: 1.5% auto auto auto;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.3px;
   line-height: 1.4;
+`;
+
+export const FakeImg = styled.div`
+  width: 36px;
+  height: 36px;
+  background-color: ${(props) => props.theme.color.extraLightGray};
+  border-radius: 50%;
+`;
+
+export const Content = styled.div``;
+
+export const ImageWrap = styled.div`
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  & > img {
+    width: 70px;
+    height: 70px;
+    margin-right: 0.8rem;
+    border-radius: 8px;
+  }
+`;
+
+export const PostImgWrap = styled.div`
+  display: flex;
 `;
 
 export const PostResponse = styled.div`
@@ -132,10 +163,9 @@ export const PostComment = styled.div`
 `;
 
 export const FreeComment = styled.div`
-  width: 90%;
+  width: 100%;
   height: auto;
-  margin: auto;
-  padding: 10px 1rem;
+  padding: 1.3rem 2rem;
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
   background-color: ${(props) => props.theme.color.extraLightGray};
 `;
@@ -161,7 +191,7 @@ export const CommentMenu = styled.div`
 export const CommentContent = styled.div`
   width: 100%;
   height: auto;
-  margin: 1.5% auto auto auto;
+  margin-top: 0.8rem;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.3px;
@@ -190,7 +220,7 @@ export const PostLikeCount = styled.span`
 `;
 
 export const FreePostComment = styled.form`
-  width: 90%;
+  width: 100%;
   height: auto;
   margin: 0 auto 3% auto;
   padding: 1rem 1rem;
@@ -223,7 +253,7 @@ export const CommentInput = styled.input`
 `;
 
 export const CommentSubmitBtn = styled.button`
-  width: 15%;
+  width: 20%;
   height: 28px;
   display: flex;
   vertical-align: middle;

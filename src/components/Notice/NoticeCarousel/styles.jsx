@@ -18,20 +18,26 @@ export const Title = styled.p`
 
 export const NoticeTitle = styled.div`
   height: 46px;
-  padding-left: 2%;
   border-bottom: 1px solid #e7e7e7;
   font-family: "Pretendard";
-  font-weight: 400;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 1rem;
   letter-spacing: -5.5%;
   line-height: 46px;
 `;
 
+export const Notice = styled(NoticeTitle)`
+  padding: 0 5%;
+`;
+
 export const AllPost = styled.div`
+  width: 100%;
   height: 100%;
+  padding: 0.7rem 0;
   & > div {
     display: flex;
     flex-direction: column;
+    width: 100%;
     height: 100%;
   }
 `;
@@ -46,12 +52,14 @@ export const PostImg = styled.img`
 export const Post = styled.div`
   width: 90%;
   height: 127px;
-  margin: 3% auto 3% auto;
+  margin: 0 auto;
+  margin-bottom: 1.3rem;
   padding: 10px 10px 10px 10px;
   display: flex;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 8px;
+  z-index: 80;
 `;
 
 export const ContentBox = styled.div`

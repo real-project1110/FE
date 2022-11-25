@@ -6,6 +6,7 @@ export const addComment = async (payload) => {
     `groups/posts/${payload.id}/comments`,
     payload.body
   );
+  return data;
 };
 
 /** 해당 게시글에 대한 댓글 전체 조회 ( id ) */
