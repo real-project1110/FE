@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Scrollbars from "react-custom-scrollbars-2";
@@ -47,6 +46,9 @@ import {
   Post,
   ImageWrap,
   Content,
+  FakeImg,
+  PostImgWrap,
+  AllFreePost,
 } from "./styles";
 import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import { useSetRecoilState } from "recoil";
@@ -54,6 +56,7 @@ import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 import { useMutation, useQuery } from "react-query";
 import { editPost, readFreePosts, removePost } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
+import { handleImgError } from "../../../utils/handleImgError";
 
 function Posts() {
   const [openModal, setOpenModal] = useState(false);
@@ -135,14 +138,22 @@ function Posts() {
           <NewestComment>최근댓글순</NewestComment>
         </New>
       </PostHeader>
-      <AllPost>
+      <AllFreePost>
         <Scrollbars autoHide>
           {data?.data?.map((post) => (
-            <FreePost>
+            <FreePost key={post.postId}>
               <PostMenu>
                 <PostUserInfo>
                   <UserImg>
-                    <img src={post.groupAvatarImg} alt="profile" />
+                    {post.groupAvatarImg ? (
+                      <img
+                        src={post.groupAvatarImg}
+                        alt="profile"
+                        onError={handleImgError}
+                      />
+                    ) : (
+                      <FakeImg />
+                    )}
                   </UserImg>
                   <Nickname>{post.groupUserNickname}</Nickname>
                   <LoadTime>1분전</LoadTime>
@@ -150,7 +161,7 @@ function Posts() {
                 {/* 본인게시글만 보이게 */}
                 <PostOption onClick={modalOpen}>
                   {openModal ? (
-                    <MenuBox right={"1rem"} top={"1.5rem"}>
+                    <MenuBox right={"0.2rem"} top={"1rem"}>
                       <MenuList>
                         <li>글 수정</li>
                         <li>공지로 등록</li>
@@ -163,18 +174,17 @@ function Posts() {
                 </PostOption>
               </PostMenu>
               <PostContent>
-                {/* {data?.postImg?.map((Image) => (
-                  <Slider {...settings} dotsClass="dot">
-                    <ImageWrap>
-                      <img src={Image} alt="postImg" />
+                <PostImgWrap>
+                  {post?.postImg?.map((Image) => (
+                    <ImageWrap key={Image.postImg}>
+                      <img
+                        src={Image.postImg}
+                        alt="postImg"
+                        onError={handleImgError}
+                      />
                     </ImageWrap>
-                  </Slider>
-                ))} */}
-                <Slider {...settings} dotsClass="dot">
-                  <ImageWrap>
-                    <img src={Image} alt="postImg" />
-                  </ImageWrap>
-                </Slider>
+                  ))}
+                </PostImgWrap>
                 <Content>{post.content}</Content>
               </PostContent>
               <PostResponse>
@@ -199,6 +209,7 @@ function Posts() {
                       <img
                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWgoKAG03+7AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
                         alt="profile"
+                        onError={handleImgError}
                       />
                     </UserImg>
                     <Nickname>닉네임</Nickname>
@@ -248,7 +259,7 @@ function Posts() {
             </>
           ) : null}
         </Scrollbars>
-      </AllPost>
+      </AllFreePost>
     </Wrapper>
   );
 }
