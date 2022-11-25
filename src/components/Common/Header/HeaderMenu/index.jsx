@@ -1,23 +1,29 @@
 import React, { useCallback } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { queryClient } from "../../../..";
-import { removeGroup } from "../../../../apis/groupApi";
-import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
-import { userAtom } from "../../../../shared/Atoms/userAtoms";
+import { outGroup } from "../../../../apis/groupApi";
+import {
+  editProfileModalAtom,
+  headerMenuAtom,
+} from "../../../../shared/Atoms/modalAtoms";
 import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
-import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
+import { handleImgError } from "../../../../utils/handleImgError";
 import Menu from "../../../Modals/Menu";
+import { FakeImg, MenuList, UserInfo } from "./styles";
 
 const HeaderMenu = ({ user, isMain = false }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
-  //const user = useRecoilValue(userAtom);
-  //const groupUser = {};
-  // const groupUser = useRecoilValue(groupUserAtom);
-  //const { mutate: GroupOutFn } = useMutation(removeGroup);
+  const setEditProfile = useSetRecoilState(editProfileModalAtom);
   const navigate = useNavigate();
+  const { groupId } = useParams();
+  const { mutate: groupOutFn } = useMutation(outGroup, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["groupList"]);
+      navigate("/main");
+    },
+  });
 
   const onCloseModal = useCallback(
     (e) => {
@@ -43,31 +49,45 @@ const HeaderMenu = ({ user, isMain = false }) => {
   const onClickGroupout = useCallback(
     async (e) => {
       e.stopPropagation();
-      // mutate(groupId);
+      groupOutFn(groupId);
       setHeaderMenu(false);
     },
-    [setHeaderMenu]
+    [setHeaderMenu, groupOutFn, groupId]
   );
 
   // editProfile 모달을 보여주는 함수
   const onClickShowEditProfile = useCallback(
-    (e) => {
+    async (e) => {
       e.stopPropagation();
+      // if (isMain) {
+      //   const response = await editNickname({ nickname: "한세준(F반)" });
+      //   console.log(response);
+      // } else {
+      //   const response = await editGroupUserNickname({
+      //     groupId,
+      //     body: { groupUserNickname: "라면" },
+      //   });
+      //   console.log(response);
+      // }
+      setEditProfile(true);
       setHeaderMenu(false);
     },
-    [setHeaderMenu]
+    [] //[setHeaderMenu]
   );
-
   return (
     <Menu onCloseModal={onCloseModal} right={"4rem"} top={"60px"}>
       <MenuList onClick={onCloseModal}>
         <UserInfo>
-          <img
-            src={`https://avatars.dicebear.com/api/identicon/wooncloud${
-              isMain ? user?.userId : user?.groupUserId
-            }.svg`}
-            alt=""
-          />
+          {user && (user.avatarImg || user.groupAvatarImg) ? (
+            <img
+              src={isMain ? user?.avatarImg : user?.groupAvatarImg}
+              alt={isMain ? user?.nickname : user?.groupUserNickname}
+              onError={handleImgError}
+            />
+          ) : (
+            <FakeImg />
+          )}
+
           <span>{isMain ? user?.nickname : user?.groupUserNickname}</span>
         </UserInfo>
         <li onClick={onClickShowEditProfile}>프로필 편집</li>
@@ -79,30 +99,3 @@ const HeaderMenu = ({ user, isMain = false }) => {
 };
 
 export default HeaderMenu;
-
-export const MenuList = styled.ul`
-  ${FlexColumnBox};
-  min-width: 200px;
-  & > li {
-    width: 100%;
-    padding: 1rem;
-    border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
-    &:not(:first-child) {
-      &:hover {
-        background-color: ${(props) => props.theme.color.extraLightGray};
-      }
-    }
-  }
-`;
-export const UserInfo = styled.li`
-  ${FlexAlignBox};
-  width: 100%;
-  img {
-    width: 1.6rem;
-    height: 1.6rem;
-    margin-right: 0.7rem;
-  }
-  span {
-    width: 100%;
-  }
-`;

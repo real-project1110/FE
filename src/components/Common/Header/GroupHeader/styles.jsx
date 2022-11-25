@@ -46,6 +46,14 @@ export const RightNav = styled.ul`
   }
 `;
 
+export const FakeImg = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: ${(props) => props.theme.color.extraLightGray};
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
 export const SearchForm = styled.form`
   ${FlexAlignBox};
   position: relative;
