@@ -29,7 +29,12 @@ export const readGroups = async () => {
   return data.data;
 };
 
-/** 그룹 나가기(삭제?)  ( id ) */
+export const outGroup = async (payload) => {
+  const data = await instance.delete(`groups/${payload}/groupUser`);
+  return data;
+};
+
+/** 그룹 (삭제?)  ( id ) */
 export const removeGroup = async (payload) => {
   const data = await instance.delete(`groups/${payload}`);
   return data;

@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { queryClient } from "../../../..";
-import { removeGroup } from "../../../../apis/groupApi";
+import { outGroup } from "../../../../apis/groupApi";
 import {
   editProfileModalAtom,
   headerMenuAtom,
@@ -16,14 +16,14 @@ import { FakeImg, MenuList, UserInfo } from "./styles";
 const HeaderMenu = ({ user, isMain = false }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
   const setEditProfile = useSetRecoilState(editProfileModalAtom);
-
-  const { mutate: GroupOutFn } = useMutation(removeGroup, {
+  const navigate = useNavigate();
+  const { groupId } = useParams();
+  const { mutate: groupOutFn } = useMutation(outGroup, {
     onSuccess: () => {
       queryClient.invalidateQueries(["groupList"]);
+      navigate("/main");
     },
   });
-
-  const navigate = useNavigate();
 
   const onCloseModal = useCallback(
     (e) => {
@@ -49,10 +49,10 @@ const HeaderMenu = ({ user, isMain = false }) => {
   const onClickGroupout = useCallback(
     async (e) => {
       e.stopPropagation();
-      // mutate(groupId);
+      groupOutFn(groupId);
       setHeaderMenu(false);
     },
-    [setHeaderMenu]
+    [setHeaderMenu, groupOutFn, groupId]
   );
 
   // editProfile 모달을 보여주는 함수
