@@ -78,9 +78,9 @@ const HeaderMenu = ({ user, isMain = false }) => {
     <Menu onCloseModal={onCloseModal} right={"4rem"} top={"60px"}>
       <MenuList onClick={onCloseModal}>
         <UserInfo>
-          {user && (user.avatarImg || user.groupUserAvatarImg) ? (
+          {user && (user.avatarImg || user.groupAvatarImg) ? (
             <img
-              src={isMain ? user?.avatarImg : user?.groupUserAvatarImg}
+              src={isMain ? user?.avatarImg : user?.groupAvatarImg}
               alt={isMain ? user?.nickname : user?.groupUserNickname}
               onError={handleImgError}
             />
