@@ -15,7 +15,14 @@ import { existCookie } from "../../../../utils/existCookie";
 import AlertModal from "../../../Modals/AlertModal";
 import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
-import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
+import {
+  RightNav,
+  Nav,
+  SearchForm,
+  Wrapper,
+  SearchInput,
+  FakeImg,
+} from "./styles";
 
 const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
@@ -60,10 +67,15 @@ const GroupHeader = () => {
             <BellSvg />
           </li>
           <li onClick={() => setHeaderMenu(true)}>
-            <img
-              src={`https://avatars.dicebear.com/api/identicon/wooncloud${groupUser?.groupUserId}.svg`}
-              alt=""
-            />
+            {groupUser && groupUser.groupUserAvatarImg ? (
+              <img
+                src={groupUser.groupUserAvatarImg}
+                alt={groupUser.groupUserNickname}
+              />
+            ) : (
+              <FakeImg />
+            )}
+
             {headerMenu && <HeaderMenu user={groupUser} />}
           </li>
         </RightNav>

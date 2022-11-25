@@ -30,14 +30,22 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
     watch,
     setValue,
   } = useForm();
+
   const { mutate: editGroupUserNicknameFn } = useMutation(
     editGroupUserNickname,
     {
-      onSuccess: () => queryClient.invalidateQueries(["groupUser", groupId]),
+      onSuccess: () => {
+        alert("닉네임이 변경되었습니다.");
+        queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
+      },
     }
   );
+
   const { mutate: editNicknameFn } = useMutation(editNickname, {
-    onSuccess: () => queryClient.invalidateQueries(["user"]),
+    onSuccess: () => {
+      alert("닉네임이 변경되었습니다.");
+      queryClient.invalidateQueries(["user"]);
+    },
   });
 
   // 모달 창을 닫는 함수
@@ -67,6 +75,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 패스워드 수정 요청 함수
   const onPass = () => {};
 
+  // 마운트 되었을 때 nickname과 avatar를 넣어주는 작업
   useEffect(() => {
     if (isMain && user) {
       setValue("nickname", user.nickname);
@@ -98,7 +107,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
             {imgPreview ? <img src={imgPreview} alt="" /> : <div />}
             <label>
               <CameraSvg />
-              <input type="file" accept="*/images" onChange={onEditProfile} />
+              <input type="file" accept="image/*" onChange={onEditProfile} />
             </label>
           </ImgContainer>
           <Switch>
@@ -118,7 +127,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
                     required: "변경할 닉네임을 10자 이내로 입력해주세요.",
                   })}
                   type="text"
-                  maxLength="10"
+                  maxLength="15"
                 />
                 {watch("nickname") === "" ? (
                   <button style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
