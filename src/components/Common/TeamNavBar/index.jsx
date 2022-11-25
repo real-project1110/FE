@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useMatch, useParams } from "react-router-dom";
+import { Link, useMatch, useNavigate, useParams } from "react-router-dom";
 import CalendarSvg from "../../../assets/svg/CalendarSvg";
 import FolderSvg from "../../../assets/svg/FolderSvg";
 import PostSvg from "../../../assets/svg/PostSvg";
@@ -11,16 +11,19 @@ import { readGroup } from "../../../apis/groupApi";
 
 const TeamNavBar = () => {
   const { groupId } = useParams();
-  const { data: group } = useQuery(
+  const { data: group, isError } = useQuery(
     ["group", groupId],
     () => readGroup(groupId),
     {
       staleTime: 10000,
-      retry: 1,
+      retry: 0,
     }
   );
+  const navigate = useNavigate();
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
+
+  if (isError) return navigate(-1);
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>

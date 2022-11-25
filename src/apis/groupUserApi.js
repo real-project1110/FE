@@ -12,6 +12,7 @@ export const editGroupUserNickname = async (payload) => {
 
 /** 그룹내 나의 프로필 이미지 수정 { groupId,body:{ groupAvatarImg } } */
 export const editGroupUserAvatar = async (payload) => {
+  console.log(payload);
   const data = await postApi.put(
     `groups/${payload.groupId}/groupAvatarImg`,
     payload.body

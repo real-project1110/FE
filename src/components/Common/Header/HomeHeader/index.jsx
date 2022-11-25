@@ -13,6 +13,7 @@ import {
 } from "../../../../shared/Atoms/modalAtoms";
 import { decodeUser } from "../../../../utils/decodeUser";
 import { existCookie } from "../../../../utils/existCookie";
+import { handleImgError } from "../../../../utils/handleImgError";
 import AlertModal from "../../../Modals/AlertModal";
 import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
@@ -64,7 +65,11 @@ const HomeHeader = () => {
           </li>
           <li onClick={() => setHeaderMenu(true)}>
             {user && user.avatarImg ? (
-              <img src={user.avatarImg} alt={user.nickname} />
+              <img
+                src={user.avatarImg}
+                alt={user.nickname}
+                onError={handleImgError}
+              />
             ) : (
               <FakeImg />
             )}

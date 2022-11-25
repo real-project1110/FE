@@ -12,6 +12,7 @@ import {
   headerMenuAtom,
 } from "../../../../shared/Atoms/modalAtoms";
 import { existCookie } from "../../../../utils/existCookie";
+import { handleImgError } from "../../../../utils/handleImgError";
 import AlertModal from "../../../Modals/AlertModal";
 import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
@@ -67,10 +68,11 @@ const GroupHeader = () => {
             <BellSvg />
           </li>
           <li onClick={() => setHeaderMenu(true)}>
-            {groupUser && groupUser.groupUserAvatarImg ? (
+            {groupUser && groupUser.groupAvatarImg ? (
               <img
-                src={groupUser.groupUserAvatarImg}
+                src={groupUser.groupAvatarImg}
                 alt={groupUser.groupUserNickname}
+                onError={handleImgError}
               />
             ) : (
               <FakeImg />

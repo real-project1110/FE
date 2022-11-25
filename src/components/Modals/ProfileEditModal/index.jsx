@@ -4,8 +4,11 @@ import { useMutation } from "react-query";
 import { queryClient } from "../../..";
 import CameraSvg from "../../../assets/svg/CameraSvg";
 import CancelSvg from "../../../assets/svg/CancelSvg";
-import { editGroupUserNickname } from "../../../apis/groupUserApi";
-import { editNickname } from "../../../apis/userApi";
+import {
+  editGroupUserAvatar,
+  editGroupUserNickname,
+} from "../../../apis/groupUserApi";
+import { editAvatar, editNickname } from "../../../apis/userApi";
 import {
   ImgContainer,
   PasswordBtn,
@@ -19,6 +22,7 @@ import {
   UserInfoForm,
   Wrapper,
 } from "./styles";
+import { handleImgError } from "../../../utils/handleImgError";
 
 const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   const [change, setChange] = useState(true);
@@ -31,6 +35,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
     setValue,
   } = useForm();
 
+  // 그룹 유저 닉네임 수정 mutation
   const { mutate: editGroupUserNicknameFn } = useMutation(
     editGroupUserNickname,
     {
@@ -41,10 +46,27 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
     }
   );
 
+  // 유저 닉네임 수정 mutation
   const { mutate: editNicknameFn } = useMutation(editNickname, {
     onSuccess: () => {
       alert("닉네임이 변경되었습니다.");
       queryClient.invalidateQueries(["user"]);
+    },
+  });
+
+  // 유저 이미지 수정 mutation
+  const { mutate: editUserAvatarFn } = useMutation(editAvatar, {
+    onSuccess: () => {
+      alert("프로필이 변경되었습니다.");
+      queryClient.invalidateQueries(["user"]);
+    },
+  });
+
+  // 그룹 유저 이미지 수정 mutation
+  const { mutate: editGroupUserAvatarFn } = useMutation(editGroupUserAvatar, {
+    onSuccess: () => {
+      alert("닉네임이 변경되었습니다.");
+      queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
     },
   });
 
@@ -76,22 +98,31 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   const onPass = () => {};
 
   // 마운트 되었을 때 nickname과 avatar를 넣어주는 작업
+
+  // 이미지가 수정되었을 때 서버에 프로필 수정 요청을 보내는 함수
+  const onEditProfile = async (e) => {
+    const fileBlob = URL.createObjectURL(e.target.files[0]);
+    if (isMain) {
+      editUserAvatarFn({ image: e.target.files[0] });
+    } else {
+      // const formData = new FormData();
+      //formData.append("image", e.target.files[0]);
+      editGroupUserAvatarFn({ groupId, body: { image: e.target.files[0] } });
+      //editGroupUserAvatarFn({ groupId, body: formData });
+    }
+    setImgPreview(fileBlob);
+    //editAvatarFn({ profileImage: e.target.files[0] });
+  };
+
   useEffect(() => {
     if (isMain && user) {
       setValue("nickname", user.nickname);
       setImgPreview(user.avatarImg);
     } else if (!isMain && user) {
       setValue("nickname", user.groupUserNickname);
-      setImgPreview(user.groupUserAvatarImg);
+      setImgPreview(user.groupAvatarImg);
     }
   }, [user, setValue, isMain]);
-
-  // 이미지가 수정되었을 때 서버에 프로필 수정 요청을 보내는 함수
-  const onEditProfile = async (e) => {
-    const fileBlob = URL.createObjectURL(e.target.files[0]);
-    //editAvatarFn({ profileImage: e.target.files[0] });
-    setImgPreview(fileBlob);
-  };
 
   return (
     <Wrapper onClick={onCloseModal}>
@@ -104,7 +135,11 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
         </TitleBox>
         <ProfileContainer>
           <ImgContainer>
-            {imgPreview ? <img src={imgPreview} alt="" /> : <div />}
+            {imgPreview ? (
+              <img src={imgPreview} alt="" onError={handleImgError} />
+            ) : (
+              <div />
+            )}
             <label>
               <CameraSvg />
               <input type="file" accept="image/*" onChange={onEditProfile} />

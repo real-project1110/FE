@@ -9,6 +9,7 @@ import {
   headerMenuAtom,
 } from "../../../../shared/Atoms/modalAtoms";
 import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
+import { handleImgError } from "../../../../utils/handleImgError";
 import Menu from "../../../Modals/Menu";
 import { FakeImg, MenuList, UserInfo } from "./styles";
 
@@ -73,7 +74,6 @@ const HeaderMenu = ({ user, isMain = false }) => {
     },
     [] //[setHeaderMenu]
   );
-
   return (
     <Menu onCloseModal={onCloseModal} right={"4rem"} top={"60px"}>
       <MenuList onClick={onCloseModal}>
@@ -82,6 +82,7 @@ const HeaderMenu = ({ user, isMain = false }) => {
             <img
               src={isMain ? user?.avatarImg : user?.groupUserAvatarImg}
               alt={isMain ? user?.nickname : user?.groupUserNickname}
+              onError={handleImgError}
             />
           ) : (
             <FakeImg />
