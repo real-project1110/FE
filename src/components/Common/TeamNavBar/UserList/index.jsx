@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { queryClient } from "../../../..";
 import {
   editGroupUserState,
   readGroupUser,
@@ -31,6 +32,12 @@ const UserList = () => {
     { retry: 2 }
   );
 
+  const { mutate: editStatusFn } = useMutation(editGroupUserState, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["groupUser", groupId]);
+    },
+  });
+
   const changeStatus = useCallback(
     async (num) => {
       if (status > 0) {
@@ -38,11 +45,11 @@ const UserList = () => {
           id: groupId,
           body: { status: 0, statusMessage: null },
         };
-        await editGroupUserState(payload);
+        editStatusFn(payload);
       }
       setStatus((prev) => (prev === 0 ? num : 0));
     },
-    [status]
+    [status, groupId, editStatusFn]
   );
 
   useEffect(() => {
@@ -66,6 +73,7 @@ const UserList = () => {
             changeStatus={changeStatus}
             status={status}
             groupId={groupId}
+            editStatusFn={editStatusFn}
           />
           {isFocus && (
             <>

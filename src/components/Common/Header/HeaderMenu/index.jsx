@@ -1,11 +1,16 @@
 import React, { useCallback } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { queryClient } from "../../../..";
 import { removeGroup } from "../../../../apis/groupApi";
-import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
+import { editGroupUserNickname } from "../../../../apis/groupUserApi";
+import { editNickname } from "../../../../apis/userApi";
+import {
+  editProfileModalAtom,
+  headerMenuAtom,
+} from "../../../../shared/Atoms/modalAtoms";
 import { userAtom } from "../../../../shared/Atoms/userAtoms";
 import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
 import { FlexAlignBox, FlexColumnBox } from "../../../../shared/Styles/flex";
@@ -13,10 +18,14 @@ import Menu from "../../../Modals/Menu";
 
 const HeaderMenu = ({ user, isMain = false }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
-  //const user = useRecoilValue(userAtom);
-  //const groupUser = {};
-  // const groupUser = useRecoilValue(groupUserAtom);
-  //const { mutate: GroupOutFn } = useMutation(removeGroup);
+  const setEditProfile = useSetRecoilState(editProfileModalAtom);
+  const { groupId } = useParams();
+  const { mutate: GroupOutFn } = useMutation(removeGroup, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["groupList"]);
+    },
+  });
+
   const navigate = useNavigate();
 
   const onCloseModal = useCallback(
@@ -51,11 +60,22 @@ const HeaderMenu = ({ user, isMain = false }) => {
 
   // editProfile 모달을 보여주는 함수
   const onClickShowEditProfile = useCallback(
-    (e) => {
+    async (e) => {
       e.stopPropagation();
+      // if (isMain) {
+      //   const response = await editNickname({ nickname: "한세준(F반)" });
+      //   console.log(response);
+      // } else {
+      //   const response = await editGroupUserNickname({
+      //     groupId,
+      //     body: { groupUserNickname: "라면" },
+      //   });
+      //   console.log(response);
+      // }
+      setEditProfile(true);
       setHeaderMenu(false);
     },
-    [setHeaderMenu]
+    [] //[setHeaderMenu]
   );
 
   return (

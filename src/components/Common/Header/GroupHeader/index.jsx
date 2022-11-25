@@ -7,14 +7,19 @@ import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
-import { headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
+import {
+  editProfileModalAtom,
+  headerMenuAtom,
+} from "../../../../shared/Atoms/modalAtoms";
 import { existCookie } from "../../../../utils/existCookie";
 import AlertModal from "../../../Modals/AlertModal";
+import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, SearchForm, Wrapper, SearchInput } from "./styles";
 
 const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
+  const [editProfile, setEditProfile] = useRecoilState(editProfileModalAtom);
   const [headerAlert, setHeaderAlert] = useState(false);
   const { groupId } = useParams();
   const navigate = useNavigate();
@@ -23,6 +28,7 @@ const GroupHeader = () => {
     () => readGroupUser(groupId),
     {
       retry: 1,
+      staleTime: Infinity,
     }
   );
 
@@ -63,6 +69,13 @@ const GroupHeader = () => {
         </RightNav>
       </Nav>
       {headerAlert ? <AlertModal setHeaderAlert={setHeaderAlert} /> : null}
+      {editProfile ? (
+        <ProfileEditModal
+          closeModal={setEditProfile}
+          user={groupUser}
+          groupId={groupId}
+        />
+      ) : null}
     </Wrapper>
   );
 };

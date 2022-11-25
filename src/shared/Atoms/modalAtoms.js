@@ -23,3 +23,9 @@ export const PostFormModalAtom = atom({
   key: "PostFormModalAtom",
   default: false,
 });
+
+// profile 편집 모달
+export const editProfileModalAtom = atom({
+  key: "editProfileModalAtom",
+  default: false,
+});

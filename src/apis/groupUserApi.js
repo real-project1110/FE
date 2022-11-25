@@ -2,17 +2,18 @@ import instance, { postApi } from "../shared/instance";
 
 /** 그룹내 나의 닉네임 수정  { id,body:{ groupUserNickname } } */
 export const editGroupUserNickname = async (payload) => {
+  console.log(payload);
   const data = await instance.put(
-    `groups/${payload.id}/groupUserNickname`,
+    `groups/${payload.groupId}/groupUserNickname`,
     payload.body
   );
   return data;
 };
 
-/** 그룹내 나의 프로필 이미지 수정 { id,body:{ groupAvatarImg } } */
+/** 그룹내 나의 프로필 이미지 수정 { groupId,body:{ groupAvatarImg } } */
 export const editGroupUserAvatar = async (payload) => {
   const data = await postApi.put(
-    `groups/${payload.id}/groupAvatarImg`,
+    `groups/${payload.groupId}/groupAvatarImg`,
     payload.body
   );
   return data;
