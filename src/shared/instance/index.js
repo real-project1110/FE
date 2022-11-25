@@ -6,7 +6,6 @@ const baseURL = process.env.REACT_APP_SERVER_URL;
 const myToken = getCookieToken();
 
 //const refreshToken = localStorage.getItem("token");
-console.log("로그인 후 토큰", myToken);
 export const instance = axios.create({
   baseURL,
   headers: {

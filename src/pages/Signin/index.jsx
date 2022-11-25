@@ -50,6 +50,7 @@ function Signin() {
       status,
       data: { accessToken, refreshToken, currentPage },
     } = response;
+
     if (status === 200) {
       setAccessToken(accessToken);
       localStorage.setItem("token", refreshToken);
