@@ -26,12 +26,12 @@ const GroupHeader = () => {
     }
   );
 
-  useEffect(() => {
-    const cookie = existCookie();
-    if (!cookie) {
-      return navigate("/");
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   const cookie = existCookie();
+  //   if (!cookie) {
+  //     return navigate("/");
+  //   }
+  // }, [navigate]);
 
   return (
     <Wrapper as="header">
