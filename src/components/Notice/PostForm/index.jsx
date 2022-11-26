@@ -36,8 +36,6 @@ function PostForm() {
   const [Image, setImage] = useState([]);
   const [textValue, setTextValue] = useState();
 
-  console.log("IMAGE", Image);
-
   // 이미지 상대경로 저장 (미리보기)
   const handleAddImages = (event) => {
     const imageLists = event.target.files;
@@ -88,12 +86,10 @@ function PostForm() {
     formData.append("content", textValue);
     const postData = {
       groupId,
-      body:
-        // content: textValue,
-        // image: Image,
-        formData,
+      body: formData,
     };
     addMutate(postData);
+    setIsForm(false);
   };
   return (
     <Wrapper onClick={onCloseModal}>

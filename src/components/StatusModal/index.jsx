@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
+import { useSetRecoilState } from "recoil";
 import { queryClient } from "../..";
 import { addStatus } from "../../apis/colorApi";
+import { ColorFormModalAtom } from "../../shared/Atoms/modalAtoms";
 import {
   Wrapper,
   Status,
@@ -14,11 +16,11 @@ import {
   AddStatus,
   CancelAdd,
   Color,
-  SelectedColor,
   InputWrap,
 } from "./styles";
 
-function StatusModal({ onCloseModal, groupId }) {
+function StatusModal({ groupId }) {
+  const setIsColor = useSetRecoilState(ColorFormModalAtom);
   const [selectedColor, setSelectedColor] = useState("");
   const [statusMent, setStatusMent] = useState({
     content: "",
@@ -35,6 +37,11 @@ function StatusModal({ onCloseModal, groupId }) {
     setStatusMent(e.target.value);
   };
 
+  const onCloseModal = (e) => {
+    e.stopPropagation();
+    setIsColor(false);
+  };
+
   const Submit = (e) => {
     e.preventDefault();
     const statusData = {
@@ -45,11 +52,12 @@ function StatusModal({ onCloseModal, groupId }) {
       },
     };
     addMutate(statusData);
+    setIsColor(false);
   };
 
   return (
-    <Wrapper>
-      <Status onSubmit={Submit}>
+    <Wrapper onClick={onCloseModal}>
+      <Status onSubmit={Submit} onClick={(e) => e.stopPropagation()}>
         <Title>상태를 추가해보세요!</Title>
         <ColorPicker>
           <High>
@@ -116,7 +124,7 @@ function StatusModal({ onCloseModal, groupId }) {
         </InputWrap>
         <ButtonWrap>
           <AddStatus>추가</AddStatus>
-          <CancelAdd onClick={onCloseModal}>취소</CancelAdd>
+          <CancelAdd>취소</CancelAdd>
         </ButtonWrap>
       </Status>
     </Wrapper>

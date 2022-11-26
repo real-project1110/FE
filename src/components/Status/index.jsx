@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LogoSvg from "../../assets/svg/LogoSvg";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -12,8 +12,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQuery } from "react-query";
 import { editStatus, readStatus, removeStatus } from "../../apis/colorApi";
+import { useSetRecoilState } from "recoil";
+import { ColorFormModalAtom } from "../../shared/Atoms/modalAtoms";
 
-function Status({ openModal, groupId }) {
+function Status({ groupId }) {
+  const [openModal, setOpenModal] = useState(false);
+  const setIsColor = useSetRecoilState(ColorFormModalAtom);
   const { isLoading, isError, data, error, refetch } = useQuery(
     ["statuses", groupId],
     () => readStatus(groupId),
@@ -37,12 +41,23 @@ function Status({ openModal, groupId }) {
     onSuccess: () => refetch(),
   });
 
+  // 컬러 모달 이벤트
+  const PostModalOpen = (e) => {
+    e.stopPropagation();
+    setIsColor(true);
+  };
+
+  // 모달 닫기
+  const onCloseModal = () => {
+    setOpenModal(false);
+  };
+
   return (
-    <StatusBox>
+    <StatusBox onClick={onCloseModal}>
       <CalendarLogo>
         <LogoSvg />
       </CalendarLogo>
-      <AddStatus onClick={openModal}>
+      <AddStatus onClick={PostModalOpen}>
         <FontAwesomeIcon style={{ scale: "1.5" }} icon={faSquarePlus} />
       </AddStatus>
       {data?.map((state) => (

@@ -29,3 +29,9 @@ export const editProfileModalAtom = atom({
   key: "editProfileModalAtom",
   default: false,
 });
+
+// color form 여닫기 모달
+export const ColorFormModalAtom = atom({
+  key: "ColorFormModalAtom",
+  default: false,
+});
