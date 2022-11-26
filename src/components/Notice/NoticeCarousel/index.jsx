@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import {
   Wrapper,
-  NoticeTitle,
   AllPost,
   PostImg,
   Post,
@@ -18,26 +17,31 @@ import {
   PostDate,
   PostLike,
   LikeCount,
+  Notice,
 } from "./styles";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useQuery } from "react-query";
 import { readNoticePosts } from "../../../apis/postApi";
 
 function NoticeCarousel() {
-  const { isLoading, isError, data, error, refetch } = useQuery(["noticePosts", 1], () => readNoticePosts(1), {
-    refetchOnWindowFocus: false,
-    retry: 1,
-    onSuccess: (data) => {
-      // 데이터 state
-    },
-    onError: (e) => {
-      console.log(e.message);
-    },
-  });
+  const { isLoading, isError, data, error, refetch } = useQuery(
+    ["noticePosts", 1],
+    () => readNoticePosts(1),
+    {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      onSuccess: (data) => {
+        // 데이터 state
+      },
+      onError: (e) => {
+        console.log(e.message);
+      },
+    }
+  );
 
   return (
     <Wrapper>
-      <NoticeTitle>공지사항</NoticeTitle>
+      <Notice>공지사항</Notice>
       <AllPost>
         {/* map 돌려야함 */}
         <Scrollbars autoHide>
@@ -49,9 +53,12 @@ function NoticeCarousel() {
             <ContentBox>
               <PostTitle>목요일 UX/UI 회의장소</PostTitle>
               <PostContent>
-                계절이 지나가는 하늘에는가을로 가득 차 있습니다.나는 아무 걱정도 없이가을 속의 별들을 다 헤일 듯합니다...가슴 속에 하나 둘 새겨지는 별을이제 다
-                못 헤는 것은쉬이 아침이 오는 까닭이요,내일 밤이 남은 까닭이요,아직 나의 청춘이 다하지 않은 까닭입니다.별 하나에 추억과별 하나에 사랑과별 하나에
-                쓸쓸함과별 하나에 동경과별 하나에.....
+                계절이 지나가는 하늘에는가을로 가득 차 있습니다.나는 아무 걱정도
+                없이가을 속의 별들을 다 헤일 듯합니다...가슴 속에 하나 둘
+                새겨지는 별을이제 다 못 헤는 것은쉬이 아침이 오는 까닭이요,내일
+                밤이 남은 까닭이요,아직 나의 청춘이 다하지 않은 까닭입니다.별
+                하나에 추억과별 하나에 사랑과별 하나에 쓸쓸함과별 하나에
+                동경과별 하나에.....
               </PostContent>
               <PostInfoWrap>
                 <PostInfo>
@@ -74,9 +81,12 @@ function NoticeCarousel() {
             <ContentBox>
               <PostTitle>목요일 UX/UI 회의장소</PostTitle>
               <PostContent>
-                계절이 지나가는 하늘에는가을로 가득 차 있습니다.나는 아무 걱정도 없이가을 속의 별들을 다 헤일 듯합니다...가슴 속에 하나 둘 새겨지는 별을이제 다
-                못 헤는 것은쉬이 아침이 오는 까닭이요,내일 밤이 남은 까닭이요,아직 나의 청춘이 다하지 않은 까닭입니다.별 하나에 추억과별 하나에 사랑과별 하나에
-                쓸쓸함과별 하나에 동경과별 하나에.....
+                계절이 지나가는 하늘에는가을로 가득 차 있습니다.나는 아무 걱정도
+                없이가을 속의 별들을 다 헤일 듯합니다...가슴 속에 하나 둘
+                새겨지는 별을이제 다 못 헤는 것은쉬이 아침이 오는 까닭이요,내일
+                밤이 남은 까닭이요,아직 나의 청춘이 다하지 않은 까닭입니다.별
+                하나에 추억과별 하나에 사랑과별 하나에 쓸쓸함과별 하나에
+                동경과별 하나에.....
               </PostContent>
               <PostInfoWrap>
                 <PostInfo>
@@ -99,9 +109,12 @@ function NoticeCarousel() {
             <ContentBox>
               <PostTitle>목요일 UX/UI 회의장소</PostTitle>
               <PostContent>
-                계절이 지나가는 하늘에는가을로 가득 차 있습니다.나는 아무 걱정도 없이가을 속의 별들을 다 헤일 듯합니다...가슴 속에 하나 둘 새겨지는 별을이제 다
-                못 헤는 것은쉬이 아침이 오는 까닭이요,내일 밤이 남은 까닭이요,아직 나의 청춘이 다하지 않은 까닭입니다.별 하나에 추억과별 하나에 사랑과별 하나에
-                쓸쓸함과별 하나에 동경과별 하나에.....
+                계절이 지나가는 하늘에는가을로 가득 차 있습니다.나는 아무 걱정도
+                없이가을 속의 별들을 다 헤일 듯합니다...가슴 속에 하나 둘
+                새겨지는 별을이제 다 못 헤는 것은쉬이 아침이 오는 까닭이요,내일
+                밤이 남은 까닭이요,아직 나의 청춘이 다하지 않은 까닭입니다.별
+                하나에 추억과별 하나에 사랑과별 하나에 쓸쓸함과별 하나에
+                동경과별 하나에.....
               </PostContent>
               <PostInfoWrap>
                 <PostInfo>

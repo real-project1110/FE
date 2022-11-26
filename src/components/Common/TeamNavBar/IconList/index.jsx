@@ -1,13 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { editGroupUserState } from "../../../../apis/groupUserApi";
 import { Icon, MessageModal, StatusIcons } from "./styles";
 
-const IconList = ({ status, changeStatus, groupId }) => {
+const IconList = ({ status, changeStatus, groupId, editStatusFn }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showForm, setShowForm] = useState(false);
-  const { mutate: editStatusFn } = useMutation(editGroupUserState);
+
   // 상태메시지 바꾸는 함수
   const onValid = useCallback(
     (data) => {

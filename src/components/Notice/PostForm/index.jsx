@@ -2,14 +2,28 @@ import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { faXmark, faImage } from "@fortawesome/free-solid-svg-icons";
 import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
 import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 import { addPost } from "../../../apis/postApi";
 import { queryClient } from "../../..";
-import { SubmitBtn, PostButton, Posting, Wrapper, EditorWrapper, Carousel, Editor, PhotoLabel, Preview, PreviewImg, ImgInput, PreviewBox } from "./styles";
+import {
+  SubmitBtn,
+  PostButton,
+  Posting,
+  Wrapper,
+  EditorWrapper,
+  Carousel,
+  Editor,
+  PhotoLabel,
+  Preview,
+  PreviewImg,
+  ImgInput,
+  PreviewBox,
+  Delete,
+  PostInput,
+} from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function PostForm() {
   const { groupId } = useParams();
@@ -17,9 +31,12 @@ function PostForm() {
   const { mutate: addMutate } = useMutation(addPost, {
     onSuccess: () => queryClient.invalidateQueries(["freePosts", groupId]),
   });
-
+  const [isHover, setIsHover] = useState(0);
   const [showImages, setShowImages] = useState([]);
-  // 이미지 상대경로 저장
+  const [Image, setImage] = useState([]);
+  const [textValue, setTextValue] = useState();
+
+  // 이미지 상대경로 저장 (미리보기)
   const handleAddImages = (event) => {
     const imageLists = event.target.files;
     let imageUrlLists = [...showImages];
@@ -29,10 +46,10 @@ function PostForm() {
       imageUrlLists.push(currentImageUrl);
     }
 
-    if (imageUrlLists.length > 10) {
-      imageUrlLists = imageUrlLists.slice(0, 10);
+    if (imageUrlLists.length > 5) {
+      alert("이미지는 5장까지 첨부가능합니다.");
+      imageUrlLists = imageUrlLists.slice(0, 5);
     }
-
     setShowImages(imageUrlLists);
   };
 
@@ -40,53 +57,73 @@ function PostForm() {
   const handleDeleteImage = (id) => {
     setShowImages(showImages.filter((_, index) => index !== id));
   };
-  // setImages((prev) => [...prev, blob]);
-  //             const fileBlob = URL.createObjectURL(blob);
 
+  // Modal Close
   const onCloseModal = (e) => {
     e.stopPropagation();
     setIsForm(false);
   };
 
-  const Submit = () => {
-    // const postData = {
-    //   groupId,
-    //   body: {
-    //     content: content,
-    //     image: images[0],
-    //   },
-    // };
-    // addMutate(postData);
+  // mouseOut시 textarea의 value를 textValue에 저장
+  const onMouseOut = (e) => {
+    setTextValue(e.currentTarget.value);
   };
 
-  // const settings = {
-  //   arrows: true,
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  // };
+  // input에 들어간 img state 저장
+  const onLoadImg = (e) => {
+    // const dataTransfer = new DataTransfer();
+    // Array.from(e.target.files).forEach((file) => dataTransfer.items.add(file));
+    setImage((prev) => [...prev, ...Array.from(e.target.files)]);
+    // setImage(dataTransfer.files);
+  };
 
+  const Submit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    for (let i = 0; i < Image.length; i++) {
+      formData.append("image", Image[i]);
+    }
+    formData.append("content", textValue);
+    const postData = {
+      groupId,
+      body: formData,
+    };
+    addMutate(postData);
+    setIsForm(false);
+  };
   return (
     <Wrapper onClick={onCloseModal}>
       <EditorWrapper onClick={(e) => e.stopPropagation()}>
-        <Editor>
+        <Editor onSubmit={Submit}>
           <Carousel>
             <PhotoLabel htmlFor="input-file" onChange={handleAddImages}>
-              이미지 업로드
-              <ImgInput type="file" id="input-file" multiple />
+              <FontAwesomeIcon icon={faImage} />
+              <ImgInput
+                type="file"
+                id="input-file"
+                multiple
+                onChange={onLoadImg}
+              />
             </PhotoLabel>
             <PreviewBox>
               {showImages.map((image, id) => (
-                <Preview key={id}>
+                <Preview
+                  key={id}
+                  onMouseOver={() => setIsHover(1)}
+                  onMouseOut={() => setIsHover(0)}
+                >
                   <PreviewImg src={image} alt={`${image}-${id}`} />
-                  <button onClick={() => handleDeleteImage(id)}>삭제</button>
+                  {isHover ? (
+                    <Delete onClick={() => handleDeleteImage(id)}>
+                      <FontAwesomeIcon icon={faXmark} />
+                    </Delete>
+                  ) : null}
                 </Preview>
               ))}
             </PreviewBox>
+            <PostInput onMouseOut={onMouseOut} />
           </Carousel>
-          <SubmitBtn onClick={Submit}>
+          <SubmitBtn>
             <Posting>게시</Posting>
             <PostButton>
               <PostButtonSvg />

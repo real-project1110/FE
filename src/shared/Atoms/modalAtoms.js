@@ -23,3 +23,15 @@ export const PostFormModalAtom = atom({
   key: "PostFormModalAtom",
   default: false,
 });
+
+// profile 편집 모달
+export const editProfileModalAtom = atom({
+  key: "editProfileModalAtom",
+  default: false,
+});
+
+// color form 여닫기 모달
+export const ColorFormModalAtom = atom({
+  key: "ColorFormModalAtom",
+  default: false,
+});
