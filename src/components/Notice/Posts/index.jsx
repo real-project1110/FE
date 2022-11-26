@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Scrollbars from "react-custom-scrollbars-2";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import { MenuBox } from "../../Modals/Menu";
-import "./index.css";
 import { NoticeTitle, PostLike, Wrapper } from "../NoticeCarousel/styles";
 import {
   PostHeader,
