@@ -7,12 +7,7 @@ import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import { MenuBox } from "../../Modals/Menu";
 import "./index.css";
-import {
-  AllPost,
-  NoticeTitle,
-  PostLike,
-  Wrapper,
-} from "../NoticeCarousel/styles";
+import { NoticeTitle, PostLike, Wrapper } from "../NoticeCarousel/styles";
 import {
   PostHeader,
   New,
@@ -66,7 +61,7 @@ function Posts() {
   const { groupId } = useParams();
 
   const { isLoading, isError, data, error, refetch } = useQuery(
-    [("freePosts", groupId)],
+    ["freePosts", groupId],
     () => readFreePosts(groupId),
     {
       refetchOnWindowFocus: false,
