@@ -7,7 +7,6 @@ import { readGroupUser } from "../../../apis/groupUserApi";
 import { CommentForm, CommentFormUserImg, CommentInput, CommentSubmitBtn, List, SendComment } from "./styles";
 import { FakeImg } from "../FreePostItem/styles";
 import Comment from "../Comment";
-import { queryClient } from "../../..";
 
 function CommentList({ groupId, postId, setCommentCount }) {
   // 현재 유저 이미지
