@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "react-query";
+import { editComment, removeComment } from "../../../apis/commentApi";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import { handleImgError } from "../../../utils/handleImgError";
@@ -18,38 +20,59 @@ import {
   Nickname,
 } from "./styles";
 
-const Comment = ({ CommentModalOpen, openCommentModal }) => {
+function Comment({ comment, refetch, groupId, commentId }) {
+  const [openCommentModal, setOpenCommentModal] = useState(false);
+  const CommentModalOpen = () => {
+    setOpenCommentModal(true);
+  };
+
+  // 댓글 수정 query
+  const { mutate: editMutate } = useMutation(editComment, {
+    onSuccess: () => refetch(),
+  });
+
+  // 댓글 삭제 query
+  const { mutate: removeMutate } = useMutation(removeComment, {
+    onSuccess: () => refetch(),
+  });
+
+  // 댓글 삭제 onClick
+  const remove = () => {
+    const removeCommentData = {
+      groupId: groupId,
+      commentId: commentId,
+    };
+    if (window.confirm("정말 삭제하시겠습니까?") === true) {
+      removeMutate(removeCommentData);
+      alert("삭제되었습니다");
+    } else {
+      return;
+    }
+  };
+
   return (
     <FreeComment>
       <CommentHeader>
-        {/* 댓글 map 돌려야함 */}
         <CommentUserInfo>
           <CommentUserImg>
-            <img
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWgoKAG03+7AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
-              alt="profile"
-              onError={handleImgError}
-            />
+            <img src={comment.groupAvatarImg} alt="profile" onError={handleImgError} />
           </CommentUserImg>
-          <Nickname>닉네임</Nickname>
+          <Nickname>{comment.groupUserNickname}</Nickname>
         </CommentUserInfo>
-        {/* 본인댓글만 보이게 */}
+        {/* 본인댓글만 메뉴 보이게 */}
         <CommentMenu onClick={CommentModalOpen}>
           {openCommentModal ? (
             <MenuBox right={"1rem"} top={"1.5rem"}>
               <MenuList>
                 <li>댓글 수정</li>
-                <li>삭제</li>
+                <li onClick={remove}>삭제</li>
               </MenuList>
             </MenuBox>
           ) : null}
           <PostOptionSvg />
         </CommentMenu>
       </CommentHeader>
-
-      <CommentContent>
-        내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글
-      </CommentContent>
+      <CommentContent>{comment.comment}</CommentContent>
       <CommentResponse>
         <CommentLoadTime>1분전</CommentLoadTime>
         <CommentLike>
@@ -60,6 +83,6 @@ const Comment = ({ CommentModalOpen, openCommentModal }) => {
       </CommentResponse>
     </FreeComment>
   );
-};
+}
 
 export default Comment;

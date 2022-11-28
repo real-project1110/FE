@@ -7,23 +7,13 @@ import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import SearchSvg from "../../../../assets/svg/SearchSvg";
-import {
-  editProfileModalAtom,
-  headerMenuAtom,
-} from "../../../../shared/Atoms/modalAtoms";
+import { editProfileModalAtom, headerMenuAtom } from "../../../../shared/Atoms/modalAtoms";
 import { existCookie } from "../../../../utils/existCookie";
 import { handleImgError } from "../../../../utils/handleImgError";
 import AlertModal from "../../../Modals/AlertModal";
 import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
-import {
-  RightNav,
-  Nav,
-  SearchForm,
-  Wrapper,
-  SearchInput,
-  FakeImg,
-} from "./styles";
+import { RightNav, Nav, SearchForm, Wrapper, SearchInput, FakeImg } from "./styles";
 
 const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
@@ -31,14 +21,10 @@ const GroupHeader = () => {
   const [headerAlert, setHeaderAlert] = useState(false);
   const { groupId } = useParams();
   const navigate = useNavigate();
-  const { data: groupUser } = useQuery(
-    ["groupUser", `group ${groupId}`],
-    () => readGroupUser(groupId),
-    {
-      retry: 1,
-      staleTime: Infinity,
-    }
-  );
+  const { data: groupUser } = useQuery(["groupUser", `group ${groupId}`], () => readGroupUser(groupId), {
+    retry: 1,
+    staleTime: Infinity,
+  });
 
   // useEffect(() => {
   //   const cookie = existCookie();
@@ -55,10 +41,7 @@ const GroupHeader = () => {
         </Link>
         <SearchForm>
           <SearchSvg />
-          <SearchInput
-            type="text"
-            placeholder="일정을 알고 싶은 팀원, 프로젝트를 검색해보세요"
-          />
+          <SearchInput type="text" placeholder="일정을 알고 싶은 팀원, 프로젝트를 검색해보세요" />
         </SearchForm>
         <RightNav>
           <li>
@@ -69,11 +52,7 @@ const GroupHeader = () => {
           </li>
           <li onClick={() => setHeaderMenu(true)}>
             {groupUser && groupUser.groupAvatarImg ? (
-              <img
-                src={groupUser.groupAvatarImg}
-                alt={groupUser.groupUserNickname}
-                onError={handleImgError}
-              />
+              <img src={groupUser.groupAvatarImg} alt={groupUser.groupUserNickname} onError={handleImgError} />
             ) : (
               <FakeImg />
             )}
@@ -83,13 +62,7 @@ const GroupHeader = () => {
         </RightNav>
       </Nav>
       {headerAlert ? <AlertModal setHeaderAlert={setHeaderAlert} /> : null}
-      {editProfile ? (
-        <ProfileEditModal
-          closeModal={setEditProfile}
-          user={groupUser}
-          groupId={groupId}
-        />
-      ) : null}
+      {editProfile ? <ProfileEditModal closeModal={setEditProfile} user={groupUser} groupId={groupId} /> : null}
     </Wrapper>
   );
 };
