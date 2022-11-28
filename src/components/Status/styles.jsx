@@ -31,9 +31,11 @@ export const StatusColor = styled.div`
   height: 10px;
   background-color: ${(props) => props.value};
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 export const StatusName = styled.div`
   margin-top: -3px;
   margin-left: 5px;
+  cursor: pointer;
 `;

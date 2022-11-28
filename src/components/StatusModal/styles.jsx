@@ -14,67 +14,49 @@ export const Wrapper = styled.div`
 
 export const Status = styled.form`
   width: 500px;
-  height: 300px;
-  padding: 1rem 1rem;
-  text-align: center;
+  ${FlexCenterBox}
+  padding: 3rem 3rem;
+  flex-direction: column;
   background-color: #ffffff;
-  border: none;
   border-radius: 8px;
 `;
 
 export const Title = styled.p``;
 
 export const ColorPicker = styled.div`
-  width: 80%;
-  margin: 4% auto auto auto;
+  width: 100%;
+  display: grid;
+  margin: 2rem 0;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  gap: 20px 0;
 `;
 
 export const StatusInput = styled.input`
-  width: 80%;
+  width: 100%;
   height: 50px;
-  margin: 5% auto auto auto;
-  padding: 1rem 1rem;
   border: 1px solid ${(props) => props.theme.color.lightGray};
   border-radius: 8px;
   letter-spacing: -0.3px;
 `;
 
-export const High = styled.div`
-  ${FlexBetweenBox}
-`;
-
-export const Low = styled.div`
-  ${FlexBetweenBox}
-  margin-top: 8%;
-`;
-
 export const ButtonWrap = styled.div`
-  width: 30%;
-  margin: 5% auto auto auto;
-  ${FlexBetweenBox}
+  width: 100%;
+  margin-top: 2rem;
+
+  ${FlexCenterBox}
 `;
 
-export const AddStatus = styled.button`
+export const Button = styled.button`
   width: 50px;
-  background-color: ${(props) => props.theme.color.green};
+  background-color: ${(props) => (props.isAdd ? props.theme.color.green : "rgba(0, 0, 0, 0.2)")};
+  margin: 0 1rem;
   border: none;
   border-radius: 4px;
   line-height: 30px;
   color: white;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-`;
-
-export const CancelAdd = styled.button`
-  width: 50px;
-  background-color: ${(props) => props.theme.color.green};
-  border: none;
-  border-radius: 4px;
-  line-height: 30px;
-  color: white;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: ${(props) => (props.isAdd ? props.theme.color.hoverGreen : props.theme.color.gray)};
   }
 `;
 
@@ -104,5 +86,6 @@ export const SelectedColor = styled.div`
 `;
 
 export const InputWrap = styled.label`
+  width: 100%;
   display: flex;
 `;

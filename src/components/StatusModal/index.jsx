@@ -1,26 +1,15 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useMutation } from "react-query";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../..";
 import { addStatus } from "../../apis/colorApi";
+import { nowColor } from "../../shared/Atoms/ColorAtom";
 import { ColorFormModalAtom } from "../../shared/Atoms/modalAtoms";
-import {
-  Wrapper,
-  Status,
-  Title,
-  ColorPicker,
-  High,
-  Low,
-  StatusInput,
-  ButtonWrap,
-  AddStatus,
-  CancelAdd,
-  Color,
-  InputWrap,
-} from "./styles";
+import { Wrapper, Status, Title, ColorPicker, StatusInput, ButtonWrap, Color, InputWrap, Button } from "./styles";
 
 function StatusModal({ groupId }) {
   const setIsColor = useSetRecoilState(ColorFormModalAtom);
+  const existColor = useRecoilValue(nowColor);
   const [selectedColor, setSelectedColor] = useState("");
   const [statusMent, setStatusMent] = useState({
     content: "",
@@ -55,76 +44,28 @@ function StatusModal({ groupId }) {
     setIsColor(false);
   };
 
+  const newColor = useMemo(() => {
+    if (existColor) {
+      const existColorArray = existColor.map((color) => color.color);
+      return colors.filter((color) => !existColorArray.includes(color));
+    }
+  }, [existColor, colors]);
+
   return (
     <Wrapper onClick={onCloseModal}>
       <Status onSubmit={Submit} onClick={(e) => e.stopPropagation()}>
         <Title>상태를 추가해보세요!</Title>
         <ColorPicker>
-          <High>
-            <Color
-              isFocus={selectedColor === "#ffeb3c"}
-              onClick={() => check("#ffeb3c")}
-              value={"#ffeb3c"}
-            />
-            <Color
-              isFocus={selectedColor === "#ff9900"}
-              onClick={() => check("#ff9900")}
-              value={"#ff9900"}
-            />
-            <Color
-              isFocus={selectedColor === "#f44437"}
-              onClick={() => check("#f44437")}
-              value={"#f44437"}
-            />
-            <Color
-              isFocus={selectedColor === "#ea1e63"}
-              onClick={() => check("#ea1e63")}
-              value={"#ea1e63"}
-            />
-            <Color
-              isFocus={selectedColor === "#9c26b0"}
-              onClick={() => check("#9c26b0")}
-              value={"#9c26b0"}
-            />
-          </High>
-          <Low>
-            <Color
-              isFocus={selectedColor === "#3f51b5"}
-              onClick={() => check("#3f51b5")}
-              value={"#3f51b5"}
-            />
-            <Color
-              isFocus={selectedColor === "#00FFF6"}
-              onClick={() => check("#00FFF6")}
-              value={"#00FFF6"}
-            />
-            <Color
-              isFocus={selectedColor === "#009788"}
-              onClick={() => check("#009788")}
-              value={"#009788"}
-            />
-            <Color
-              isFocus={selectedColor === "#4baf4f"}
-              onClick={() => check("#4baf4f")}
-              value={"#4baf4f"}
-            />
-            <Color
-              isFocus={selectedColor === "#7e5d4e"}
-              onClick={() => check("#7e5d4e")}
-              value={"#7e5d4e"}
-            />
-          </Low>
+          {newColor.map((color) => (
+            <Color key={color} isFocus={selectedColor === color} onClick={() => check(color)} value={color} />
+          ))}
         </ColorPicker>
         <InputWrap>
-          <StatusInput
-            maxLength="10"
-            placeholder="상태명을 입력해보세요! ex) 휴가, 연차 ... (최대 10글자)"
-            onChange={onChange}
-          />
+          <StatusInput maxLength="10" placeholder="상태명을 입력해보세요! ex) 휴가, 연차 ... (최대 10글자)" onChange={onChange} />
         </InputWrap>
         <ButtonWrap>
-          <AddStatus>추가</AddStatus>
-          <CancelAdd>취소</CancelAdd>
+          <Button isAdd={true}>추가</Button>
+          <Button isAdd={false}>취소</Button>
         </ButtonWrap>
       </Status>
     </Wrapper>
@@ -132,3 +73,5 @@ function StatusModal({ groupId }) {
 }
 
 export default StatusModal;
+
+const colors = ["#ffeb3c", "#ff9900", "#f44437", "#ea1e63", "#9c26b0", "#3f51b5", "#00FFF6", "#009788", "#4baf4f", "#7e5d4e"];
