@@ -59,7 +59,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
           </CommentUserImg>
           <Nickname>{comment.groupUserNickname}</Nickname>
         </CommentUserInfo>
-        {/* 본인댓글만 메뉴 보이게 */}
+        {/* 본인댓글만 메뉴 보이게 하기*/}
         <CommentMenu onClick={CommentModalOpen}>
           {openCommentModal ? (
             <MenuBox right={"1rem"} top={"1.5rem"}>
