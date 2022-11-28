@@ -1,56 +1,16 @@
 import styled from "styled-components";
+import { FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
-export const PostHeader = styled.div`
-  width: 100%;
-  height: 46px;
-  margin: auto;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #e7e7e7;
+export const CloseContainer = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 `;
 
-export const AllFreePost = styled.div`
-  height: 100%;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-`;
-
-export const WritePost = styled.div`
-  width: 50%;
-  display: flex;
-`;
-
-export const Post = styled.div`
-  height: 46px;
-  margin-left: 10px;
-  border-bottom: 1px solid #e7e7e7;
-  font-family: "Pretendard";
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: -5.5%;
-  line-height: 46px;
-  cursor: pointer;
-`;
-
-export const New = styled.div`
-  cursor: pointer;
-  line-height: 44px;
-`;
-
-export const Newest = styled.span`
-  margin-right: 13px;
-  font-size: 14px;
-  font-weight: 700;
-`;
-
-export const NewestComment = styled.span`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.color.gray};
+export const FreePostItemContainer = styled.div`
+  ${FlexColumnBox};
 `;
 
 export const FreePost = styled.div`
@@ -66,6 +26,7 @@ export const PostMenu = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const PostUserInfo = styled.div`
@@ -101,15 +62,21 @@ export const LoadTime = styled.div`
 `;
 
 export const PostOption = styled.div`
-  line-height: 40px;
+  ${FlexCenterBox};
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
   position: relative;
   cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.color.lightGray};
+  }
 `;
 
 export const MenuList = styled.ul`
-  width: 100px;
-  text-align: center;
+  width: 10rem;
   & > li {
+    padding: 0.8rem;
     border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
     &:hover {
       background-color: ${(props) => props.theme.color.extraLightGray};
@@ -162,12 +129,9 @@ export const PostComment = styled.div`
   cursor: pointer;
 `;
 
-export const FreeComment = styled.div`
-  width: 100%;
-  height: auto;
-  padding: 1.3rem 2rem;
+export const CommentList = styled.div`
+  ${FlexColumnBox};
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
-  background-color: ${(props) => props.theme.color.extraLightGray};
 `;
 
 export const CommentCount = styled.span`
@@ -179,34 +143,8 @@ export const CommentCount = styled.span`
   color: #1c1c1c;
 `;
 
-export const CommentMenu = styled.div`
-  width: 100%;
-  margin: auto;
-  display: flex;
-  border-bottom: none;
-  border-radius: 8px;
-  justify-content: space-between;
-`;
-
-export const CommentContent = styled.div`
-  width: 100%;
-  height: auto;
-  margin-top: 0.8rem;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: -0.3px;
-  line-height: 1.4;
-`;
-
-export const CommentLoadTime = styled.div`
-  line-height: 10px;
-  letter-spacing: -0.3px;
-  font-size: 12px;
-  font-weight: 400;
-`;
-
-export const CommentLike = styled.span`
-  margin: -2px 5% 0px 2%;
+export const PostLike = styled.span`
+  margin-right: 15px;
   cursor: pointer;
 `;
 
@@ -219,58 +157,45 @@ export const PostLikeCount = styled.span`
   color: #1c1c1c;
 `;
 
-export const FreePostComment = styled.form`
-  width: 100%;
-  height: auto;
-  margin: 0 auto 3% auto;
-  padding: 1rem 1rem;
+export const CommentForm = styled.form`
   display: flex;
-  justify-content: space-between;
-  border: none;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  align-items: center;
+  margin: 1rem 1.3rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid ${(props) => props.theme.color.lightGray};
+  border-radius: 30px;
 `;
 
-export const CommentUserImg = styled.div`
-  & > img {
-    width: 26px;
-    height: 26px;
-    margin-top: 2px;
-    border: none;
-    border-radius: 50%;
-    opacity: 0.7;
-  }
+export const CommentUserImg = styled.img`
+  width: 1.8rem;
+  height: 1.8rem;
+  object-fit: cover;
+  background-color: ${(props) => props.theme.color.lightGray};
+  border: none;
+  border-radius: 50%;
 `;
 
 export const CommentInput = styled.input`
   width: 100%;
-  margin: 0 5%;
-  padding-left: 2%;
-  border: 1px solid ${(props) => props.theme.color.lightGray};
-  border-radius: 10px;
-  font-size: 12px;
-  letter-spacing: -1px;
+  border: none;
+  margin-left: 1rem;
+  font-size: 0.9rem;
 `;
 
 export const CommentSubmitBtn = styled.button`
-  width: 20%;
-  height: 28px;
+  ${FlexCenterBox};
+  padding: 0.5rem 0;
+  width: 7rem;
   display: flex;
-  vertical-align: middle;
-  background-color: #ffffff;
   border: none;
   border-radius: 5px;
+  svg {
+    width: 20px;
+    margin-left: 0.5rem;
+  }
 `;
 
-export const SendComment = styled.div`
-  width: 100%;
-  margin: 5px 0px 0px 5px;
-  color: #1c1c1c;
+export const SendComment = styled.span`
   font-weight: 400;
-  font-size: 14px;
-  letter-spacing: -0.055em;
-`;
-
-export const PostCommentButton = styled.div`
-  margin: 5px 0px 0px 5px;
+  font-size: 0.9rem;
 `;

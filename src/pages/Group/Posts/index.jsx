@@ -1,20 +1,20 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import NoticeCarousel from "../../../components/Notice/NoticeCarousel";
-import PostForm from "../../../components/Notice/PostForm";
-import Posts from "../../../components/Notice/Posts";
+import NoticeCarousel from "../../../components/Posts/NoticePosts";
+import PostForm from "../../../components/Posts/PostForm";
+import FreePosts from "../../../components/Posts/FreePosts";
 import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 import { BoardWrap } from "./styles";
 
-const Notice = () => {
+const Posts = () => {
   const isForm = useRecoilValue(PostFormModalAtom);
   return (
     <BoardWrap>
-      <Posts />
+      <FreePosts />
       <NoticeCarousel />
       {isForm && <PostForm />}
     </BoardWrap>
   );
 };
 
-export default Notice;
+export default Posts;

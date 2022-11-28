@@ -23,7 +23,7 @@ import Scrollbars from "react-custom-scrollbars-2";
 import { useQuery } from "react-query";
 import { readNoticePosts } from "../../../apis/postApi";
 
-function NoticeCarousel() {
+function NoticePosts() {
   const { isLoading, isError, data, error, refetch } = useQuery(
     ["noticePosts", 1],
     () => readNoticePosts(1),
@@ -135,4 +135,4 @@ function NoticeCarousel() {
   );
 }
 
-export default NoticeCarousel;
+export default NoticePosts;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { getIcon } from "../../../../utils/getIcon";
+import { handleImgError } from "../../../../utils/handleImgError";
 import { Icon, UserContainer, UserImg, UserStatusModal } from "./styles";
 
 const UserItem = ({ user, isMe = false, status }) => {
@@ -22,8 +23,9 @@ const UserItem = ({ user, isMe = false, status }) => {
       <UserContainer onMouseEnter={onHover} onMouseLeave={onLeave}>
         <UserImg>
           <img
-            src={`https://avatars.dicebear.com/api/identicon/wooncloud${user.groupUserId}.svg`}
+            src={user.groupAvatarImg}
             alt={user.groupUserNickname}
+            onError={handleImgError}
           />
           {user?.isLoggedIn ? <div /> : null}
         </UserImg>

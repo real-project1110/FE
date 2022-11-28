@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useMatch, useNavigate, useParams } from "react-router-dom";
 import CalendarSvg from "../../../assets/svg/CalendarSvg";
 import FolderSvg from "../../../assets/svg/FolderSvg";
@@ -8,6 +8,8 @@ import UserList from "./UserList";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useQuery } from "react-query";
 import { readGroup } from "../../../apis/groupApi";
+import { useSetRecoilState } from "recoil";
+import { groupAtom } from "../../../shared/Atoms/groupAtoms";
 
 const TeamNavBar = () => {
   const { groupId } = useParams();
@@ -19,9 +21,14 @@ const TeamNavBar = () => {
       retry: 0,
     }
   );
+  const setGroup = useSetRecoilState(groupAtom);
   const navigate = useNavigate();
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
+
+  useEffect(() => {
+    if (group) setGroup(group);
+  }, [group, setGroup]);
 
   if (isError) return navigate(-1);
   return (
@@ -35,7 +42,7 @@ const TeamNavBar = () => {
               <strong>캘린더</strong>
             </GroupNavItem>
           </Link>
-          <Link to={`/groups/${group?.groupId}/notice`}>
+          <Link to={`/groups/${group?.groupId}/posts`}>
             <GroupNavItem isFocus={noticeMatch}>
               <PostSvg />
               <strong>게시판</strong>

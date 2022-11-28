@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CreateGroup from "../../components/CreateGroup";
 import Login from "../../pages/Login";
 import Main from "../../pages/Main";
-import Notice from "../../pages/Group/Notice";
+import Notice from "../../pages/Group/Posts";
 import Schedule from "../../pages/Group/Schedule";
 import Signin from "../../pages/Signin";
 import Group from "../../pages/Group";
@@ -21,7 +21,7 @@ const Router = () => {
         </Route>
         <Route path="/groups" element={<Group />}>
           <Route path=":groupId" element={<Schedule />} />
-          <Route path=":groupId/notice" element={<Notice />} />
+          <Route path=":groupId/posts" element={<Notice />} />
         </Route>
       </Routes>
     </BrowserRouter>

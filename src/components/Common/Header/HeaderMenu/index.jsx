@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
 import { useMutation } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../../..";
 import { outGroup } from "../../../../apis/groupApi";
+import { groupAtom } from "../../../../shared/Atoms/groupAtoms";
 import {
   editProfileModalAtom,
   headerMenuAtom,
@@ -16,6 +17,7 @@ import { FakeImg, MenuList, UserInfo } from "./styles";
 const HeaderMenu = ({ user, isMain = false }) => {
   const setHeaderMenu = useSetRecoilState(headerMenuAtom);
   const setEditProfile = useSetRecoilState(editProfileModalAtom);
+  const group = useRecoilValue(groupAtom);
   const navigate = useNavigate();
   const { groupId } = useParams();
   const { mutate: groupOutFn } = useMutation(outGroup, {
@@ -59,20 +61,10 @@ const HeaderMenu = ({ user, isMain = false }) => {
   const onClickShowEditProfile = useCallback(
     async (e) => {
       e.stopPropagation();
-      // if (isMain) {
-      //   const response = await editNickname({ nickname: "한세준(F반)" });
-      //   console.log(response);
-      // } else {
-      //   const response = await editGroupUserNickname({
-      //     groupId,
-      //     body: { groupUserNickname: "라면" },
-      //   });
-      //   console.log(response);
-      // }
       setEditProfile(true);
       setHeaderMenu(false);
     },
-    [] //[setHeaderMenu]
+    [setEditProfile, setHeaderMenu] //[setHeaderMenu]
   );
   return (
     <Menu onCloseModal={onCloseModal} right={"4rem"} top={"60px"}>
@@ -91,7 +83,11 @@ const HeaderMenu = ({ user, isMain = false }) => {
           <span>{isMain ? user?.nickname : user?.groupUserNickname}</span>
         </UserInfo>
         <li onClick={onClickShowEditProfile}>프로필 편집</li>
-        {!isMain && <li onClick={onClickGroupout}>항해99팀에서 나가기</li>}
+        {!isMain && group && (
+          <li onClick={onClickGroupout}>
+            <strong>{group.groupName}</strong>에서 나가기
+          </li>
+        )}
         <li onClick={onClickLogout}>로그아웃</li>
       </MenuList>
     </Menu>

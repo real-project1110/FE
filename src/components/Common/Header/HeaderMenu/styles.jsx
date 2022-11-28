@@ -8,6 +8,9 @@ export const MenuList = styled.ul`
     width: 100%;
     padding: 1rem;
     border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
+    strong {
+      font-weight: 500;
+    }
     &:not(:first-child) {
       &:hover {
         background-color: ${(props) => props.theme.color.extraLightGray};
