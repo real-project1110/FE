@@ -35,7 +35,7 @@ const TeamNavBar = () => {
               <strong>캘린더</strong>
             </GroupNavItem>
           </Link>
-          <Link to={`/groups/${group?.groupId}/notice`}>
+          <Link to={`/groups/${group?.groupId}/posts`}>
             <GroupNavItem isFocus={noticeMatch}>
               <PostSvg />
               <strong>게시판</strong>

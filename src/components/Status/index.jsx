@@ -18,7 +18,7 @@ import { ColorFormModalAtom } from "../../shared/Atoms/modalAtoms";
 function Status({ groupId }) {
   const [openModal, setOpenModal] = useState(false);
   const setIsColor = useSetRecoilState(ColorFormModalAtom);
-  const { isLoading, isError, data, error, refetch } = useQuery(
+  const { data, refetch } = useQuery(
     ["statuses", groupId],
     () => readStatus(groupId),
     {
