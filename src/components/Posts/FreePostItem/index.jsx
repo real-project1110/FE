@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useMutation } from "react-query";
-import { editPost, removePost } from "../../../apis/postApi";
+import { useParams } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { queryClient } from "../../..";
+import { removePost, togglePost } from "../../../apis/postApi";
 import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
+import { editPostAtom } from "../../../shared/Atoms/groupAtoms";
+import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
 import Comment from "../Comment";
@@ -38,35 +43,69 @@ import {
 } from "./styles";
 
 const FreePostItem = ({ post, refetch }) => {
+  const { groupId } = useParams();
   const [CommentListOpen, setCommentOpen] = useState(false);
   const [openPostMenu, setOpenPostMenu] = useState(false);
-  const [openCommentModal, setOpenCommentModal] = useState(false);
+  const setEditPost = useSetRecoilState(editPostAtom);
+  const setShowPostModal = useSetRecoilState(PostFormModalAtom);
 
-  const { mutate: editMutate } = useMutation(editPost, {
+  const { mutate: removePostFn } = useMutation(removePost, {
     onSuccess: () => refetch(),
   });
 
-  const { mutate: removeMutate } = useMutation(removePost, {
-    onSuccess: () => refetch(),
+  const { mutate: togglePostFn } = useMutation(togglePost, {
+    onSuccess: () => {
+      refetch();
+      queryClient.invalidateQueries(["noticePosts", groupId]);
+    },
   });
 
   // 메뉴 닫기
-  const onCloseModal = (e) => {
-    e.stopPropagation();
+  const onCloseModal = useCallback((e) => {
     setOpenPostMenu(false);
-  };
+  }, []);
 
   // 게시글 메뉴 열기
-  const modalOpen = (e) => {
+  const modalOpen = useCallback((e) => {
     e.stopPropagation();
     setOpenPostMenu(true);
-  };
+  }, []);
 
   // 댓글 여닫기
-  const openComment = () => {
+  const openComment = useCallback(() => {
     setCommentOpen((prev) => !prev);
-  };
-  console.log(post);
+  }, []);
+
+  // 게시글 삭제
+  const onDeletePost = useCallback(
+    (e) => {
+      e.stopPropagation();
+      removePostFn(post.postId);
+      onCloseModal();
+    },
+    [post, removePostFn, onCloseModal]
+  );
+
+  // 자유게시글을 공지글로 바꾸는 함수
+  const onTogglePost = useCallback(
+    (e) => {
+      e.stopPropagation();
+      togglePostFn({ postId: post.postId, groupId });
+      onCloseModal();
+    },
+    [togglePostFn, onCloseModal, post, groupId]
+  );
+
+  // 글 수정 버튼 클릭 시
+  const onEditPost = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setEditPost(post);
+      setShowPostModal(true);
+      onCloseModal();
+    },
+    [onCloseModal, post, setEditPost, setShowPostModal]
+  );
   if (!post) return <div />;
 
   return (
@@ -95,10 +134,10 @@ const FreePostItem = ({ post, refetch }) => {
               {openPostMenu ? (
                 <MenuBox right={"1rem"} top={"1.2rem"}>
                   <MenuList>
-                    <li>글 수정</li>
-                    <li>공지로 등록</li>
+                    <li onClick={onEditPost}>글 수정</li>
+                    <li onClick={onTogglePost}>공지로 등록</li>
                     <li>북마크</li>
-                    <li>삭제</li>
+                    <li onClick={onDeletePost}>삭제</li>
                   </MenuList>
                 </MenuBox>
               ) : null}

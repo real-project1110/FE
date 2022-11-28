@@ -21,7 +21,7 @@ const UserList = () => {
   const [status, setStatus] = useState(0);
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
 
-  const { data: userList } = useQuery(
+  const { data: groupUserList } = useQuery(
     ["groupUserList", groupId],
     () => readGroupUsers(groupId),
     { retry: 2 }
@@ -77,9 +77,9 @@ const UserList = () => {
           />
           {isFocus && (
             <>
-              {userList &&
+              {groupUserList &&
                 groupUser &&
-                userList
+                groupUserList
                   .filter((user) => user.groupUserId !== groupUser.groupUserId)
                   .map((user) => (
                     <UserItem key={user?.groupUserId} user={user} />

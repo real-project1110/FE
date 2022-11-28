@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FlexAlignBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -33,55 +34,65 @@ export const Notice = styled(NoticeTitle)`
 export const AllPost = styled.div`
   width: 100%;
   height: 100%;
-  padding: 0.7rem 0;
   & > div {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
     height: 100%;
   }
 `;
 
-export const PostImg = styled.img`
-  width: 170px;
-  height: 103.15px;
-  border: none;
-  border-radius: 8px;
-`;
-
 export const Post = styled.div`
+  ${FlexAlignBox};
   width: 90%;
   height: 127px;
   margin: 0 auto;
-  margin-bottom: 1.3rem;
-  padding: 10px 10px 10px 10px;
-  display: flex;
+  margin-top: 1.3rem;
+  padding: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border: none;
   border-radius: 8px;
   z-index: 80;
 `;
 
+export const PostImg = styled.img`
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border: none;
+  border-radius: 8px;
+`;
+
 export const ContentBox = styled.div`
-  margin-left: 3%;
-  width: 70%;
-`;
-
-export const PostTitle = styled.p`
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 16px;
-`;
-
-export const PostContent = styled.div`
+  ${FlexColumnBox};
   width: 100%;
-  height: 61px;
+  height: 100%;
+  padding: 0.2rem 0;
+  margin-left: 3%;
+`;
+
+export const PostTitle = styled.h3`
+  font-weight: 700;
+  font-size: 0.9rem;
+`;
+
+export const PostContent = styled.p`
+  width: 100%;
   margin-top: 8px;
+  min-height: 60%;
   font-size: 14px;
   line-height: 21px;
-  letter-spacing: -0.055em;
   color: ${(props) => props.theme.color.gray};
-  overflow-y: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: box;
+  max-height: 80px;
+  overflow: hidden;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 `;
 
 export const PostInfoWrap = styled.div`
@@ -92,21 +103,18 @@ export const PostInfoWrap = styled.div`
 `;
 
 export const PostInfo = styled.div`
-  width: 200px;
+  display: flex;
+  width: 100%;
 `;
 
 export const PostWriter = styled.span`
-  width: 33.24px;
-  height: 12px;
   font-weight: 300;
   font-size: 12px;
-  line-height: 12px;
   color: ${(props) => props.theme.color.gray};
 `;
 
 export const Vector = styled.span`
-  margin-left: 14%;
-  margin-right: 14%;
+  margin: 0 1rem;
   font-weight: 300;
   font-size: 12px;
   line-height: 12px;
@@ -121,14 +129,17 @@ export const PostDate = styled.span`
   color: ${(props) => props.theme.color.gray};
 `;
 export const PostLike = styled.span`
-  margin-right: 15px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  margin-right: 1rem;
+  svg {
+    width: 1rem;
+  }
 `;
 
 export const LikeCount = styled.span`
   margin-left: 5px;
-  margin-top: 2px;
-  position: absolute;
   font-weight: 300;
   font-size: 12px;
   color: ${(props) => props.theme.color.gray};
