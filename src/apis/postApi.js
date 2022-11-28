@@ -23,13 +23,15 @@ export const readNoticePosts = async (payload) => {
 
 /** 게시글 상세 조회 ( payload ) */
 export const readPost = async (payload) => {
-  const { data } = await instance.get(`groups/posts/${payload}`);
+  const { data } = await instance.get(`groups/posts/${payload.postId}`);
   return data;
 };
 
 /** 게시글 삭제 ( id )*/
 export const removePost = async (payload) => {
-  const data = await instance.delete(`groups/posts/${payload}`);
+  const data = await instance.delete(
+    `groups/${payload.groupId}/posts/${payload.postId}`
+  );
   return data;
 };
 
