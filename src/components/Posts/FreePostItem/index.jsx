@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -42,7 +42,7 @@ const FreePostItem = ({ post, refetch }) => {
   const [openPostMenu, setOpenPostMenu] = useState(false);
   const setEditPost = useSetRecoilState(editPostAtom);
   const setShowPostModal = useSetRecoilState(PostFormModalAtom);
-
+  const [commentCount, setCommentCount] = useState(0);
   const { mutate: removePostFn } = useMutation(removePost, {
     onSuccess: () => refetch(),
   });
@@ -100,7 +100,6 @@ const FreePostItem = ({ post, refetch }) => {
     },
     [onCloseModal, post, setEditPost, setShowPostModal]
   );
-  };
 
   useEffect(() => {
     if (post) {
@@ -117,7 +116,17 @@ const FreePostItem = ({ post, refetch }) => {
         <FreePost>
           <PostMenu>
             <PostUserInfo>
-              <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
+              <UserImg>
+                {post.groupAvatarImg ? (
+                  <img
+                    src={post.groupAvatarImg}
+                    alt="profile"
+                    onError={handleImgError}
+                  />
+                ) : (
+                  <FakeImg />
+                )}
+              </UserImg>
               <Nickname>{post.groupUserNickname}</Nickname>
               <LoadTime>1분전</LoadTime>
             </PostUserInfo>
@@ -140,7 +149,11 @@ const FreePostItem = ({ post, refetch }) => {
             <PostImgWrap>
               {post.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>
-                  <img src={Image.postImg} alt="postImg" onError={handleImgError} />
+                  <img
+                    src={Image.postImg}
+                    alt="postImg"
+                    onError={handleImgError}
+                  />
                 </ImageWrap>
               ))}
             </PostImgWrap>
@@ -157,7 +170,13 @@ const FreePostItem = ({ post, refetch }) => {
             </PostComment>
           </PostResponse>
         </FreePost>
-        {CommentListOpen ? <CommentList postId={post.postId} groupId={groupId} setCommentCount={setCommentCount} /> : null}
+        {CommentListOpen ? (
+          <CommentList
+            postId={post.postId}
+            groupId={groupId}
+            setCommentCount={setCommentCount}
+          />
+        ) : null}
       </FreePostItemContainer>
     </>
   );
