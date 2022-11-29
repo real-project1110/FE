@@ -180,7 +180,6 @@ const FreePostItem = ({ post, refetch }) => {
             setCommentCount={setCommentCount}
           />
         ) : null}
-        \{" "}
       </FreePostItemContainer>
     </>
   );

@@ -21,7 +21,8 @@ import {
 } from "../../apis/scheduleApi";
 import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
+import { nowColor } from "../../recoil/ColorAtom";
 
 setOptions({
   theme: "ios",
@@ -50,20 +51,22 @@ const colorPopup = {
     buttons: [],
   },
 };
-const colors = [
-  "#ffeb3c",
-  "#ff9900",
-  "#f44437",
-  "#ea1e63",
-  "#9c26b0",
-  "#3f51b5",
-  "#00FFF6",
-  "#009788",
-  "#4baf4f",
-  "#7e5d4e",
-];
+
+// const colors = [
+//   "#ffeb3c",
+//   "#ff9900",
+//   "#f44437",
+//   "#ea1e63",
+//   "#9c26b0",
+//   "#3f51b5",
+//   "#00FFF6",
+//   "#009788",
+//   "#4baf4f",
+//   "#7e5d4e",
+// ];
 
 const Schedular = () => {
+  const existColors = useRecoilValue(nowColor);
   const [myEvents, setMyEvents] = useState(defaultEvents || []);
   const [tempEvent, setTempEvent] = useState(null);
   const [isOpen, setOpen] = useState(false);
@@ -79,8 +82,13 @@ const Schedular = () => {
   const [colorAnchor, setColorAnchor] = useState(null);
   const [selectedColor, setSelectedColor] = useState("");
   const [tempColor, setTempColor] = useState("");
+  const [addTitle, setAddTitle] = useState("");
   const colorPicker = useRef();
   const { groupId } = useParams();
+
+  const colors = useMemo(() => {
+    return existColors.map((color) => color.color);
+  }, [existColors]);
 
   const { isLoading, isError, data, error, refetch } = useQuery(
     ["schedules", groupId],
@@ -127,13 +135,11 @@ const Schedular = () => {
 
   const saveEvent = useCallback(() => {
     const newEvent = {
-      title: popupEventTitle,
+      title: isEdit ? popupEventTitle : addTitle,
       description: popupEventDescription,
       start: popupEventDate[0],
       end: popupEventDate[1],
       color: selectedColor,
-      // groupId: 1,
-      // groupUserId: 1,
     };
 
     if (isEdit) {
@@ -143,28 +149,22 @@ const Schedular = () => {
       setMyEvents(newEventList);
       const scheduleId = tempEvent.scheduleId;
       const { title, description, start, end, color } = newEvent;
-      // const { title, description, start, end, color, groupId, groupUserId } =
-      //   newEvent;
       const editEvent = {
         scheduleId,
         groupId,
         body: { title, description, start, end, color },
-        // body: { title, description, start, end, color, groupId, groupUserId },
       };
 
       editMutate(editEvent);
     } else {
       setMyEvents([...myEvents, newEvent]);
-      // groupUserId는 나중에 빼기
-      // const { title, description, start, end, color, groupId, groupUserId } =
-      //   newEvent;
       const { title, description, start, end, color } = newEvent;
       const addEvent = {
         groupId,
         body: { title, description, start, end, color },
-        //body: { title, description, start, end, color, groupUserId },
       };
       addMutate(addEvent);
+      setAddTitle("");
     }
     setSelectedDate(popupEventDate[0]);
     setOpen(false);
@@ -179,6 +179,7 @@ const Schedular = () => {
     addMutate,
     editMutate,
     groupId,
+    addTitle,
   ]);
 
   const deleteEvent = useCallback(
@@ -209,9 +210,16 @@ const Schedular = () => {
 
   // handle popup form changes
 
-  const titleChange = useCallback((ev) => {
-    setTitle(ev.target.value);
-  }, []);
+  const titleChange = useCallback(
+    (ev) => {
+      if (isEdit) {
+        setTitle(ev.target.value);
+      } else {
+        setAddTitle(ev.target.value);
+      }
+    },
+    [isEdit]
+  );
 
   const descriptionChange = useCallback((ev) => {
     setDescription(ev.target.value);
@@ -282,7 +290,7 @@ const Schedular = () => {
 
   // popup options
   const headerText = useMemo(
-    () => (isEdit ? "Edit event" : "New Event"),
+    () => (isEdit ? "일정 수정" : "일정 추가"),
     [isEdit]
   );
   const popupButtons = useMemo(() => {
@@ -294,7 +302,7 @@ const Schedular = () => {
             saveEvent();
           },
           keyCode: "enter",
-          text: "Save",
+          text: "저장",
           cssClass: "mbsc-popup-button-primary",
         },
       ];
@@ -306,7 +314,7 @@ const Schedular = () => {
             saveEvent();
           },
           keyCode: "enter",
-          text: "Add",
+          text: "저장",
           cssClass: "mbsc-popup-button-primary",
         },
       ];
@@ -375,16 +383,20 @@ const Schedular = () => {
         responsive={responsivePopup}
       >
         <div className="mbsc-form-group">
-          <Input label="Title" value={popupEventTitle} onChange={titleChange} />
+          <Input
+            label="제목"
+            value={isEdit ? popupEventTitle : addTitle}
+            onChange={titleChange}
+          />
           <Textarea
-            label="Description"
+            label="상세 내용"
             value={popupEventDescription}
             onChange={descriptionChange}
           />
         </div>
         <div className="mbsc-form-group">
-          <Input ref={startRef} label="Starts" />
-          <Input ref={endRef} label="Ends" />
+          <Input ref={startRef} label="시작 날짜" />
+          <Input ref={endRef} label="종료 날짜" />
           <Datepicker
             select="range"
             touchUi={true}
