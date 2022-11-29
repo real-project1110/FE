@@ -87,7 +87,7 @@ const Schedular = () => {
   const { groupId } = useParams();
 
   const colors = useMemo(() => {
-    return existColors.map((color) => color.color);
+    return existColors?.map((color) => color.color);
   }, [existColors]);
 
   const { isLoading, isError, data, error, refetch } = useQuery(
@@ -439,7 +439,7 @@ const Schedular = () => {
         ref={colorPicker}
       >
         <div className="crud-color-row">
-          {colors.map((color, index) => {
+          {colors?.map((color, index) => {
             if (index < 5) {
               return (
                 <div
@@ -460,7 +460,7 @@ const Schedular = () => {
           })}
         </div>
         <div className="crud-color-row">
-          {colors.map((color, index) => {
+          {colors?.map((color, index) => {
             if (index >= 5) {
               return (
                 <div

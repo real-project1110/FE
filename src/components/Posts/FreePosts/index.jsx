@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { NoticeTitle, Wrapper } from "../NoticePosts/styles";
 import { useSetRecoilState } from "recoil";
 import { PostFormModalAtom } from "../../../recoil/modalAtoms";
-import { useQuery } from "react-query";
-import { readFreePosts } from "../../../apis/postApi";
+import { useReadFreePosts } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 import FreePostItem from "../FreePostItem";
 import {
   PostHeader,
@@ -21,15 +21,25 @@ function FreePosts() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);
   const { groupId } = useParams();
 
-  // 자유 게시글 데이터 조회
-  const { data: FreePosts, refetch } = useQuery(
-    ["freePosts", groupId],
-    () => readFreePosts(groupId),
-    {
-      refetchOnWindowFocus: false,
-      retry: 1,
+  //자유 게시글 데이터 조회
+  // const { data: FreePosts, refetch } = useQuery(
+  //   ["freePosts", groupId],
+  //   () => readFreePosts(groupId),
+  //   {
+  //     refetchOnWindowFocus: false,
+  //     retry: 1,
+  //   }
+  // );
+  const { getPost, fetchNextPage, isSuccess, hasNextPage, refetch } =
+    useReadFreePosts(groupId);
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  );
+  }, [inView, fetchNextPage, hasNextPage]);
 
   // 글작성 모달 이벤트
   const PostModalOpen = (e) => {
@@ -50,16 +60,24 @@ function FreePosts() {
         </New>
       </PostHeader>
       <AllFreePost>
-        <Scrollbars autoHide>
-          {FreePosts &&
-            FreePosts.data.map((post) => (
-              <FreePostItem
-                groupId={groupId}
-                key={post.postId}
-                refetch={refetch}
-                post={post}
-              />
-            ))}
+        <Scrollbars autoHide onScrollStop={fetchNextPage}>
+          {isSuccess && getPost?.pages
+            ? getPost?.pages.map((page) => (
+                <React.Fragment key={page.currentPage}>
+                  {page?.data.map((post) => {
+                    return (
+                      <FreePostItem
+                        nowRef={ref}
+                        groupId={groupId}
+                        key={post.postId}
+                        refetch={refetch}
+                        post={post}
+                      />
+                    );
+                  })}
+                </React.Fragment>
+              ))
+            : null}
         </Scrollbars>
       </AllFreePost>
     </Wrapper>
