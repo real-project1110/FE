@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { readGroupUser } from "../../../../apis/groupUserApi";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
@@ -10,7 +10,8 @@ import SearchSvg from "../../../../assets/svg/SearchSvg";
 import {
   editProfileModalAtom,
   headerMenuAtom,
-} from "../../../../shared/Atoms/modalAtoms";
+} from "../../../../recoil/modalAtoms";
+import { groupUserAtom } from "../../../../recoil/userAtoms";
 import { existCookie } from "../../../../utils/existCookie";
 import { handleImgError } from "../../../../utils/handleImgError";
 import AlertModal from "../../../Modals/AlertModal";
@@ -29,6 +30,7 @@ const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   const [editProfile, setEditProfile] = useRecoilState(editProfileModalAtom);
   const [headerAlert, setHeaderAlert] = useState(false);
+  const setGroupUser = useSetRecoilState(groupUserAtom);
   const { groupId } = useParams();
   const navigate = useNavigate();
   const { data: groupUser } = useQuery(
@@ -46,6 +48,12 @@ const GroupHeader = () => {
       return navigate("/");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (groupUser) {
+      setGroupUser(groupUser);
+    }
+  }, [setGroupUser, groupUser]);
 
   return (
     <Wrapper as="header">

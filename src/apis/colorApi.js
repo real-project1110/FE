@@ -1,4 +1,4 @@
-import instance, { postApi } from "../shared/instance";
+import instance, { postApi } from "./instance/instance";
 
 // status 생성
 export const addStatus = async (payload) => {

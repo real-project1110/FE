@@ -3,8 +3,8 @@ import { useMutation } from "react-query";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../..";
 import { addStatus } from "../../apis/colorApi";
-import { nowColor } from "../../shared/Atoms/ColorAtom";
-import { ColorFormModalAtom } from "../../shared/Atoms/modalAtoms";
+import { nowColor } from "../../recoil/ColorAtom";
+import { ColorFormModalAtom } from "../../recoil/modalAtoms";
 import {
   Wrapper,
   Status,

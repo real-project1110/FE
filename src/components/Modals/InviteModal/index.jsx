@@ -6,7 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { inviteUsers } from "../../../apis/groupApi";
 //import { useParams } from "react-router-dom";
 import CancelSvg from "../../../assets/svg/CancelSvg";
-import { inviteModalAtom } from "../../../shared/Atoms/modalAtoms";
+import { inviteModalAtom } from "../../../recoil/modalAtoms";
 import {
   BtnBox,
   FormHeader,

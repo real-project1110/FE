@@ -1,4 +1,4 @@
-import instance, { postApi } from "../shared/instance";
+import instance, { postApi } from "./instance/instance";
 
 /** 그룹 생성  { groupName } */
 export const addGroup = async (payload) => {

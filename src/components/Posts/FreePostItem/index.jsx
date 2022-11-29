@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../..";
 import { removePost, togglePost } from "../../../apis/postApi";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
-import { editPostAtom } from "../../../shared/Atoms/groupAtoms";
-import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
+import { editPostAtom } from "../../../recoil/groupAtoms";
+import { PostFormModalAtom } from "../../../recoil/modalAtoms";
+import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
 import CommentList from "../CommentList";
@@ -41,6 +42,7 @@ const FreePostItem = ({ post, refetch }) => {
   const [openPostMenu, setOpenPostMenu] = useState(false);
   const setEditPost = useSetRecoilState(editPostAtom);
   const setShowPostModal = useSetRecoilState(PostFormModalAtom);
+  const groupUser = useRecoilValue(groupUserAtom);
   const [commentCount, setCommentCount] = useState(0);
   const { mutate: removePostFn } = useMutation(removePost, {
     onSuccess: () => refetch(),
@@ -130,19 +132,21 @@ const FreePostItem = ({ post, refetch }) => {
               <LoadTime>1분전</LoadTime>
             </PostUserInfo>
             {/* 본인게시글만 보이게 */}
-            <PostOption onClick={modalOpen}>
-              {openPostMenu ? (
-                <MenuBox right={"1rem"} top={"1.2rem"}>
-                  <MenuList>
-                    <li onClick={onEditPost}>글 수정</li>
-                    <li onClick={onTogglePost}>공지로 등록</li>
-                    <li>북마크</li>
-                    <li onClick={onDeletePost}>삭제</li>
-                  </MenuList>
-                </MenuBox>
-              ) : null}
-              <PostOptionSvg />
-            </PostOption>
+            {groupUser.groupUserId === post.groupUserId && (
+              <PostOption onClick={modalOpen}>
+                {openPostMenu ? (
+                  <MenuBox right={"1rem"} top={"1.2rem"}>
+                    <MenuList>
+                      <li onClick={onEditPost}>글 수정</li>
+                      <li onClick={onTogglePost}>공지로 등록</li>
+                      <li>북마크</li>
+                      <li onClick={onDeletePost}>삭제</li>
+                    </MenuList>
+                  </MenuBox>
+                ) : null}
+                <PostOptionSvg />
+              </PostOption>
+            )}
           </PostMenu>
           <PostContent>
             <PostImgWrap>
@@ -176,6 +180,7 @@ const FreePostItem = ({ post, refetch }) => {
             setCommentCount={setCommentCount}
           />
         ) : null}
+        \{" "}
       </FreePostItemContainer>
     </>
   );

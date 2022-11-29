@@ -13,8 +13,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQuery } from "react-query";
 import { readStatus, removeStatus } from "../../apis/colorApi";
 import { useSetRecoilState } from "recoil";
-import { ColorFormModalAtom } from "../../shared/Atoms/modalAtoms";
-import { nowColor } from "../../shared/Atoms/ColorAtom";
+import { ColorFormModalAtom } from "../../recoil/modalAtoms";
+import { nowColor } from "../../recoil/ColorAtom";
 
 function Status({ groupId }) {
   const [openModal, setOpenModal] = useState(false);
