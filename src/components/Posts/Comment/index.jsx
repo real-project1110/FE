@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { useMutation } from "react-query";
+import { useRecoilValue } from "recoil";
+import { editComment, removeComment } from "../../../apis/commentApi";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
+import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
+import { CloseContainer } from "../FreePostItem/styles";
 import {
   CommentContent,
   CommentHeader,
@@ -18,48 +23,86 @@ import {
   Nickname,
 } from "./styles";
 
-const Comment = ({ CommentModalOpen, openCommentModal }) => {
-  return (
-    <FreeComment>
-      <CommentHeader>
-        {/* 댓글 map 돌려야함 */}
-        <CommentUserInfo>
-          <CommentUserImg>
-            <img
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEWgoKAG03+7AAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII="
-              alt="profile"
-              onError={handleImgError}
-            />
-          </CommentUserImg>
-          <Nickname>닉네임</Nickname>
-        </CommentUserInfo>
-        {/* 본인댓글만 보이게 */}
-        <CommentMenu onClick={CommentModalOpen}>
-          {openCommentModal ? (
-            <MenuBox right={"1rem"} top={"1.5rem"}>
-              <MenuList>
-                <li>댓글 수정</li>
-                <li>삭제</li>
-              </MenuList>
-            </MenuBox>
-          ) : null}
-          <PostOptionSvg />
-        </CommentMenu>
-      </CommentHeader>
+function Comment({ comment, refetch, groupId, commentId }) {
+  const [openCommentModal, setOpenCommentModal] = useState(false);
+  const groupUser = useRecoilValue(groupUserAtom);
 
-      <CommentContent>
-        내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용댓글
-      </CommentContent>
-      <CommentResponse>
-        <CommentLoadTime>1분전</CommentLoadTime>
-        <CommentLike>
-          <SpaceLikeSvg />
-          <CommentLikeCount>5</CommentLikeCount>
-        </CommentLike>
-        <CommentLoadTime>답글쓰기</CommentLoadTime>
-      </CommentResponse>
-    </FreeComment>
+  // 댓글 수정 query
+  const { mutate: editMutate } = useMutation(editComment, {
+    onSuccess: () => refetch(),
+  });
+
+  // 댓글 삭제 query
+  const { mutate: removeMutate } = useMutation(removeComment, {
+    onSuccess: () => refetch(),
+  });
+
+  // 코멘트 메뉴 열기
+  const CommentModalOpen = useCallback(() => {
+    setOpenCommentModal(true);
+  }, []);
+
+  // 댓글 삭제 onClick
+  const remove = useCallback(() => {
+    const removeCommentData = {
+      groupId: groupId,
+      commentId: commentId,
+    };
+    if (window.confirm("정말 삭제하시겠습니까?") === true) {
+      removeMutate(removeCommentData);
+      alert("삭제되었습니다");
+    } else {
+      return;
+    }
+  }, [commentId, groupId, removeMutate]);
+
+  const onCloseModal = useCallback((e) => {
+    e.stopPropagation();
+    setOpenCommentModal(false);
+  }, []);
+
+  return (
+    <>
+      {openCommentModal && <CloseContainer onClick={onCloseModal} />}
+      <FreeComment>
+        <CommentHeader>
+          <CommentUserInfo>
+            <CommentUserImg>
+              <img
+                src={comment.groupAvatarImg}
+                alt="profile"
+                onError={handleImgError}
+              />
+            </CommentUserImg>
+            <Nickname>{comment.groupUserNickname}</Nickname>
+          </CommentUserInfo>
+          {/* 본인댓글만 메뉴 보이게 */}
+          {groupUser.groupUserId === comment.groupUserId && (
+            <CommentMenu onClick={CommentModalOpen}>
+              {openCommentModal ? (
+                <MenuBox right={"1rem"} top={"1.5rem"}>
+                  <MenuList>
+                    <li>댓글 수정</li>
+                    <li onClick={remove}>삭제</li>
+                  </MenuList>
+                </MenuBox>
+              ) : null}
+              <PostOptionSvg />
+            </CommentMenu>
+          )}
+        </CommentHeader>
+        <CommentContent>{comment.comment}</CommentContent>
+        <CommentResponse>
+          <CommentLoadTime>1분전</CommentLoadTime>
+          <CommentLike>
+            <SpaceLikeSvg />
+            <CommentLikeCount>5</CommentLikeCount>
+          </CommentLike>
+          <CommentLoadTime>답글쓰기</CommentLoadTime>
+        </CommentResponse>
+      </FreeComment>
+    </>
   );
-};
+}
 
 export default Comment;

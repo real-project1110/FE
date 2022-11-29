@@ -1,4 +1,4 @@
-import instance, { postApi } from "../shared/instance";
+import instance, { postApi } from "./instance/instance";
 
 // status 생성
 export const addStatus = async (payload) => {
@@ -15,14 +15,17 @@ export const readStatus = async (payload) => {
   return data.data;
 };
 
-// status 삭제 (id)
+// status 삭제 (groupId/colorId)
 export const removeStatus = async (payload) => {
-  const data = await instance.delete(`groups/color/${payload}`);
+  console.log(payload);
+  const data = await instance.delete(
+    `groups/${payload.groupId}/color/${payload.colorId}`
+  );
   return data;
 };
 
-// status 수정
-export const editStatus = async (payload) => {
-  const data = await postApi.put(`groups/color/${payload.id}`, payload.body);
-  return data;
-};
+// status 수정 사용여부 파악중
+// export const editStatus = async (payload) => {
+//   const data = await postApi.put(`groups/color/${payload.id}`, payload.body);
+//   return data;
+// };

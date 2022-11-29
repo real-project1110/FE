@@ -9,7 +9,7 @@ import Scrollbars from "react-custom-scrollbars-2";
 import { useQuery } from "react-query";
 import { readGroup } from "../../../apis/groupApi";
 import { useSetRecoilState } from "recoil";
-import { groupAtom } from "../../../shared/Atoms/groupAtoms";
+import { groupAtom } from "../../../recoil/groupAtoms";
 
 const TeamNavBar = () => {
   const { groupId } = useParams();

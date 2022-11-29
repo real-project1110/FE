@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import { editPost, removePost } from "../../../apis/postApi";
-import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
+import { useParams } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { queryClient } from "../../..";
+import { removePost, togglePost } from "../../../apis/postApi";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
+import { editPostAtom } from "../../../recoil/groupAtoms";
+import { PostFormModalAtom } from "../../../recoil/modalAtoms";
+import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
-import Comment from "../Comment";
+import CommentList from "../CommentList";
 import {
   CloseContainer,
   CommentCount,
-  CommentForm,
-  CommentInput,
-  CommentList,
-  CommentSubmitBtn,
-  CommentUserImg,
   Content,
   FakeImg,
   FreePost,
@@ -33,40 +33,81 @@ import {
   PostOption,
   PostResponse,
   PostUserInfo,
-  SendComment,
   UserImg,
 } from "./styles";
 
 const FreePostItem = ({ post, refetch }) => {
+  const { groupId } = useParams();
   const [CommentListOpen, setCommentOpen] = useState(false);
   const [openPostMenu, setOpenPostMenu] = useState(false);
-  const [openCommentModal, setOpenCommentModal] = useState(false);
-
-  const { mutate: editMutate } = useMutation(editPost, {
+  const setEditPost = useSetRecoilState(editPostAtom);
+  const setShowPostModal = useSetRecoilState(PostFormModalAtom);
+  const groupUser = useRecoilValue(groupUserAtom);
+  const [commentCount, setCommentCount] = useState(0);
+  const { mutate: removePostFn } = useMutation(removePost, {
     onSuccess: () => refetch(),
   });
 
-  const { mutate: removeMutate } = useMutation(removePost, {
-    onSuccess: () => refetch(),
+  const { mutate: togglePostFn } = useMutation(togglePost, {
+    onSuccess: () => {
+      refetch();
+      queryClient.invalidateQueries(["noticePosts", groupId]);
+    },
   });
 
   // 메뉴 닫기
-  const onCloseModal = (e) => {
-    e.stopPropagation();
+  const onCloseModal = useCallback((e) => {
     setOpenPostMenu(false);
-  };
+  }, []);
 
   // 게시글 메뉴 열기
-  const modalOpen = (e) => {
+  const modalOpen = useCallback((e) => {
     e.stopPropagation();
     setOpenPostMenu(true);
-  };
+  }, []);
 
   // 댓글 여닫기
-  const openComment = () => {
+  const openComment = useCallback(() => {
     setCommentOpen((prev) => !prev);
-  };
-  console.log(post);
+  }, []);
+
+  // 게시글 삭제
+  const onDeletePost = useCallback(
+    (e) => {
+      e.stopPropagation();
+      removePostFn(post.postId);
+      onCloseModal();
+    },
+    [post, removePostFn, onCloseModal]
+  );
+
+  // 자유게시글을 공지글로 바꾸는 함수
+  const onTogglePost = useCallback(
+    (e) => {
+      e.stopPropagation();
+      togglePostFn({ postId: post.postId, groupId });
+      onCloseModal();
+    },
+    [togglePostFn, onCloseModal, post, groupId]
+  );
+
+  // 글 수정 버튼 클릭 시
+  const onEditPost = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setEditPost(post);
+      setShowPostModal(true);
+      onCloseModal();
+    },
+    [onCloseModal, post, setEditPost, setShowPostModal]
+  );
+
+  useEffect(() => {
+    if (post) {
+      setCommentCount(post.commentCount);
+    }
+  }, [post]);
+
   if (!post) return <div />;
 
   return (
@@ -91,19 +132,21 @@ const FreePostItem = ({ post, refetch }) => {
               <LoadTime>1분전</LoadTime>
             </PostUserInfo>
             {/* 본인게시글만 보이게 */}
-            <PostOption onClick={modalOpen}>
-              {openPostMenu ? (
-                <MenuBox right={"1rem"} top={"1.2rem"}>
-                  <MenuList>
-                    <li>글 수정</li>
-                    <li>공지로 등록</li>
-                    <li>북마크</li>
-                    <li>삭제</li>
-                  </MenuList>
-                </MenuBox>
-              ) : null}
-              <PostOptionSvg />
-            </PostOption>
+            {groupUser.groupUserId === post.groupUserId && (
+              <PostOption onClick={modalOpen}>
+                {openPostMenu ? (
+                  <MenuBox right={"1rem"} top={"1.2rem"}>
+                    <MenuList>
+                      <li onClick={onEditPost}>글 수정</li>
+                      <li onClick={onTogglePost}>공지로 등록</li>
+                      <li>북마크</li>
+                      <li onClick={onDeletePost}>삭제</li>
+                    </MenuList>
+                  </MenuBox>
+                ) : null}
+                <PostOptionSvg />
+              </PostOption>
+            )}
           </PostMenu>
           <PostContent>
             <PostImgWrap>
@@ -126,27 +169,16 @@ const FreePostItem = ({ post, refetch }) => {
             </PostLike>
             <PostComment onClick={() => openComment()}>
               <CommentSvg />
-              <CommentCount>{post.commentCount}</CommentCount>
+              <CommentCount>{commentCount}</CommentCount>
             </PostComment>
           </PostResponse>
         </FreePost>
         {CommentListOpen ? (
-          <CommentList>
-            {[1, 2, 3, 4].map((comment) => (
-              <Comment key={comment} />
-            ))}
-            <CommentForm>
-              <CommentUserImg
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAIVBMVEXY2Njz8/Pq6urv7+/h4eHb29vo6Oje3t7j4+Pt7e3p6ekmc3lwAAADMElEQVR4nO2bC3KDMAxEMeab+x+4JZQBEkhBlq2NZt8JvGOtPkZUFSGEEEIIIYQQQgghhBBCCCEEnXbo6hjDLzHW3dBan0dEO9ThjfrrxDQHKv60NNZnu0ETz2Q8w+xbpPQfZTyl9NZnvEB7GlS7AIP3SnNFxgR4fHVXdYTQWZ/1A+14XUcII2x4tf+6fE8EVXJXB6qS+zpAldzyx8Jofep3buSrLXC563L9eAWsnrRSHSFg2eRSX3JMbX32Lb1cRwhIHaQg865E69OviJ0+g+P3pAsBupLEC8G5koSUNQOSuBJqyAJGLRnShQzWGp4kRxZKbKXrCMFaw4SCRTBMomARDJMIB5E9CGOJgtcx3J7Yn8wgdCluhGjogMi/FEIhmXBjdjdC3BRENy2Km6bRTRvvZrDyM+q6eXxw8xzk5oHOz5Opm0dsP58V3Hzo8fPpzc3HUD+fp90sDPhZ4fCzVONnzcnN4pmfVUA/y5mVm3XZys8Cs5+V8srNkv+Ek98uJpz8CDPh5NekGRc/ixFCCCHky2mb4TGO8cLkHuM4PoYGsGfph1r0Ih/rAWc2Oexz74DRE59PHre0GE8pvcoiykxnF2O96Ln3nNFGSqMs4ymlfIT9/1Qio/ADS6vojVe6gilMZUXrnFKbKfeeqiWUed5OXti4QgHTZ3THltxv9fnDaiFveOVKukfkTMRJmxr3yaakiM23ZLJ8cR2ZlBjoyKKksD8W1H1ipENdiWQ/QwflrYJidfAd1b2bQn3JMYrdiknCWlFLXSo/VqSgZRNDg8wo2STzPHgFlZnRPLAmNILLNGMtKGQus5K+J73Am5X0PckL9MYlZCW1mJin3oXEFAzikIk0l8BcSOKVAF1I2pVA1JCFlFpiffY9ch0wuXdGnoFVvnPqIf6JCaJd3CJtHQH69z3Sbh4ssuSxZX3ud2Q6oKrhjKwmwllEahI4i0hNAjJSbZGNV9anPkKiA64cTkhKIlijNSNptwCTlixtPawPfcRDIARoyl2RzLtuhACWEVkhcSPE+szHUAgaFIIGhaBBIWhQCBoUggaFoEEhaFAIGhSCBoWgQSFoUAgap8f9Ac1KQOtCVp1TAAAAAElFTkSuQmCC"
-                alt="profile"
-              ></CommentUserImg>
-              <CommentInput placeholder="댓글을 남겨주세요." type="text" />
-              <CommentSubmitBtn>
-                <SendComment>보내기</SendComment>
-                <CommentPostSvg />
-              </CommentSubmitBtn>
-            </CommentForm>
-          </CommentList>
+          <CommentList
+            postId={post.postId}
+            groupId={groupId}
+            setCommentCount={setCommentCount}
+          />
         ) : null}
       </FreePostItemContainer>
     </>

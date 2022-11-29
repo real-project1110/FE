@@ -129,11 +129,6 @@ export const PostComment = styled.div`
   cursor: pointer;
 `;
 
-export const CommentList = styled.div`
-  ${FlexColumnBox};
-  border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
-`;
-
 export const CommentCount = styled.span`
   margin-left: 5px;
   margin-top: 3px;
@@ -155,47 +150,4 @@ export const PostLikeCount = styled.span`
   font-weight: 300;
   font-size: 12px;
   color: #1c1c1c;
-`;
-
-export const CommentForm = styled.form`
-  display: flex;
-  align-items: center;
-  margin: 1rem 1.3rem;
-  padding: 0.3rem 0.5rem;
-  border: 1px solid ${(props) => props.theme.color.lightGray};
-  border-radius: 30px;
-`;
-
-export const CommentUserImg = styled.img`
-  width: 1.8rem;
-  height: 1.8rem;
-  object-fit: cover;
-  background-color: ${(props) => props.theme.color.lightGray};
-  border: none;
-  border-radius: 50%;
-`;
-
-export const CommentInput = styled.input`
-  width: 100%;
-  border: none;
-  margin-left: 1rem;
-  font-size: 0.9rem;
-`;
-
-export const CommentSubmitBtn = styled.button`
-  ${FlexCenterBox};
-  padding: 0.5rem 0;
-  width: 7rem;
-  display: flex;
-  border: none;
-  border-radius: 5px;
-  svg {
-    width: 20px;
-    margin-left: 0.5rem;
-  }
-`;
-
-export const SendComment = styled.span`
-  font-weight: 400;
-  font-size: 0.9rem;
 `;

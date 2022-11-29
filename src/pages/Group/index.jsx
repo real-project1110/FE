@@ -6,7 +6,7 @@ import SideTeamBar from "../../components/Common/SideTeamBar";
 import TeamNavBar from "../../components/Common/TeamNavBar";
 
 import InviteModal from "../../components/Modals/InviteModal";
-import { inviteModalAtom } from "../../shared/Atoms/modalAtoms";
+import { inviteModalAtom } from "../../recoil/modalAtoms";
 import { Wrapper, Body } from "./styles";
 
 const Group = () => {

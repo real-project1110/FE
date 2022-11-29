@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import Schedular from "../../../components/Schedular/Schedular";
 import Status from "../../../components/Status";
 import StatusModal from "../../../components/StatusModal";
-import { ColorFormModalAtom } from "../../../shared/Atoms/modalAtoms";
+import { ColorFormModalAtom } from "../../../recoil/modalAtoms";
 import { Wrapper } from "./styles";
 
 function Schedule() {

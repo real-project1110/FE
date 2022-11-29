@@ -3,10 +3,13 @@ import {} from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   height: 100%;
+  & > div {
+    border-radius: 8px;
+  }
   .mbsc-scrollview-scroll {
   }
   //
-  .mbsc-calendar-text,
+  /* .mbsc-calendar-text,
   .mbsc-calendar-label,
   .mbsc-calendar-label-start {
     display: flex;
@@ -22,7 +25,7 @@ export const Wrapper = styled.div`
     align-items: center;
     height: 30px;
     padding: 0.5rem;
-  }
+  } */
 
   .mbsc-calendar-cell-inner {
     div {

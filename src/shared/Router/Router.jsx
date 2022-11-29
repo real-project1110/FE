@@ -8,6 +8,7 @@ import Schedule from "../../pages/Group/Schedule";
 import Signin from "../../pages/Signin";
 import Group from "../../pages/Group";
 import Signup from "../../pages/Signup";
+import Chat from "../../pages/Group/Chat";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
         <Route path="/groups" element={<Group />}>
           <Route path=":groupId" element={<Schedule />} />
           <Route path=":groupId/posts" element={<Notice />} />
+          <Route path=":groupId/chats/:groupUserId" element={<Chat />} />
         </Route>
       </Routes>
     </BrowserRouter>

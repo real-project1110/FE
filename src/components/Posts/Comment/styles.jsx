@@ -59,6 +59,7 @@ export const CommentMeunu = styled.div`
 
 export const MenuList = styled.ul`
   width: 100px;
+  line-height: 35px;
   text-align: center;
   & > li {
     border-bottom: 1px solid ${(props) => props.theme.color.lightGray};

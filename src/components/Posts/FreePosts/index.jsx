@@ -2,7 +2,7 @@ import React from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { NoticeTitle, Wrapper } from "../NoticePosts/styles";
 import { useSetRecoilState } from "recoil";
-import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
+import { PostFormModalAtom } from "../../../recoil/modalAtoms";
 import { useQuery } from "react-query";
 import { readFreePosts } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
@@ -53,7 +53,12 @@ function FreePosts() {
         <Scrollbars autoHide>
           {FreePosts &&
             FreePosts.data.map((post) => (
-              <FreePostItem key={post.postId} refetch={refetch} post={post} />
+              <FreePostItem
+                groupId={groupId}
+                key={post.postId}
+                refetch={refetch}
+                post={post}
+              />
             ))}
         </Scrollbars>
       </AllFreePost>

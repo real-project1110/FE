@@ -4,11 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../../..";
 import { outGroup } from "../../../../apis/groupApi";
-import { groupAtom } from "../../../../shared/Atoms/groupAtoms";
+import { groupAtom } from "../../../../recoil/groupAtoms";
 import {
   editProfileModalAtom,
   headerMenuAtom,
-} from "../../../../shared/Atoms/modalAtoms";
+} from "../../../../recoil/modalAtoms";
 import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
 import { handleImgError } from "../../../../utils/handleImgError";
 import Menu from "../../../Modals/Menu";

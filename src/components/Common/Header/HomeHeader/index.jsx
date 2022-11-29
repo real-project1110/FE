@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { readUser } from "../../../../apis/userApi";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
@@ -10,7 +10,8 @@ import SearchSvg from "../../../../assets/svg/SearchSvg";
 import {
   editProfileModalAtom,
   headerMenuAtom,
-} from "../../../../shared/Atoms/modalAtoms";
+} from "../../../../recoil/modalAtoms";
+import { userAtom } from "../../../../recoil/userAtoms";
 import { decodeUser } from "../../../../utils/decodeUser";
 import { existCookie } from "../../../../utils/existCookie";
 import { handleImgError } from "../../../../utils/handleImgError";
@@ -35,6 +36,7 @@ const HomeHeader = () => {
   });
   const [editProfile, setEditProfile] = useRecoilState(editProfileModalAtom);
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userAtom);
 
   useEffect(() => {
     const cookie = existCookie();
@@ -42,6 +44,12 @@ const HomeHeader = () => {
       return navigate("/");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (user) {
+      setUser(user);
+    }
+  }, [setUser, user]);
 
   return (
     <Wrapper as="header">
