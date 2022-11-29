@@ -1,29 +1,40 @@
 import React, { useState } from "react";
 import LogoSvg from "../../assets/svg/LogoSvg";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
-import { AddStatus, CalendarLogo, StatusBox, StatusColor, StatusList, StatusName } from "./styles";
+import {
+  AddStatus,
+  CalendarLogo,
+  StatusBox,
+  StatusColor,
+  StatusList,
+  StatusName,
+} from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQuery } from "react-query";
 import { editStatus, readStatus, removeStatus } from "../../apis/colorApi";
 import { useSetRecoilState } from "recoil";
-import { ColorFormModalAtom } from "../../shared/Atoms/modalAtoms";
-import { nowColor } from "../../shared/Atoms/ColorAtom";
+import { ColorFormModalAtom } from "../../recoil/modalAtoms";
+import { nowColor } from "../../recoil/ColorAtom";
 
 function Status({ groupId }) {
   const [openModal, setOpenModal] = useState(false);
   const setIsColor = useSetRecoilState(ColorFormModalAtom);
   const setColor = useSetRecoilState(nowColor);
 
-  const { data, refetch } = useQuery(["statuses", groupId], () => readStatus(groupId), {
-    refetchOnWindowFocus: false,
-    retry: 1,
-    onSuccess: (data) => {
-      setColor(data);
-    },
-    onError: (e) => {
-      console.log(e.message);
-    },
-  });
+  const { data, refetch } = useQuery(
+    ["statuses", groupId],
+    () => readStatus(groupId),
+    {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      onSuccess: (data) => {
+        setColor(data);
+      },
+      onError: (e) => {
+        console.log(e.message);
+      },
+    }
+  );
 
   const { mutate: editMutate } = useMutation(editStatus, {
     onSuccess: () => refetch(),
@@ -67,8 +78,13 @@ function Status({ groupId }) {
       </AddStatus>
       {data?.map((state) => (
         <StatusList key={state.colorId}>
-          <StatusColor value={state.color} onClick={() => remove(state.colorId)} />
-          <StatusName onClick={() => remove(state.colorId)}>{state.content}</StatusName>
+          <StatusColor
+            value={state.color}
+            onClick={() => remove(state.colorId)}
+          />
+          <StatusName onClick={() => remove(state.colorId)}>
+            {state.content}
+          </StatusName>
         </StatusList>
       ))}
     </StatusBox>

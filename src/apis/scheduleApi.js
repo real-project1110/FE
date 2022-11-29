@@ -1,4 +1,4 @@
-import instance from "../shared/instance";
+import instance from "./instance/instance";
 
 // /** 일정 조회  (groupId) */
 export const readSchedule = async (payload) => {

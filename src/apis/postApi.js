@@ -1,4 +1,4 @@
-import instance, { postApi } from "../shared/instance";
+import instance, { postApi } from "./instance/instance";
 
 /** 게시글 생성 { id, body:{ content,postImg,category } } */
 export const addPost = async (payload) => {

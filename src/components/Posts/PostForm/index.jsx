@@ -4,8 +4,8 @@ import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { faXmark, faImage } from "@fortawesome/free-solid-svg-icons";
 import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
-import { PostFormModalAtom } from "../../../shared/Atoms/modalAtoms";
-import { editPostAtom } from "../../../shared/Atoms/groupAtoms";
+import { PostFormModalAtom } from "../../../recoil/modalAtoms";
+import { editPostAtom } from "../../../recoil/groupAtoms";
 import { addPost, editPost } from "../../../apis/postApi";
 import { queryClient } from "../../..";
 import {
