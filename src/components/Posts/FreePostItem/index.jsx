@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { queryClient } from "../../..";
 import { removePost, togglePost } from "../../../apis/postApi";
-import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
