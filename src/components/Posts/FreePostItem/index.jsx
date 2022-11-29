@@ -75,10 +75,14 @@ const FreePostItem = ({ post, refetch }) => {
   const onDeletePost = useCallback(
     (e) => {
       e.stopPropagation();
-      removePostFn(post.postId);
+      const removePostData = {
+        groupId: groupId,
+        postId: post.postId,
+      };
+      removePostFn(removePostData);
       onCloseModal();
     },
-    [post, removePostFn, onCloseModal]
+    [post, groupId, removePostFn, onCloseModal]
   );
 
   // 자유게시글을 공지글로 바꾸는 함수

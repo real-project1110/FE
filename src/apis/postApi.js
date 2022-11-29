@@ -1,3 +1,4 @@
+import { useInfiniteQuery } from "react-query";
 import instance, { postApi } from "./instance/instance";
 
 /** 게시글 생성 { id, body:{ content,postImg,category } } */
@@ -10,9 +11,35 @@ export const addPost = async (payload) => {
 };
 
 /** 자유 게시글 전체 조회 { id,category } */
-export const readFreePosts = async (payload) => {
-  const { data } = await instance.get(`groups/${payload}/posts?category=0`);
-  return data;
+export const useReadFreePosts = (groupId) => {
+  const getFreePosts = async ({ pageParam = 1 }) => {
+    const { data } = await instance.get(
+      `groups/${groupId}/posts?page=${pageParam}&category=0`
+    );
+    return {
+      data: data.data,
+      currentPage: pageParam,
+    };
+  };
+  const {
+    data: getPost,
+    fetchNextPage,
+    isSuccess,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery(
+    ["getFreePosts", groupId],
+    getFreePosts,
+    {
+      getNextPageParam: (lastPage, pages) =>
+        lastPage.data[0] ? lastPage.currentPage + 1 : undefined,
+    },
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
+  return { getPost, fetchNextPage, isSuccess, hasNextPage, refetch };
 };
 
 /** 공지 게시글 전체 조회 { id,category } */

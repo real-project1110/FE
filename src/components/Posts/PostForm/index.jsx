@@ -33,10 +33,10 @@ function PostForm() {
   const [editPostData, setEditPostData] = useRecoilState(editPostAtom);
 
   const { mutate: addPostFn } = useMutation(addPost, {
-    onSuccess: () => queryClient.invalidateQueries(["freePosts", groupId]),
+    onSuccess: () => queryClient.invalidateQueries(["getFreePosts", groupId]),
   });
   const { mutate: editPostFn } = useMutation(editPost, {
-    onSuccess: () => queryClient.invalidateQueries(["freePosts", groupId]),
+    onSuccess: () => queryClient.invalidateQueries(["getFreePosts", groupId]),
   });
   const [isHover, setIsHover] = useState(0);
   const [imagePreview, setImagePreview] = useState([]);
