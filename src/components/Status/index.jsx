@@ -11,7 +11,7 @@ import {
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQuery } from "react-query";
-import { editStatus, readStatus, removeStatus } from "../../apis/colorApi";
+import { readStatus, removeStatus } from "../../apis/colorApi";
 import { useSetRecoilState } from "recoil";
 import { ColorFormModalAtom } from "../../recoil/modalAtoms";
 import { nowColor } from "../../recoil/ColorAtom";
@@ -36,9 +36,9 @@ function Status({ groupId }) {
     }
   );
 
-  const { mutate: editMutate } = useMutation(editStatus, {
-    onSuccess: () => refetch(),
-  });
+  // const { mutate: editMutate } = useMutation(editStatus, {
+  //   onSuccess: () => refetch(),
+  // });
 
   const { mutate: removeMutate } = useMutation(removeStatus, {
     onSuccess: () => refetch(),

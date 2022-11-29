@@ -24,8 +24,8 @@ export const removeStatus = async (payload) => {
   return data;
 };
 
-// status 수정
-export const editStatus = async (payload) => {
-  const data = await postApi.put(`groups/color/${payload.id}`, payload.body);
-  return data;
-};
+// status 수정 사용여부 파악중
+// export const editStatus = async (payload) => {
+//   const data = await postApi.put(`groups/color/${payload.id}`, payload.body);
+//   return data;
+// };
