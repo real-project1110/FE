@@ -7,6 +7,7 @@ import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
+import { CloseContainer } from "../FreePostItem/styles";
 import {
   CommentContent,
   CommentHeader,
@@ -55,8 +56,14 @@ function Comment({ comment, refetch, groupId, commentId }) {
     }
   }, [commentId, groupId, removeMutate]);
 
+  const onCloseModal = useCallback((e) => {
+    e.stopPropagation();
+    setOpenCommentModal(false);
+  }, []);
+
   return (
     <>
+      {openCommentModal && <CloseContainer onClick={onCloseModal} />}
       <FreeComment>
         <CommentHeader>
           <CommentUserInfo>
