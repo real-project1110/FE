@@ -121,19 +121,9 @@ const FreePostItem = ({ post, refetch }) => {
         <FreePost>
           <PostMenu>
             <PostUserInfo>
-              <UserImg>
-                {post.groupAvatarImg ? (
-                  <img
-                    src={post.groupAvatarImg}
-                    alt="profile"
-                    onError={handleImgError}
-                  />
-                ) : (
-                  <FakeImg />
-                )}
-              </UserImg>
+              <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
               <Nickname>{post.groupUserNickname}</Nickname>
-              <LoadTime>1분전</LoadTime>
+              <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
             </PostUserInfo>
             {/* 본인게시글만 보이게 */}
             {groupUser.groupUserId === post.groupUserId && (
@@ -156,11 +146,7 @@ const FreePostItem = ({ post, refetch }) => {
             <PostImgWrap>
               {post.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>
-                  <img
-                    src={Image.postImg}
-                    alt="postImg"
-                    onError={handleImgError}
-                  />
+                  <img src={Image.postImg} alt="postImg" onError={handleImgError} />
                 </ImageWrap>
               ))}
             </PostImgWrap>
@@ -177,13 +163,7 @@ const FreePostItem = ({ post, refetch }) => {
             </PostComment>
           </PostResponse>
         </FreePost>
-        {CommentListOpen ? (
-          <CommentList
-            postId={post.postId}
-            groupId={groupId}
-            setCommentCount={setCommentCount}
-          />
-        ) : null}
+        {CommentListOpen ? <CommentList postId={post.postId} groupId={groupId} setCommentCount={setCommentCount} /> : null}
       </FreePostItemContainer>
     </>
   );
