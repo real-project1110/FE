@@ -125,7 +125,6 @@ const FreePostItem = ({ post, refetch }) => {
               <Nickname>{post.groupUserNickname}</Nickname>
               <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
             </PostUserInfo>
-            {/* 본인게시글만 보이게 */}
             {groupUser.groupUserId === post.groupUserId && (
               <PostOption onClick={modalOpen}>
                 {openPostMenu ? (

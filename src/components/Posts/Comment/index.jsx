@@ -68,15 +68,10 @@ function Comment({ comment, refetch, groupId, commentId }) {
         <CommentHeader>
           <CommentUserInfo>
             <CommentUserImg>
-              <img
-                src={comment.groupAvatarImg}
-                alt="profile"
-                onError={handleImgError}
-              />
+              <img src={comment.groupAvatarImg} alt="profile" onError={handleImgError} />
             </CommentUserImg>
             <Nickname>{comment.groupUserNickname}</Nickname>
           </CommentUserInfo>
-          {/* 본인댓글만 메뉴 보이게 */}
           {groupUser.groupUserId === comment.groupUserId && (
             <CommentMenu onClick={CommentModalOpen}>
               {openCommentModal ? (
