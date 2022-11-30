@@ -14,7 +14,6 @@ function FreePosts() {
   const { groupId } = useParams();
 
   const { getPost, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadFreePosts(groupId);
-
   const { ref, inView } = useInView();
 
   useEffect(() => {
