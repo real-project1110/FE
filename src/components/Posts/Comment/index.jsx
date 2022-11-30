@@ -88,7 +88,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
         </CommentHeader>
         <CommentContent>{comment.comment}</CommentContent>
         <CommentResponse>
-          <CommentLoadTime>1분전</CommentLoadTime>
+          <CommentLoadTime>{comment.createdAt.slice(0, 10)}</CommentLoadTime>
           <CommentLike>
             <SpaceLikeSvg />
             <CommentLikeCount>5</CommentLikeCount>
