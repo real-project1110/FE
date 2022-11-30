@@ -67,27 +67,6 @@ function NoticePosts() {
                 </React.Fragment>
               ))
             : null}
-          {/* {noticePosts &&
-            noticePosts.data.map((post) => (
-              <Post key={post.postId}>
-                <PostImg src={post.postImg[0].postImg} alt={post.groupUserNickname} onError={handleImgError} />
-                <ContentBox>
-                  <PostTitle>제목이 필요합니다.</PostTitle>
-                  <PostContent>{post.content}</PostContent>
-                  <PostInfoWrap>
-                    <PostInfo>
-                      <PostWriter>{post.groupUserNickname}</PostWriter>
-                      <Vector>|</Vector>
-                      <PostDate>{post.createdAt.slice(0, 10)}</PostDate>
-                    </PostInfo>
-                    <PostLike>
-                      <SpaceLikeSvg />
-                      <LikeCount>{post.commentCount}</LikeCount>
-                    </PostLike>
-                  </PostInfoWrap>
-                </ContentBox>
-              </Post>
-            ))} */}
         </Scrollbars>
       </AllPost>
     </Wrapper>
