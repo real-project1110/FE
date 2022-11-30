@@ -27,7 +27,6 @@ function NoticePosts() {
   const { groupId } = useParams();
 
   const { getNotice, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadNoticePosts(groupId);
-  console.log("get", getNotice);
 
   const { ref, inView } = useInView();
   useEffect(() => {

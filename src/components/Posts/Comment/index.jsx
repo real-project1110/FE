@@ -31,7 +31,6 @@ function Comment({ comment, refetch, groupId, commentId }) {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [editMyComment, setEditMyComment] = useState(false);
   const [textValue, setTextValue] = useState("");
-  console.log("text", textValue);
 
   const groupUser = useRecoilValue(groupUserAtom);
 
