@@ -42,13 +42,13 @@ export const removeGroup = async (payload) => {
 
 /** 그룹 대표 이미지 수정  { id,body:{ groupImg } } */
 export const editGroupImage = async (payload) => {
+  console.log(payload);
   const data = await postApi.put(`groups/${payload.id}/groupImg`, payload.body);
   return data;
 };
 
 /** 그룹 초대  { id,body:{ email } } */
 export const inviteUsers = async (payload) => {
-  console.log(payload);
   const data = await instance.post(`invites/${payload.id}`, payload.body);
   return data;
 };
