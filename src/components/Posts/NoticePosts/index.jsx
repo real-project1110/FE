@@ -56,8 +56,7 @@ function NoticePosts() {
                             <PostDate>{notice.createdAt.slice(0, 10)}</PostDate>
                           </PostInfo>
                           <PostLike>
-                            <SpaceLikeSvg />
-                            <LikeCount>{notice.commentCount}</LikeCount>
+                            <LikeCount>{notice?.likeCount}</LikeCount>
                           </PostLike>
                         </PostInfoWrap>
                       </ContentBox>
