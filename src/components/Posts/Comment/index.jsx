@@ -1,15 +1,19 @@
 import React, { useCallback, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilValue } from "recoil";
-import { editComment, removeComment } from "../../../apis/commentApi";
+import { commentLike, editComment, removeComment } from "../../../apis/commentApi";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
+import LikeSvg from "../../../assets/svg/LikeSvg";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
-import { CloseContainer } from "../FreePostItem/styles";
+import { CommentFormUserImg, CommentInput, CommentSubmitBtn } from "../CommentList/styles";
+import { CloseContainer, FakeImg } from "../FreePostItem/styles";
+import { SendComment } from "../FreePosts/styles";
 import {
   CommentContent,
+  CommentForm,
   CommentHeader,
   CommentLike,
   CommentLikeCount,
@@ -25,7 +29,16 @@ import {
 
 function Comment({ comment, refetch, groupId, commentId }) {
   const [openCommentModal, setOpenCommentModal] = useState(false);
+  const [editMyComment, setEditMyComment] = useState(false);
+  const [textValue, setTextValue] = useState("");
+  const [like, setLike] = useState(false);
+
   const groupUser = useRecoilValue(groupUserAtom);
+
+  // 좋아요
+  const { mutate: likeFn } = useMutation(commentLike, {
+    onSuccess: () => refetch(),
+  });
 
   // 댓글 수정 query
   const { mutate: editMutate } = useMutation(editComment, {
@@ -42,6 +55,31 @@ function Comment({ comment, refetch, groupId, commentId }) {
     setOpenCommentModal(true);
   }, []);
 
+  // 댓글 수정시 나오는 input onChange
+  const onChangeText = useCallback((e) => {
+    setTextValue(e.target.value);
+  }, []);
+
+  // 댓글 수정 onClick
+  const edit = useCallback(() => {
+    setEditMyComment((prev) => !prev);
+    setTextValue(comment.comment);
+  }, []);
+
+  // 댓글 수정 저장
+  const editSave = useCallback(() => {
+    const commentData = {
+      groupId,
+      commentId: comment.commentId,
+      body: {
+        comment: textValue,
+      },
+    };
+    editMutate(commentData);
+    alert("수정되었습니다");
+    setEditMyComment(false);
+  }, [textValue]);
+
   // 댓글 삭제 onClick
   const remove = useCallback(() => {
     const removeCommentData = {
@@ -56,6 +94,16 @@ function Comment({ comment, refetch, groupId, commentId }) {
     }
   }, [commentId, groupId, removeMutate]);
 
+  // 좋아요
+  const toggleLike = useCallback(() => {
+    const LikeData = {
+      groupId,
+      commentId: comment.commentId,
+    };
+    likeFn(LikeData);
+  }, []);
+
+  // 모달 닫기
   const onCloseModal = useCallback((e) => {
     e.stopPropagation();
     setOpenCommentModal(false);
@@ -77,7 +125,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
               {openCommentModal ? (
                 <MenuBox right={"1rem"} top={"1.5rem"}>
                   <MenuList>
-                    <li>댓글 수정</li>
+                    <li onClick={edit}>댓글 수정</li>
                     <li onClick={remove}>삭제</li>
                   </MenuList>
                 </MenuBox>
@@ -89,13 +137,27 @@ function Comment({ comment, refetch, groupId, commentId }) {
         <CommentContent>{comment.comment}</CommentContent>
         <CommentResponse>
           <CommentLoadTime>{comment.createdAt.slice(0, 10)}</CommentLoadTime>
-          <CommentLike>
-            <SpaceLikeSvg />
-            <CommentLikeCount>5</CommentLikeCount>
+          <CommentLike onClick={toggleLike}>
+            {comment.findLike ? <LikeSvg /> : <SpaceLikeSvg />}
+            <CommentLikeCount>{comment.likeCount}</CommentLikeCount>
           </CommentLike>
           <CommentLoadTime>답글쓰기</CommentLoadTime>
         </CommentResponse>
       </FreeComment>
+      {editMyComment ? (
+        <CommentForm>
+          {groupUser && groupUser.groupAvatarImg ? (
+            <CommentFormUserImg src={groupUser.groupAvatarImg} alt={groupUser.groupUserNickname} onError={handleImgError} />
+          ) : (
+            <FakeImg />
+          )}
+          <CommentInput onChange={onChangeText} value={textValue} />
+          <CommentSubmitBtn>
+            <SendComment onClick={() => setEditMyComment(false)}>취소</SendComment>
+            <SendComment onClick={editSave}>저장</SendComment>
+          </CommentSubmitBtn>
+        </CommentForm>
+      ) : null}
     </>
   );
 }

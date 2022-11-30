@@ -88,3 +88,9 @@ export const togglePost = async (payload) => {
   const data = await instance.put(`/groups/${payload.groupId}/posts/${payload.postId}/notice`);
   return data;
 };
+
+// 게시글 좋아요 / 취소
+export const postLike = async (payload) => {
+  const data = await instance.put(`/groups/${payload.groupId}/posts/${payload.postId}/likes`);
+  return data;
+};
