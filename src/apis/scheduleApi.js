@@ -18,6 +18,12 @@ export const editSchedule = async (payload) => {
   return data;
 };
 
+/* 일정 드래그앤드랍, 리사이징으로 수정 */
+export const DragResizeSchedule = async (payload) => {
+  const data = await instance.put(`groups/${payload.groupId}/schedules/${payload.scheduleId}/drag`, payload.body);
+  return data;
+};
+
 /** 일정 삭제 ( groupId ) */
 export const removeSchedule = async (payload) => {
   console.log(payload);

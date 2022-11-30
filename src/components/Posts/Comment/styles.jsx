@@ -103,3 +103,12 @@ export const CommentLikeCount = styled.span`
   font-size: 12px;
   color: #1c1c1c;
 `;
+
+export const CommentForm = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 1rem 1.3rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid ${(props) => props.theme.color.lightGray};
+  border-radius: 30px;
+`;
