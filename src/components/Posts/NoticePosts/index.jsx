@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import {
   Wrapper,
@@ -18,57 +18,55 @@ import {
   Notice,
 } from "./styles";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useQuery } from "react-query";
-import { readNoticePosts } from "../../../apis/postApi";
+import { useReadNoticePosts } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
 import { handleImgError } from "../../../utils/handleImgError";
+import { useInView } from "react-intersection-observer";
 
 function NoticePosts() {
   const { groupId } = useParams();
-  const { data: noticePosts } = useQuery(
-    ["noticePosts", groupId],
-    () => readNoticePosts(groupId),
-    {
-      refetchOnWindowFocus: false,
-      retry: 1,
-      onSuccess: (data) => {
-        // 데이터 state
-      },
-    }
-  );
 
-  if (noticePosts && !noticePosts.ok) return <div />;
+  const { getNotice, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadNoticePosts(groupId);
+  console.log("get", getNotice);
+
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
 
   return (
     <Wrapper>
       <Notice>공지사항</Notice>
       <AllPost>
-        <Scrollbars autoHide>
-          {noticePosts &&
-            noticePosts.data.map((post) => (
-              <Post key={post.postId}>
-                <PostImg
-                  src={post.postImg[0].postImg}
-                  alt={post.groupUserNickname}
-                  onError={handleImgError}
-                />
-                <ContentBox>
-                  <PostTitle>제목이 필요합니다.</PostTitle>
-                  <PostContent>{post.content}</PostContent>
-                  <PostInfoWrap>
-                    <PostInfo>
-                      <PostWriter>{post.groupUserNickname}</PostWriter>
-                      <Vector>|</Vector>
-                      <PostDate>{post.createdAt.slice(0, 10)}</PostDate>
-                    </PostInfo>
-                    <PostLike>
-                      <SpaceLikeSvg />
-                      <LikeCount>{post.commentCount}</LikeCount>
-                    </PostLike>
-                  </PostInfoWrap>
-                </ContentBox>
-              </Post>
-            ))}
+        <Scrollbars autoHide onScrollStop={fetchNextPage}>
+          {isSuccess && getNotice?.pages
+            ? getNotice?.pages.map((page) => (
+                <React.Fragment key={page.currentPage}>
+                  {page?.data.map((notice) => (
+                    <Post newRef={ref} key={notice.postId}>
+                      <PostImg src={notice.postImg[0].postImg} alt={notice.groupUserNickname} onError={handleImgError} />
+                      <ContentBox>
+                        <PostTitle>제목이 필요합니다.</PostTitle>
+                        <PostContent>{notice.content}</PostContent>
+                        <PostInfoWrap>
+                          <PostInfo>
+                            <PostWriter>{notice.groupUserNickname}</PostWriter>
+                            <Vector>|</Vector>
+                            <PostDate>{notice.createdAt.slice(0, 10)}</PostDate>
+                          </PostInfo>
+                          <PostLike>
+                            <SpaceLikeSvg />
+                            <LikeCount>{notice.commentCount}</LikeCount>
+                          </PostLike>
+                        </PostInfoWrap>
+                      </ContentBox>
+                    </Post>
+                  ))}
+                </React.Fragment>
+              ))
+            : null}
         </Scrollbars>
       </AllPost>
     </Wrapper>
