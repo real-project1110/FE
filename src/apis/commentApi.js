@@ -25,3 +25,9 @@ export const removeComment = async (payload) => {
   const data = await instance.delete(`groups/${payload.groupId}/posts/comments/${payload.commentId}`);
   return data;
 };
+
+// 댓글 좋아요 / 취소
+export const commentLike = async (payload) => {
+  const data = await instance.put(`/groups/${payload.groupId}/posts/comments/${payload.commentId}/likes`);
+  return data;
+};

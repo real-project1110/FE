@@ -1,10 +1,10 @@
-import { text } from "@fortawesome/fontawesome-svg-core";
 import React, { useCallback, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilValue } from "recoil";
-import { editComment, removeComment } from "../../../apis/commentApi";
+import { commentLike, editComment, removeComment } from "../../../apis/commentApi";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
+import LikeSvg from "../../../assets/svg/LikeSvg";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
@@ -31,8 +31,14 @@ function Comment({ comment, refetch, groupId, commentId }) {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [editMyComment, setEditMyComment] = useState(false);
   const [textValue, setTextValue] = useState("");
+  const [like, setLike] = useState(false);
 
   const groupUser = useRecoilValue(groupUserAtom);
+
+  // 좋아요
+  const { mutate: likeFn } = useMutation(commentLike, {
+    onSuccess: () => refetch(),
+  });
 
   // 댓글 수정 query
   const { mutate: editMutate } = useMutation(editComment, {
@@ -88,6 +94,15 @@ function Comment({ comment, refetch, groupId, commentId }) {
     }
   }, [commentId, groupId, removeMutate]);
 
+  // 좋아요
+  const toggleLike = useCallback(() => {
+    const LikeData = {
+      groupId,
+      commentId: comment.commentId,
+    };
+    likeFn(LikeData);
+  }, []);
+
   // 모달 닫기
   const onCloseModal = useCallback((e) => {
     e.stopPropagation();
@@ -122,9 +137,9 @@ function Comment({ comment, refetch, groupId, commentId }) {
         <CommentContent>{comment.comment}</CommentContent>
         <CommentResponse>
           <CommentLoadTime>{comment.createdAt.slice(0, 10)}</CommentLoadTime>
-          <CommentLike>
-            <SpaceLikeSvg />
-            <CommentLikeCount>5</CommentLikeCount>
+          <CommentLike onClick={toggleLike}>
+            {comment.findLike ? <LikeSvg /> : <SpaceLikeSvg />}
+            <CommentLikeCount>{comment.likeCount}</CommentLikeCount>
           </CommentLike>
           <CommentLoadTime>답글쓰기</CommentLoadTime>
         </CommentResponse>

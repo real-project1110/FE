@@ -45,7 +45,7 @@ function NoticePosts() {
                 <React.Fragment key={page.currentPage}>
                   {page?.data.map((notice) => (
                     <Post newRef={ref} key={notice.postId}>
-                      <PostImg src={notice.postImg[0].postImg} alt={notice.groupUserNickname} onError={handleImgError} />
+                      {notice?.postImg[0] && <PostImg src={notice.postImg[0].postImg} alt={notice.groupUserNickname} onError={handleImgError} />}
                       <ContentBox>
                         <PostTitle>제목이 필요합니다.</PostTitle>
                         <PostContent>{notice.content}</PostContent>
