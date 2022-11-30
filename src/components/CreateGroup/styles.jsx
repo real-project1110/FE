@@ -18,18 +18,18 @@ export const Step = styled.span`
   opacity: ${(props) => (props.isFour ? "0" : "1")};
   color: #aaaaaa;
   font-size: 0.9rem;
-  margin-bottom: 1.3rem;
+  margin-bottom: 11px;
 `;
 
 export const Title = styled.h3`
   font-size: 2.5rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 11px;
 `;
 
 export const SubTitle = styled.span`
   font-size: 1.2rem;
-  margin-bottom: 1.3rem;
+  margin-bottom: 24px;
 `;
 
 export const Input = styled.input`
@@ -46,7 +46,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  margin-top: 3rem;
+  margin-top: 49px;
   width: 13rem;
   height: 2.9rem;
   font-size: 1.2rem;
@@ -58,7 +58,7 @@ export const Button = styled.button`
 `;
 
 export const LaterButton = styled.span`
-  margin-top: 1.4rem;
+  margin-top: 49px;
   cursor: pointer;
   color: ${(props) => props.theme.color.gray};
   transition: color 0.1s linear;
@@ -88,6 +88,38 @@ export const Label = styled.label`
   }
 `;
 
+export const Emails = styled.ul`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 11px;
+`;
+
+export const Email = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 1rem;
+  background-color: ${(props) => props.theme.color.green};
+  border-radius: 100px;
+  margin-right: 1rem;
+  margin-bottom: 11px;
+  button {
+    width: 1rem;
+    margin-left: 9px;
+    padding: 0;
+    ${FlexCenterBox};
+    svg {
+      width: 1rem;
+      height: 1rem;
+      cursor: pointer;
+      &:hover {
+        color: rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+`;
+
 export const ImgLabel = styled.label`
   ${FlexCenterBox};
   width: 16rem;
@@ -101,6 +133,12 @@ export const ImgLabel = styled.label`
   transition: background-color 0.1s linear;
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const GroupImg = styled(ImgLabel)`
+  &:hover {
+    background-color: #e9e9e9;
   }
 `;
 

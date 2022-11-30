@@ -1,10 +1,24 @@
 import React from "react";
-import { Eventcalendar, snackbar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
+import {
+  Eventcalendar,
+  snackbar,
+  setOptions,
+  Popup,
+  Button,
+  Input,
+  Textarea,
+  Datepicker,
+} from "@mobiscroll/react";
 import { useState, useCallback, useMemo, useRef } from "react";
 import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 import { useMutation, useQuery } from "react-query";
-import { addSchedule, editSchedule, readSchedule, removeSchedule } from "../../apis/scheduleApi";
+import {
+  addSchedule,
+  editSchedule,
+  readSchedule,
+  removeSchedule,
+} from "../../apis/scheduleApi";
 import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
@@ -76,16 +90,20 @@ const Schedular = () => {
     return existColors?.map((color) => color.color);
   }, [existColors]);
 
-  const { isLoading, isError, data, error, refetch } = useQuery(["schedules", groupId], () => readSchedule(groupId), {
-    refetchOnWindowFocus: false,
-    retry: 1,
-    onSuccess: (data) => {
-      setMyEvents(data);
-    },
-    onError: (e) => {
-      alert(e.message);
-    },
-  });
+  const { refetch } = useQuery(
+    ["schedules", groupId],
+    () => readSchedule(groupId),
+    {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      onSuccess: (data) => {
+        setMyEvents(data);
+      },
+      onError: (e) => {
+        alert(e.message);
+      },
+    }
+  );
 
   const { mutate: addMutate } = useMutation(addSchedule, {
     onSuccess: () => refetch(),
@@ -150,7 +168,19 @@ const Schedular = () => {
     }
     setSelectedDate(popupEventDate[0]);
     setOpen(false);
-  }, [isEdit, myEvents, popupEventDate, popupEventDescription, popupEventTitle, tempEvent, selectedColor, addMutate, editMutate, groupId, addTitle]);
+  }, [
+    isEdit,
+    myEvents,
+    popupEventDate,
+    popupEventDescription,
+    popupEventTitle,
+    tempEvent,
+    selectedColor,
+    addMutate,
+    editMutate,
+    groupId,
+    addTitle,
+  ]);
 
   const deleteEvent = useCallback(
     (event) => {
@@ -172,7 +202,7 @@ const Schedular = () => {
         });
       });
     },
-    [myEvents, removeMutate]
+    [myEvents, removeMutate, groupId]
   );
 
   const loadPopupForm = useCallback((event) => {
@@ -250,7 +280,8 @@ const Schedular = () => {
   const onEventUpdated = useCallback(
     (args) => {
       // 드래그앤 드롭, 리사이징 수정부분 api 요청
-      const { scheduleId, title, description, start, end, color, groupId } = args.event;
+      const { scheduleId, title, description, start, end, color, groupId } =
+        args.event;
       const editEvent = {
         scheduleId,
         groupId,
@@ -262,7 +293,10 @@ const Schedular = () => {
   );
 
   // popup options
-  const headerText = useMemo(() => (isEdit ? "일정 수정" : "일정 추가"), [isEdit]);
+  const headerText = useMemo(
+    () => (isEdit ? "일정 수정" : "일정 추가"),
+    [isEdit]
+  );
   const popupButtons = useMemo(() => {
     if (isEdit) {
       return [
@@ -353,20 +387,44 @@ const Schedular = () => {
         responsive={responsivePopup}
       >
         <div className="mbsc-form-group">
-          <Input label="제목" value={isEdit ? popupEventTitle : addTitle} onChange={titleChange} />
-          <Textarea label="상세 내용" value={popupEventDescription} onChange={descriptionChange} />
+          <Input
+            label="제목"
+            value={isEdit ? popupEventTitle : addTitle}
+            onChange={titleChange}
+          />
+          <Textarea
+            label="상세 내용"
+            value={popupEventDescription}
+            onChange={descriptionChange}
+          />
         </div>
         <div className="mbsc-form-group">
           <Input ref={startRef} label="시작 날짜" />
           <Input ref={endRef} label="종료 날짜" />
-          <Datepicker select="range" touchUi={true} startInput={start} endInput={end} showRangeLabels={false} onChange={dateChange} value={popupEventDate} />
+          <Datepicker
+            select="range"
+            touchUi={true}
+            startInput={start}
+            endInput={end}
+            showRangeLabels={false}
+            onChange={dateChange}
+            value={popupEventDate}
+          />
           <div onClick={openColorPicker} className="event-color-c">
             <div className="event-color-label">Color</div>
-            <div className="event-color" style={{ background: selectedColor }}></div>
+            <div
+              className="event-color"
+              style={{ background: selectedColor }}
+            ></div>
           </div>
           {isEdit ? (
             <div className="mbsc-button-group">
-              <Button className="mbsc-button-block" color="danger" variant="outline" onClick={onDeleteClick}>
+              <Button
+                className="mbsc-button-block"
+                color="danger"
+                variant="outline"
+                onClick={onDeleteClick}
+              >
                 일정 삭제하기
               </Button>
             </div>
@@ -388,8 +446,18 @@ const Schedular = () => {
           {colors?.map((color, index) => {
             if (index < 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;
@@ -399,8 +467,18 @@ const Schedular = () => {
           {colors?.map((color, index) => {
             if (index >= 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;
