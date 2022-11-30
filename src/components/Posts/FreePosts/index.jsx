@@ -7,31 +7,13 @@ import { useReadFreePosts } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import FreePostItem from "../FreePostItem";
-import {
-  PostHeader,
-  New,
-  Newest,
-  NewestComment,
-  WritePost,
-  Post,
-  AllFreePost,
-} from "./styles";
+import { PostHeader, New, Newest, NewestComment, WritePost, Post, AllFreePost } from "./styles";
 
 function FreePosts() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);
   const { groupId } = useParams();
 
-  //자유 게시글 데이터 조회
-  // const { data: FreePosts, refetch } = useQuery(
-  //   ["freePosts", groupId],
-  //   () => readFreePosts(groupId),
-  //   {
-  //     refetchOnWindowFocus: false,
-  //     retry: 1,
-  //   }
-  // );
-  const { getPost, fetchNextPage, isSuccess, hasNextPage, refetch } =
-    useReadFreePosts(groupId);
+  const { getPost, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadFreePosts(groupId);
 
   const { ref, inView } = useInView();
 
@@ -65,15 +47,7 @@ function FreePosts() {
             ? getPost?.pages.map((page) => (
                 <React.Fragment key={page.currentPage}>
                   {page?.data.map((post) => {
-                    return (
-                      <FreePostItem
-                        nowRef={ref}
-                        groupId={groupId}
-                        key={post.postId}
-                        refetch={refetch}
-                        post={post}
-                      />
-                    );
+                    return <FreePostItem nowRef={ref} groupId={groupId} key={post.postId} refetch={refetch} post={post} />;
                   })}
                 </React.Fragment>
               ))
