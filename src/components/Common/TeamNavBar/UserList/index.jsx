@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { queryClient } from "../../../..";
 import {
@@ -11,6 +11,7 @@ import {
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
 import { inviteModalAtom } from "../../../../recoil/modalAtoms";
+import { groupUserListAtom } from "../../../../recoil/userAtoms";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
@@ -20,16 +21,17 @@ const UserList = () => {
   const [isFocus, setIsFocus] = useState(true);
   const [status, setStatus] = useState(0);
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
+  const setGroupUserList = useSetRecoilState(groupUserListAtom);
 
   const { data: groupUserList } = useQuery(
     ["groupUserList", groupId],
     () => readGroupUsers(groupId),
-    { retry: 2 }
+    { retry: 1 }
   );
   const { data: groupUser } = useQuery(
     ["groupUser", groupId],
     () => readGroupUser(groupId),
-    { retry: 2 }
+    { retry: 1 }
   );
 
   const { mutate: editStatusFn } = useMutation(editGroupUserState, {
@@ -57,6 +59,11 @@ const UserList = () => {
       setStatus(groupUser.status);
     }
   }, [groupUser]);
+
+  useEffect(() => {
+    if (groupUserList) setGroupUserList(groupUserList);
+  }, [groupUserList, setGroupUserList]);
+
   return (
     <Wrapper>
       <ToggleUsers onClick={() => setIsFocus((prev) => !prev)}>
@@ -82,7 +89,12 @@ const UserList = () => {
                 groupUserList
                   .filter((user) => user.groupUserId !== groupUser.groupUserId)
                   .map((user) => (
-                    <UserItem key={user?.groupUserId} user={user} />
+                    <Link
+                      to={`/groups/${groupId}/chats/${user.groupUserId}`}
+                      key={user?.groupUserId}
+                    >
+                      <UserItem user={user} />
+                    </Link>
                   ))}
             </>
           )}

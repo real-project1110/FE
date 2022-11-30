@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 export const GroupItem = styled.div`
   position: relative;
   margin-bottom: 1rem;
+  border-radius: 5px;
 `;
 
 export const GroupImg = styled.img`
@@ -21,6 +22,9 @@ export const GroupImg = styled.img`
         props.isFocus ? props.theme.color.green : props.theme.color.lightGray};
   }
 `;
+
+export const FakeImg = styled(GroupImg)``;
+
 const GroupNameAni = keyframes`
   0%{
     opacity: 0;
