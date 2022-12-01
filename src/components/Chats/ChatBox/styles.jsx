@@ -6,6 +6,7 @@ export const ChatContainer = styled.div`
   grid-template-columns: ${(props) => (props.isMe ? "46px 1fr" : "46px 1fr")};
   margin-bottom: 0.7rem;
   justify-items: ${(props) => (props.isMe ? "flex-end" : "start")};
+  padding: 0 1rem;
 `;
 
 export const UserImg = styled.img`

@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -7,6 +13,7 @@ import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
 import useSocket from "../../../hooks/useSocket";
 import { groupUserAtom, groupUserListAtom } from "../../../recoil/userAtoms";
+import { FlexCenterBox } from "../../../shared/Styles/flex";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
 
@@ -16,7 +23,45 @@ const Chat = () => {
   const [chats, setChats] = useState(fakeData);
   const groupUserList = useRecoilValue(groupUserListAtom);
   const me = useRecoilValue(groupUserAtom);
+  const scrollRef = useRef(null);
   //const [socket] = useSocket(groupId);
+
+  const isEmpty = useMemo(() => chats && chats[0]?.length === 0, [chats]);
+
+  const isReachingEnd = useMemo(
+    () => isEmpty || (chats && chats[chats.length - 1]?.length < 20) || false,
+    [chats, isEmpty]
+  );
+
+  // 스크롤 이벤트  ( 스크롤이 가장 위로 도달하였을 때 데이터를 불러오는 함수 )
+  const onScroll = useCallback(
+    (values) => {
+      if (values.scrollTop === 0 && !isReachingEnd) {
+        console.log("가장 위");
+        // const current = scrollRef?.current;
+        // if (current) {
+        //   current.scrollTop(current.getScrollHeight() - values.scrollHeight);
+        // }
+        //   setSize((prevSize) => prevSize + 1).then(() => {
+        //     // 스크롤 위치 유지
+        //     const current = scrollRef?.current;
+        //     if (current) {
+        //       current.scrollTop(current.getScrollHeight() - values.scrollHeight);
+        //     }
+      }
+    },
+    [isReachingEnd]
+  );
+
+  // chats의 값이 변화할 때마다 스크롤을 밑으로 보냄
+  useEffect(() => {
+    scrollRef.current?.scrollToBottom();
+    // if (chats?.length === 1) {
+    //   setTimeout(() => {
+    //     scrollRef.current?.scrollToBottom();
+    //   }, 100);
+    // }
+  }, [chats]);
 
   // 그룹 유저 리스트에서 채팅을 보낼 사람에 대한 정보를 가져온다.
   useEffect(() => {
@@ -47,10 +92,9 @@ const Chat = () => {
   // }, [socket]);
 
   const chatSections = useMemo(() => {
-    return makeSection(chats ? chats.flat().reverse() : []);
+    return makeSection(chats ? chats.flat() : []);
   }, [chats]);
 
-  console.log(chatSections);
   return (
     <Wrapper as="main">
       <Header>
@@ -62,11 +106,13 @@ const Chat = () => {
         <h3>{otherUser?.groupUserNickname}</h3>
       </Header>
       <ChatList>
-        <Scrollbars>
+        <Scrollbars autoHide ref={scrollRef} onScrollFrame={onScroll}>
           {Object.entries(chatSections).map(([date, chats]) => {
             return (
               <DaySection>
-                <DayHeader>{date}</DayHeader>
+                <DayHeader>
+                  <button>{date}</button>
+                </DayHeader>
                 {chats?.map((chat, idx) => (
                   <ChatBox
                     key={chat?.message + idx}
@@ -95,31 +141,32 @@ const fakeData = [
   {
     groupUserId: 3,
     message: "안녕하세요요안녕하세요",
-    createdAt: "2022-12-01T15:49:43.122Z",
+    createdAt: "2022-10-30T15:49:43.122Z",
   },
   {
     groupUserId: 1,
     message: "안녕하세요",
-    createdAt: "2022-12-01T15:49:43.122Z",
+    createdAt: "2022-10-30T15:49:43.122Z",
   },
   {
     groupUserId: 3,
     message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-12-02T15:49:43.122Z",
+    createdAt: "2022-11-27T15:49:43.122Z",
   },
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-12-02T15:49:43.122Z" },
   {
     groupUserId: 3,
     message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-12-03T15:49:43.122Z",
+    createdAt: "2022-11-28T15:49:43.122Z",
   },
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-12-03T15:49:43.122Z" },
+  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-28T15:49:43.122Z" },
   {
     groupUserId: 3,
     message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-12-02T15:49:43.122Z",
+    createdAt: "2022-11-28T15:49:43.122Z",
   },
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-12-02T15:49:43.122Z" },
+  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-30T15:49:43.122Z" },
+
+  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-30T15:49:43.122Z" },
 ];
 
 export const Wrapper = styled.div`
@@ -152,13 +199,38 @@ export const ChatList = styled.div`
   flex-direction: column;
   background-color: ${(props) => props.theme.boardColor.yellowGray};
   height: 100%;
+  //padding: 3rem 0 0.7rem 0;
 `;
 
 export const DaySection = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 3rem 1rem 0.7rem 1rem;
+  padding-bottom: 28px;
+  margin-top: 3rem;
 `;
 
-export const DayHeader = styled.div``;
+export const DayHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  //position: sticky;
+  top: 14px;
+  border-top: 1px solid ${(props) => props.theme.color.gray};
+  & button {
+    ${FlexCenterBox};
+    position: relative;
+    top: -15px;
+    z-index: 2;
+    height: 28px;
+    padding: 10px;
+    color: ${(props) => props.theme.color.gray};
+    font-size: 14px;
+    line-height: 27px;
+    background: ${(props) => props.theme.boardColor.yellowGray};
+    border: 1px solid ${(props) => props.theme.color.gray};
+    border-radius: 24px;
+    outline: none;
+  }
+`;

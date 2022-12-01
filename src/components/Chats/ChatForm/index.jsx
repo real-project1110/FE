@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import ASvg from "../../../assets/svg/ASvg";
@@ -9,10 +9,12 @@ import FileSvg from "../../../assets/svg/FileSvg";
 import ItalicSvg from "../../../assets/svg/ItalicSvg";
 import useSocket from "../../../hooks/useSocket";
 import { FlexBetweenBox, FlexCenterBox } from "../../../shared/Styles/flex";
+import autosize from "autosize";
 
 const ChatForm = ({ setChats, groupUserId, groupId }) => {
   //const [socket] = useSocket(groupId);
   const { register, handleSubmit, watch, reset } = useForm();
+  const textareaRef = useRef(null);
 
   const onValid = useCallback(
     (data) => {
@@ -41,12 +43,19 @@ const ChatForm = ({ setChats, groupUserId, groupId }) => {
     [onValid, watch]
   );
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      autosize(textareaRef.current);
+    }
+  }, []);
+
   return (
     <Wrapper>
       <FormContainer onSubmit={handleSubmit(onValid)}>
         <TextArea
           {...register("message", { minLength: 1 })}
           onKeyPress={onKeydownChat}
+          inputRef={textareaRef}
         />
         <ButtonContainer>
           <Buttons>
@@ -109,7 +118,7 @@ export const Buttons = styled.ul`
 `;
 export const Button = styled.button`
   ${FlexCenterBox};
-  width: 6rem;
+  min-width: 6rem;
   background-color: ${(props) => props.theme.color.green};
   padding: 5px 8px;
   font-size: 1rem;
