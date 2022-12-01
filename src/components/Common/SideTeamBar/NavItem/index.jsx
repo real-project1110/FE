@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useMatch } from "react-router-dom";
-import { GroupImg, GroupItem, GroupName } from "./styles";
+import { handleImgError } from "../../../../utils/handleImgError";
+import { FakeImg, GroupImg, GroupItem, GroupName } from "./styles";
 
 const NavItem = ({ group }) => {
   const groupMatch = useMatch(`/groups/${group?.groupId}/*`);
@@ -12,11 +13,17 @@ const NavItem = ({ group }) => {
         onMouseOver={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
-        <GroupImg
-          isFocus={groupMatch}
-          src={`https://avatars.dicebear.com/api/identicon/wooncloud${group?.groupId}.svg`}
-          alt=""
-        />
+        {group.groupImg ? (
+          <GroupImg
+            isFocus={groupMatch}
+            src={group?.groupImg}
+            alt={group?.groupName}
+            onError={handleImgError}
+          />
+        ) : (
+          <FakeImg />
+        )}
+
         {isHover && <GroupName>{group?.groupName}</GroupName>}
       </GroupItem>
     </Link>

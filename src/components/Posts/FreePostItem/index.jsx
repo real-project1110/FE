@@ -3,8 +3,9 @@ import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../..";
-import { removePost, togglePost } from "../../../apis/postApi";
+import { postLike, removePost, togglePost } from "../../../apis/postApi";
 import CommentSvg from "../../../assets/svg/CommentSvg";
+import LikeSvg from "../../../assets/svg/LikeSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import { editPostAtom } from "../../../recoil/groupAtoms";
@@ -44,6 +45,7 @@ const FreePostItem = ({ post, refetch }) => {
   const setShowPostModal = useSetRecoilState(PostFormModalAtom);
   const groupUser = useRecoilValue(groupUserAtom);
   const [commentCount, setCommentCount] = useState(0);
+
   const { mutate: removePostFn } = useMutation(removePost, {
     onSuccess: () => refetch(),
   });
@@ -55,8 +57,21 @@ const FreePostItem = ({ post, refetch }) => {
     },
   });
 
+  const { mutate: likeFn } = useMutation(postLike, {
+    onSuccess: () => refetch(),
+  });
+
+  // 좋아요
+  const toggleLike = useCallback(() => {
+    const LikeData = {
+      groupId,
+      postId: post.postId,
+    };
+    likeFn(LikeData);
+  }, []);
+
   // 메뉴 닫기
-  const onCloseModal = useCallback((e) => {
+  const onCloseModal = useCallback(() => {
     setOpenPostMenu(false);
   }, []);
 
@@ -121,21 +136,10 @@ const FreePostItem = ({ post, refetch }) => {
         <FreePost>
           <PostMenu>
             <PostUserInfo>
-              <UserImg>
-                {post.groupAvatarImg ? (
-                  <img
-                    src={post.groupAvatarImg}
-                    alt="profile"
-                    onError={handleImgError}
-                  />
-                ) : (
-                  <FakeImg />
-                )}
-              </UserImg>
+              <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
               <Nickname>{post.groupUserNickname}</Nickname>
-              <LoadTime>1분전</LoadTime>
+              <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
             </PostUserInfo>
-            {/* 본인게시글만 보이게 */}
             {groupUser.groupUserId === post.groupUserId && (
               <PostOption onClick={modalOpen}>
                 {openPostMenu ? (
@@ -154,22 +158,18 @@ const FreePostItem = ({ post, refetch }) => {
           </PostMenu>
           <PostContent>
             <PostImgWrap>
-              {post.postImg?.map((Image) => (
+              {post?.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>
-                  <img
-                    src={Image.postImg}
-                    alt="postImg"
-                    onError={handleImgError}
-                  />
+                  <img src={Image.postImg} alt="postImg" onError={handleImgError} />
                 </ImageWrap>
               ))}
             </PostImgWrap>
             <Content>{post.content}</Content>
           </PostContent>
           <PostResponse>
-            <PostLike>
-              <SpaceLikeSvg />
-              <PostLikeCount>5</PostLikeCount>
+            <PostLike onClick={toggleLike}>
+              {post.findLike ? <LikeSvg /> : <SpaceLikeSvg />}
+              <PostLikeCount>{post.likeCount}</PostLikeCount>
             </PostLike>
             <PostComment onClick={() => openComment()}>
               <CommentSvg />
@@ -177,13 +177,7 @@ const FreePostItem = ({ post, refetch }) => {
             </PostComment>
           </PostResponse>
         </FreePost>
-        {CommentListOpen ? (
-          <CommentList
-            postId={post.postId}
-            groupId={groupId}
-            setCommentCount={setCommentCount}
-          />
-        ) : null}
+        {CommentListOpen ? <CommentList postId={post.postId} groupId={groupId} setCommentCount={setCommentCount} /> : null}
       </FreePostItemContainer>
     </>
   );

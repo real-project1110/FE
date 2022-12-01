@@ -14,3 +14,9 @@ export const groupUserAtom = atom({
   default: {},
   effects_UNSTABLE: [persistAtom],
 });
+
+export const groupUserListAtom = atom({
+  key: "groupUserList",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});

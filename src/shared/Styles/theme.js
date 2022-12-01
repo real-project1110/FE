@@ -11,6 +11,7 @@ export const lightMode = {
   },
   boardColor: {
     lightGray: "#F2F2F6",
+    yellowGray: "#F7F6F4",
   },
   layoutColor: {
     white: "#FFFFFF",

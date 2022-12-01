@@ -42,7 +42,6 @@ export const removeGroup = async (payload) => {
 
 /** 그룹 대표 이미지 수정  { id,body:{ groupImg } } */
 export const editGroupImage = async (payload) => {
-  console.log(payload);
   const data = await postApi.put(`groups/${payload.id}/groupImg`, payload.body);
   return data;
 };
@@ -56,7 +55,6 @@ export const inviteUsers = async (payload) => {
 /** 초대 목록 가져오기 */
 export const readInvites = async () => {
   const { data } = await instance.get("invites");
-  console.log(data);
   return data.data;
 };
 

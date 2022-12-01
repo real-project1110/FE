@@ -2,10 +2,7 @@ import instance, { postApi } from "./instance/instance";
 
 // status 생성
 export const addStatus = async (payload) => {
-  const { data } = await instance.post(
-    `groups/${payload.groupId}/color`,
-    payload.body
-  );
+  const { data } = await instance.post(`groups/${payload.groupId}/color`, payload.body);
   return data;
 };
 
@@ -17,10 +14,7 @@ export const readStatus = async (payload) => {
 
 // status 삭제 (groupId/colorId)
 export const removeStatus = async (payload) => {
-  console.log(payload);
-  const data = await instance.delete(
-    `groups/${payload.groupId}/color/${payload.colorId}`
-  );
+  const data = await instance.delete(`groups/${payload.groupId}/color/${payload.colorId}`);
   return data;
 };
 

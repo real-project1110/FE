@@ -2,21 +2,13 @@ import instance, { postApi } from "./instance/instance";
 
 /** 그룹내 나의 닉네임 수정  { id,body:{ groupUserNickname } } */
 export const editGroupUserNickname = async (payload) => {
-  console.log(payload);
-  const data = await instance.put(
-    `groups/${payload.groupId}/groupUserNickname`,
-    payload.body
-  );
+  const data = await instance.put(`groups/${payload.groupId}/groupUserNickname`, payload.body);
   return data;
 };
 
 /** 그룹내 나의 프로필 이미지 수정 { groupId,body:{ groupAvatarImg } } */
 export const editGroupUserAvatar = async (payload) => {
-  console.log(payload);
-  const data = await postApi.put(
-    `groups/${payload.groupId}/groupAvatarImg`,
-    payload.body
-  );
+  const data = await postApi.put(`groups/${payload.groupId}/groupAvatarImg`, payload.body);
   return data;
 };
 
@@ -46,9 +38,6 @@ export const addGroupUsers = async (payload) => {
 
 /** 그룹 내 나의 상태 수정 */
 export const editGroupUserState = async (payload) => {
-  const data = await instance.put(
-    `groups/${payload.id}/groupUser/status`,
-    payload.body
-  );
+  const data = await instance.put(`groups/${payload.id}/groupUser/status`, payload.body);
   return data;
 };

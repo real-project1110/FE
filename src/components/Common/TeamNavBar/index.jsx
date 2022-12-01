@@ -8,29 +8,17 @@ import UserList from "./UserList";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useQuery } from "react-query";
 import { readGroup } from "../../../apis/groupApi";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { groupAtom } from "../../../recoil/groupAtoms";
 
 const TeamNavBar = () => {
   const { groupId } = useParams();
-  const { data: group, isError } = useQuery(
-    ["group", groupId],
-    () => readGroup(groupId),
-    {
-      staleTime: 10000,
-      retry: 0,
-    }
-  );
-  const setGroup = useSetRecoilState(groupAtom);
+  const group = useRecoilValue(groupAtom);
   const navigate = useNavigate();
+
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
 
-  useEffect(() => {
-    if (group) setGroup(group);
-  }, [group, setGroup]);
-
-  if (isError) return navigate(-1);
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>
