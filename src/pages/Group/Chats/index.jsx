@@ -15,7 +15,9 @@ const Chat = () => {
   const [chats, setChats] = useState(fakeData);
   const groupUserList = useRecoilValue(groupUserListAtom);
   const me = useRecoilValue(groupUserAtom);
+  const [socket] = useSocket(groupId);
 
+  // 그룹 유저 리스트에서 채팅을 보낼 사람에 대한 정보를 가져온다.
   useEffect(() => {
     if (groupUserList) {
       setOtherUser(
@@ -29,13 +31,6 @@ const Chat = () => {
   //   const num2 = me?.groupUserId;
   //   return `${groupId},${Math.min(num1, num2)},${Math.max(num1, num2)}`;
   // }, [groupId, me, otherUser]);
-
-  //소켓
-  const [socket] = useSocket(groupId);
-
-  // const socket = io.connect(`${process.env.REACT_APP_SERVER_URL}`, {
-  //   transports: ["websocket"],
-  // });
 
   useEffect(() => {
     socket.emit("joinroom", groupId);

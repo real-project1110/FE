@@ -20,7 +20,7 @@ const ChatForm = ({ setChats, groupUserId, groupId }) => {
         groupId,
         groupUserId,
         message: data.message,
-        createdAt: Date.now(),
+        createdAt: new Date().toISOString(),
       });
 
       reset();
