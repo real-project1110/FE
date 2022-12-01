@@ -11,7 +11,7 @@ import useSocket from "../../../hooks/useSocket";
 import { FlexBetweenBox, FlexCenterBox } from "../../../shared/Styles/flex";
 import autosize from "autosize";
 
-const ChatForm = ({ setChats, groupUserId, groupId }) => {
+const ChatForm = ({ setChats, groupUserId, groupId, scrollRef }) => {
   //const [socket] = useSocket(groupId);
   const { register, handleSubmit, watch, reset } = useForm();
   const textareaRef = useRef(null);
@@ -26,10 +26,11 @@ const ChatForm = ({ setChats, groupUserId, groupId }) => {
       };
       // socket.emit("chatting", payload);
       setChats((prev) => [...prev, payload]);
+      scrollRef.current?.scrollToBottom();
       reset();
     },
     // socket 추가해야함
-    [groupUserId, reset, groupId, setChats]
+    [groupUserId, reset, groupId, setChats, scrollRef]
   );
   const onKeydownChat = useCallback(
     (e) => {

@@ -61,7 +61,7 @@ const Chat = () => {
     //     scrollRef.current?.scrollToBottom();
     //   }, 100);
     // }
-  }, [chats]);
+  }, []);
 
   // 그룹 유저 리스트에서 채팅을 보낼 사람에 대한 정보를 가져온다.
   useEffect(() => {
@@ -130,6 +130,7 @@ const Chat = () => {
         setChats={setChats}
         groupUserId={me?.groupUserId}
         groupId={groupId}
+        scrollRef={scrollRef}
       />
     </Wrapper>
   );
