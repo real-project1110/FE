@@ -20,6 +20,7 @@ const HeaderMenu = ({ user, isMain = false }) => {
   const group = useRecoilValue(groupAtom);
   const navigate = useNavigate();
   const { groupId } = useParams();
+
   const { mutate: groupOutFn } = useMutation(outGroup, {
     onSuccess: () => {
       queryClient.invalidateQueries(["groupList"]);

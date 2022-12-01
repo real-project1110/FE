@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { io } from "socket.io-client";
 import styled from "styled-components";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
-import { groupUserListAtom } from "../../../recoil/userAtoms";
+import useSocket from "../../../hooks/useSocket";
+import { groupUserAtom, groupUserListAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 
 const Chat = () => {
   const { groupId, groupUserId } = useParams();
   const [otherUser, setOtherUser] = useState({});
+  const [chats, setChats] = useState(fakeData);
   const groupUserList = useRecoilValue(groupUserListAtom);
-  console.log(groupUserList);
+  const me = useRecoilValue(groupUserAtom);
 
   useEffect(() => {
     if (groupUserList) {
@@ -20,6 +23,38 @@ const Chat = () => {
       );
     }
   }, [groupUserId, groupUserList]);
+
+  // const chatroom = useMemo(() => {
+  //   const num1 = otherUser?.groupUserId;
+  //   const num2 = me?.groupUserId;
+  //   return `${groupId},${Math.min(num1, num2)},${Math.max(num1, num2)}`;
+  // }, [groupId, me, otherUser]);
+
+  //소켓
+  const [socket] = useSocket(groupId);
+
+  // const socket = io.connect(`${process.env.REACT_APP_SERVER_URL}`, {
+  //   transports: ["websocket"],
+  // });
+
+  useEffect(() => {
+    socket.emit("joinroom", groupId);
+  }, [groupId, socket]);
+
+  useEffect(() => {
+    socket.on("chatting", (data) => {
+      console.log("get chatting", data);
+      setChats((prev) => [...prev, data]);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    return () => socket.off("chatting");
+  }, [socket]);
+
+  useEffect(() => {
+    return () => socket.off("joinroom");
+  }, [socket]);
 
   return (
     <Wrapper as="main">
@@ -33,17 +68,21 @@ const Chat = () => {
       </Header>
       <ChatList>
         <DaySection>
-          {fakeData.map((chat, idx) => (
+          {chats?.map((chat, idx) => (
             <ChatBox
-              key={chat.text + idx}
-              isMe={chat.isMe}
+              key={chat?.message + idx}
+              isMe={chat?.groupUserId === me?.groupUserId}
               otherUser={otherUser}
               chat={chat}
             />
           ))}
         </DaySection>
       </ChatList>
-      <ChatForm />
+      <ChatForm
+        setChats={setChats}
+        groupUserId={me?.groupUserId}
+        groupId={groupId}
+      />
     </Wrapper>
   );
 };
@@ -52,12 +91,13 @@ export default Chat;
 
 const fakeData = [
   {
-    isMe: false,
-    text: "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요v안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요",
+    groupUserId: 3,
+    message:
+      "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요v안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요",
   },
-  { isMe: true, text: "안녕하세요" },
-  { isMe: false, text: "찍찍찍! 쥐새키가 뻔뻔하게~" },
-  { isMe: true, text: "에이맨~" },
+  { groupUserId: 1, message: "안녕하세요" },
+  { groupUserId: 3, message: "찍찍찍! 쥐새키가 뻔뻔하게~" },
+  { groupUserId: 1, message: "에이맨~" },
 ];
 
 export const Wrapper = styled.div`

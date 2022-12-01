@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { readGroupUser } from "../../../../apis/groupUserApi";
+import { useRecoilState, useRecoilValue } from "recoil";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
@@ -30,30 +28,17 @@ const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
   const [editProfile, setEditProfile] = useRecoilState(editProfileModalAtom);
   const [headerAlert, setHeaderAlert] = useState(false);
-  const setGroupUser = useSetRecoilState(groupUserAtom);
   const { groupId } = useParams();
+  const groupUser = useRecoilValue(groupUserAtom);
   const navigate = useNavigate();
-  const { data: groupUser } = useQuery(
-    ["groupUser", `group ${groupId}`],
-    () => readGroupUser(groupId),
-    {
-      retry: 1,
-      staleTime: Infinity,
-    }
-  );
 
+  // 토큰이 없다면 시작페이지로 이동
   useEffect(() => {
     const cookie = existCookie();
     if (!cookie) {
       return navigate("/");
     }
   }, [navigate]);
-
-  useEffect(() => {
-    if (groupUser) {
-      setGroupUser(groupUser);
-    }
-  }, [setGroupUser, groupUser]);
 
   return (
     <Wrapper as="header">

@@ -14,6 +14,7 @@ export const groupListAtom = atom({
 export const groupAtom = atom({
   key: "group",
   default: {},
+  effects_UNSTABLE: [persistAtom],
 });
 
 // 게시글 수정을 위해 게시글 정보를 저장하는 atom

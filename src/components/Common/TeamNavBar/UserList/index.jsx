@@ -1,17 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { Link, useParams } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../../..";
-import {
-  editGroupUserState,
-  readGroupUser,
-  readGroupUsers,
-} from "../../../../apis/groupUserApi";
+import { editGroupUserState } from "../../../../apis/groupUserApi";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
+import useSocket from "../../../../hooks/useSocket";
 import { inviteModalAtom } from "../../../../recoil/modalAtoms";
-import { groupUserListAtom } from "../../../../recoil/userAtoms";
+import { groupUserAtom, groupUserListAtom } from "../../../../recoil/userAtoms";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
@@ -20,26 +17,19 @@ const UserList = () => {
   const { groupId } = useParams();
   const [isFocus, setIsFocus] = useState(true);
   const [status, setStatus] = useState(0);
+  const groupUser = useRecoilValue(groupUserAtom);
+  const groupUserList = useRecoilValue(groupUserListAtom);
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
-  const setGroupUserList = useSetRecoilState(groupUserListAtom);
+  //const [socket] = useSocket(groupId);
 
-  const { data: groupUserList } = useQuery(
-    ["groupUserList", groupId],
-    () => readGroupUsers(groupId),
-    { retry: 1 }
-  );
-  const { data: groupUser } = useQuery(
-    ["groupUser", groupId],
-    () => readGroupUser(groupId),
-    { retry: 1 }
-  );
-
+  // 나의 상태와 메시지를 변경하는 함수
   const { mutate: editStatusFn } = useMutation(editGroupUserState, {
     onSuccess: () => {
       queryClient.invalidateQueries(["groupUser", groupId]);
     },
   });
 
+  // 유저 상태와 메시지를 바꾸는 함수
   const changeStatus = useCallback(
     async (num) => {
       if (status > 0) {
@@ -54,15 +44,19 @@ const UserList = () => {
     [status, groupId, editStatusFn]
   );
 
+  // 마운트 되었을 때 나의 상태와 메시지를 저장하는 함수
   useEffect(() => {
     if (groupUser) {
       setStatus(groupUser.status);
     }
   }, [groupUser]);
 
-  useEffect(() => {
-    if (groupUserList) setGroupUserList(groupUserList);
-  }, [groupUserList, setGroupUserList]);
+  // useEffect(() => {
+  //   socket?.on("onlineList", (data) => {});
+  //   return () => {
+  //     socket.off("onlineList");
+  //   };
+  // }, [socket]);
 
   return (
     <Wrapper>

@@ -38,6 +38,7 @@ const HomeHeader = () => {
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userAtom);
 
+  // 토큰이 존재하지 않을 시에 시작페이지로 이동
   useEffect(() => {
     const cookie = existCookie();
     if (!cookie) {
@@ -45,6 +46,7 @@ const HomeHeader = () => {
     }
   }, [navigate]);
 
+  // user 데이터를 recoil에 저장
   useEffect(() => {
     if (user) {
       setUser(user);

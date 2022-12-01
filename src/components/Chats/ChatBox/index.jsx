@@ -21,7 +21,7 @@ const ChatBox = ({ isMe, otherUser, chat }) => {
             <span>오후 11:33</span>
           </div>
         ) : null}
-        <p>{chat?.text} </p>
+        <p>{chat?.message} </p>
         {!isMe ? <span>오후 11:33</span> : null}
       </Comment>
     </ChatContainer>
