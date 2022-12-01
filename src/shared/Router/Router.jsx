@@ -9,6 +9,7 @@ import Signin from "../../pages/Signin";
 import Group from "../../pages/Group";
 import Signup from "../../pages/Signup";
 import Chat from "../../pages/Group/Chat";
+import KakaoLogin from "../../pages/Social/KakaoLogin";
 
 const Router = () => {
   return (
@@ -16,6 +17,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/main" element={<Main />}>
           <Route path="write" element={<CreateGroup />} />

@@ -26,7 +26,6 @@ export const DragResizeSchedule = async (payload) => {
 
 /** 일정 삭제 ( groupId ) */
 export const removeSchedule = async (payload) => {
-  console.log(payload);
   const data = await instance.delete(`groups/${payload.groupId}/schedules/${payload.scheduleId}`);
   return data;
 };

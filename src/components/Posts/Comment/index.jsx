@@ -31,7 +31,6 @@ function Comment({ comment, refetch, groupId, commentId }) {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [editMyComment, setEditMyComment] = useState(false);
   const [textValue, setTextValue] = useState("");
-  const [like, setLike] = useState(false);
 
   const groupUser = useRecoilValue(groupUserAtom);
 
@@ -138,7 +137,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
         <CommentResponse>
           <CommentLoadTime>{comment.createdAt.slice(0, 10)}</CommentLoadTime>
           <CommentLike onClick={toggleLike}>
-            {comment.findLike ? <LikeSvg /> : <SpaceLikeSvg />}
+            {comment.commentLike ? <LikeSvg /> : <SpaceLikeSvg />}
             <CommentLikeCount>{comment.likeCount}</CommentLikeCount>
           </CommentLike>
           <CommentLoadTime>답글쓰기</CommentLoadTime>
