@@ -26,7 +26,10 @@ const ChatForm = ({ setChats, groupUserId, groupId, scrollRef }) => {
       };
       // socket.emit("chatting", payload);
       setChats((prev) => [...prev, payload]);
-      scrollRef.current?.scrollToBottom();
+      setTimeout(() => {
+        scrollRef.current?.scrollToBottom();
+      }, 0);
+
       reset();
     },
     // socket 추가해야함
