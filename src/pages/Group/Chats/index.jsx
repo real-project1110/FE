@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
+import Scrollbars from "react-custom-scrollbars-2";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { io } from "socket.io-client";
 import styled from "styled-components";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
 import useSocket from "../../../hooks/useSocket";
 import { groupUserAtom, groupUserListAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
+import makeSection from "../../../utils/makeSection";
 
 const Chat = () => {
   const { groupId, groupUserId } = useParams();
@@ -15,7 +16,7 @@ const Chat = () => {
   const [chats, setChats] = useState(fakeData);
   const groupUserList = useRecoilValue(groupUserListAtom);
   const me = useRecoilValue(groupUserAtom);
-  const [socket] = useSocket(groupId);
+  //const [socket] = useSocket(groupId);
 
   // 그룹 유저 리스트에서 채팅을 보낼 사람에 대한 정보를 가져온다.
   useEffect(() => {
@@ -26,31 +27,30 @@ const Chat = () => {
     }
   }, [groupUserId, groupUserList]);
 
-  // const chatroom = useMemo(() => {
-  //   const num1 = otherUser?.groupUserId;
-  //   const num2 = me?.groupUserId;
-  //   return `${groupId},${Math.min(num1, num2)},${Math.max(num1, num2)}`;
-  // }, [groupId, me, otherUser]);
+  // useEffect(() => {
+  //   socket.emit("joinroom", groupId);
+  // }, [groupId, socket]);
 
-  useEffect(() => {
-    socket.emit("joinroom", groupId);
-  }, [groupId, socket]);
+  // useEffect(() => {
+  //   socket.on("chatting", (data) => {
+  //     console.log("get chatting", data);
+  //     setChats((prev) => [...prev, data]);
+  //   });
+  // }, [socket]);
 
-  useEffect(() => {
-    socket.on("chatting", (data) => {
-      console.log("get chatting", data);
-      setChats((prev) => [...prev, data]);
-    });
-  }, [socket]);
+  // useEffect(() => {
+  //   return () => socket.off("chatting");
+  // }, [socket]);
 
-  useEffect(() => {
-    return () => socket.off("chatting");
-  }, [socket]);
+  // useEffect(() => {
+  //   return () => socket.off("joinroom");
+  // }, [socket]);
 
-  useEffect(() => {
-    return () => socket.off("joinroom");
-  }, [socket]);
+  const chatSections = useMemo(() => {
+    return makeSection(chats ? chats.flat().reverse() : []);
+  }, [chats]);
 
+  console.log(chatSections);
   return (
     <Wrapper as="main">
       <Header>
@@ -62,16 +62,23 @@ const Chat = () => {
         <h3>{otherUser?.groupUserNickname}</h3>
       </Header>
       <ChatList>
-        <DaySection>
-          {chats?.map((chat, idx) => (
-            <ChatBox
-              key={chat?.message + idx}
-              isMe={chat?.groupUserId === me?.groupUserId}
-              otherUser={otherUser}
-              chat={chat}
-            />
-          ))}
-        </DaySection>
+        <Scrollbars>
+          {Object.entries(chatSections).map(([date, chats]) => {
+            return (
+              <DaySection>
+                <DayHeader>{date}</DayHeader>
+                {chats?.map((chat, idx) => (
+                  <ChatBox
+                    key={chat?.message + idx}
+                    isMe={chat?.groupUserId === me?.groupUserId}
+                    otherUser={otherUser}
+                    chat={chat}
+                  />
+                ))}
+              </DaySection>
+            );
+          })}
+        </Scrollbars>
       </ChatList>
       <ChatForm
         setChats={setChats}
@@ -87,12 +94,32 @@ export default Chat;
 const fakeData = [
   {
     groupUserId: 3,
-    message:
-      "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요v안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요",
+    message: "안녕하세요요안녕하세요",
+    createdAt: "2022-12-01T15:49:43.122Z",
   },
-  { groupUserId: 1, message: "안녕하세요" },
-  { groupUserId: 3, message: "찍찍찍! 쥐새키가 뻔뻔하게~" },
-  { groupUserId: 1, message: "에이맨~" },
+  {
+    groupUserId: 1,
+    message: "안녕하세요",
+    createdAt: "2022-12-01T15:49:43.122Z",
+  },
+  {
+    groupUserId: 3,
+    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
+    createdAt: "2022-12-02T15:49:43.122Z",
+  },
+  { groupUserId: 1, message: "에이맨~", createdAt: "2022-12-02T15:49:43.122Z" },
+  {
+    groupUserId: 3,
+    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
+    createdAt: "2022-12-03T15:49:43.122Z",
+  },
+  { groupUserId: 1, message: "에이맨~", createdAt: "2022-12-03T15:49:43.122Z" },
+  {
+    groupUserId: 3,
+    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
+    createdAt: "2022-12-02T15:49:43.122Z",
+  },
+  { groupUserId: 1, message: "에이맨~", createdAt: "2022-12-02T15:49:43.122Z" },
 ];
 
 export const Wrapper = styled.div`
@@ -133,3 +160,5 @@ export const DaySection = styled.div`
   flex-direction: column;
   padding: 3rem 1rem 0.7rem 1rem;
 `;
+
+export const DayHeader = styled.div``;

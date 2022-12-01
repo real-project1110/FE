@@ -11,21 +11,23 @@ import useSocket from "../../../hooks/useSocket";
 import { FlexBetweenBox, FlexCenterBox } from "../../../shared/Styles/flex";
 
 const ChatForm = ({ setChats, groupUserId, groupId }) => {
-  const [socket] = useSocket(groupId);
+  //const [socket] = useSocket(groupId);
   const { register, handleSubmit, watch, reset } = useForm();
 
   const onValid = useCallback(
     (data) => {
-      socket.emit("chatting", {
+      const payload = {
         groupId,
         groupUserId,
         message: data.message,
         createdAt: new Date().toISOString(),
-      });
-
+      };
+      // socket.emit("chatting", payload);
+      setChats((prev) => [...prev, payload]);
       reset();
     },
-    [groupUserId, reset, groupId, socket]
+    // socket 추가해야함
+    [groupUserId, reset, groupId, setChats]
   );
   const onKeydownChat = useCallback(
     (e) => {
