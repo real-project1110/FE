@@ -1,3 +1,4 @@
+import axios from "axios";
 import instance, { postApi } from "./instance/instance";
 
 /** 회원가입 */

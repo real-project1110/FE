@@ -14,14 +14,12 @@ export const readComments = async (payload) => {
 
 /** 댓글 수정 { groupId: groupId, postId: postId body:{ comment } } */
 export const editComment = async (payload) => {
-  console.log("pay", payload);
   const data = await instance.put(`groups/${payload.groupId}/posts/comments/${payload.commentId}`, payload.body);
   return data;
 };
 
 /** 댓글 삭제 ( groupId: groupId, postId: postId ) */
 export const removeComment = async (payload) => {
-  console.log("pay", payload);
   const data = await instance.delete(`groups/${payload.groupId}/posts/comments/${payload.commentId}`);
   return data;
 };
