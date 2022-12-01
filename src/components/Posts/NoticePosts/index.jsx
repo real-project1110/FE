@@ -22,11 +22,18 @@ import { useReadNoticePosts } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
 import { handleImgError } from "../../../utils/handleImgError";
 import { useInView } from "react-intersection-observer";
+import LikeSvg from "../../../assets/svg/LikeSvg";
 
 function NoticePosts() {
   const { groupId } = useParams();
 
+  // 공지 게시글 조회
   const { getNotice, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadNoticePosts(groupId);
+
+  // // 공지 게시글 좋아요
+  // const { mutate: likeFn } = useMutation(postLike, {
+  //   onSuccess: () => refetch(),
+  // });
 
   const { ref, inView } = useInView();
   useEffect(() => {
@@ -56,6 +63,7 @@ function NoticePosts() {
                             <PostDate>{notice.createdAt.slice(0, 10)}</PostDate>
                           </PostInfo>
                           <PostLike>
+                            {notice.findLike ? <LikeSvg /> : <SpaceLikeSvg />}
                             <LikeCount>{notice?.likeCount}</LikeCount>
                           </PostLike>
                         </PostInfoWrap>
