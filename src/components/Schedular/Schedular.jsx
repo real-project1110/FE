@@ -142,7 +142,9 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
-
+      if (title === "") return alert("이름을 작성해주세요");
+      if (description === undefined) return alert("내용을 작성해주세요");
+      if (color === "") return alert("색상을 지정해주세요");
       editMutate(editEvent);
     } else {
       setMyEvents([...myEvents, newEvent]);
@@ -151,6 +153,10 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
+      console.log(color);
+      if (title === "") return alert("이름을 작성해주세요");
+      if (description === undefined) return alert("내용을 작성해주세요");
+      if (color === "") return alert("색상을 지정해주세요");
       addMutate(addEvent);
       setAddTitle("");
     }
@@ -376,11 +382,13 @@ const Schedular = () => {
             label="이름"
             value={isEdit ? popupEventTitle : addTitle}
             onChange={titleChange}
+            required="required"
           />
           <Textarea
             label="상세 내용"
             value={popupEventDescription}
             onChange={descriptionChange}
+            required="required"
           />
         </div>
         <div className="mbsc-form-group">
