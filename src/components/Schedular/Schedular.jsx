@@ -1,10 +1,28 @@
 import React from "react";
-import { Eventcalendar, snackbar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
+import {
+  Eventcalendar,
+  snackbar,
+  setOptions,
+  Popup,
+  Button,
+  Input,
+  Textarea,
+  Datepicker,
+} from "@mobiscroll/react";
 import { useState, useCallback, useMemo, useRef } from "react";
 import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+
 import { useMutation, useQuery } from "react-query";
-import { addSchedule, DragResizeSchedule, editSchedule, readSchedule, removeSchedule } from "../../apis/scheduleApi";
+
+import {
+  addSchedule,
+  DragResizeSchedule,
+  editSchedule,
+  readSchedule,
+  removeSchedule,
+} from "../../apis/scheduleApi";
+
 import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
@@ -59,33 +77,51 @@ const Schedular = () => {
   const colorPicker = useRef();
   const { groupId } = useParams();
 
+  // 고를 수 있는 색상
   const colors = useMemo(() => {
     return existColors?.map((color) => color.color);
   }, [existColors]);
 
-  const { refetch } = useQuery(["schedules", groupId], () => readSchedule(groupId), {
-    refetchOnWindowFocus: false,
-    retry: 1,
-    onSuccess: (data) => {
-      setMyEvents(data);
-    },
-    onError: (e) => {
-      alert(e.message);
-    },
-  });
+  // 스케쥴을 가져오는 요청
+  const { refetch } = useQuery(
+    ["schedules", groupId],
+    () => readSchedule(groupId),
+    {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      onSuccess: (data) => {
+        setMyEvents(
+          data.map((schedule) => {
+            return {
+              ...schedule,
+              start: new Date(+schedule.start),
+              end: new Date(+schedule.end),
+            };
+          })
+        );
+      },
+      onError: (e) => {
+        alert(e.message);
+      },
+    }
+  );
 
+  // 스케쥴을 추가하는 요청
   const { mutate: addMutate } = useMutation(addSchedule, {
     onSuccess: () => refetch(),
   });
 
+  // 스케쥴을 변경하는 요청
   const { mutate: editMutate } = useMutation(editSchedule, {
     onSuccess: () => refetch(),
   });
 
+  // 스케쥴을 삭제하는 요청
   const { mutate: removeMutate } = useMutation(removeSchedule, {
     onSuccess: () => refetch(),
   });
 
+  // 일정에서 선택할 수 있는 색상
   const colorButtons = useMemo(
     () => [
       "cancel",
@@ -102,15 +138,20 @@ const Schedular = () => {
     [tempColor]
   );
 
+  // 스케쥴을 등록하거나 수정할 때 발생하는 함수
   const saveEvent = useCallback(() => {
+    const startDate = popupEventDate[0];
+    const endDate = popupEventDate[1];
+
     const newEvent = {
       title: isEdit ? popupEventTitle : addTitle,
       description: popupEventDescription,
-      start: popupEventDate[0],
-      end: popupEventDate[1],
+      start: Date.parse(startDate),
+      end: Date.parse(endDate),
       color: selectedColor,
     };
 
+    // 일정 수정일 경우 실행
     if (isEdit) {
       const index = myEvents.findIndex((x) => x.id === tempEvent.id);
       const newEventList = [...myEvents];
@@ -123,8 +164,9 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
-
       editMutate(editEvent);
+
+      // 일정 등록일 경우 실행
     } else {
       setMyEvents([...myEvents, newEvent]);
       const { title, description, start, end, color } = newEvent;
@@ -137,8 +179,21 @@ const Schedular = () => {
     }
     setSelectedDate(popupEventDate[0]);
     setOpen(false);
-  }, [isEdit, myEvents, popupEventDate, popupEventDescription, popupEventTitle, tempEvent, selectedColor, addMutate, editMutate, groupId, addTitle]);
+  }, [
+    isEdit,
+    myEvents,
+    popupEventDate,
+    popupEventDescription,
+    popupEventTitle,
+    tempEvent,
+    selectedColor,
+    addMutate,
+    editMutate,
+    groupId,
+    addTitle,
+  ]);
 
+  // 스케쥴을 삭제할 때 발생하는 함수
   const deleteEvent = useCallback(
     (event) => {
       const removeSchedule = {
@@ -162,6 +217,7 @@ const Schedular = () => {
     [myEvents, removeMutate, groupId]
   );
 
+  // 일정 등록 / 수정 창에서 나오는 기본 값들
   const loadPopupForm = useCallback((event) => {
     setTitle(event.title);
     setDescription(event.description);
@@ -171,6 +227,7 @@ const Schedular = () => {
 
   // handle popup form changes
 
+  // 일정 타이틀 onChange 함수
   const titleChange = useCallback(
     (ev) => {
       if (isEdit) {
@@ -182,25 +239,28 @@ const Schedular = () => {
     [isEdit]
   );
 
+  // 일정 내용 onChange 함수
   const descriptionChange = useCallback((ev) => {
     setDescription(ev.target.value);
   }, []);
 
+  // 일정 날짜 onChange 함수
   const dateChange = useCallback((args) => {
     setDate(args.value);
   }, []);
 
+  // 삭제 버튼을 클릭했을 때 실행하는 함수
   const onDeleteClick = useCallback(() => {
     deleteEvent(tempEvent);
     setOpen(false);
   }, [deleteEvent, tempEvent]);
 
-  // scheduler options
-
+  // ??
   const onSelectedDateChange = useCallback((event) => {
     setSelectedDate(event.date);
   }, []);
 
+  // 생성되어 있는 스케쥴을 클릭하였을 때 실행되는 함수
   const onEventClick = useCallback(
     (args) => {
       setEdit(true);
@@ -213,43 +273,54 @@ const Schedular = () => {
     [loadPopupForm]
   );
 
+  // 일정을 생성하기 위해 빈 공간을 클릭하였을 때 실행되는 함수
   const onEventCreated = useCallback(
     (args) => {
-      // createNewEvent(args.event, args.target)
+      console.log("hello");
       setEdit(false);
       setTempEvent(args.event);
-      // fill popup form with event data
       loadPopupForm(args.event);
       setAnchor(args.target);
-      // open the popup
       setOpen(true);
     },
     [loadPopupForm]
   );
 
+  // onDeleteClick과 동일한 역할을 하는 함수인데 확인 필요
   const onEventDeleted = useCallback(
     (args) => {
+      console.log("?");
       deleteEvent(args.event);
     },
     [deleteEvent]
   );
 
-  const onEventUpdated = useCallback(
-    (args) => {
-      // 드래그앤 드롭, 리사이징 수정부분 api 요청
-      const { scheduleId, title, description, start, end, color, groupId } = args.event;
-      const editEvent = {
-        scheduleId,
-        groupId,
-        body: { title, description, start, end, color },
-      };
-      DragResizeSchedule(editEvent);
-    },
-    [DragResizeSchedule]
+  // 드래그앤 드롭, 리사이징 수정부분 api 요청
+  const onEventUpdated = useCallback((args) => {
+    const { scheduleId, title, description, start, end, color, groupId } =
+      args.event;
+
+    const editEvent = {
+      scheduleId,
+      groupId,
+      body: {
+        title,
+        description,
+        start: Date.parse(start),
+        end: Date.parse(end),
+        color,
+      },
+    };
+    DragResizeSchedule(editEvent);
+  }, []);
+
+  // 팝업의 Header 텍스트
+  const headerText = useMemo(
+    () => (isEdit ? "일정 수정" : "일정 추가"),
+    [isEdit]
   );
 
-  // popup options
-  const headerText = useMemo(() => (isEdit ? "일정 수정" : "일정 추가"), [isEdit]);
+  // 팝업의 버튼 이름 등
   const popupButtons = useMemo(() => {
     if (isEdit) {
       return [
@@ -278,8 +349,10 @@ const Schedular = () => {
     }
   }, [isEdit, saveEvent]);
 
+  // 필요한지 확인 필요한 함수
   const onClose = useCallback(() => {
     if (!isEdit) {
+      console.log("다다ㅏ");
       // refresh the list, if add popup was canceled, to remove the temporary event
       setMyEvents([...myEvents]);
     }
@@ -287,10 +360,12 @@ const Schedular = () => {
     setColorPickerOpen(false);
   }, [isEdit, myEvents]);
 
+  // ?
   const selectColor = useCallback((color) => {
     setTempColor(color);
   }, []);
 
+  // ?
   const openColorPicker = useCallback(
     (ev) => {
       selectColor(selectedColor || "");
@@ -300,6 +375,7 @@ const Schedular = () => {
     [selectColor, selectedColor]
   );
 
+  // 색상을 변경하는 함수
   const changeColor = useCallback(
     (ev) => {
       const color = ev.currentTarget.getAttribute("data-value");
@@ -340,20 +416,44 @@ const Schedular = () => {
         responsive={responsivePopup}
       >
         <div className="mbsc-form-group">
-          <Input label="이름" value={isEdit ? popupEventTitle : addTitle} onChange={titleChange} />
-          <Textarea label="상세 내용" value={popupEventDescription} onChange={descriptionChange} />
+          <Input
+            label="이름"
+            value={isEdit ? popupEventTitle : addTitle}
+            onChange={titleChange}
+          />
+          <Textarea
+            label="상세 내용"
+            value={popupEventDescription}
+            onChange={descriptionChange}
+          />
         </div>
         <div className="mbsc-form-group">
           <Input ref={startRef} label="시작 날짜" />
           <Input ref={endRef} label="종료 날짜" />
-          <Datepicker select="range" touchUi={true} startInput={start} endInput={end} showRangeLabels={false} onChange={dateChange} value={popupEventDate} />
+          <Datepicker
+            select="range"
+            touchUi={true}
+            startInput={start}
+            endInput={end}
+            showRangeLabels={false}
+            onChange={dateChange}
+            value={popupEventDate}
+          />
           <div onClick={openColorPicker} className="event-color-c">
             <div className="event-color-label">Color</div>
-            <div className="event-color" style={{ background: selectedColor }}></div>
+            <div
+              className="event-color"
+              style={{ background: selectedColor }}
+            ></div>
           </div>
           {isEdit ? (
             <div className="mbsc-button-group">
-              <Button className="mbsc-button-block" color="danger" variant="outline" onClick={onDeleteClick}>
+              <Button
+                className="mbsc-button-block"
+                color="danger"
+                variant="outline"
+                onClick={onDeleteClick}
+              >
                 일정 삭제하기
               </Button>
             </div>
@@ -375,8 +475,18 @@ const Schedular = () => {
           {colors?.map((color, index) => {
             if (index < 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;
@@ -386,8 +496,18 @@ const Schedular = () => {
           {colors?.map((color, index) => {
             if (index >= 5) {
               return (
-                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
-                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
+                <div
+                  key={index}
+                  onClick={changeColor}
+                  className={
+                    "crud-color-c " + (tempColor === color ? "selected" : "")
+                  }
+                  data-value={color}
+                >
+                  <div
+                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                    style={{ background: color }}
+                  ></div>
                 </div>
               );
             } else return null;

@@ -75,7 +75,7 @@ urls
 
 
 (현진) url = https://hyunjin9603.shop/
-(정현) url = https://rlawjdgus.shop/
+(정현) url = https://wjdgusgg.shop/
 (동희) url = http://13.209.98.174/
 
 [] 그룹 유저 atom 생성
