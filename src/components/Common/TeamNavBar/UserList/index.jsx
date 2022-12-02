@@ -83,12 +83,12 @@ const UserList = () => {
                 groupUserList
                   .filter((user) => user.groupUserId !== groupUser.groupUserId)
                   .map((user) => (
-                    <Link
-                      to={`/groups/${groupId}/chats/${user.groupUserId}`}
-                      key={user?.groupUserId}
-                    >
-                      <UserItem user={user} />
-                    </Link>
+                    <UserItem
+                      user={user}
+                      key={user.groupUserId}
+                      myUserData={groupUser}
+                      groupId={groupId}
+                    />
                   ))}
             </>
           )}

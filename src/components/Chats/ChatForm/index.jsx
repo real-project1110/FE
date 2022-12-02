@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import ASvg from "../../../assets/svg/ASvg";
 import BoldSvg from "../../../assets/svg/BoldSvg";
@@ -10,29 +9,35 @@ import ItalicSvg from "../../../assets/svg/ItalicSvg";
 import useSocket from "../../../hooks/useSocket";
 import { FlexBetweenBox, FlexCenterBox } from "../../../shared/Styles/flex";
 import autosize from "autosize";
+import { useMutation } from "react-query";
+import { addChat } from "../../../apis/chatApis";
 
-const ChatForm = ({ setChats, groupUserId, groupId, scrollRef }) => {
-  //const [socket] = useSocket(groupId);
+const ChatForm = ({ groupUserId, roomId, scrollRef }) => {
+  const [socket] = useSocket(roomId);
   const textareaRef = useRef(null);
+  const { mutate: addChatFn } = useMutation(addChat);
+  // 채팅 보내기
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
       const payload = {
-        groupId,
+        roomId,
         groupUserId,
         message: textareaRef.current.value,
         createdAt: new Date().toISOString(),
       };
-      // socket.emit("chatting", payload);
+      socket.emit("message", payload);
       textareaRef.current.value = "";
-      console.log((textareaRef.current.style.height = "50px"));
-      setChats((prev) => [...prev, payload]);
+      textareaRef.current.style.height = "50px";
+      // setChats((prev) => [...prev, payload]);
+      delete payload.createdAt;
+      addChatFn({ roomId, body: { groupUserId, message: payload.message } });
       setTimeout(() => {
         scrollRef.current?.scrollToBottom();
       }, 0);
     },
-    // socket 추가해야함
-    [groupUserId, groupId, setChats, scrollRef, textareaRef]
+
+    [groupUserId, roomId, scrollRef, textareaRef, socket, addChatFn]
   );
 
   const onKeydownChat = useCallback(

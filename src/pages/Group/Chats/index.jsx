@@ -12,19 +12,34 @@ import styled from "styled-components";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
 import useSocket from "../../../hooks/useSocket";
-import { groupUserAtom, groupUserListAtom } from "../../../recoil/userAtoms";
+import { groupUserAtom } from "../../../recoil/userAtoms";
 import { FlexCenterBox } from "../../../shared/Styles/flex";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
+import { chatUserAtom } from "../../../recoil/userAtoms";
+import { useQuery } from "react-query";
+import { readChats } from "../../../apis/chatApis";
 
 const Chat = () => {
-  const { groupId, groupUserId } = useParams();
-  const [otherUser, setOtherUser] = useState({});
-  const [chats, setChats] = useState(fakeData);
-  const groupUserList = useRecoilValue(groupUserListAtom);
+  const { groupId, roomId } = useParams();
+  const [chats, setChats] = useState([]);
+  const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
   const scrollRef = useRef(null);
-  //const [socket] = useSocket(groupId);
+  const [socket] = useSocket(roomId);
+  const page = 1;
+  const pageSize = 15;
+
+  const { data: chatsData } = useQuery(
+    ["chats", roomId],
+    () => readChats({ roomId, page, pageSize }),
+    {
+      staleTime: 10000,
+      cacheTime: Infinity,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => setChats(data),
+    }
+  );
 
   const isEmpty = useMemo(() => chats && chats[0]?.length === 0, [chats]);
 
@@ -63,35 +78,26 @@ const Chat = () => {
     // }
   }, []);
 
-  // 그룹 유저 리스트에서 채팅을 보낼 사람에 대한 정보를 가져온다.
   useEffect(() => {
-    if (groupUserList) {
-      setOtherUser(
-        groupUserList.find((user) => user.groupUserId === +groupUserId)
-      );
-    }
-  }, [groupUserId, groupUserList]);
+    socket.emit("joinRoom", { roomId });
+  }, [groupId, socket, roomId]);
 
-  // useEffect(() => {
-  //   socket.emit("joinroom", groupId);
-  // }, [groupId, socket]);
+  useEffect(() => {
+    socket.on("message", (data) => {
+      setChats((prev) => [...prev, data]);
+    });
+  }, [socket]);
 
-  // useEffect(() => {
-  //   socket.on("chatting", (data) => {
-  //     console.log("get chatting", data);
-  //     setChats((prev) => [...prev, data]);
-  //   });
-  // }, [socket]);
+  useEffect(() => {
+    return () => socket.off("message");
+  }, [socket]);
 
-  // useEffect(() => {
-  //   return () => socket.off("chatting");
-  // }, [socket]);
-
-  // useEffect(() => {
-  //   return () => socket.off("joinroom");
-  // }, [socket]);
+  useEffect(() => {
+    return () => socket.off("joinRoom");
+  }, [socket]);
 
   const chatSections = useMemo(() => {
+    if (!chats) return;
     return makeSection(chats ? chats.flat() : []);
   }, [chats]);
 
@@ -129,7 +135,7 @@ const Chat = () => {
       <ChatForm
         setChats={setChats}
         groupUserId={me?.groupUserId}
-        groupId={groupId}
+        roomId={roomId}
         scrollRef={scrollRef}
       />
     </Wrapper>

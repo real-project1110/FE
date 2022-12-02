@@ -21,7 +21,7 @@ const Group = () => {
   const setGroupUserList = useSetRecoilState(groupUserListAtom);
   const setGroupUser = useSetRecoilState(groupUserAtom);
   const setGroup = useSetRecoilState(groupAtom);
-  //const [socket, disconnect] = useSocket(groupId);
+  const [socket, disconnect] = useSocket(groupId);
 
   const { data: groupUserList } = useQuery(
     ["groupUserList", groupId],
@@ -43,7 +43,7 @@ const Group = () => {
       retry: 1,
     }
   );
-
+  console.log(group);
   // 그룹 유저 리스트를 recoil에 저장
   useEffect(() => {
     if (groupUserList) setGroupUserList(groupUserList);
@@ -69,12 +69,12 @@ const Group = () => {
   //   }
   // }, [groupUser, socket, groupId]);
 
-  // // groupId가 바뀌면 소켓 연결 끊기
-  // useEffect(() => {
-  //   return () => {
-  //     disconnect();
-  //   };
-  // }, [groupId, disconnect]);
+  // groupId가 바뀌면 소켓 연결 끊기
+  useEffect(() => {
+    return () => {
+      disconnect();
+    };
+  }, [groupId, disconnect]);
 
   return (
     <Wrapper>
