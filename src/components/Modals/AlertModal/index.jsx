@@ -43,6 +43,7 @@ const AlertModal = ({ setHeaderAlert }) => {
       console.log(groupId, inviteId);
       //e.stopPropagation();
       const response = await addGroupUsers({ groupId });
+      console.log(response);
       if (response.status === 201) {
         deleteAlertFn(inviteId);
         setHeaderAlert(false);
