@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { useMutation } from "react-query";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../..";
 import { postLike, removePost, togglePost } from "../../../apis/postApi";
 import LikeSvg from "../../../assets/svg/LikeSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
+import { PostDetailAtom } from "../../../recoil/groupAtoms";
+import { PostDetailModalAtom } from "../../../recoil/modalAtoms";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
@@ -27,6 +29,8 @@ import {
 
 function NoticePostItem({ groupId, ref, notice, refetch }) {
   const [openPostMenu, setOpenPostMenu] = useState(false);
+  const setShowPostDetail = useSetRecoilState(PostDetailModalAtom);
+  const setDetailPost = useSetRecoilState(PostDetailAtom);
   const groupUser = useRecoilValue(groupUserAtom);
 
   const { mutate: removePostFn } = useMutation(removePost, {
@@ -88,6 +92,17 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
     [togglePostFn, onCloseModal, notice.postId, groupId]
   );
 
+  // 상세보기 클릭 시
+  const viewDetail = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setShowPostDetail(true);
+      onCloseModal();
+      setDetailPost(notice);
+    },
+    [onCloseModal, setShowPostDetail, setDetailPost, notice]
+  );
+
   return (
     <>
       {openPostMenu && <CloseContainer onClick={onCloseModal} />}
@@ -108,6 +123,7 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
                   <MenuBox right={"1rem"} top={"1.2rem"}>
                     <MenuList>
                       <li onClick={onTogglePost}>자유글로 등록</li>
+                      <li onClick={viewDetail}>상세 보기</li>
                       <li onClick={onDeletePost}>삭제</li>
                     </MenuList>
                   </MenuBox>
