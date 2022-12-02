@@ -14,7 +14,6 @@ import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
 import { useMutation, useQuery } from "react-query";
-
 import {
   addSchedule,
   DragResizeSchedule,
@@ -22,7 +21,6 @@ import {
   readSchedule,
   removeSchedule,
 } from "../../apis/scheduleApi";
-
 import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
@@ -164,6 +162,9 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
+      if (title === "") return alert("이름을 작성해주세요");
+      if (description === undefined) return alert("내용을 작성해주세요");
+      if (color === "") return alert("색상을 지정해주세요");
       editMutate(editEvent);
 
       // 일정 등록일 경우 실행
@@ -174,6 +175,10 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
+      console.log(color);
+      if (title === "") return alert("이름을 작성해주세요");
+      if (description === undefined) return alert("내용을 작성해주세요");
+      if (color === "") return alert("색상을 지정해주세요");
       addMutate(addEvent);
       setAddTitle("");
     }
@@ -420,11 +425,13 @@ const Schedular = () => {
             label="이름"
             value={isEdit ? popupEventTitle : addTitle}
             onChange={titleChange}
+            required="required"
           />
           <Textarea
             label="상세 내용"
             value={popupEventDescription}
             onChange={descriptionChange}
+            required="required"
           />
         </div>
         <div className="mbsc-form-group">

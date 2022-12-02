@@ -47,3 +47,13 @@ export const SendComment = styled.span`
   font-weight: 400;
   font-size: 0.9rem;
 `;
+
+export const More = styled.div`
+  padding-top: 13px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  &:hover {
+    color: rgba(0, 0, 0, 0.8);
+  }
+`;

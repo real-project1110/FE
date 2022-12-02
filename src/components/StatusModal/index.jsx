@@ -5,17 +5,7 @@ import { queryClient } from "../..";
 import { addStatus } from "../../apis/colorApi";
 import { nowColor } from "../../recoil/ColorAtom";
 import { ColorFormModalAtom } from "../../recoil/modalAtoms";
-import {
-  Wrapper,
-  Status,
-  Title,
-  ColorPicker,
-  StatusInput,
-  ButtonWrap,
-  Color,
-  InputWrap,
-  Button,
-} from "./styles";
+import { Wrapper, Status, Title, ColorPicker, StatusInput, ButtonWrap, Color, InputWrap, Button } from "./styles";
 
 function StatusModal({ groupId }) {
   const setIsColor = useSetRecoilState(ColorFormModalAtom);
@@ -50,6 +40,7 @@ function StatusModal({ groupId }) {
         content: statusMent,
       },
     };
+    if (selectedColor === "" || statusMent.content === "") return alert("모두 입력해주세요");
     addMutate(statusData);
     setIsColor(false);
   };
@@ -67,24 +58,15 @@ function StatusModal({ groupId }) {
         <Title>상태를 추가해보세요!</Title>
         <ColorPicker>
           {newColor.map((color) => (
-            <Color
-              key={color}
-              isFocus={selectedColor === color}
-              onClick={() => check(color)}
-              value={color}
-            />
+            <Color key={color} isFocus={selectedColor === color} onClick={() => check(color)} value={color} />
           ))}
         </ColorPicker>
         <InputWrap>
-          <StatusInput
-            maxLength="10"
-            placeholder="상태명을 입력해보세요! ex) 휴가, 연차 ... (최대 10글자)"
-            onChange={onChange}
-          />
+          <StatusInput maxLength="10" placeholder="상태명을 입력해보세요! ex) 휴가, 연차 ... (최대 10글자)" onChange={onChange} />
         </InputWrap>
         <ButtonWrap>
           <Button isAdd={true}>추가</Button>
-          <Button isAdd={false}>취소</Button>
+          {/* <Button isAdd={false}>취소</Button> */}
         </ButtonWrap>
       </Status>
     </Wrapper>
@@ -93,15 +75,4 @@ function StatusModal({ groupId }) {
 
 export default StatusModal;
 
-const colors = [
-  "#ffeb3c",
-  "#ff9900",
-  "#f44437",
-  "#ea1e63",
-  "#9c26b0",
-  "#3f51b5",
-  "#00FFF6",
-  "#009788",
-  "#4baf4f",
-  "#7e5d4e",
-];
+const colors = ["#ffeb3c", "#ff9900", "#f44437", "#ea1e63", "#9c26b0", "#3f51b5", "#00FFF6", "#009788", "#4baf4f", "#7e5d4e"];
