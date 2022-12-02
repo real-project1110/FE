@@ -109,7 +109,7 @@ const Chat = () => {
         <Scrollbars autoHide ref={scrollRef} onScrollFrame={onScroll}>
           {Object.entries(chatSections).map(([date, chats]) => {
             return (
-              <DaySection>
+              <DaySection key={date}>
                 <DayHeader>
                   <button>{date}</button>
                 </DayHeader>

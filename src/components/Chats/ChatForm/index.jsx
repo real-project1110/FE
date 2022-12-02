@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import ASvg from "../../../assets/svg/ASvg";
@@ -13,54 +13,50 @@ import autosize from "autosize";
 
 const ChatForm = ({ setChats, groupUserId, groupId, scrollRef }) => {
   //const [socket] = useSocket(groupId);
-  const { register, handleSubmit, watch, reset } = useForm();
   const textareaRef = useRef(null);
-
-  const onValid = useCallback(
-    (data) => {
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
       const payload = {
         groupId,
         groupUserId,
-        message: data.message,
+        message: textareaRef.current.value,
         createdAt: new Date().toISOString(),
       };
       // socket.emit("chatting", payload);
+      textareaRef.current.value = "";
+      console.log((textareaRef.current.style.height = "50px"));
       setChats((prev) => [...prev, payload]);
       setTimeout(() => {
         scrollRef.current?.scrollToBottom();
       }, 0);
-
-      reset();
     },
     // socket 추가해야함
-    [groupUserId, reset, groupId, setChats, scrollRef]
+    [groupUserId, groupId, setChats, scrollRef, textareaRef]
   );
+
   const onKeydownChat = useCallback(
     (e) => {
       if (e.key === "Enter") {
         if (!e.shiftKey) {
           e.preventDefault();
-          onValid(watch());
+          if (textareaRef.current?.value?.length > 0) onSubmit(e);
         }
       }
     },
-    [onValid, watch]
+    [onSubmit]
   );
 
   useEffect(() => {
     if (textareaRef.current) {
       autosize(textareaRef.current);
     }
-  }, []);
+  }, [textareaRef]);
 
   return (
     <Wrapper>
-      <FormContainer onSubmit={handleSubmit(onValid)}>
-        <TextArea
-          {...register("message", { minLength: 1 })}
-          onKeyPress={onKeydownChat}
-          inputRef={textareaRef}
-        />
+      <FormContainer onSubmit={onSubmit}>
+        <TextArea onKeyPress={onKeydownChat} ref={textareaRef} />
         <ButtonContainer>
           <Buttons>
             <BoldSvg />
@@ -100,6 +96,8 @@ export const TextArea = styled.textarea`
   padding: 10px;
   background-color: ${(props) => props.theme.color.white};
   border-radius: 8px;
+  resize: none !important;
+  outline: none !important;
 `;
 export const ButtonContainer = styled.div`
   ${FlexBetweenBox};
