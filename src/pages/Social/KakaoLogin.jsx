@@ -18,7 +18,7 @@ function KakaoLogin() {
         );
         if (kakaoResult.status !== 200) return;
         const token = kakaoResult.data.access_token;
-        const response = await axios.post("https://hyunjin9603.shop/auth/kakao", kakaoResult.data, {
+        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}auth/kakao`, kakaoResult.data, {
           headers: {
             Authorization: token,
           },
