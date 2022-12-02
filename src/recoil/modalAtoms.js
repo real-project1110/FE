@@ -35,3 +35,9 @@ export const ColorFormModalAtom = atom({
   key: "ColorFormModalAtom",
   default: false,
 });
+
+// post detail 여닫기 모달
+export const PostDetailModalAtom = atom({
+  key: "PostDetailModalAtom",
+  default: false,
+});
