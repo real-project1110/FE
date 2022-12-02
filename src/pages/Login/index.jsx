@@ -35,7 +35,7 @@ const Login = () => {
     <Wrapper>
       <LoginBox>
         <Logo>
-          <LogoBox>
+          <LogoBox onClick={navigate('/')} >
             <BigLogoSvg />
           </LogoBox>
           <Info>

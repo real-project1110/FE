@@ -68,7 +68,7 @@ const FreePostItem = ({ post, refetch }) => {
       postId: post.postId,
     };
     likeFn(LikeData);
-  }, []);
+  }, [groupId, post.postId, likeFn]);
 
   // 메뉴 닫기
   const onCloseModal = useCallback(() => {
@@ -136,7 +136,17 @@ const FreePostItem = ({ post, refetch }) => {
         <FreePost>
           <PostMenu>
             <PostUserInfo>
-              <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
+              <UserImg>
+                {post.groupAvatarImg ? (
+                  <img
+                    src={post.groupAvatarImg}
+                    alt="profile"
+                    onError={handleImgError}
+                  />
+                ) : (
+                  <FakeImg />
+                )}
+              </UserImg>
               <Nickname>{post.groupUserNickname}</Nickname>
               <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
             </PostUserInfo>
@@ -160,7 +170,11 @@ const FreePostItem = ({ post, refetch }) => {
             <PostImgWrap>
               {post?.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>
-                  <img src={Image.postImg} alt="postImg" onError={handleImgError} />
+                  <img
+                    src={Image.postImg}
+                    alt="postImg"
+                    onError={handleImgError}
+                  />
                 </ImageWrap>
               ))}
             </PostImgWrap>
@@ -177,7 +191,13 @@ const FreePostItem = ({ post, refetch }) => {
             </PostComment>
           </PostResponse>
         </FreePost>
-        {CommentListOpen ? <CommentList postId={post.postId} groupId={groupId} setCommentCount={setCommentCount} /> : null}
+        {CommentListOpen ? (
+          <CommentList
+            postId={post.postId}
+            groupId={groupId}
+            setCommentCount={setCommentCount}
+          />
+        ) : null}
       </FreePostItemContainer>
     </>
   );
