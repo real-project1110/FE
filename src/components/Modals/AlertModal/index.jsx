@@ -29,6 +29,7 @@ const AlertModal = ({ setHeaderAlert }) => {
       queryClient.invalidateQueries(["alerts"]);
     },
   });
+
   const onCloseModal = useCallback(
     (e) => {
       e.stopPropagation();
@@ -44,9 +45,12 @@ const AlertModal = ({ setHeaderAlert }) => {
       //e.stopPropagation();
       const response = await addGroupUsers({ groupId });
       if (response.status === 201) {
+        queryClient.invalidateQueries(["groupList"]);
         deleteAlertFn(inviteId);
+        setTimeout(() => {
+          navigate(`/groups/${groupId}`);
+        }, 100);
         setHeaderAlert(false);
-        navigate(`/groups/${groupId}`);
       }
     },
     [setHeaderAlert, navigate, deleteAlertFn]
