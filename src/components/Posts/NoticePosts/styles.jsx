@@ -27,7 +27,7 @@ export const NoticeTitle = styled.div`
 `;
 
 export const Notice = styled(NoticeTitle)`
-  padding: 0 5%;
+  padding: 0 4%;
 `;
 
 export const AllPost = styled.div`

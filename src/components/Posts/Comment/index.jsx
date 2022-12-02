@@ -1,14 +1,22 @@
 import React, { useCallback, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilValue } from "recoil";
-import { commentLike, editComment, removeComment } from "../../../apis/commentApi";
+import {
+  commentLike,
+  editComment,
+  removeComment,
+} from "../../../apis/commentApi";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import LikeSvg from "../../../assets/svg/LikeSvg";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
-import { CommentFormUserImg, CommentInput, CommentSubmitBtn } from "../CommentList/styles";
+import {
+  CommentFormUserImg,
+  CommentInput,
+  CommentSubmitBtn,
+} from "../CommentList/styles";
 import { CloseContainer, FakeImg } from "../FreePostItem/styles";
 import { SendComment } from "../FreePosts/styles";
 import {
@@ -63,7 +71,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
   const edit = useCallback(() => {
     setEditMyComment((prev) => !prev);
     setTextValue(comment.comment);
-  }, []);
+  }, [comment.comment]);
 
   // 댓글 수정 저장
   const editSave = useCallback(() => {
@@ -77,7 +85,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
     editMutate(commentData);
     alert("수정되었습니다");
     setEditMyComment(false);
-  }, [textValue]);
+  }, [textValue, editMutate, comment.commentId, groupId]);
 
   // 댓글 삭제 onClick
   const remove = useCallback(() => {
@@ -100,7 +108,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
       commentId: comment.commentId,
     };
     likeFn(LikeData);
-  }, []);
+  }, [comment.commentId, groupId, likeFn]);
 
   // 모달 닫기
   const onCloseModal = useCallback((e) => {
@@ -115,7 +123,11 @@ function Comment({ comment, refetch, groupId, commentId }) {
         <CommentHeader>
           <CommentUserInfo>
             <CommentUserImg>
-              <img src={comment.groupAvatarImg} alt="profile" onError={handleImgError} />
+              <img
+                src={comment.groupAvatarImg}
+                alt="profile"
+                onError={handleImgError}
+              />
             </CommentUserImg>
             <Nickname>{comment.groupUserNickname}</Nickname>
           </CommentUserInfo>
@@ -146,13 +158,19 @@ function Comment({ comment, refetch, groupId, commentId }) {
       {editMyComment ? (
         <CommentForm>
           {groupUser && groupUser.groupAvatarImg ? (
-            <CommentFormUserImg src={groupUser.groupAvatarImg} alt={groupUser.groupUserNickname} onError={handleImgError} />
+            <CommentFormUserImg
+              src={groupUser.groupAvatarImg}
+              alt={groupUser.groupUserNickname}
+              onError={handleImgError}
+            />
           ) : (
             <FakeImg />
           )}
           <CommentInput onChange={onChangeText} value={textValue} />
           <CommentSubmitBtn>
-            <SendComment onClick={() => setEditMyComment(false)}>취소</SendComment>
+            <SendComment onClick={() => setEditMyComment(false)}>
+              취소
+            </SendComment>
             <SendComment onClick={editSave}>저장</SendComment>
           </CommentSubmitBtn>
         </CommentForm>

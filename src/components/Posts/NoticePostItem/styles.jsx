@@ -1,16 +1,27 @@
 import styled from "styled-components";
-import { FlexAlignBox, FlexColumnBox } from "../../../shared/Styles/flex";
+import {
+  FlexAlignBox,
+  FlexBetweenBox,
+  FlexColumnBox,
+} from "../../../shared/Styles/flex";
 
 export const Post = styled.div`
   ${FlexAlignBox};
-  width: 90%;
+  width: 94%;
   height: 127px;
   margin: 0 auto;
-  margin-top: 1.3rem;
+  margin-top: 1rem;
   padding: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   z-index: 80;
+`;
+
+export const TitleWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  margin-top: -10px;
+  display: flex;
 `;
 
 export const PostImg = styled.img`
@@ -55,7 +66,7 @@ export const PostContent = styled.p`
 
 export const PostInfoWrap = styled.div`
   width: 100%;
-  margin-top: 7px;
+  margin-top: 0px;
   display: flex;
   justify-content: space-between;
 `;
@@ -63,6 +74,7 @@ export const PostInfoWrap = styled.div`
 export const PostInfo = styled.div`
   display: flex;
   width: 100%;
+  margin-top: 5px;
 `;
 
 export const PostWriter = styled.span`
@@ -90,7 +102,7 @@ export const PostLike = styled.span`
   display: flex;
   align-items: center;
   cursor: pointer;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   svg {
     width: 1rem;
   }
@@ -98,6 +110,7 @@ export const PostLike = styled.span`
 
 export const LikeCount = styled.span`
   margin-left: 5px;
+  margin-top: 1px;
   font-weight: 300;
   font-size: 12px;
   color: ${(props) => props.theme.color.gray};
