@@ -1,9 +1,5 @@
 import styled from "styled-components";
-import {
-  FlexAlignBox,
-  FlexBetweenBox,
-  FlexColumnBox,
-} from "../../../shared/Styles/flex";
+import { FlexAlignBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const Post = styled.div`
   ${FlexAlignBox};
@@ -11,7 +7,7 @@ export const Post = styled.div`
   height: 127px;
   margin: 0 auto;
   margin-top: 1rem;
-  padding: 10px;
+  padding: 15px;
   box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   z-index: 80;
@@ -25,8 +21,8 @@ export const TitleWrap = styled.div`
 `;
 
 export const PostImg = styled.img`
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border: none;
   border-radius: 8px;

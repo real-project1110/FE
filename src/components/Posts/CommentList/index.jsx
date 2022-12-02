@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { addComment, readComments } from "../../../apis/commentApi";
+import { addComment, useReadComments } from "../../../apis/commentApi";
 import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import { handleImgError } from "../../../utils/handleImgError";
 import { readGroupUser } from "../../../apis/groupUserApi";
@@ -10,9 +10,11 @@ import {
   CommentInput,
   CommentSubmitBtn,
   List,
+  More,
 } from "./styles";
 import { FakeImg } from "../FreePostItem/styles";
 import Comment from "../Comment";
+import { useInView } from "react-intersection-observer";
 
 function CommentList({ groupId, postId, setCommentCount }) {
   // 현재 유저 이미지
@@ -31,18 +33,28 @@ function CommentList({ groupId, postId, setCommentCount }) {
     groupId: groupId,
     postId: postId,
   };
-  const { data: Comments, refetch } = useQuery(
-    ["comments", `post ${postId}`, `group ${groupId}`],
-    () => readComments(readCommentData),
-    {
-      refetchOnWindowFocus: false,
-      retry: 1,
+  const {
+    data: getComment,
+    fetchNextPage,
+    isSuccess,
+    hasNextPage,
+    refetch,
+  } = useReadComments(readCommentData);
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  );
+  }, [inView, fetchNextPage, hasNextPage]);
 
   // 댓글 작성
   const { mutate: addCommentMutate } = useMutation(addComment, {
-    onSuccess: () => refetch(),
+    onSuccess: () => {
+      refetch();
+      setCommentCount((prev) => prev + 1);
+    },
   });
 
   // 댓글 작성 form
@@ -64,24 +76,28 @@ function CommentList({ groupId, postId, setCommentCount }) {
     setPostComment(e.target.value);
   };
 
-  useEffect(() => {
-    if (Comments) {
-      setCommentCount(Comments.length);
-    }
-  }, [Comments, setCommentCount]);
-
   return (
     <List>
-      {Comments &&
-        Comments.slice(0, 3)?.map((comment) => (
-          <Comment
-            key={comment.commentId}
-            groupId={groupId}
-            commentId={comment.commentId}
-            comment={comment}
-            refetch={refetch}
-          />
-        ))}
+      {isSuccess && getComment?.pages
+        ? getComment?.pages.map((page) => (
+            <React.Fragment key={page.currentPage}>
+              {page?.data.map((comment) => {
+                return (
+                  <Comment
+                    nowRef={ref}
+                    key={comment.commentId}
+                    groupId={groupId}
+                    commentId={comment.commentId}
+                    comment={comment}
+                    refetch={refetch}
+                    setCommentCount={setCommentCount}
+                  />
+                );
+              })}
+            </React.Fragment>
+          ))
+        : null}
+      {hasNextPage ? <More onClick={fetchNextPage}>더보기</More> : null}
       <CommentForm onSubmit={Submit}>
         {groupUser && groupUser.groupAvatarImg ? (
           <CommentFormUserImg

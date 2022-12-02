@@ -36,7 +36,7 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
   const { mutate: togglePostFn } = useMutation(togglePost, {
     onSuccess: () => {
       refetch();
-      queryClient.invalidateQueries(["FreePosts", groupId]);
+      queryClient.invalidateQueries(["freePosts", groupId]);
     },
   });
 

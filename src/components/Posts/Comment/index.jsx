@@ -35,7 +35,7 @@ import {
   Nickname,
 } from "./styles";
 
-function Comment({ comment, refetch, groupId, commentId }) {
+function Comment({ comment, refetch, groupId, commentId, setCommentCount }) {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [editMyComment, setEditMyComment] = useState(false);
   const [textValue, setTextValue] = useState("");
@@ -54,7 +54,10 @@ function Comment({ comment, refetch, groupId, commentId }) {
 
   // 댓글 삭제 query
   const { mutate: removeMutate } = useMutation(removeComment, {
-    onSuccess: () => refetch(),
+    onSuccess: () => {
+      refetch();
+      setCommentCount((prev) => prev - 1);
+    },
   });
 
   // 코멘트 메뉴 열기
@@ -116,6 +119,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
     setOpenCommentModal(false);
   }, []);
 
+  if (!comment) return <div></div>;
   return (
     <>
       {openCommentModal && <CloseContainer onClick={onCloseModal} />}
@@ -147,7 +151,7 @@ function Comment({ comment, refetch, groupId, commentId }) {
         </CommentHeader>
         <CommentContent>{comment.comment}</CommentContent>
         <CommentResponse>
-          <CommentLoadTime>{comment.createdAt.slice(0, 10)}</CommentLoadTime>
+          <CommentLoadTime>{comment.createdAt?.slice(0, 10)}</CommentLoadTime>
           <CommentLike onClick={toggleLike}>
             {comment.commentLike ? <LikeSvg /> : <SpaceLikeSvg />}
             <CommentLikeCount>{comment.likeCount}</CommentLikeCount>
