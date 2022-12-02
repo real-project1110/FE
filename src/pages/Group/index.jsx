@@ -21,7 +21,7 @@ const Group = () => {
   const setGroupUserList = useSetRecoilState(groupUserListAtom);
   const setGroupUser = useSetRecoilState(groupUserAtom);
   const setGroup = useSetRecoilState(groupAtom);
-  const [socket, disconnect] = useSocket(groupId);
+  //const [socket, disconnect] = useSocket(groupId);
 
   const { data: groupUserList } = useQuery(
     ["groupUserList", groupId],
