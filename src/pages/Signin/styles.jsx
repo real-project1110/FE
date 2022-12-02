@@ -31,6 +31,7 @@ export const LogoBox = styled.div`
   width: 172px;
   height: 58px;
   margin: auto;
+  cursor: pointer;
 `;
 
 export const Title = styled.h3`

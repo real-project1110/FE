@@ -22,6 +22,7 @@ export const Logo = styled.div`
 
 export const LogoBox = styled.div`
   width: 12rem;
+  cursor: pointer;
 `;
 
 export const Info = styled.div`
