@@ -227,7 +227,7 @@ const Schedular = () => {
     setTitle(event.title);
     setDescription(event.description);
     setDate([event.start, event.end]);
-    setSelectedColor(event.color || "");
+    setSelectedColor(event.color || "gray");
   }, []);
 
   // handle popup form changes

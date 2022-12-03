@@ -3,14 +3,15 @@ import { FlexCenterBox } from "../../../shared/Styles/flex";
 
 export const FreeComment = styled.div`
   width: 100%;
-  padding: 1.3rem 0;
+  padding: 0.8rem 2rem;
+  display: grid;
+  grid-template-columns: 40px 1fr;
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
-  background-color: ${(props) => props.theme.color.extraLightGray};
+  background-color: ${(props) => (props.detailMode ? "#ffffff" : "#f2f4f6")};
 `;
 
 export const CommentHeader = styled.div`
   width: 100%;
-  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   border-radius: 8px;
@@ -31,30 +32,29 @@ export const CommentMenu = styled.div`
 export const CommentUserInfo = styled.div`
   width: 100%;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const CommentUserImg = styled.div`
+  width: 100%;
+  padding-top: 0.5px;
+  display: flex;
   & > img {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     border: none;
     border-radius: 50%;
     opacity: 0.7;
   }
 `;
 
-export const Nickname = styled.span`
-  margin-left: 0.6rem;
-  line-height: 37px;
-  letter-spacing: -0.3px;
-  font-size: 16px;
-  font-weight: 600;
-`;
+export const CommentContainer = styled.div``;
 
-export const CommentMeunu = styled.div`
-  line-height: 40px;
-  position: relative;
-  cursor: pointer;
+export const Nickname = styled.span`
+  letter-spacing: -0.3px;
+  font-size: 1rem;
+  font-weight: 600;
 `;
 
 export const MenuList = styled.ul`
@@ -71,17 +71,15 @@ export const MenuList = styled.ul`
 
 export const CommentContent = styled.p`
   width: 100%;
-  margin-top: 0.8rem;
-  padding: 0 2rem;
+  margin-top: 4px;
   font-size: 0.95rem;
   line-height: 1.4;
 `;
 
 export const CommentResponse = styled.div`
-  margin-top: 1.4rem;
+  margin-top: 10px;
   display: flex;
   align-items: center;
-  padding: 0 2rem;
 `;
 
 export const CommentLoadTime = styled.span`

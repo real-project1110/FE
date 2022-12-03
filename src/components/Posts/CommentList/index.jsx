@@ -15,8 +15,10 @@ import {
 import { FakeImg } from "../FreePostItem/styles";
 import Comment from "../Comment";
 import { useInView } from "react-intersection-observer";
+import { queryClient } from "../../..";
 
-function CommentList({ groupId, postId, setCommentCount }) {
+function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
+  const [pageSize, setPageSize] = useState(1);
   // 현재 유저 이미지
   const { data: groupUser } = useQuery(
     ["groupUser", `group ${groupId}`],
@@ -52,7 +54,7 @@ function CommentList({ groupId, postId, setCommentCount }) {
   // 댓글 작성
   const { mutate: addCommentMutate } = useMutation(addComment, {
     onSuccess: () => {
-      refetch();
+      queryClient.invalidateQueries(["getComments", postId]);
       setCommentCount((prev) => prev + 1);
     },
   });
@@ -76,12 +78,16 @@ function CommentList({ groupId, postId, setCommentCount }) {
     setPostComment(e.target.value);
   };
 
+  const moreComments = () => {
+    fetchNextPage();
+    setPageSize((prev) => prev + 1);
+  };
   return (
     <List>
       {isSuccess && getComment?.pages
-        ? getComment?.pages.map((page) => (
+        ? getComment?.pages?.slice(0, pageSize)?.map((page) => (
             <React.Fragment key={page.currentPage}>
-              {page?.data.map((comment) => {
+              {page?.data?.map((comment) => {
                 return (
                   <Comment
                     nowRef={ref}
@@ -91,13 +97,16 @@ function CommentList({ groupId, postId, setCommentCount }) {
                     comment={comment}
                     refetch={refetch}
                     setCommentCount={setCommentCount}
+                    detailMode={detailMode}
                   />
                 );
               })}
             </React.Fragment>
           ))
         : null}
-      {hasNextPage ? <More onClick={fetchNextPage}>더보기</More> : null}
+      {hasNextPage && !detailMode ? (
+        <More onClick={moreComments}>더보기</More>
+      ) : null}
       <CommentForm onSubmit={Submit}>
         {groupUser && groupUser.groupAvatarImg ? (
           <CommentFormUserImg
