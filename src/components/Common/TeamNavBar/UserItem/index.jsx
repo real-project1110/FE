@@ -39,8 +39,8 @@ const UserItem = ({
     if (!user || !myUserData) return;
     const payload = {
       groupId,
-      sender: myUserData.groupUserId,
-      receiver: user.groupUserId,
+      sender: Math.min(myUserData.groupUserId, user.groupUserId),
+      receiver: Math.max(myUserData.groupUserId, user.groupUserId),
     };
     const {
       status,

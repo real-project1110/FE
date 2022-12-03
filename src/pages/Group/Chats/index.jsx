@@ -20,6 +20,7 @@ import { chatUserAtom } from "../../../recoil/userAtoms";
 import { useQuery } from "react-query";
 import { readChats } from "../../../apis/chatApis";
 import { groupAtom } from "../../../recoil/groupAtoms";
+//import { queryClient } from "../../..";
 
 const Chat = () => {
   const { groupId, roomId } = useParams();
@@ -28,7 +29,7 @@ const Chat = () => {
   const me = useRecoilValue(groupUserAtom);
   const group = useRecoilValue(groupAtom);
   const scrollRef = useRef(null);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [socket] = useSocket(groupId);
   const page = 1;
   const pageSize = 15;
@@ -109,11 +110,12 @@ const Chat = () => {
     };
   }, [socket]);
 
-  useEffect(() => {
-    if (group && !group.roomIds.includes(+roomId)) {
-      navigate(-1);
-    }
-  }, [group, roomId, navigate]);
+  // useEffect(() => {
+  //   (async () => await queryClient.invalidateQueries(["group", groupId]))();
+  //   if (group && !group.roomIds.includes(+roomId)) {
+  //     navigate(-1);
+  //   }
+  // }, [group, roomId, navigate, groupId]);
 
   return (
     <Wrapper as="main">
