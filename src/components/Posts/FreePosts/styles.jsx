@@ -10,6 +10,43 @@ export const PostHeader = styled.div`
   border-bottom: 1px solid #e7e7e7;
 `;
 
+export const PostPreview = styled.div`
+  width: 100%;
+  padding: 0 2rem;
+  cursor: pointer;
+`;
+
+export const PostButtonTitle = styled.div`
+  width: 100%;
+  padding: 1rem 0;
+`;
+
+export const PostButton = styled.div`
+  width: 100%;
+  height: 179px;
+  border-radius: 8px;
+  &:hover {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  }
+`;
+
+export const ButtonBar = styled.div`
+  height: 37px;
+  padding: 0.7rem 1rem 0 1rem;
+  background-color: ${(props) => props.theme.color.lightGray};
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+`;
+
+export const ButtonContent = styled.div`
+  height: 142px;
+  padding: 1rem 1rem;
+  color: gray;
+  background-color: ${(props) => props.theme.color.extraLightGray};
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+`;
+
 export const AllFreePost = styled.div`
   height: 100%;
   & > div {
