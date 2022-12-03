@@ -82,7 +82,6 @@ const Group = () => {
 
   useEffect(() => {
     socket?.on("onlineList", (data) => {
-      console.log("onlineList", data);
       setOnlineList(data);
     });
     return () => {

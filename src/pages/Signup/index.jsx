@@ -65,7 +65,6 @@ const Signup = () => {
   // 이메일 중복 검사 및 인증 번호 받기
   const emailAuth = async (e) => {
     e.preventDefault();
-    console.log(watch("email"));
     const response = await checkEmail({ email: watch("email") });
     if (response.status === 200) {
       alert("인증번호 발송");
@@ -94,7 +93,6 @@ const Signup = () => {
     setCheckIsAuth(true);
   };
 
-  console.log(watch());
   return (
     <Wrapper>
       <SignUpContainer>
