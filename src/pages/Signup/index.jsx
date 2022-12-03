@@ -129,12 +129,17 @@ const Signup = () => {
                 {authEmailMode ? (
                   <AuthBtn
                     style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
-                    onClick={checkEmailAuth}
+                    isValid={errors.email}
+                    onClick={emailAuth}
                   >
-                    인증 확인
+                    인증번호 재발송
                   </AuthBtn>
                 ) : (
-                  <AuthBtn isValid={errors.email} onClick={emailAuth}>
+                  <AuthBtn
+                    style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
+                    isValid={errors.email}
+                    onClick={emailAuth}
+                  >
                     인증번호 발송
                   </AuthBtn>
                 )}
@@ -156,16 +161,30 @@ const Signup = () => {
           {authEmailMode ? (
             <>
               {checkIsAuth ? null : (
-                <Input
-                  register={{ ...register("emailNum") }}
-                  type={"number"}
-                  _border={
-                    !watch("emailNum") || watch("emailNum")?.length < 5
-                      ? "#BBBBBB"
-                      : "#5FCB94"
-                  }
-                  label={"인증번호"}
-                ></Input>
+                <InputBox>
+                  <Label>
+                    <Input
+                      register={{ ...register("emailNum") }}
+                      type={"number"}
+                      _border={
+                        !watch("emailNum") || watch("emailNum")?.length < 5
+                          ? "#BBBBBB"
+                          : "#5FCB94"
+                      }
+                      label={"인증번호"}
+                    ></Input>
+                    <AuthBtn
+                      style={{
+                        marginTop: "-6px",
+                        backgroundColor: "#58C08B",
+                        color: "#ffffff",
+                      }}
+                      onClick={checkEmailAuth}
+                    >
+                      인증번호 확인
+                    </AuthBtn>
+                  </Label>
+                </InputBox>
               )}
             </>
           ) : null}
