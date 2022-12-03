@@ -181,26 +181,6 @@ function PostDetail() {
               </PostComment>
             </PostResponse>
           </PostContent>
-          {isSuccess && getComment?.pages
-            ? getComment?.pages.map((page) => (
-                <React.Fragment key={page.currentPage}>
-                  {page?.data.map((comment) => {
-                    return (
-                      <Comment
-                        nowRef={ref}
-                        key={comment.commentId}
-                        groupId={groupId}
-                        commentId={comment.commentId}
-                        comment={comment}
-                        refetch={refetch}
-                        setCommentCount={setCommentCount}
-                        detailMode={true}
-                      />
-                    );
-                  })}
-                </React.Fragment>
-              ))
-            : null}
           <CommentForm>
             {groupUser && groupUser.groupAvatarImg ? (
               <CommentFormUserImg
@@ -222,6 +202,26 @@ function PostDetail() {
               <CommentPostSvg />
             </CommentSubmitBtn>
           </CommentForm>
+          {isSuccess && getComment?.pages
+            ? getComment?.pages.map((page) => (
+                <React.Fragment key={page.currentPage}>
+                  {page?.data.map((comment) => {
+                    return (
+                      <Comment
+                        nowRef={ref}
+                        key={comment.commentId}
+                        groupId={groupId}
+                        commentId={comment.commentId}
+                        comment={comment}
+                        refetch={refetch}
+                        setCommentCount={setCommentCount}
+                        detailMode={true}
+                      />
+                    );
+                  })}
+                </React.Fragment>
+              ))
+            : null}
         </DetailWrapper>
       </Scrollbars>
     </DetailPost>
