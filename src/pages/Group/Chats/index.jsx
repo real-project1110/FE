@@ -26,7 +26,7 @@ const Chat = () => {
   const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
   const scrollRef = useRef(null);
-  const [socket] = useSocket(roomId);
+  const [socket] = useSocket(groupId);
   const page = 1;
   const pageSize = 15;
 
@@ -37,7 +37,6 @@ const Chat = () => {
       staleTime: 10000,
       cacheTime: Infinity,
       refetchOnWindowFocus: false,
-      onSuccess: (data) => setChats(data),
     }
   );
 
@@ -47,6 +46,16 @@ const Chat = () => {
     () => isEmpty || (chats && chats[chats.length - 1]?.length < 20) || false,
     [chats, isEmpty]
   );
+
+  const chatSections = useMemo(() => {
+    if (!chats) return;
+    return makeSection(chats ? chats.flat().reverse() : []);
+  }, [chats]);
+
+  const sectionsLen = useMemo(() => {
+    if (!chatSections) return;
+    return Object.keys(chatSections).length;
+  }, [chatSections]);
 
   // 스크롤 이벤트  ( 스크롤이 가장 위로 도달하였을 때 데이터를 불러오는 함수 )
   const onScroll = useCallback(
@@ -70,13 +79,14 @@ const Chat = () => {
 
   // chats의 값이 변화할 때마다 스크롤을 밑으로 보냄
   useEffect(() => {
-    scrollRef.current?.scrollToBottom();
-    // if (chats?.length === 1) {
-    //   setTimeout(() => {
-    //     scrollRef.current?.scrollToBottom();
-    //   }, 100);
-    // }
-  }, []);
+    if (sectionsLen) {
+      scrollRef.current?.scrollToBottom();
+    }
+  }, [sectionsLen]);
+
+  useEffect(() => {
+    if (chatsData) setChats(chatsData);
+  }, [chatsData]);
 
   useEffect(() => {
     socket.emit("joinRoom", { roomId });
@@ -84,7 +94,7 @@ const Chat = () => {
 
   useEffect(() => {
     socket.on("message", (data) => {
-      setChats((prev) => [...prev, data]);
+      setChats((prev) => [data, ...prev]);
     });
   }, [socket]);
 
@@ -95,11 +105,6 @@ const Chat = () => {
   useEffect(() => {
     return () => socket.off("joinRoom");
   }, [socket]);
-
-  const chatSections = useMemo(() => {
-    if (!chats) return;
-    return makeSection(chats ? chats.flat() : []);
-  }, [chats]);
 
   return (
     <Wrapper as="main">
@@ -113,29 +118,31 @@ const Chat = () => {
       </Header>
       <ChatList>
         <Scrollbars autoHide ref={scrollRef} onScrollFrame={onScroll}>
-          {Object.entries(chatSections).map(([date, chats]) => {
-            return (
-              <DaySection key={date}>
-                <DayHeader>
-                  <button>{date}</button>
-                </DayHeader>
-                {chats?.map((chat, idx) => (
-                  <ChatBox
-                    key={chat?.message + idx}
-                    isMe={chat?.groupUserId === me?.groupUserId}
-                    otherUser={otherUser}
-                    chat={chat}
-                  />
-                ))}
-              </DaySection>
-            );
-          })}
+          {chatSections &&
+            Object.entries(chatSections)?.map(([date, chats]) => {
+              return (
+                <DaySection key={date}>
+                  <DayHeader>
+                    <button>{date}</button>
+                  </DayHeader>
+                  {chats?.map((chat, idx) => (
+                    <ChatBox
+                      key={chat?.message + idx}
+                      isMe={chat?.groupUserId === me?.groupUserId}
+                      otherUser={otherUser}
+                      chat={chat}
+                    />
+                  ))}
+                </DaySection>
+              );
+            })}
         </Scrollbars>
       </ChatList>
       <ChatForm
         setChats={setChats}
         groupUserId={me?.groupUserId}
         roomId={roomId}
+        groupId={groupId}
         scrollRef={scrollRef}
       />
     </Wrapper>
@@ -143,38 +150,6 @@ const Chat = () => {
 };
 
 export default Chat;
-
-const fakeData = [
-  {
-    groupUserId: 3,
-    message: "안녕하세요요안녕하세요",
-    createdAt: "2022-10-30T15:49:43.122Z",
-  },
-  {
-    groupUserId: 1,
-    message: "안녕하세요",
-    createdAt: "2022-10-30T15:49:43.122Z",
-  },
-  {
-    groupUserId: 3,
-    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-11-27T15:49:43.122Z",
-  },
-  {
-    groupUserId: 3,
-    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-11-28T15:49:43.122Z",
-  },
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-28T15:49:43.122Z" },
-  {
-    groupUserId: 3,
-    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-11-28T15:49:43.122Z",
-  },
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-30T15:49:43.122Z" },
-
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-30T15:49:43.122Z" },
-];
 
 export const Wrapper = styled.div`
   width: 100%;

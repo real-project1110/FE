@@ -12,7 +12,11 @@ import InviteModal from "../../components/Modals/InviteModal";
 import useSocket from "../../hooks/useSocket";
 import { groupAtom } from "../../recoil/groupAtoms";
 import { inviteModalAtom } from "../../recoil/modalAtoms";
-import { groupUserAtom, groupUserListAtom } from "../../recoil/userAtoms";
+import {
+  groupUserAtom,
+  groupUserListAtom,
+  onlineListAtom,
+} from "../../recoil/userAtoms";
 import { Wrapper, Body } from "./styles";
 
 const Group = () => {
@@ -20,6 +24,7 @@ const Group = () => {
   const isInviteModal = useRecoilValue(inviteModalAtom);
   const setGroupUserList = useSetRecoilState(groupUserListAtom);
   const setGroupUser = useSetRecoilState(groupUserAtom);
+  const setOnlineList = useSetRecoilState(onlineListAtom);
   const setGroup = useSetRecoilState(groupAtom);
   const [socket, disconnect] = useSocket(groupId);
 
@@ -43,7 +48,7 @@ const Group = () => {
       retry: 1,
     }
   );
-  console.log(group);
+
   // 그룹 유저 리스트를 recoil에 저장
   useEffect(() => {
     if (groupUserList) setGroupUserList(groupUserList);
@@ -60,14 +65,13 @@ const Group = () => {
   }, [group, setGroup]);
 
   // // 그룹 입장시에 로그인 이벤트 보내기
-  // useEffect(() => {
-  //   if (groupId && groupUser && socket) {
-  //     socket.emit("login", {
-  //       groupUserId: groupUser.groupUserId,
-  //       groupId: groupId,
-  //     });
-  //   }
-  // }, [groupUser, socket, groupId]);
+  useEffect(() => {
+    if (groupId && groupUser && socket) {
+      socket.emit("joinGroup", {
+        groupUserId: groupUser.groupUserId,
+      });
+    }
+  }, [groupUser, socket, groupId]);
 
   // groupId가 바뀌면 소켓 연결 끊기
   useEffect(() => {
@@ -75,6 +79,16 @@ const Group = () => {
       disconnect();
     };
   }, [groupId, disconnect]);
+
+  useEffect(() => {
+    socket?.on("onlineList", (data) => {
+      console.log("onlineList", data);
+      setOnlineList(data);
+    });
+    return () => {
+      socket.off("onlineList");
+    };
+  }, [socket, setOnlineList]);
 
   return (
     <Wrapper>

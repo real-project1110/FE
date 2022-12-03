@@ -12,10 +12,15 @@ import autosize from "autosize";
 import { useMutation } from "react-query";
 import { addChat } from "../../../apis/chatApis";
 
-const ChatForm = ({ groupUserId, roomId, scrollRef }) => {
-  const [socket] = useSocket(roomId);
+const ChatForm = ({ groupUserId, roomId, groupId, scrollRef }) => {
+  const [socket] = useSocket(groupId);
   const textareaRef = useRef(null);
-  const { mutate: addChatFn } = useMutation(addChat);
+  const { mutate: addChatFn } = useMutation(addChat, {
+    onSuccess: () => {
+      scrollRef.current?.scrollToBottom();
+    },
+    onError: () => scrollRef.current?.scrollToBottom(),
+  });
   // 채팅 보내기
   const onSubmit = useCallback(
     (e) => {
@@ -29,15 +34,12 @@ const ChatForm = ({ groupUserId, roomId, scrollRef }) => {
       socket.emit("message", payload);
       textareaRef.current.value = "";
       textareaRef.current.style.height = "50px";
-      // setChats((prev) => [...prev, payload]);
       delete payload.createdAt;
+
       addChatFn({ roomId, body: { groupUserId, message: payload.message } });
-      setTimeout(() => {
-        scrollRef.current?.scrollToBottom();
-      }, 0);
     },
 
-    [groupUserId, roomId, scrollRef, textareaRef, socket, addChatFn]
+    [groupUserId, roomId, textareaRef, socket, addChatFn]
   );
 
   const onKeydownChat = useCallback(

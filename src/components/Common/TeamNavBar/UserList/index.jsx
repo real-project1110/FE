@@ -8,7 +8,11 @@ import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
 import useSocket from "../../../../hooks/useSocket";
 import { inviteModalAtom } from "../../../../recoil/modalAtoms";
-import { groupUserAtom, groupUserListAtom } from "../../../../recoil/userAtoms";
+import {
+  groupUserAtom,
+  groupUserListAtom,
+  onlineListAtom,
+} from "../../../../recoil/userAtoms";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
@@ -19,8 +23,8 @@ const UserList = () => {
   const [status, setStatus] = useState(0);
   const groupUser = useRecoilValue(groupUserAtom);
   const groupUserList = useRecoilValue(groupUserListAtom);
+  const onlineList = useRecoilValue(onlineListAtom);
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
-  //const [socket] = useSocket(groupId);
 
   // 나의 상태와 메시지를 변경하는 함수
   const { mutate: editStatusFn } = useMutation(editGroupUserState, {
@@ -51,12 +55,12 @@ const UserList = () => {
     }
   }, [groupUser]);
 
-  // useEffect(() => {
-  //   socket?.on("onlineList", (data) => {});
-  //   return () => {
-  //     socket.off("onlineList");
-  //   };
-  // }, [socket]);
+  // 현재 그룹에 로그인한 유저의 그륩유저아이디 배열
+  useEffect(() => {
+    if (onlineList) {
+      console.log(onlineList);
+    }
+  }, [onlineList]);
 
   return (
     <Wrapper>

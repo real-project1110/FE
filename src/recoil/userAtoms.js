@@ -26,3 +26,9 @@ export const chatUserAtom = atom({
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
+
+export const onlineListAtom = atom({
+  key: "onlineList",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
