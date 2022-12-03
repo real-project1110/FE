@@ -6,25 +6,44 @@ import React, {
   useState,
 } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
 import useSocket from "../../../hooks/useSocket";
-import { groupUserAtom, groupUserListAtom } from "../../../recoil/userAtoms";
+import { groupUserAtom } from "../../../recoil/userAtoms";
 import { FlexCenterBox } from "../../../shared/Styles/flex";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
+import { chatUserAtom } from "../../../recoil/userAtoms";
+import { useQuery } from "react-query";
+import { readChats } from "../../../apis/chatApis";
+import { groupAtom } from "../../../recoil/groupAtoms";
+//import { queryClient } from "../../..";
 
 const Chat = () => {
-  const { groupId, groupUserId } = useParams();
-  const [otherUser, setOtherUser] = useState({});
-  const [chats, setChats] = useState(fakeData);
-  const groupUserList = useRecoilValue(groupUserListAtom);
+  const { groupId, roomId } = useParams();
+  const [chats, setChats] = useState([]);
+  const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
+  const group = useRecoilValue(groupAtom);
   const scrollRef = useRef(null);
-  //const [socket] = useSocket(groupId);
+  //const navigate = useNavigate();
+  const [socket] = useSocket(groupId);
+  const page = 1;
+  const pageSize = 15;
+  // 여기 삭제
+  console.log(group.roomIds);
+  const { data: chatsData } = useQuery(
+    ["chats", roomId],
+    () => readChats({ roomId, page, pageSize }),
+    {
+      staleTime: 10000,
+      cacheTime: Infinity,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const isEmpty = useMemo(() => chats && chats[0]?.length === 0, [chats]);
 
@@ -32,6 +51,16 @@ const Chat = () => {
     () => isEmpty || (chats && chats[chats.length - 1]?.length < 20) || false,
     [chats, isEmpty]
   );
+
+  const chatSections = useMemo(() => {
+    if (!chats) return;
+    return makeSection(chats ? chats.flat().reverse() : []);
+  }, [chats]);
+
+  const sectionsLen = useMemo(() => {
+    if (!chatSections) return;
+    return Object.keys(chatSections).length;
+  }, [chatSections]);
 
   // 스크롤 이벤트  ( 스크롤이 가장 위로 도달하였을 때 데이터를 불러오는 함수 )
   const onScroll = useCallback(
@@ -55,45 +84,38 @@ const Chat = () => {
 
   // chats의 값이 변화할 때마다 스크롤을 밑으로 보냄
   useEffect(() => {
-    scrollRef.current?.scrollToBottom();
-    // if (chats?.length === 1) {
-    //   setTimeout(() => {
-    //     scrollRef.current?.scrollToBottom();
-    //   }, 100);
-    // }
-  }, []);
-
-  // 그룹 유저 리스트에서 채팅을 보낼 사람에 대한 정보를 가져온다.
-  useEffect(() => {
-    if (groupUserList) {
-      setOtherUser(
-        groupUserList.find((user) => user.groupUserId === +groupUserId)
-      );
+    if (sectionsLen) {
+      scrollRef.current?.scrollToBottom();
     }
-  }, [groupUserId, groupUserList]);
+  }, [sectionsLen]);
+
+  useEffect(() => {
+    if (chatsData) setChats(chatsData);
+  }, [chatsData]);
+
+  useEffect(() => {
+    socket.emit("joinRoom", { roomId });
+  }, [groupId, socket, roomId]);
+
+  useEffect(() => {
+    socket.on("message", (data) => {
+      setChats((prev) => [data, ...prev]);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    return () => {
+      socket.off("message");
+      socket.off("joinRoom");
+    };
+  }, [socket]);
 
   // useEffect(() => {
-  //   socket.emit("joinroom", groupId);
-  // }, [groupId, socket]);
-
-  // useEffect(() => {
-  //   socket.on("chatting", (data) => {
-  //     console.log("get chatting", data);
-  //     setChats((prev) => [...prev, data]);
-  //   });
-  // }, [socket]);
-
-  // useEffect(() => {
-  //   return () => socket.off("chatting");
-  // }, [socket]);
-
-  // useEffect(() => {
-  //   return () => socket.off("joinroom");
-  // }, [socket]);
-
-  const chatSections = useMemo(() => {
-    return makeSection(chats ? chats.flat() : []);
-  }, [chats]);
+  //   (async () => await queryClient.invalidateQueries(["group", groupId]))();
+  //   if (group && !group.roomIds.includes(+roomId)) {
+  //     navigate(-1);
+  //   }
+  // }, [group, roomId, navigate, groupId]);
 
   return (
     <Wrapper as="main">
@@ -107,28 +129,30 @@ const Chat = () => {
       </Header>
       <ChatList>
         <Scrollbars autoHide ref={scrollRef} onScrollFrame={onScroll}>
-          {Object.entries(chatSections).map(([date, chats]) => {
-            return (
-              <DaySection>
-                <DayHeader>
-                  <button>{date}</button>
-                </DayHeader>
-                {chats?.map((chat, idx) => (
-                  <ChatBox
-                    key={chat?.message + idx}
-                    isMe={chat?.groupUserId === me?.groupUserId}
-                    otherUser={otherUser}
-                    chat={chat}
-                  />
-                ))}
-              </DaySection>
-            );
-          })}
+          {chatSections &&
+            Object.entries(chatSections)?.map(([date, chats]) => {
+              return (
+                <DaySection key={date}>
+                  <DayHeader>
+                    <button>{date}</button>
+                  </DayHeader>
+                  {chats?.map((chat, idx) => (
+                    <ChatBox
+                      key={chat?.message + idx}
+                      isMe={chat?.groupUserId === me?.groupUserId}
+                      otherUser={otherUser}
+                      chat={chat}
+                    />
+                  ))}
+                </DaySection>
+              );
+            })}
         </Scrollbars>
       </ChatList>
       <ChatForm
         setChats={setChats}
         groupUserId={me?.groupUserId}
+        roomId={roomId}
         groupId={groupId}
         scrollRef={scrollRef}
       />
@@ -137,38 +161,6 @@ const Chat = () => {
 };
 
 export default Chat;
-
-const fakeData = [
-  {
-    groupUserId: 3,
-    message: "안녕하세요요안녕하세요",
-    createdAt: "2022-10-30T15:49:43.122Z",
-  },
-  {
-    groupUserId: 1,
-    message: "안녕하세요",
-    createdAt: "2022-10-30T15:49:43.122Z",
-  },
-  {
-    groupUserId: 3,
-    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-11-27T15:49:43.122Z",
-  },
-  {
-    groupUserId: 3,
-    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-11-28T15:49:43.122Z",
-  },
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-28T15:49:43.122Z" },
-  {
-    groupUserId: 3,
-    message: "찍찍찍! 쥐새키가 뻔뻔하게~",
-    createdAt: "2022-11-28T15:49:43.122Z",
-  },
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-30T15:49:43.122Z" },
-
-  { groupUserId: 1, message: "에이맨~", createdAt: "2022-11-30T15:49:43.122Z" },
-];
 
 export const Wrapper = styled.div`
   width: 100%;

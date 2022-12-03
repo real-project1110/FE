@@ -23,6 +23,7 @@ import {
   PreviewBox,
   Delete,
   PostInput,
+  Header,
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { handleImgError } from "../../../utils/handleImgError";
@@ -44,22 +45,23 @@ function PostForm() {
   const [textValue, setTextValue] = useState();
   const [editMode, setEditMode] = useState(false);
 
+  // 사진 업로드 미리보기 예외처리
+  useEffect(() => {
+    if (imagePreview.length > 5) {
+      alert("이미지는 5장까지 첨부가능합니다.");
+      setImagePreview((prev) => prev.slice(0, 5));
+    }
+  }, [imagePreview]);
+
   // 이미지 저장 및 이미지 프리뷰 저장
-  const handleAddImages = useCallback(
-    (event) => {
-      const imageLists = event.target.files;
-      setImageFiles((prev) => [...prev, ...Array.from(imageLists)]);
-      for (let i = 0; i < imageLists.length; i++) {
-        const blobImage = URL.createObjectURL(imageLists[i]);
-        setImagePreview((prev) => [...prev, blobImage]);
-      }
-      if (imagePreview.length > 5) {
-        alert("이미지는 5장까지 첨부가능합니다.");
-        setImagePreview((prev) => prev.slice(0, 5));
-      }
-    },
-    [imagePreview]
-  );
+  const handleAddImages = useCallback((event) => {
+    const imageLists = event.target.files;
+    setImageFiles((prev) => [...prev, ...Array.from(imageLists)].slice(0, 5));
+    for (let i = 0; i < imageLists.length; i++) {
+      const blobImage = URL.createObjectURL(imageLists[i]);
+      setImagePreview((prev) => [...prev, blobImage]);
+    }
+  }, []);
 
   // X버튼 클릭 시 이미지 삭제
   const handleDeleteImage = useCallback((idx) => {
@@ -134,9 +136,12 @@ function PostForm() {
     <Wrapper onClick={onCloseModal}>
       <EditorWrapper onClick={(e) => e.stopPropagation()}>
         <Editor onSubmit={Submit}>
+          <Header>글쓰기</Header>
           <Carousel>
             <PhotoLabel htmlFor="input-file">
-              <FontAwesomeIcon icon={faImage} />
+              <div>
+                <FontAwesomeIcon icon={faImage} />
+              </div>
               <ImgInput
                 type="file"
                 id="input-file"
@@ -170,14 +175,18 @@ function PostForm() {
                 </Preview>
               ))}
             </PreviewBox>
-            <PostInput onChange={onChangeText} value={textValue} />
+            <PostInput
+              placeholder="공유하고 싶은 소식이 있나요? 사소한 이야기라도 좋아요 :)"
+              onChange={onChangeText}
+              value={textValue}
+            />
+            <SubmitBtn>
+              <Posting>게시</Posting>
+              <PostButton>
+                <PostButtonSvg />
+              </PostButton>
+            </SubmitBtn>
           </Carousel>
-          <SubmitBtn>
-            <Posting>게시</Posting>
-            <PostButton>
-              <PostButtonSvg />
-            </PostButton>
-          </SubmitBtn>
         </Editor>
       </EditorWrapper>
     </Wrapper>

@@ -21,16 +21,16 @@ export const LoginContainer = styled.div`
 export const SignInLogo = styled.div``;
 
 export const BigMent = styled.p`
-  font-family: "SF Pro";
-  font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 26px;
+  margin: 2rem 0 3rem 0;
 `;
 
 export const LogoBox = styled.div`
   width: 172px;
   height: 58px;
   margin: auto;
+  cursor: pointer;
 `;
 
 export const Title = styled.h3`

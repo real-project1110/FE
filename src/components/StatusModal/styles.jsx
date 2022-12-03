@@ -35,6 +35,7 @@ export const ColorPicker = styled.div`
 export const StatusInput = styled.input`
   width: 100%;
   height: 50px;
+  padding: 1rem 1rem;
   border: 1px solid ${(props) => props.theme.color.lightGray};
   border-radius: 8px;
   letter-spacing: -0.3px;
@@ -48,12 +49,14 @@ export const ButtonWrap = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 50px;
+  width: 80px;
+  height: 40px;
   background-color: ${(props) => (props.isAdd ? props.theme.color.green : "rgba(0, 0, 0, 0.2)")};
   margin: 0 1rem;
   border: none;
   border-radius: 4px;
   line-height: 30px;
+  font-size: 1.1rem;
   color: white;
   &:hover {
     background-color: ${(props) => (props.isAdd ? props.theme.color.hoverGreen : props.theme.color.gray)};

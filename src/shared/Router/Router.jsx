@@ -25,7 +25,7 @@ const Router = () => {
         <Route path="/groups" element={<Group />}>
           <Route path=":groupId" element={<Schedule />} />
           <Route path=":groupId/posts" element={<Notice />} />
-          <Route path=":groupId/chats/:groupUserId" element={<Chats />} />
+          <Route path=":groupId/chats/:roomId" element={<Chats />} />
         </Route>
       </Routes>
     </BrowserRouter>

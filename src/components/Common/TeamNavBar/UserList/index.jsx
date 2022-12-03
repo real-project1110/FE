@@ -8,7 +8,11 @@ import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
 import useSocket from "../../../../hooks/useSocket";
 import { inviteModalAtom } from "../../../../recoil/modalAtoms";
-import { groupUserAtom, groupUserListAtom } from "../../../../recoil/userAtoms";
+import {
+  groupUserAtom,
+  groupUserListAtom,
+  onlineListAtom,
+} from "../../../../recoil/userAtoms";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
@@ -19,8 +23,8 @@ const UserList = () => {
   const [status, setStatus] = useState(0);
   const groupUser = useRecoilValue(groupUserAtom);
   const groupUserList = useRecoilValue(groupUserListAtom);
+  const onlineList = useRecoilValue(onlineListAtom);
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
-  //const [socket] = useSocket(groupId);
 
   // 나의 상태와 메시지를 변경하는 함수
   const { mutate: editStatusFn } = useMutation(editGroupUserState, {
@@ -51,12 +55,11 @@ const UserList = () => {
     }
   }, [groupUser]);
 
-  // useEffect(() => {
-  //   socket?.on("onlineList", (data) => {});
-  //   return () => {
-  //     socket.off("onlineList");
-  //   };
-  // }, [socket]);
+  // 현재 그룹에 로그인한 유저의 그륩유저아이디 배열
+  useEffect(() => {
+    if (onlineList) {
+    }
+  }, [onlineList]);
 
   return (
     <Wrapper>
@@ -68,7 +71,12 @@ const UserList = () => {
       </ToggleUsers>
       {groupUser && (
         <UserItems>
-          <UserItem user={groupUser} isMe={true} status={status} />
+          <UserItem
+            user={groupUser}
+            isMe={true}
+            status={status}
+            isLoggedIn={onlineList.includes(groupUser?.groupUserId)}
+          />
           <IconList
             user={groupUser}
             changeStatus={changeStatus}
@@ -82,13 +90,15 @@ const UserList = () => {
                 groupUser &&
                 groupUserList
                   .filter((user) => user.groupUserId !== groupUser.groupUserId)
+                  .sort((a, b) => (onlineList.includes(a.groupUserId) ? -1 : 1))
                   .map((user) => (
-                    <Link
-                      to={`/groups/${groupId}/chats/${user.groupUserId}`}
-                      key={user?.groupUserId}
-                    >
-                      <UserItem user={user} />
-                    </Link>
+                    <UserItem
+                      user={user}
+                      key={user.groupUserId}
+                      myUserData={groupUser}
+                      groupId={groupId}
+                      isLoggedIn={onlineList.includes(user.groupUserId)}
+                    />
                   ))}
             </>
           )}

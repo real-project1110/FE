@@ -1,20 +1,16 @@
-import React, { useEffect } from "react";
-import { Link, useMatch, useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { Link, useMatch } from "react-router-dom";
 import CalendarSvg from "../../../assets/svg/CalendarSvg";
 import FolderSvg from "../../../assets/svg/FolderSvg";
 import PostSvg from "../../../assets/svg/PostSvg";
 import { GroupName, GroupNav, GroupNavItem, Wrapper } from "./styles";
 import UserList from "./UserList";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useQuery } from "react-query";
-import { readGroup } from "../../../apis/groupApi";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { groupAtom } from "../../../recoil/groupAtoms";
 
 const TeamNavBar = () => {
-  const { groupId } = useParams();
   const group = useRecoilValue(groupAtom);
-  const navigate = useNavigate();
 
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);

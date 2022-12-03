@@ -20,3 +20,15 @@ export const groupUserListAtom = atom({
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
+
+export const chatUserAtom = atom({
+  key: "chatUser",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const onlineListAtom = atom({
+  key: "onlineList",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});

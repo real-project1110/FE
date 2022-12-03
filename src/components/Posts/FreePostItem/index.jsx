@@ -8,8 +8,11 @@ import CommentSvg from "../../../assets/svg/CommentSvg";
 import LikeSvg from "../../../assets/svg/LikeSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
-import { editPostAtom } from "../../../recoil/groupAtoms";
-import { PostFormModalAtom } from "../../../recoil/modalAtoms";
+import { editPostAtom, PostDetailAtom } from "../../../recoil/groupAtoms";
+import {
+  PostDetailModalAtom,
+  PostFormModalAtom,
+} from "../../../recoil/modalAtoms";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
@@ -42,7 +45,9 @@ const FreePostItem = ({ post, refetch }) => {
   const [CommentListOpen, setCommentOpen] = useState(false);
   const [openPostMenu, setOpenPostMenu] = useState(false);
   const setEditPost = useSetRecoilState(editPostAtom);
+  const setDetailPost = useSetRecoilState(PostDetailAtom);
   const setShowPostModal = useSetRecoilState(PostFormModalAtom);
+  const setShowPostDetail = useSetRecoilState(PostDetailModalAtom);
   const groupUser = useRecoilValue(groupUserAtom);
   const [commentCount, setCommentCount] = useState(0);
 
@@ -68,7 +73,7 @@ const FreePostItem = ({ post, refetch }) => {
       postId: post.postId,
     };
     likeFn(LikeData);
-  }, []);
+  }, [groupId, post.postId, likeFn]);
 
   // 메뉴 닫기
   const onCloseModal = useCallback(() => {
@@ -121,6 +126,17 @@ const FreePostItem = ({ post, refetch }) => {
     [onCloseModal, post, setEditPost, setShowPostModal]
   );
 
+  // 상세보기 클릭 시
+  const viewDetail = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setShowPostDetail(true);
+      onCloseModal();
+      setDetailPost(post);
+    },
+    [onCloseModal, setShowPostDetail, setDetailPost, post]
+  );
+
   useEffect(() => {
     if (post) {
       setCommentCount(post.commentCount);
@@ -136,18 +152,28 @@ const FreePostItem = ({ post, refetch }) => {
         <FreePost>
           <PostMenu>
             <PostUserInfo>
-              <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
+              <UserImg>
+                {post.groupAvatarImg ? (
+                  <img
+                    src={post.groupAvatarImg}
+                    alt="profile"
+                    onError={handleImgError}
+                  />
+                ) : (
+                  <FakeImg />
+                )}
+              </UserImg>
               <Nickname>{post.groupUserNickname}</Nickname>
               <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
             </PostUserInfo>
             {groupUser.groupUserId === post.groupUserId && (
               <PostOption onClick={modalOpen}>
                 {openPostMenu ? (
-                  <MenuBox right={"1rem"} top={"1.2rem"}>
+                  <MenuBox right={"0rem"} top={"1.2rem"}>
                     <MenuList>
                       <li onClick={onEditPost}>글 수정</li>
                       <li onClick={onTogglePost}>공지로 등록</li>
-                      <li>북마크</li>
+                      <li onClick={viewDetail}>상세 보기</li>
                       <li onClick={onDeletePost}>삭제</li>
                     </MenuList>
                   </MenuBox>
@@ -160,7 +186,11 @@ const FreePostItem = ({ post, refetch }) => {
             <PostImgWrap>
               {post?.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>
-                  <img src={Image.postImg} alt="postImg" onError={handleImgError} />
+                  <img
+                    src={Image.postImg}
+                    alt="postImg"
+                    onError={handleImgError}
+                  />
                 </ImageWrap>
               ))}
             </PostImgWrap>
@@ -177,7 +207,13 @@ const FreePostItem = ({ post, refetch }) => {
             </PostComment>
           </PostResponse>
         </FreePost>
-        {CommentListOpen ? <CommentList postId={post.postId} groupId={groupId} setCommentCount={setCommentCount} /> : null}
+        {CommentListOpen ? (
+          <CommentList
+            postId={post.postId}
+            groupId={groupId}
+            setCommentCount={setCommentCount}
+          />
+        ) : null}
       </FreePostItemContainer>
     </>
   );

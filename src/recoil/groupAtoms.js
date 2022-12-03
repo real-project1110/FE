@@ -22,3 +22,8 @@ export const editPostAtom = atom({
   key: "editPost",
   default: {},
 });
+
+export const PostDetailAtom = atom({
+  key: "PostDetail",
+  default: {},
+});

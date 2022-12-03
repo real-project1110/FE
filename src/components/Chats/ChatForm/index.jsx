@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import ASvg from "../../../assets/svg/ASvg";
 import BoldSvg from "../../../assets/svg/BoldSvg";
@@ -10,57 +9,61 @@ import ItalicSvg from "../../../assets/svg/ItalicSvg";
 import useSocket from "../../../hooks/useSocket";
 import { FlexBetweenBox, FlexCenterBox } from "../../../shared/Styles/flex";
 import autosize from "autosize";
+import { useMutation } from "react-query";
+import { addChat } from "../../../apis/chatApis";
 
-const ChatForm = ({ setChats, groupUserId, groupId, scrollRef }) => {
-  //const [socket] = useSocket(groupId);
-  const { register, handleSubmit, watch, reset } = useForm();
+const ChatForm = ({ groupUserId, roomId, groupId, scrollRef }) => {
+  const [socket] = useSocket(groupId);
   const textareaRef = useRef(null);
-
-  const onValid = useCallback(
-    (data) => {
+  const { mutate: addChatFn } = useMutation(addChat, {
+    onSuccess: () => {
+      scrollRef.current?.scrollToBottom();
+    },
+    onError: () => scrollRef.current?.scrollToBottom(),
+  });
+  // 채팅 보내기
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
       const payload = {
-        groupId,
+        roomId,
         groupUserId,
-        message: data.message,
+        message: textareaRef.current.value,
         createdAt: new Date().toISOString(),
       };
-      // socket.emit("chatting", payload);
-      setChats((prev) => [...prev, payload]);
-      setTimeout(() => {
-        scrollRef.current?.scrollToBottom();
-      }, 0);
+      socket.emit("message", payload);
+      textareaRef.current.value = "";
+      textareaRef.current.style.height = "50px";
+      delete payload.createdAt;
 
-      reset();
+      addChatFn({ roomId, body: { groupUserId, message: payload.message } });
     },
-    // socket 추가해야함
-    [groupUserId, reset, groupId, setChats, scrollRef]
+
+    [groupUserId, roomId, textareaRef, socket, addChatFn]
   );
+
   const onKeydownChat = useCallback(
     (e) => {
       if (e.key === "Enter") {
         if (!e.shiftKey) {
           e.preventDefault();
-          onValid(watch());
+          if (textareaRef.current?.value?.length > 0) onSubmit(e);
         }
       }
     },
-    [onValid, watch]
+    [onSubmit]
   );
 
   useEffect(() => {
     if (textareaRef.current) {
       autosize(textareaRef.current);
     }
-  }, []);
+  }, [textareaRef]);
 
   return (
     <Wrapper>
-      <FormContainer onSubmit={handleSubmit(onValid)}>
-        <TextArea
-          {...register("message", { minLength: 1 })}
-          onKeyPress={onKeydownChat}
-          inputRef={textareaRef}
-        />
+      <FormContainer onSubmit={onSubmit}>
+        <TextArea onKeyPress={onKeydownChat} ref={textareaRef} />
         <ButtonContainer>
           <Buttons>
             <BoldSvg />
@@ -100,6 +103,8 @@ export const TextArea = styled.textarea`
   padding: 10px;
   background-color: ${(props) => props.theme.color.white};
   border-radius: 8px;
+  resize: none !important;
+  outline: none !important;
 `;
 export const ButtonContainer = styled.div`
   ${FlexBetweenBox};

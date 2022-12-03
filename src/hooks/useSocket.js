@@ -19,7 +19,7 @@ const useSocket = (groupId) => {
   }
 
   if (!sockets[groupId]) {
-    sockets[groupId] = io.connect(`${backUrl}`, {
+    sockets[groupId] = io.connect(`${backUrl}statUS-${groupId}`, {
       transports: ["websocket"],
     });
   }
