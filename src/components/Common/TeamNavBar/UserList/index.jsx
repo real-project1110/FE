@@ -72,7 +72,12 @@ const UserList = () => {
       </ToggleUsers>
       {groupUser && (
         <UserItems>
-          <UserItem user={groupUser} isMe={true} status={status} />
+          <UserItem
+            user={groupUser}
+            isMe={true}
+            status={status}
+            isLoggedIn={onlineList.includes(groupUser?.groupUserId)}
+          />
           <IconList
             user={groupUser}
             changeStatus={changeStatus}
@@ -86,12 +91,14 @@ const UserList = () => {
                 groupUser &&
                 groupUserList
                   .filter((user) => user.groupUserId !== groupUser.groupUserId)
+                  .sort((a, b) => (onlineList.includes(a.groupUserId) ? -1 : 1))
                   .map((user) => (
                     <UserItem
                       user={user}
                       key={user.groupUserId}
                       myUserData={groupUser}
                       groupId={groupId}
+                      isLoggedIn={onlineList.includes(user.groupUserId)}
                     />
                   ))}
             </>

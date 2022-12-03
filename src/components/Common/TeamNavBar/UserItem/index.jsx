@@ -8,7 +8,14 @@ import { getIcon } from "../../../../utils/getIcon";
 import { handleImgError } from "../../../../utils/handleImgError";
 import { Icon, UserContainer, UserImg, UserStatusModal } from "./styles";
 
-const UserItem = ({ user, isMe = false, status, myUserData, groupId }) => {
+const UserItem = ({
+  user,
+  isMe = false,
+  status,
+  myUserData,
+  groupId,
+  isLoggedIn,
+}) => {
   const [isHover, setIsHover] = useState(false);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
@@ -59,7 +66,7 @@ const UserItem = ({ user, isMe = false, status, myUserData, groupId }) => {
             alt={user.groupUserNickname}
             onError={handleImgError}
           />
-          {user?.isLoggedIn ? <div /> : null}
+          {isLoggedIn ? <div /> : null}
         </UserImg>
         <span>
           {user.groupUserNickname}
