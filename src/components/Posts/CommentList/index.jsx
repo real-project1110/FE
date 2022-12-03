@@ -81,6 +81,9 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
   const moreComments = () => {
     fetchNextPage();
     setPageSize((prev) => prev + 1);
+    if (hasNextPage === false) {
+      alert("마지막 댓글입니다");
+    }
   };
   return (
     <List>
@@ -104,9 +107,7 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
             </React.Fragment>
           ))
         : null}
-      {hasNextPage && !detailMode ? (
-        <More onClick={moreComments}>더보기</More>
-      ) : null}
+      {!detailMode ? <More onClick={moreComments}>더보기</More> : null}
       <CommentForm onSubmit={Submit}>
         {groupUser && groupUser.groupAvatarImg ? (
           <CommentFormUserImg
