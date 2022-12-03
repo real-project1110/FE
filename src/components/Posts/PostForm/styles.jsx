@@ -27,13 +27,14 @@ export const Header = styled.div`
 export const Carousel = styled.div`
   width: 600px;
   max-width: 600px;
-  height: 100vh;
+  height: 100%;
   max-height: 500px;
   padding: 0rem 1rem;
 `;
 
 export const Editor = styled.form`
   width: 100%;
+  height: 100%;
   background-color: #ffffff;
   border: none;
   border-radius: 10px;
@@ -77,21 +78,21 @@ export const PreviewImg = styled.img`
 `;
 
 export const Delete = styled.button`
-  top: 10px;
+  top: 3px;
   left: 80px;
   position: absolute;
 `;
 
 export const PreviewBox = styled.div`
   width: 100%;
+  padding: 1rem 0;
   display: flex;
-  border: 1px solid gray;
 `;
 
 export const PostInput = styled.textarea`
   width: 100%;
-  height: 360px;
-  border: 1px solid gray;
+  height: 300px;
+  padding: 1rem 0;
   resize: none;
   font-family: "Pretendard";
   font-weight: 400;
@@ -103,6 +104,8 @@ export const SubmitBtn = styled.button`
   height: 28px;
   display: flex;
   float: right;
+  position: relative;
+  top: -40px;
   background-color: ${(props) => props.theme.color.green};
   border: none;
   border-radius: 5px;
