@@ -12,38 +12,47 @@ export const Wrapper = styled.div`
 `;
 
 export const EditorWrapper = styled.div`
-  width: 900px;
   margin: 4% auto 4% auto;
 `;
 
-export const Carousel = styled.div`
+export const Header = styled.div`
   width: 100%;
-  margin: -15px auto;
+  height: 50px;
   text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 50px;
+`;
+
+export const Carousel = styled.div`
+  width: 600px;
+  max-width: 600px;
+  height: 100vh;
+  max-height: 500px;
+  padding: 0rem 1rem;
 `;
 
 export const Editor = styled.form`
   width: 100%;
-  height: 600px;
-  padding: 1rem 1rem;
   background-color: #ffffff;
   border: none;
   border-radius: 10px;
 `;
 
 export const PhotoLabel = styled.label`
-  padding: 6px 25px;
-  margin-right: 88.8%;
-  position: relative;
-  top: 36px;
-  background-color: ${(props) => props.theme.color.green};
   border: none;
   border-radius: 4px;
-  line-height: 30px;
-  color: white;
+  color: black;
   cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
+  }
+  & > div {
+    width: 100%;
+    height: 30px;
+    padding: 0 1rem;
+    line-height: 30px;
+    background-color: ${(props) => props.theme.color.extraLightGray};
   }
 `;
 
@@ -52,8 +61,6 @@ export const ImgInput = styled.input`
 `;
 
 export const Preview = styled.div`
-  margin-top: 2%;
-  position: relative;
   &:hover {
     transition: 0.3s;
     scale: 1.1;
@@ -63,7 +70,6 @@ export const Preview = styled.div`
 export const PreviewImg = styled.img`
   width: 100px;
   height: 100px;
-  margin-top: 0.5rem;
   margin-right: 15px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -78,22 +84,14 @@ export const Delete = styled.button`
 
 export const PreviewBox = styled.div`
   width: 100%;
-  padding: 1rem 1rem;
   display: flex;
-  border: 1px solid ${(props) => props.theme.color.green};
-  border-bottom: none;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border: 1px solid gray;
 `;
 
 export const PostInput = styled.textarea`
   width: 100%;
   height: 360px;
-  padding: 1rem 1rem;
-  border: 1px solid ${(props) => props.theme.color.green};
-  border-top: none;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border: 1px solid gray;
   resize: none;
   font-family: "Pretendard";
   font-weight: 400;
@@ -103,9 +101,7 @@ export const PostInput = styled.textarea`
 export const SubmitBtn = styled.button`
   width: 68px;
   height: 28px;
-  margin-top: 3%;
   display: flex;
-  position: relative;
   float: right;
   background-color: ${(props) => props.theme.color.green};
   border: none;
