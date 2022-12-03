@@ -37,11 +37,10 @@ const UserItem = ({
   // 채팅방으로 이동
   const goChatRoomFn = async () => {
     if (!user || !myUserData) return;
-    const min = Math.min(user.groupUserId, myUserData.groupUserId);
-    const max = Math.max(user.groupUserId, myUserData.groupUserId);
     const payload = {
       groupId,
-      body: `${min},${max}`,
+      sender: myUserData.groupUserId,
+      receiver: user.groupUserId,
     };
     const {
       status,
@@ -49,8 +48,10 @@ const UserItem = ({
     } = await goChatRoom(payload);
     if (status === 200) {
       navigate(`/groups/${groupId}/chats/${roomId}`);
+      setChatUser(user);
+    } else {
+      return alert("채팅방 입장에 실패하였습니다.");
     }
-    setChatUser(user);
   };
 
   return (

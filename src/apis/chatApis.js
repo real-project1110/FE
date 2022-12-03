@@ -2,7 +2,7 @@ import instance from "./instance/instance";
 
 export const goChatRoom = async (payload) => {
   const data = await instance.get(
-    `groups/${payload.groupId}/room?users=${payload.body}`
+    `groups/${payload.groupId}/room?sender=${payload.sender}&receiver=${payload.receiver}`
   );
   return data;
 };

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import ChatBox from "../../../components/Chats/ChatBox";
@@ -19,17 +19,21 @@ import makeSection from "../../../utils/makeSection";
 import { chatUserAtom } from "../../../recoil/userAtoms";
 import { useQuery } from "react-query";
 import { readChats } from "../../../apis/chatApis";
+import { groupAtom } from "../../../recoil/groupAtoms";
 
 const Chat = () => {
   const { groupId, roomId } = useParams();
   const [chats, setChats] = useState([]);
   const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
+  const group = useRecoilValue(groupAtom);
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
   const [socket] = useSocket(groupId);
   const page = 1;
   const pageSize = 15;
-
+  // 여기 삭제
+  console.log(group.roomIds);
   const { data: chatsData } = useQuery(
     ["chats", roomId],
     () => readChats({ roomId, page, pageSize }),
@@ -99,12 +103,17 @@ const Chat = () => {
   }, [socket]);
 
   useEffect(() => {
-    return () => socket.off("message");
+    return () => {
+      socket.off("message");
+      socket.off("joinRoom");
+    };
   }, [socket]);
 
   useEffect(() => {
-    return () => socket.off("joinRoom");
-  }, [socket]);
+    if (group && !group.roomIds.includes(+roomId)) {
+      navigate(-1);
+    }
+  }, [group, roomId, navigate]);
 
   return (
     <Wrapper as="main">
