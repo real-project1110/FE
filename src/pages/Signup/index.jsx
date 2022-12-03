@@ -65,7 +65,6 @@ const Signup = () => {
   // 이메일 중복 검사 및 인증 번호 받기
   const emailAuth = async (e) => {
     e.preventDefault();
-    console.log(watch("email"));
     const response = await checkEmail({ email: watch("email") });
     if (response.status === 200) {
       alert("인증번호 발송");
@@ -94,7 +93,6 @@ const Signup = () => {
     setCheckIsAuth(true);
   };
 
-  console.log(watch());
   return (
     <Wrapper>
       <SignUpContainer>
@@ -102,7 +100,7 @@ const Signup = () => {
           <LogoBox onClick={() => navigate("/")}>
             <BigLogoSvg />
           </LogoBox>
-          <BigMent>Manage all the statuses of your team.</BigMent>
+          <BigMent>나의 팀을 이해하는 곳</BigMent>
         </SignUpLogo>
         <Title>이메일로 시작하기</Title>
         <JoinForm onSubmit={handleSubmit(onSubmit)}>
@@ -131,12 +129,17 @@ const Signup = () => {
                 {authEmailMode ? (
                   <AuthBtn
                     style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
-                    onClick={checkEmailAuth}
+                    isValid={errors.email}
+                    onClick={emailAuth}
                   >
-                    인증 확인
+                    인증번호 재발송
                   </AuthBtn>
                 ) : (
-                  <AuthBtn isValid={errors.email} onClick={emailAuth}>
+                  <AuthBtn
+                    style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
+                    isValid={errors.email}
+                    onClick={emailAuth}
+                  >
                     인증번호 발송
                   </AuthBtn>
                 )}
@@ -158,16 +161,30 @@ const Signup = () => {
           {authEmailMode ? (
             <>
               {checkIsAuth ? null : (
-                <Input
-                  register={{ ...register("emailNum") }}
-                  type={"number"}
-                  _border={
-                    !watch("emailNum") || watch("emailNum")?.length < 5
-                      ? "#BBBBBB"
-                      : "#5FCB94"
-                  }
-                  label={"인증번호"}
-                ></Input>
+                <InputBox>
+                  <Label>
+                    <Input
+                      register={{ ...register("emailNum") }}
+                      type={"number"}
+                      _border={
+                        !watch("emailNum") || watch("emailNum")?.length < 5
+                          ? "#BBBBBB"
+                          : "#5FCB94"
+                      }
+                      label={"인증번호"}
+                    ></Input>
+                    <AuthBtn
+                      style={{
+                        marginTop: "-6px",
+                        backgroundColor: "#58C08B",
+                        color: "#ffffff",
+                      }}
+                      onClick={checkEmailAuth}
+                    >
+                      인증번호 확인
+                    </AuthBtn>
+                  </Label>
+                </InputBox>
               )}
             </>
           ) : null}

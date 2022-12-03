@@ -58,7 +58,6 @@ const UserList = () => {
   // 현재 그룹에 로그인한 유저의 그륩유저아이디 배열
   useEffect(() => {
     if (onlineList) {
-      console.log(onlineList);
     }
   }, [onlineList]);
 

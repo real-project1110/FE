@@ -8,7 +8,6 @@ export const readSchedule = async (payload) => {
 
 /** 일정 생성 { groupId, body: {title, description, start, end, color} } */
 export const addSchedule = async (payload) => {
-  console.log(payload);
   const data = await instance.post(
     `groups/${payload.groupId}/schedules`,
     payload.body
@@ -18,7 +17,6 @@ export const addSchedule = async (payload) => {
 
 /** 일정 수정 { scheduleId,groupId, body:{ title, description, start, end, color  } } */
 export const editSchedule = async (payload) => {
-  console.log(payload);
   const data = await instance.put(
     `groups/${payload.groupId}/schedules/${payload.scheduleId}`,
     payload.body

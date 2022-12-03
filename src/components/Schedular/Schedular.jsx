@@ -164,7 +164,7 @@ const Schedular = () => {
       };
       if (title === "") return alert("이름을 작성해주세요");
       if (description === undefined) return alert("내용을 작성해주세요");
-      if (color === "") return alert("색상을 지정해주세요");
+      if (color === "gray") return alert("색상을 지정해주세요");
       editMutate(editEvent);
 
       // 일정 등록일 경우 실행
@@ -175,10 +175,9 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
-      console.log(color);
       if (title === "") return alert("이름을 작성해주세요");
       if (description === undefined) return alert("내용을 작성해주세요");
-      if (color === "") return alert("색상을 지정해주세요");
+      if (color === "gray") return alert("색상을 지정해주세요");
       addMutate(addEvent);
       setAddTitle("");
     }
@@ -281,7 +280,6 @@ const Schedular = () => {
   // 일정을 생성하기 위해 빈 공간을 클릭하였을 때 실행되는 함수
   const onEventCreated = useCallback(
     (args) => {
-      console.log("hello");
       setEdit(false);
       setTempEvent(args.event);
       loadPopupForm(args.event);
@@ -294,7 +292,6 @@ const Schedular = () => {
   // onDeleteClick과 동일한 역할을 하는 함수인데 확인 필요
   const onEventDeleted = useCallback(
     (args) => {
-      console.log("?");
       deleteEvent(args.event);
     },
     [deleteEvent]
@@ -357,7 +354,6 @@ const Schedular = () => {
   // 필요한지 확인 필요한 함수
   const onClose = useCallback(() => {
     if (!isEdit) {
-      console.log("다다ㅏ");
       // refresh the list, if add popup was canceled, to remove the temporary event
       setMyEvents([...myEvents]);
     }
