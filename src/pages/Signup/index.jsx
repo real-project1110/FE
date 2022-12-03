@@ -100,7 +100,7 @@ const Signup = () => {
           <LogoBox onClick={() => navigate("/")}>
             <BigLogoSvg />
           </LogoBox>
-          <BigMent>Manage all the statuses of your team.</BigMent>
+          <BigMent>나의 팀을 이해하는 곳</BigMent>
         </SignUpLogo>
         <Title>이메일로 시작하기</Title>
         <JoinForm onSubmit={handleSubmit(onSubmit)}>

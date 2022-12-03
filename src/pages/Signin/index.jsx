@@ -77,7 +77,7 @@ function Signin() {
           <LogoBox onClick={() => navigate("/")}>
             <BigLogoSvg />
           </LogoBox>
-          <BigMent>Manage all the statuses of your team.</BigMent>
+          <BigMent>나의 팀을 이해하는 곳</BigMent>
         </SignInLogo>
         <Title>로그인</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>

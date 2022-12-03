@@ -30,14 +30,15 @@ export const Info = styled.div`
 `;
 
 export const BigMent = styled.p`
-  font-weight: 400;
-  font-size: 1.7rem;
+  font-weight: 700;
+  font-size: 26px;
   margin: 2rem 0 3rem 0;
 `;
 
 export const SmallMent = styled.p`
   margin-bottom: 1rem;
-  font-size: 1.2rem;
+  color: #aaaaaa;
+  font-size: 15px;
   font-weight: 400;
 `;
 
