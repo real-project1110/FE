@@ -24,11 +24,13 @@ import {
   Delete,
   PostInput,
   Header,
+  Cancel,
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { handleImgError } from "../../../utils/handleImgError";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CancelSvg from "../../../assets/svg/CancelSvg";
 
 function PostForm() {
   const { groupId } = useParams();
@@ -148,7 +150,12 @@ function PostForm() {
       <ToastContainer />
       <EditorWrapper onClick={(e) => e.stopPropagation()}>
         <Editor onSubmit={Submit}>
-          <Header>글쓰기</Header>
+          <Header>
+            <div style={{ position: "fixed" }}>글쓰기</div>
+            <Cancel onClick={onCloseModal}>
+              <CancelSvg />
+            </Cancel>
+          </Header>
           <Carousel>
             <PhotoLabel htmlFor="input-file">
               <FontAwesomeIcon icon={faImage} />
