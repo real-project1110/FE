@@ -47,7 +47,6 @@ const Chat = () => {
 
   const chatSections = useMemo(() => {
     if (!chats) return;
-    console.log("chchchchc", chats);
     return makeSection(chats ? chats.flat().reverse() : []);
   }, [chats]);
 
@@ -95,9 +94,6 @@ const Chat = () => {
     )
       setChats((prev) => [...prev, chatsData?.pages[pages]?.data]);
   }, [chatsData, pages]);
-
-  // 삭제 예정
-  console.log("채팅", chats);
 
   useEffect(() => {
     if (roomId && me) {
