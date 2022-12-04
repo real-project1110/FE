@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { goChatRoom } from "../../../../apis/chatApis";
+import { goChatRoom, readUnread } from "../../../../apis/chatApis";
 import { chatUserAtom } from "../../../../recoil/userAtoms";
 
 import { getIcon } from "../../../../utils/getIcon";
@@ -20,6 +21,20 @@ const UserItem = ({
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
   const setChatUser = useSetRecoilState(chatUserAtom);
+  const [chatCount, setChatCount] = useState(0);
+
+  const { data: unreadCount } = useQuery(
+    ["unread", user.groupUserId],
+    () =>
+      readUnread({
+        sender: Math.min(user?.groupUserId, myUserData?.groupUserId),
+        receiver: Math.max(user?.groupUserId, myUserData?.groupUserId),
+        timestamps: localStorage.getItem(
+          `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
+        ),
+      }),
+    { retry: 0, staleTime: 5000 }
+  );
 
   const navigate = useNavigate();
   // 마우스가 유저에게로 올라갈 때 실행
@@ -48,12 +63,18 @@ const UserItem = ({
     } = await goChatRoom(payload);
     if (status === 200) {
       navigate(`/groups/${groupId}/chats/${roomId}`);
+      setChatCount(0);
       setChatUser(user);
     } else {
       return alert("채팅방 입장에 실패하였습니다.");
     }
   };
 
+  useEffect(() => {
+    if (unreadCount) {
+      setChatCount(unreadCount);
+    }
+  }, [unreadCount]);
   return (
     <>
       <UserContainer
@@ -73,6 +94,7 @@ const UserItem = ({
           {user.groupUserNickname}
           {isMe && <strong>나</strong>}
         </span>
+        {chatCount > 0 && chatCount}
         <Icon>{getIcon(isMe ? status : user?.status)}</Icon>
         {isHover && user?.statusMessage && (
           <UserStatusModal style={{ left: mouseX + 20, top: mouseY - 20 }}>

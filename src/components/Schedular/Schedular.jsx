@@ -140,7 +140,6 @@ const Schedular = () => {
   const saveEvent = useCallback(() => {
     const startDate = popupEventDate[0];
     const endDate = popupEventDate[1];
-
     const newEvent = {
       title: isEdit ? popupEventTitle : addTitle,
       description: popupEventDescription,
