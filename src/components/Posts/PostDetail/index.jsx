@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
@@ -114,16 +113,6 @@ function PostDetail() {
     };
     addCommentMutate(commentData);
     setPostComment("");
-    toast.success("작성 완료!😁", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
   };
 
   const toggleLike = useCallback(() => {

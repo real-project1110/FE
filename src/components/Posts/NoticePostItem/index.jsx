@@ -106,7 +106,7 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
   return (
     <>
       {openPostMenu && <CloseContainer onClick={onCloseModal} />}
-      <Post newRef={ref} key={notice.postId}>
+      <Post newRef={ref} key={notice.postId} onClick={viewDetail}>
         {notice?.postImg[0] && (
           <PostImg
             src={notice.postImg[0].postImg}

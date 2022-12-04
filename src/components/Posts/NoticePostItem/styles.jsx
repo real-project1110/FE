@@ -11,6 +11,7 @@ export const Post = styled.div`
   box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   z-index: 80;
+  cursor: pointer;
 `;
 
 export const TitleWrap = styled.div`

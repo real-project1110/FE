@@ -99,6 +99,7 @@ export const PostContent = styled.div`
   font-weight: 400;
   letter-spacing: -0.3px;
   line-height: 1.4;
+  cursor: pointer;
 `;
 
 export const FakeImg = styled.div`

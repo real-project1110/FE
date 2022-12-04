@@ -189,6 +189,7 @@ function PostForm() {
               placeholder="공유하고 싶은 소식이 있나요? 사소한 이야기라도 좋아요 :)"
               onChange={onChangeText}
               value={textValue}
+              required
             />
             <SubmitBtn>
               <Posting>게시</Posting>
