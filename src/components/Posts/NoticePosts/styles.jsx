@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
+  //background-color: #ffffff;
   border-radius: 5px;
   max-height: ${(props) => props.theme.bodyHeight.normal};
   display: flex;
@@ -17,13 +17,8 @@ export const Title = styled.p`
 `;
 
 export const NoticeTitle = styled.div`
-  height: 46px;
-  border-bottom: 1px solid #e7e7e7;
-  font-family: "Pretendard";
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1rem;
-  letter-spacing: -5.5%;
-  line-height: 46px;
 `;
 
 export const Notice = styled(NoticeTitle)`

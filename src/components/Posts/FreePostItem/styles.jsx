@@ -11,13 +11,16 @@ export const CloseContainer = styled.div`
 
 export const FreePostItemContainer = styled.div`
   ${FlexColumnBox};
+  padding: 0 2rem;
+  margin-bottom: 11px;
 `;
 
 export const FreePost = styled.div`
   width: 100%;
   height: auto;
-  padding: 1.3rem 2rem;
-  border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
+  min-height: 140px;
+  padding: 1rem;
+  background-color: white;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 `;
@@ -34,6 +37,12 @@ export const PostUserInfo = styled.div`
   display: flex;
 `;
 
+export const PostUserDetail = styled.div`
+  ${FlexColumnBox};
+  justify-content: center;
+  margin-left: 0.5rem;
+`;
+
 export const UserImg = styled.div`
   & > img {
     width: 36px;
@@ -45,17 +54,12 @@ export const UserImg = styled.div`
 `;
 
 export const Nickname = styled.div`
-  margin-left: 0.6rem;
-  line-height: 37px;
-  letter-spacing: -0.3px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 `;
 
 export const LoadTime = styled.div`
-  margin-left: 0.4rem;
-  line-height: 37px;
-  letter-spacing: -0.3px;
+  margin-top: 5px;
   font-size: 12px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.6);
@@ -139,7 +143,6 @@ export const CommentCount = styled.span`
 `;
 
 export const PostLike = styled.span`
-  margin-right: 15px;
   cursor: pointer;
 `;
 

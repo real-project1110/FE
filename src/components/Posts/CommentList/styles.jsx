@@ -3,7 +3,8 @@ import { FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const List = styled.div`
   ${FlexColumnBox};
-  border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
+  background-color: white;
+  border-radius: 0px 0px 8px 8px;
 `;
 
 export const CommentForm = styled.form`

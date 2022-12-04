@@ -1,13 +1,13 @@
 import styled from "styled-components";
+import { FlexCenterBox } from "../../../shared/Styles/flex";
 
 export const PostHeader = styled.div`
   width: 100%;
-  height: 46px;
-  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #e7e7e7;
 `;
 
 export const PostPreview = styled.div`
@@ -16,9 +16,11 @@ export const PostPreview = styled.div`
   cursor: pointer;
 `;
 
-export const PostButtonTitle = styled.div`
+export const PostButtonTitle = styled.h3`
   width: 100%;
-  padding: 1rem 0;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 11px;
 `;
 
 export const PostButton = styled.div`
@@ -33,18 +35,38 @@ export const PostButton = styled.div`
 export const ButtonBar = styled.div`
   height: 37px;
   padding: 0.7rem 1rem 0 1rem;
-  background-color: ${(props) => props.theme.color.lightGray};
+  background-color: ${(props) => props.theme.color.extraLightGray};
+  //background-color: #f8f8f8;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 `;
 
 export const ButtonContent = styled.div`
+  position: relative;
   height: 142px;
   padding: 1rem 1rem;
-  color: gray;
-  background-color: ${(props) => props.theme.color.extraLightGray};
+  color: #aaaaaa;
+  background-color: ${(props) => props.theme.color.white};
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+`;
+
+export const FakeBtn = styled.div`
+  width: 68px;
+  height: 28px;
+  ${FlexCenterBox};
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  background-color: ${(props) => props.theme.color.green};
+  border: none;
+  border-radius: 5px;
+  span {
+    margin-right: 6px;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 14px;
+  }
 `;
 
 export const AllFreePost = styled.div`
@@ -74,8 +96,9 @@ export const Post = styled.div`
 `;
 
 export const New = styled.div`
-  cursor: pointer;
-  line-height: 44px;
+  & > span {
+    cursor: pointer;
+  }
 `;
 
 export const Newest = styled.span`

@@ -182,9 +182,7 @@ function PostForm() {
             />
             <SubmitBtn>
               <Posting>게시</Posting>
-              <PostButton>
-                <PostButtonSvg />
-              </PostButton>
+              <PostButtonSvg />
             </SubmitBtn>
           </Carousel>
         </Editor>

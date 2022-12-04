@@ -36,6 +36,7 @@ import {
   PostMenu,
   PostOption,
   PostResponse,
+  PostUserDetail,
   PostUserInfo,
   UserImg,
 } from "./styles";
@@ -163,8 +164,10 @@ const FreePostItem = ({ post, refetch }) => {
                   <FakeImg />
                 )}
               </UserImg>
-              <Nickname>{post.groupUserNickname}</Nickname>
-              <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
+              <PostUserDetail>
+                <Nickname>{post.groupUserNickname}</Nickname>
+                <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
+              </PostUserDetail>
             </PostUserInfo>
             {groupUser.groupUserId === post.groupUserId && (
               <PostOption onClick={modalOpen}>

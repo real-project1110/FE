@@ -13,19 +13,20 @@ import {
   New,
   Newest,
   NewestComment,
-  WritePost,
   AllFreePost,
   PostPreview,
   PostButtonTitle,
   PostButton,
   ButtonBar,
   ButtonContent,
+  FakeBtn,
 } from "./styles";
 import BoldSvg from "../../../assets/svg/BoldSvg";
 import ItalicSvg from "../../../assets/svg/ItalicSvg";
 import ASvg from "../../../assets/svg/ASvg";
 import FileSvg from "../../../assets/svg/FileSvg";
 import EmojiSvg from "../../../assets/svg/EmojiSvg";
+import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
 
 function FreePosts() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);
@@ -62,13 +63,19 @@ function FreePosts() {
               <EmojiSvg />
             </Buttons>
           </ButtonBar>
-          <ButtonContent>글을 작성하려면 클릭하세요!</ButtonContent>
+          <ButtonContent>
+            <span>글을 작성하려면 클릭하세요!</span>
+            <FakeBtn>
+              <span>게시</span>
+              <div>
+                <PostButtonSvg />
+              </div>
+            </FakeBtn>
+          </ButtonContent>
         </PostButton>
       </PostPreview>
       <PostHeader>
-        <WritePost>
-          <NoticeTitle>게시글</NoticeTitle>
-        </WritePost>
+        <NoticeTitle>게시글</NoticeTitle>
         <New>
           <Newest>최신순</Newest>
           <NewestComment>최근댓글순</NewestComment>

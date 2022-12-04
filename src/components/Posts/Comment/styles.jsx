@@ -3,7 +3,7 @@ import { FlexCenterBox } from "../../../shared/Styles/flex";
 
 export const FreeComment = styled.div`
   width: 100%;
-  padding: 0.8rem 2rem;
+  padding: 0.8rem 1rem;
   display: grid;
   grid-template-columns: 40px 1fr;
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};

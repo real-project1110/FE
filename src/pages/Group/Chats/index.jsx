@@ -87,7 +87,7 @@ const Chat = () => {
       scrollRef.current?.scrollToBottom();
     }
     // if (sectionsLen) {
-    //   scrollRef.current?.scrollToBottom();
+    //   scrollReㅇf.current?.scrollToBottom();
     // }
   }, [chats]);
 

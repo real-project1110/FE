@@ -170,7 +170,6 @@ function Comment({
               {comment.commentLike ? <LikeSvg /> : <SpaceLikeSvg />}
               <CommentLikeCount>{comment.likeCount}</CommentLikeCount>
             </CommentLike>
-            <CommentLoadTime>답글쓰기</CommentLoadTime>
           </CommentResponse>
         </CommentContainer>
       </FreeComment>
