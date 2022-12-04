@@ -1,6 +1,8 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useSetRecoilState } from "recoil";
 import { goChatRoom, readUnread } from "../../../../apis/chatApis";
 import { chatUserAtom } from "../../../../recoil/userAtoms";
@@ -66,7 +68,16 @@ const UserItem = ({
       setChatCount(0);
       setChatUser(user);
     } else {
-      return alert("채팅방 입장에 실패하였습니다.");
+      return toast.error("채팅방 입장에 실패하였습니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -77,6 +88,7 @@ const UserItem = ({
   }, [unreadCount]);
   return (
     <>
+      <ToastContainer />
       <UserContainer
         onMouseEnter={onHover}
         onMouseLeave={onLeave}

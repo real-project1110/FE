@@ -117,20 +117,24 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
         <ContentBox>
           <TitleWrap>
             <PostContent>{notice.content}</PostContent>
-            {groupUser.groupUserId === notice.groupUserId && (
-              <PostOption onClick={modalOpen}>
-                {openPostMenu ? (
-                  <MenuBox right={"1rem"} top={"1.2rem"}>
+            <PostOption onClick={modalOpen}>
+              {openPostMenu ? (
+                <MenuBox right={"1rem"} top={"1.2rem"}>
+                  {groupUser.groupUserId === notice.groupUserId ? (
                     <MenuList>
                       <li onClick={onTogglePost}>자유글로 등록</li>
                       <li onClick={viewDetail}>상세 보기</li>
                       <li onClick={onDeletePost}>삭제</li>
                     </MenuList>
-                  </MenuBox>
-                ) : null}
-                <PostOptionSvg />
-              </PostOption>
-            )}
+                  ) : (
+                    <MenuList>
+                      <li onClick={viewDetail}>상세 보기</li>
+                    </MenuList>
+                  )}
+                </MenuBox>
+              ) : null}
+              <PostOptionSvg />
+            </PostOption>
           </TitleWrap>
           <PostInfoWrap>
             <PostInfo>

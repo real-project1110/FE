@@ -4,6 +4,8 @@ import { useMutation } from "react-query";
 import { queryClient } from "../../..";
 import CameraSvg from "../../../assets/svg/CameraSvg";
 import CancelSvg from "../../../assets/svg/CancelSvg";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   editGroupUserAvatar,
   editGroupUserNickname,
@@ -40,7 +42,16 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
     editGroupUserNickname,
     {
       onSuccess: () => {
-        alert("닉네임이 변경되었습니다.");
+        toast.success("닉네임이 변경되었습니다.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
       },
     }
@@ -49,7 +60,16 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 유저 닉네임 수정 mutation
   const { mutate: editNicknameFn } = useMutation(editNickname, {
     onSuccess: () => {
-      alert("닉네임이 변경되었습니다.");
+      toast.success("닉네임이 변경되었습니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       queryClient.invalidateQueries(["user"]);
     },
   });
@@ -57,7 +77,16 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 유저 이미지 수정 mutation
   const { mutate: editUserAvatarFn } = useMutation(editAvatar, {
     onSuccess: () => {
-      alert("프로필이 변경되었습니다.");
+      toast.success("프로필이 변경되었습니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       queryClient.invalidateQueries(["user"]);
     },
   });
@@ -65,7 +94,16 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 그룹 유저 이미지 수정 mutation
   const { mutate: editGroupUserAvatarFn } = useMutation(editGroupUserAvatar, {
     onSuccess: () => {
-      alert("닉네임이 변경되었습니다.");
+      toast.success("프로필이 변경되었습니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
     },
   });
@@ -126,6 +164,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
 
   return (
     <Wrapper onClick={onCloseModal}>
+      <ToastContainer />
       <SideContainer onClick={(e) => e.stopPropagation()}>
         <TitleBox>
           <Title>프로필 편집</Title>

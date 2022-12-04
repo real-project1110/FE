@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { setAccessToken } from "../../shared/Cookie/Cookie";
 
 function KakaoLogin() {
@@ -43,12 +45,25 @@ function KakaoLogin() {
       } catch (e) {
         console.error(e);
         window.location.replace("/");
-        alert("이미 가입된 이메일 입니다.");
+        toast.error("이미 가입된 이메일 입니다.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     })();
   }, [code]);
 
-  return <div></div>;
+  return (
+    <div>
+      <ToastContainer />
+    </div>
+  );
 }
 
 export default KakaoLogin;

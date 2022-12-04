@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Eventcalendar,
-  snackbar,
   setOptions,
   Popup,
   Button,
@@ -12,6 +11,8 @@ import {
 import { useState, useCallback, useMemo, useRef } from "react";
 import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { useMutation, useQuery } from "react-query";
 import {
@@ -99,7 +100,16 @@ const Schedular = () => {
         );
       },
       onError: (e) => {
-        alert(e.message);
+        toast.error(e.message, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       },
     }
   );
@@ -161,10 +171,50 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
-      if (title === "") return alert("이름을 작성해주세요");
-      if (description === undefined) return alert("내용을 작성해주세요");
-      if (color === "gray") return alert("색상을 지정해주세요");
+      if (title === "")
+        return toast.error("이름을 작성해주세요", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      if (description === undefined)
+        return toast.error("내용을 작성해주세요", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      if (color === "gray")
+        return toast.error("색상을 지정해주세요", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       editMutate(editEvent);
+      toast.success("수정 완료 👍", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
 
       // 일정 등록일 경우 실행
     } else {
@@ -174,11 +224,51 @@ const Schedular = () => {
         groupId,
         body: { title, description, start, end, color },
       };
-      if (title === "") return alert("이름을 작성해주세요");
-      if (description === undefined) return alert("내용을 작성해주세요");
-      if (color === "gray") return alert("색상을 지정해주세요");
+      if (title === "")
+        return toast.error("이름을 작성해주세요", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      if (description === undefined)
+        return toast.error("내용을 작성해주세요", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      if (color === "gray")
+        return toast.error("색상을 지정해주세요", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       addMutate(addEvent);
       setAddTitle("");
+      toast.success("작성 완료 😎", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
     setSelectedDate(popupEventDate[0]);
     setOpen(false);
@@ -205,16 +295,15 @@ const Schedular = () => {
       };
       removeMutate(removeSchedule);
       setMyEvents(myEvents.filter((item) => item.id !== event.id));
-      setTimeout(() => {
-        snackbar({
-          button: {
-            action: () => {
-              setMyEvents((prevEvents) => [...prevEvents, event]);
-            },
-            text: "되돌리기",
-          },
-          message: "일정이 삭제되었습니다.",
-        });
+      toast.success("삭제되었습니다", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
     },
     [myEvents, removeMutate, groupId]
@@ -390,6 +479,7 @@ const Schedular = () => {
 
   return (
     <Wrapper>
+      <ToastContainer />
       <Eventcalendar
         view={viewSettings}
         data={myEvents}
