@@ -39,7 +39,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body{
-    background-color: ${(props) => props.theme.boardColor.lightGray};
+    background-color: ${(props) => props.theme.boardColor.yellowGray};
     height: 100vh;
     max-height: 100vh;
     color:#1C1C1C;

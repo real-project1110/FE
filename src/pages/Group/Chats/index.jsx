@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import ChatBox from "../../../components/Chats/ChatBox";
@@ -19,7 +19,7 @@ import makeSection from "../../../utils/makeSection";
 import { chatUserAtom } from "../../../recoil/userAtoms";
 import { useQuery } from "react-query";
 import { readChats } from "../../../apis/chatApis";
-import { groupAtom } from "../../../recoil/groupAtoms";
+//import { groupAtom } from "../../../recoil/groupAtoms";
 //import { queryClient } from "../../..";
 
 const Chat = () => {
@@ -27,14 +27,13 @@ const Chat = () => {
   const [chats, setChats] = useState([]);
   const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
-  const group = useRecoilValue(groupAtom);
+  //const group = useRecoilValue(groupAtom);
   const scrollRef = useRef(null);
   //const navigate = useNavigate();
   const [socket] = useSocket(groupId);
   const page = 1;
   const pageSize = 15;
-  // 여기 삭제
-  console.log(group.roomIds);
+
   const { data: chatsData } = useQuery(
     ["chats", roomId],
     () => readChats({ roomId, page, pageSize }),
@@ -84,31 +83,53 @@ const Chat = () => {
 
   // chats의 값이 변화할 때마다 스크롤을 밑으로 보냄
   useEffect(() => {
-    if (sectionsLen) {
+    if (chats) {
       scrollRef.current?.scrollToBottom();
     }
-  }, [sectionsLen]);
+    // if (sectionsLen) {
+    //   scrollRef.current?.scrollToBottom();
+    // }
+  }, [chats]);
 
   useEffect(() => {
     if (chatsData) setChats(chatsData);
   }, [chatsData]);
 
   useEffect(() => {
-    socket.emit("joinRoom", { roomId });
-  }, [groupId, socket, roomId]);
+    if (roomId && me) {
+      socket.emit("joinRoom", { roomId, groupUserId: me?.groupUserId });
+    }
+  }, [groupId, socket, roomId, me]);
 
+  // 메세지를 받을 때 마다 실행 (해당 룸에 대한 로컬 스토리지의 시간 값을 갱신 )
   useEffect(() => {
     socket.on("message", (data) => {
+      localStorage.setItem(
+        `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
+        new Date().getTime().toString()
+      );
       setChats((prev) => [data, ...prev]);
     });
-  }, [socket]);
+  }, [socket, groupId, me, otherUser]);
 
+  // 채팅방을 나갔을 때 실행 소켓의 이벤트에 대한 연결을 off
   useEffect(() => {
     return () => {
+      // socket.emit("leaveRoom", { roomId, groupUserId: me.groupUserId + "" });
+      // socket.off("leaveRoom");
       socket.off("message");
       socket.off("joinRoom");
     };
-  }, [socket]);
+  }, [socket, me, roomId]);
+
+  // 채팅방에 입장했을 때 시간 저장
+  useEffect(() => {
+    localStorage.setItem(
+      `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
+      //new Date()
+      new Date().getTime().toString()
+    );
+  }, [groupId, roomId, me, otherUser]);
 
   // useEffect(() => {
   //   (async () => await queryClient.invalidateQueries(["group", groupId]))();
@@ -152,6 +173,7 @@ const Chat = () => {
       <ChatForm
         setChats={setChats}
         groupUserId={me?.groupUserId}
+        otherUserId={otherUser?.groupUserId}
         roomId={roomId}
         groupId={groupId}
         scrollRef={scrollRef}
