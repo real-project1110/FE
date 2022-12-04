@@ -6,7 +6,6 @@ import { readUser } from "../../../../apis/userApi";
 import BellSvg from "../../../../assets/svg/BellSvg";
 import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
-import SearchSvg from "../../../../assets/svg/SearchSvg";
 import {
   editProfileModalAtom,
   headerMenuAtom,
@@ -18,14 +17,7 @@ import { handleImgError } from "../../../../utils/handleImgError";
 import AlertModal from "../../../Modals/AlertModal";
 import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
-import {
-  RightNav,
-  Nav,
-  SearchForm,
-  Wrapper,
-  SearchInput,
-  FakeImg,
-} from "./styles";
+import { RightNav, Nav, Wrapper, FakeImg } from "./styles";
 
 const HomeHeader = () => {
   const { userId } = decodeUser();
@@ -59,13 +51,6 @@ const HomeHeader = () => {
         <Link to={"/main"}>
           <LogoSvg />
         </Link>
-        <SearchForm>
-          <SearchSvg />
-          <SearchInput
-            type="text"
-            placeholder="일정을 알고 싶은 팀원, 프로젝트를 검색해보세요"
-          />
-        </SearchForm>
         <RightNav>
           <li>
             <QuestionSvg />

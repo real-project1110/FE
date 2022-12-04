@@ -12,7 +12,14 @@ import autosize from "autosize";
 import { useMutation } from "react-query";
 import { addChat } from "../../../apis/chatApis";
 
-const ChatForm = ({ groupUserId, roomId, groupId, otherUserId, scrollRef }) => {
+const ChatForm = ({
+  setChats,
+  groupUserId,
+  roomId,
+  groupId,
+  otherUserId,
+  scrollRef,
+}) => {
   const [socket] = useSocket(groupId);
   const textareaRef = useRef(null);
   const { mutate: addChatFn } = useMutation(addChat, {
@@ -34,16 +41,25 @@ const ChatForm = ({ groupUserId, roomId, groupId, otherUserId, scrollRef }) => {
       socket.emit("message", payload);
       textareaRef.current.value = "";
       textareaRef.current.style.height = "50px";
-      delete payload.createdAt;
       localStorage.setItem(
         `${groupId}-${groupUserId}-${otherUserId}`,
         new Date().getTime().toString()
         //new Date()
       );
+      setChats((prev) => [payload, ...prev]);
       addChatFn({ roomId, body: { groupUserId, message: payload.message } });
     },
 
-    [groupUserId, roomId, textareaRef, socket, addChatFn, groupId, otherUserId]
+    [
+      groupUserId,
+      roomId,
+      textareaRef,
+      socket,
+      addChatFn,
+      groupId,
+      otherUserId,
+      setChats,
+    ]
   );
 
   const onKeydownChat = useCallback(

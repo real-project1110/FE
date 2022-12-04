@@ -21,6 +21,7 @@ export const useReadFreePosts = (groupId) => {
       currentPage: pageParam,
     };
   };
+
   const {
     data: getPost,
     fetchNextPage,

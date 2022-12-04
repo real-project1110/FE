@@ -17,8 +17,7 @@ import { FlexCenterBox } from "../../../shared/Styles/flex";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
 import { chatUserAtom } from "../../../recoil/userAtoms";
-import { useQuery } from "react-query";
-import { readChats } from "../../../apis/chatApis";
+import { useChatApis } from "../../../apis/chatApis";
 //import { groupAtom } from "../../../recoil/groupAtoms";
 //import { queryClient } from "../../..";
 
@@ -31,41 +30,38 @@ const Chat = () => {
   const scrollRef = useRef(null);
   //const navigate = useNavigate();
   const [socket] = useSocket(groupId);
-  const page = 1;
-  const pageSize = 15;
+  const [pages, setPages] = useState(0);
 
-  const { data: chatsData } = useQuery(
-    ["chats", roomId],
-    () => readChats({ roomId, page, pageSize }),
-    {
-      staleTime: 10000,
-      cacheTime: Infinity,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const {
+    data: chatsData,
+    fetchNextPage,
+    hasNextPage,
+  } = useChatApis.ReadChats(roomId);
 
   const isEmpty = useMemo(() => chats && chats[0]?.length === 0, [chats]);
 
   const isReachingEnd = useMemo(
-    () => isEmpty || (chats && chats[chats.length - 1]?.length < 20) || false,
+    () => isEmpty || (chats && chats[chats.length - 1]?.length < 15) || false,
     [chats, isEmpty]
   );
 
   const chatSections = useMemo(() => {
     if (!chats) return;
+    console.log("chchchchc", chats);
     return makeSection(chats ? chats.flat().reverse() : []);
   }, [chats]);
 
-  const sectionsLen = useMemo(() => {
-    if (!chatSections) return;
-    return Object.keys(chatSections).length;
-  }, [chatSections]);
+  // const sectionsLen = useMemo(() => {
+  //   if (!chatSections) return;
+  //   return Object.keys(chatSections).length;
+  // }, [chatSections]);
 
   // 스크롤 이벤트  ( 스크롤이 가장 위로 도달하였을 때 데이터를 불러오는 함수 )
   const onScroll = useCallback(
     (values) => {
-      if (values.scrollTop === 0 && !isReachingEnd) {
-        console.log("가장 위");
+      if (values.scrollTop === 0 && !isReachingEnd && hasNextPage) {
+        fetchNextPage();
+        setPages((prev) => prev + 1);
         // const current = scrollRef?.current;
         // if (current) {
         //   current.scrollTop(current.getScrollHeight() - values.scrollHeight);
@@ -78,7 +74,7 @@ const Chat = () => {
         //     }
       }
     },
-    [isReachingEnd]
+    [isReachingEnd, fetchNextPage, hasNextPage]
   );
 
   // chats의 값이 변화할 때마다 스크롤을 밑으로 보냄
@@ -92,8 +88,16 @@ const Chat = () => {
   }, [chats]);
 
   useEffect(() => {
-    if (chatsData) setChats(chatsData);
-  }, [chatsData]);
+    if (
+      chatsData &&
+      chatsData.pages.length > 0 &&
+      chatsData?.pages[pages]?.data
+    )
+      setChats((prev) => [...prev, chatsData?.pages[pages]?.data]);
+  }, [chatsData, pages]);
+
+  // 삭제 예정
+  console.log("채팅", chats);
 
   useEffect(() => {
     if (roomId && me) {
@@ -108,7 +112,9 @@ const Chat = () => {
         `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
         new Date().getTime().toString()
       );
-      setChats((prev) => [data, ...prev]);
+      if (data.groupUserId !== me?.groupUserId) {
+        setChats((prev) => [data, ...prev]);
+      }
     });
   }, [socket, groupId, me, otherUser]);
 

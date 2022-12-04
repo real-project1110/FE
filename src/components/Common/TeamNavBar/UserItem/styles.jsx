@@ -34,7 +34,7 @@ export const UserImg = styled.div`
   div {
     position: absolute;
     right: -0.2rem;
-    bottom: 0.17rem;
+    bottom: 0;
     width: 0.8rem;
     height: 0.8rem;
     background-color: ${(props) => props.theme.color.green};
@@ -43,8 +43,20 @@ export const UserImg = styled.div`
   }
 `;
 
+export const UnReadBox = styled.div`
+  padding: 0.2rem 0.5rem;
+  background-color: ${(props) => props.theme.color.red};
+  border-radius: 100px;
+  color: white;
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+`;
+
 export const Icon = styled.div`
   margin-left: 0.5rem;
+  img {
+    width: 1rem;
+  }
 `;
 
 const ModalAni = keyframes`

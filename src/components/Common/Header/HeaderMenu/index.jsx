@@ -65,10 +65,10 @@ const HeaderMenu = ({ user, isMain = false }) => {
       setEditProfile(true);
       setHeaderMenu(false);
     },
-    [setEditProfile, setHeaderMenu] //[setHeaderMenu]
+    [setEditProfile, setHeaderMenu]
   );
   return (
-    <Menu onCloseModal={onCloseModal} right={"4rem"} top={"60px"}>
+    <Menu onCloseModal={onCloseModal} right={"3rem"} top={"50px"}>
       <MenuList onClick={onCloseModal}>
         <UserInfo>
           {user && (user.avatarImg || user.groupAvatarImg) ? (

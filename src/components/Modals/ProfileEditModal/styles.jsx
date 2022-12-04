@@ -7,7 +7,7 @@ import {
 
 export const Wrapper = styled.div`
   position: fixed;
-  top: 80px;
+  top: ${(props) => props.theme.headerHeight};
   bottom: 0;
   left: 0;
   right: 0;

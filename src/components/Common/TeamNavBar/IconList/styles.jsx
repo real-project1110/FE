@@ -23,6 +23,9 @@ export const Icon = styled.li`
     background-color: ${(props) => props.theme.color.extraLightGray};
     box-shadow: none;
   }
+  img {
+    width: 1rem;
+  }
 `;
 
 export const MessageModal = styled.form`
