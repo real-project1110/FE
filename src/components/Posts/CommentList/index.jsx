@@ -134,6 +134,7 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
           placeholder="댓글을 남겨주세요."
           type="text"
           onChange={onChange}
+          required
         />
         <CommentSubmitBtn>
           <CommentPostSvg />

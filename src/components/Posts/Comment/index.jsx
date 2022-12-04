@@ -199,6 +199,7 @@ function Comment({
             onKeyPress={onKeyPress}
             onChange={onChangeText}
             value={textValue}
+            required
           />
           <CommentSubmitBtn>
             <SendComment onClick={() => setEditMyComment(false)}>

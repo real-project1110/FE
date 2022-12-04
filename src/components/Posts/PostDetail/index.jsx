@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
