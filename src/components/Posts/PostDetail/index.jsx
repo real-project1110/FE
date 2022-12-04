@@ -41,7 +41,13 @@ import {
   PostUserInfo,
   UserImg,
 } from "../FreePostItem/styles";
-import { DetailPost, DetailWrapper, PostContent } from "./styles";
+import {
+  DetailPost,
+  DetailPostUserBox,
+  DetailPostUserInfo,
+  DetailWrapper,
+  PostContent,
+} from "./styles";
 
 function PostDetail() {
   const { groupId } = useParams();
@@ -150,25 +156,23 @@ function PostDetail() {
       <DetailPost onClick={onCloseModal}>
         <Scrollbars autoHide onScrollStop={fetchNextPage}>
           <DetailWrapper onClick={(e) => e.stopPropagation()}>
-            <FreePost>
-              <PostMenu>
-                <PostUserInfo>
-                  <UserImg>
-                    {detail.groupAvatarImg ? (
-                      <img
-                        src={detail.groupAvatarImg}
-                        alt="profile"
-                        onError={handleImgError}
-                      />
-                    ) : (
-                      <FakeImg />
-                    )}
-                  </UserImg>
-                  <Nickname>{detail.groupUserNickname}</Nickname>
-                  <LoadTime>{detail.createdAt.slice(0, 10)}</LoadTime>
-                </PostUserInfo>
-              </PostMenu>
-            </FreePost>
+            <DetailPostUserBox>
+              <UserImg>
+                {detail.groupAvatarImg ? (
+                  <img
+                    src={detail.groupAvatarImg}
+                    alt="profile"
+                    onError={handleImgError}
+                  />
+                ) : (
+                  <FakeImg />
+                )}
+              </UserImg>
+              <DetailPostUserInfo>
+                <strong>{detail.groupUserNickname}</strong>
+                <span>{detail.createdAt.slice(0, 10)}</span>
+              </DetailPostUserInfo>
+            </DetailPostUserBox>
             <PostContent>
               <PostImgWrap>
                 {detail?.postImg?.map((Image) => (

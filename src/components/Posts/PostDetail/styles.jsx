@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexCenterBox } from "../../../shared/Styles/flex";
+import { FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const DetailWrapper = styled.div`
   width: 100%;
@@ -25,11 +25,32 @@ export const DetailPost = styled.div`
   }
 `;
 
+export const DetailPostUserBox = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+`;
+
+export const DetailPostUserInfo = styled.div`
+  ${FlexColumnBox};
+  margin-left: 0.5rem;
+  strong {
+    font-weight: 500;
+  }
+  span {
+    margin-top: 2px;
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+`;
+
 export const PostContent = styled.div`
   width: 100%;
   height: auto;
   margin: auto;
-  padding: 1rem 2rem;
+  padding: 0 1rem 1rem 1rem;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.3px;
