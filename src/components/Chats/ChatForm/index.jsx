@@ -122,11 +122,14 @@ export const Buttons = styled.ul`
   span {
     width: 1px;
     height: 15px;
-    margin-right: 7px;
+    margin-right: 10px;
     border-left: 1px solid ${(props) => props.theme.color.gray};
   }
   svg {
-    margin-right: 8px;
+    margin-right: 15px;
+    &:nth-child(3) {
+      margin-right: 10px;
+    }
   }
 `;
 export const Button = styled.button`

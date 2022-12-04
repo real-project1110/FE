@@ -11,7 +11,6 @@ export const CloseContainer = styled.div`
 
 export const FreePostItemContainer = styled.div`
   ${FlexColumnBox};
-  padding: 0 2rem;
   margin-bottom: 11px;
 `;
 
@@ -124,7 +123,6 @@ export const PostImgWrap = styled.div`
 
 export const PostResponse = styled.div`
   margin-top: 20px;
-  display: flex;
 `;
 
 export const PostComment = styled.div`

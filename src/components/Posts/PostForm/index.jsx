@@ -139,9 +139,8 @@ function PostForm() {
           <Header>글쓰기</Header>
           <Carousel>
             <PhotoLabel htmlFor="input-file">
-              <div>
-                <FontAwesomeIcon icon={faImage} />
-              </div>
+              <FontAwesomeIcon icon={faImage} />
+
               <ImgInput
                 type="file"
                 id="input-file"
@@ -162,16 +161,15 @@ function PostForm() {
                     alt={`${image}-${idx}`}
                     onError={handleImgError}
                   />
-                  {isHover ? (
-                    <Delete
-                      onClick={(event) => {
-                        event.preventDefault();
-                        handleDeleteImage(idx);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faXmark} />
-                    </Delete>
-                  ) : null}
+
+                  <Delete
+                    onClick={(event) => {
+                      event.preventDefault();
+                      handleDeleteImage(idx);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faXmark} />
+                  </Delete>
                 </Preview>
               ))}
             </PreviewBox>

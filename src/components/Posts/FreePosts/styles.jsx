@@ -1,26 +1,60 @@
 import styled from "styled-components";
-import { FlexCenterBox } from "../../../shared/Styles/flex";
+import { FlexAlignBox, FlexCenterBox } from "../../../shared/Styles/flex";
+
+export const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  //background-color: #ffffff;
+  border-radius: 5px;
+  max-height: ${(props) => props.theme.bodyHeight.normal};
+  display: flex;
+  flex-direction: column;
+`;
+
+export const SearchForm = styled.form`
+  position: relative;
+  ${FlexAlignBox};
+  input {
+    width: 100%;
+    padding: 1rem 1.1rem;
+    background-color: ${(props) => props.theme.color.white};
+    border: none;
+    border-radius: 5px;
+    &::placeholder {
+      color: #aaaaaa;
+      font-size: 14px;
+    }
+  }
+  svg {
+    position: absolute;
+    right: 1.1rem;
+    color: #aaaaaa;
+  }
+  margin-bottom: 1rem;
+`;
 
 export const PostHeader = styled.div`
   width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  padding: 0 2rem;
+  margin: 1rem 0;
   display: flex;
   justify-content: space-between;
 `;
 
+export const FreePostTitle = styled.div`
+  font-weight: 600;
+  font-size: 1rem;
+`;
+
 export const PostPreview = styled.div`
   width: 100%;
-  padding: 0 2rem;
+  padding: 0;
   cursor: pointer;
 `;
 
 export const PostButtonTitle = styled.h3`
   width: 100%;
   font-weight: 600;
-  margin-top: 1rem;
-  margin-bottom: 11px;
+  margin-bottom: 1rem;
 `;
 
 export const PostButton = styled.div`
@@ -33,8 +67,9 @@ export const PostButton = styled.div`
 `;
 
 export const ButtonBar = styled.div`
+  ${FlexAlignBox};
   height: 37px;
-  padding: 0.7rem 1rem 0 1rem;
+  padding: 0 26px;
   background-color: ${(props) => props.theme.color.extraLightGray};
   //background-color: #f8f8f8;
   border-top-left-radius: 8px;

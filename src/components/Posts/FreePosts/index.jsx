@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { NoticeTitle, Wrapper } from "../NoticePosts/styles";
 import { useSetRecoilState } from "recoil";
 import { PostFormModalAtom } from "../../../recoil/modalAtoms";
 import { useReadFreePosts } from "../../../apis/postApi";
@@ -20,6 +19,9 @@ import {
   ButtonBar,
   ButtonContent,
   FakeBtn,
+  Wrapper,
+  FreePostTitle,
+  SearchForm,
 } from "./styles";
 import BoldSvg from "../../../assets/svg/BoldSvg";
 import ItalicSvg from "../../../assets/svg/ItalicSvg";
@@ -27,6 +29,7 @@ import ASvg from "../../../assets/svg/ASvg";
 import FileSvg from "../../../assets/svg/FileSvg";
 import EmojiSvg from "../../../assets/svg/EmojiSvg";
 import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
+import SearchSvg from "../../../assets/svg/SearchSvg";
 
 function FreePosts() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);
@@ -50,6 +53,10 @@ function FreePosts() {
 
   return (
     <Wrapper>
+      <SearchForm>
+        <input placeholder="글 내용, @작성자 검색" />
+        <SearchSvg />
+      </SearchForm>
       <PostPreview onClick={PostModalOpen}>
         <PostButtonTitle>새 글 작성</PostButtonTitle>
         <PostButton>
@@ -75,7 +82,7 @@ function FreePosts() {
         </PostButton>
       </PostPreview>
       <PostHeader>
-        <NoticeTitle>게시글</NoticeTitle>
+        <FreePostTitle>게시글</FreePostTitle>
         <New>
           <Newest>최신순</Newest>
           <NewestComment>최근댓글순</NewestComment>

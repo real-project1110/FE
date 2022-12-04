@@ -11,6 +11,6 @@ export const BoardWrap = styled.div`
   position: relative;
   display: grid;
   grid-template-columns: 1fr 0.8fr;
-  padding: 1% 2%;
+  padding: 24px 2%;
   gap: 2%;
 `;
