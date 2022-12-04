@@ -22,10 +22,19 @@ export const EditorWrapper = styled.div`
 export const Header = styled.div`
   width: 100%;
   height: 50px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   font-size: 1rem;
   font-weight: bold;
   line-height: 50px;
+`;
+
+export const Cancel = styled.div`
+  width: 20px;
+  height: 20px;
+  line-height: 60px;
+  margin-left: 90%;
+  cursor: pointer;
 `;
 
 export const Carousel = styled.div`

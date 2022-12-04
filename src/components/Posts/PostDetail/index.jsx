@@ -27,26 +27,23 @@ import {
   CommentCount,
   Content,
   FakeImg,
-  FreePost,
   ImageWrap,
-  LoadTime,
-  Nickname,
   PostComment,
   PostImgWrap,
   PostLike,
   PostLikeCount,
-  PostMenu,
   PostResponse,
-  PostUserInfo,
   UserImg,
 } from "../FreePostItem/styles";
 import {
+  Cancel,
   DetailPost,
   DetailPostUserBox,
   DetailPostUserInfo,
   DetailWrapper,
   PostContent,
 } from "./styles";
+import CancelSvg from "../../../assets/svg/CancelSvg";
 
 function PostDetail() {
   const { groupId } = useParams();
@@ -161,6 +158,9 @@ function PostDetail() {
                 <strong>{detail.groupUserNickname}</strong>
                 <span>{detail.createdAt.slice(0, 10)}</span>
               </DetailPostUserInfo>
+              <Cancel onClick={onCloseModal}>
+                <CancelSvg />
+              </Cancel>
             </DetailPostUserBox>
             <PostContent>
               <PostImgWrap>
