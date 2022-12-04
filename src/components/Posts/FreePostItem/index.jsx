@@ -171,23 +171,27 @@ const FreePostItem = ({ post, refetch }) => {
                 <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
               </PostUserDetail>
             </PostUserInfo>
-            {groupUser.groupUserId === post.groupUserId && (
-              <PostOption onClick={modalOpen}>
-                {openPostMenu ? (
-                  <MenuBox right={"0rem"} top={"1.2rem"}>
+            <PostOption onClick={modalOpen}>
+              {openPostMenu ? (
+                <MenuBox right={"0rem"} top={"1.2rem"}>
+                  {groupUser.groupUserId === post.groupUserId ? (
                     <MenuList>
                       <li onClick={onEditPost}>글 수정</li>
                       <li onClick={onTogglePost}>공지로 등록</li>
                       <li onClick={viewDetail}>상세 보기</li>
                       <li onClick={onDeletePost}>삭제</li>
                     </MenuList>
-                  </MenuBox>
-                ) : null}
-                <PostOptionSvg />
-              </PostOption>
-            )}
+                  ) : (
+                    <MenuList>
+                      <li onClick={viewDetail}>상세 보기</li>
+                    </MenuList>
+                  )}
+                </MenuBox>
+              ) : null}
+              <PostOptionSvg />
+            </PostOption>
           </PostMenu>
-          <PostContent>
+          <PostContent onClick={viewDetail}>
             <PostImgWrap>
               {post?.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>

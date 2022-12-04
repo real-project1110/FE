@@ -205,17 +205,6 @@ const Schedular = () => {
           theme: "light",
         });
       editMutate(editEvent);
-      toast.success("수정 완료 👍", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-
       // 일정 등록일 경우 실행
     } else {
       setMyEvents([...myEvents, newEvent]);
@@ -259,16 +248,6 @@ const Schedular = () => {
         });
       addMutate(addEvent);
       setAddTitle("");
-      toast.success("작성 완료 😎", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     }
     setSelectedDate(popupEventDate[0]);
     setOpen(false);
@@ -295,16 +274,6 @@ const Schedular = () => {
       };
       removeMutate(removeSchedule);
       setMyEvents(myEvents.filter((item) => item.id !== event.id));
-      toast.success("삭제되었습니다", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     },
     [myEvents, removeMutate, groupId]
   );
