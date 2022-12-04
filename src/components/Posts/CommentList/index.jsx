@@ -73,16 +73,6 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
     };
     addCommentMutate(commentData);
     setPostComment("");
-    toast.success("작성 완료!😁", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
   };
 
   const onChange = (e) => {

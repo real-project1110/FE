@@ -96,16 +96,6 @@ function Comment({
       },
     };
     editMutate(commentData);
-    toast.success("수정되었습니다", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
     setEditMyComment(false);
   }, [textValue, editMutate, comment.commentId, groupId]);
 
