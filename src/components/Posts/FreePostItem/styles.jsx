@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
+import {
+  FlexAlignBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../../shared/Styles/flex";
 
 export const CloseContainer = styled.div`
   position: fixed;
@@ -123,18 +127,17 @@ export const PostImgWrap = styled.div`
 
 export const PostResponse = styled.div`
   margin-top: 20px;
+  ${FlexAlignBox};
 `;
 
 export const PostComment = styled.div`
-  margin-top: -1.2px;
-  margin-left: 5%;
+  ${FlexAlignBox};
+  margin-left: 1.6rem;
   cursor: pointer;
 `;
 
 export const CommentCount = styled.span`
   margin-left: 5px;
-  margin-top: 3px;
-  position: absolute;
   font-weight: 300;
   font-size: 12px;
   color: #1c1c1c;
@@ -142,13 +145,34 @@ export const CommentCount = styled.span`
 
 export const PostLike = styled.span`
   cursor: pointer;
+  ${FlexAlignBox};
 `;
 
 export const PostLikeCount = styled.span`
   margin-left: 5px;
-  margin-top: 2px;
-  position: absolute;
   font-weight: 300;
   font-size: 12px;
   color: #1c1c1c;
+`;
+
+export const SpreadBtn = styled.div`
+  ${FlexCenterBox};
+  border: 1px solid #e7e7e7;
+  border-radius: 3px;
+  width: 16px;
+  height: 16px;
+  margin-left: 1.4rem;
+  cursor: pointer;
+  &:hover {
+    border-color: #c4c4c4;
+    svg {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  svg {
+    width: 10px;
+    color: rgba(0, 0, 0, 0.3);
+    transform: ${(props) =>
+      props.isSpread ? "rotateZ(180deg)" : "rotateZ(360deg)"};
+  }
 `;

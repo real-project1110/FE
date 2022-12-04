@@ -57,39 +57,39 @@ function FreePosts() {
         <input placeholder="글 내용, @작성자 검색" />
         <SearchSvg />
       </SearchForm>
-      <PostPreview onClick={PostModalOpen}>
-        <PostButtonTitle>새 글 작성</PostButtonTitle>
-        <PostButton>
-          <ButtonBar>
-            <Buttons>
-              <BoldSvg />
-              <ItalicSvg />
-              <ASvg />
-              <span />
-              <FileSvg />
-              <EmojiSvg />
-            </Buttons>
-          </ButtonBar>
-          <ButtonContent>
-            <span>글을 작성하려면 클릭하세요!</span>
-            <FakeBtn>
-              <span>게시</span>
-              <div>
-                <PostButtonSvg />
-              </div>
-            </FakeBtn>
-          </ButtonContent>
-        </PostButton>
-      </PostPreview>
-      <PostHeader>
-        <FreePostTitle>게시글</FreePostTitle>
-        <New>
-          <Newest>최신순</Newest>
-          <NewestComment>최근댓글순</NewestComment>
-        </New>
-      </PostHeader>
-      <AllFreePost>
-        <Scrollbars autoHide onScrollStop={fetchNextPage}>
+      <Scrollbars autoHide onScrollStop={fetchNextPage}>
+        <PostPreview onClick={PostModalOpen}>
+          <PostButtonTitle>새 글 작성</PostButtonTitle>
+          <PostButton>
+            <ButtonBar>
+              <Buttons>
+                <BoldSvg />
+                <ItalicSvg />
+                <ASvg />
+                <span />
+                <FileSvg />
+                <EmojiSvg />
+              </Buttons>
+            </ButtonBar>
+            <ButtonContent>
+              <span>글을 작성하려면 클릭하세요!</span>
+              <FakeBtn>
+                <span>게시</span>
+                <div>
+                  <PostButtonSvg />
+                </div>
+              </FakeBtn>
+            </ButtonContent>
+          </PostButton>
+        </PostPreview>
+        <PostHeader>
+          <FreePostTitle>게시글</FreePostTitle>
+          <New>
+            <Newest>최신순</Newest>
+            <NewestComment>최근댓글순</NewestComment>
+          </New>
+        </PostHeader>
+        <AllFreePost>
           {isSuccess && getPost?.pages
             ? getPost?.pages.map((page) => (
                 <React.Fragment key={page.currentPage}>
@@ -107,8 +107,8 @@ function FreePosts() {
                 </React.Fragment>
               ))
             : null}
-        </Scrollbars>
-      </AllFreePost>
+        </AllFreePost>
+      </Scrollbars>
     </Wrapper>
   );
 }

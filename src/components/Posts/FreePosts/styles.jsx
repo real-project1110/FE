@@ -9,13 +9,19 @@ export const Wrapper = styled.div`
   max-height: ${(props) => props.theme.bodyHeight.normal};
   display: flex;
   flex-direction: column;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const SearchForm = styled.form`
   position: relative;
   ${FlexAlignBox};
   input {
-    width: 100%;
+    width: 98%;
     padding: 1rem 1.1rem;
     background-color: ${(props) => props.theme.color.white};
     border: none;
@@ -27,14 +33,14 @@ export const SearchForm = styled.form`
   }
   svg {
     position: absolute;
-    right: 1.1rem;
+    right: calc(1.1rem + 1vw);
     color: #aaaaaa;
   }
   margin-bottom: 1rem;
 `;
 
 export const PostHeader = styled.div`
-  width: 100%;
+  width: 98%;
   margin: 1rem 0;
   display: flex;
   justify-content: space-between;
@@ -46,7 +52,7 @@ export const FreePostTitle = styled.div`
 `;
 
 export const PostPreview = styled.div`
-  width: 100%;
+  width: 98%;
   padding: 0;
   cursor: pointer;
 `;
@@ -106,11 +112,10 @@ export const FakeBtn = styled.div`
 
 export const AllFreePost = styled.div`
   height: 100%;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
+  width: 98%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 export const WritePost = styled.div`

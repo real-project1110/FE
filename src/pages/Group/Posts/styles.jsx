@@ -10,7 +10,7 @@ export const NoticeWrap = styled.div`
 export const BoardWrap = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 0.8fr;
+  grid-template-columns: 1fr 0.7fr;
   padding: 24px 2%;
-  gap: 2%;
+  gap: 1rem;
 `;

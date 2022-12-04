@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../..";
 import { postLike, removePost, togglePost } from "../../../apis/postApi";
+import ArrowSvg from "../../../assets/svg/ArrowSvg";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import LikeSvg from "../../../assets/svg/LikeSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
@@ -38,6 +39,7 @@ import {
   PostResponse,
   PostUserDetail,
   PostUserInfo,
+  SpreadBtn,
   UserImg,
 } from "./styles";
 
@@ -208,6 +210,9 @@ const FreePostItem = ({ post, refetch }) => {
               <CommentSvg />
               <CommentCount>{commentCount}</CommentCount>
             </PostComment>
+            <SpreadBtn onClick={() => openComment()} isSpread={CommentListOpen}>
+              <ArrowSvg />
+            </SpreadBtn>
           </PostResponse>
         </FreePost>
         {CommentListOpen ? (

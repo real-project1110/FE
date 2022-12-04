@@ -13,7 +13,7 @@ const ArrowSvg = ({ isActive = false }) => {
     >
       <path
         d="M10.59 0.294922L6 4.87492L1.41 0.294922L0 1.70492L6 7.70492L12 1.70492L10.59 0.294922Z"
-        fill="black"
+        fill="currentColor"
       />
     </Svg>
   );
