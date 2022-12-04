@@ -32,6 +32,14 @@ export const DetailPostUserBox = styled.div`
   padding: 1rem;
 `;
 
+export const Cancel = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-left: 77%;
+  margin-top: -10%;
+  cursor: pointer;
+`;
+
 export const DetailPostUserInfo = styled.div`
   ${FlexColumnBox};
   margin-left: 0.5rem;
