@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useMutation, useQuery } from "react-query";
 import { addComment, useReadComments } from "../../../apis/commentApi";
 import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
@@ -71,7 +73,16 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
     };
     addCommentMutate(commentData);
     setPostComment("");
-    alert("작성 완료!😁");
+    toast.success("작성 완료!😁", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const onChange = (e) => {
@@ -82,11 +93,21 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
     fetchNextPage();
     setPageSize((prev) => prev + 1);
     if (hasNextPage === false) {
-      alert("마지막 댓글입니다");
+      toast("마지막 댓글입니다", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
   return (
     <List>
+      <ToastContainer />
       {isSuccess && getComment?.pages
         ? getComment?.pages?.slice(0, pageSize)?.map((page) => (
             <React.Fragment key={page.currentPage}>

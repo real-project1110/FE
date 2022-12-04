@@ -1,8 +1,8 @@
-import { toast } from "@mobiscroll/react";
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { checkEmail, signup, checkEmailNum } from "../../apis/userApi";
 import Input from "../../components/Common/Elements/Input";
 import {
@@ -38,8 +38,6 @@ const Signup = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [checkIsAuth, setCheckIsAuth] = useState(false);
 
-  //const notify = () => toast("회원가입 성공!");
-
   const password = watch("password");
   const navigate = useNavigate();
 
@@ -50,13 +48,40 @@ const Signup = () => {
         delete data.emailNum;
         const response = await signup(data);
         if (response.status === 201) {
-          alert(response.data.message);
+          toast.success(response.data.message, {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           navigate("/");
         } else {
-          return alert("회원가입 실패");
+          return toast.error("회원가입 실패", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
       } else {
-        return alert("이메일 인증을 해주세요");
+        return toast.error("이메일 인증을 해주세요", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     },
     [navigate, isAuth]
@@ -67,10 +92,28 @@ const Signup = () => {
     e.preventDefault();
     const response = await checkEmail({ email: watch("email") });
     if (response.status === 200) {
-      alert("인증번호 발송");
+      toast.success("인증번호 발송", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setAuthEmailMode(true);
     } else if (response.status === 400) {
-      return alert("이미 가입된 이메일 입니다.");
+      return toast.error("이미 가입된 이메일 입니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -82,10 +125,28 @@ const Signup = () => {
       certificationNum: Number(watch("emailNum")),
     });
     if (response.status === 200) {
-      alert("인증성공");
+      toast.success("인증성공", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setIsAuth(true);
     } else {
-      alert("인증번호를 확인해주세요!");
+      toast.error("인증번호를 확인해주세요!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -95,6 +156,7 @@ const Signup = () => {
 
   return (
     <Wrapper>
+      <ToastContainer />
       <SignUpContainer>
         <SignUpLogo>
           <LogoBox onClick={() => navigate("/")}>
@@ -104,7 +166,6 @@ const Signup = () => {
         </SignUpLogo>
         <Title>이메일로 시작하기</Title>
         <JoinForm onSubmit={handleSubmit(onSubmit)}>
-          <ToastContainer />
           {checkIsAuth ? null : (
             <InputBox>
               <StTitle>이메일</StTitle>
@@ -127,21 +188,25 @@ const Signup = () => {
                   }
                 />
                 {authEmailMode ? (
-                  <AuthBtn
-                    style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
-                    isValid={errors.email}
-                    onClick={emailAuth}
-                  >
-                    인증번호 재발송
-                  </AuthBtn>
+                  <>
+                    <AuthBtn
+                      style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
+                      isValid={errors.email}
+                      onClick={emailAuth}
+                    >
+                      인증번호 재발송
+                    </AuthBtn>
+                  </>
                 ) : (
-                  <AuthBtn
-                    style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
-                    isValid={errors.email}
-                    onClick={emailAuth}
-                  >
-                    인증번호 발송
-                  </AuthBtn>
+                  <>
+                    <AuthBtn
+                      style={{ backgroundColor: "#58C08B", color: "#ffffff" }}
+                      isValid={errors.email}
+                      onClick={emailAuth}
+                    >
+                      인증번호 발송
+                    </AuthBtn>
+                  </>
                 )}
               </Label>
               <p

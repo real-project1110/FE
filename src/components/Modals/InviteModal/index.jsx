@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -50,7 +52,17 @@ const InviteModal = () => {
         id: groupId,
         body: { email: emails },
       });
-      if (response.status === 400) return alert("초대 실패");
+      if (response.status === 400)
+        return toast.error("초대 실패", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       setIsInviteModal(false);
       setEmails([]);
     },
@@ -62,6 +74,7 @@ const InviteModal = () => {
   }, []);
   return (
     <Wrapper onClick={() => setIsInviteModal(false)}>
+      <ToastContainer />
       <InviteForm
         onSubmit={handleSubmit(onValid)}
         onClick={(e) => e.stopPropagation()}

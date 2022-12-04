@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useMutation } from "react-query";
 import { useRecoilValue } from "recoil";
 import {
@@ -94,7 +96,16 @@ function Comment({
       },
     };
     editMutate(commentData);
-    alert("수정되었습니다");
+    toast.success("수정되었습니다", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     setEditMyComment(false);
   }, [textValue, editMutate, comment.commentId, groupId]);
 
@@ -106,7 +117,16 @@ function Comment({
     };
     if (window.confirm("정말 삭제하시겠습니까?") === true) {
       removeMutate(removeCommentData);
-      alert("삭제되었습니다");
+      toast.success("삭제되었습니다", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
       return;
     }
@@ -135,6 +155,7 @@ function Comment({
   if (!comment) return <div></div>;
   return (
     <>
+      <ToastContainer />
       {openCommentModal && <CloseContainer onClick={onCloseModal} />}
       <FreeComment detailMode={detailMode}>
         <CommentUserImg>
