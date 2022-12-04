@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useSetRecoilState } from "recoil";
 import { goChatRoom } from "../../../../apis/chatApis";
 import { chatUserAtom } from "../../../../recoil/userAtoms";
@@ -50,12 +52,22 @@ const UserItem = ({
       navigate(`/groups/${groupId}/chats/${roomId}`);
       setChatUser(user);
     } else {
-      return alert("채팅방 입장에 실패하였습니다.");
+      return toast.error("채팅방 입장에 실패하였습니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   return (
     <>
+      <ToastContainer />
       <UserContainer
         onMouseEnter={onHover}
         onMouseLeave={onLeave}

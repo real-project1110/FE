@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { queryClient } from "../..";
 import { addGroup, editGroupImage, inviteUsers } from "../../apis/groupApi";
 import CancelSvg from "../../assets/svg/CancelSvg";
@@ -63,7 +65,17 @@ const CreateGroup = () => {
           id: groupId,
           body: { email: emails },
         });
-        if (response.status === 400) return alert("초대 실패");
+        if (response.status === 400)
+          return toast.error("초대 실패", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         else {
           setEmails([]);
           setStep((prev) => prev + 1);
@@ -74,7 +86,17 @@ const CreateGroup = () => {
           id: groupId,
           body: { image: file },
         });
-        if (response.status === 400) return alert("이미지 등록 실패");
+        if (response.status === 400)
+          return toast.error("이미지 등록 실패", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         setStep((prev) => prev + 1);
         // 그룹 url로 이동
       } else if (step === 4) {
@@ -134,6 +156,7 @@ const CreateGroup = () => {
 
   return (
     <Wrapper as="main">
+      <ToastContainer />
       <Step isThree={step >= 3} isFour={step === 4}>
         {step}/3단계
       </Step>

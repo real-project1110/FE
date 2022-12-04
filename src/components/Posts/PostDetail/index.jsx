@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
@@ -106,7 +108,16 @@ function PostDetail() {
     };
     addCommentMutate(commentData);
     setPostComment("");
-    alert("작성 완료!😁");
+    toast.success("작성 완료!😁", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const toggleLike = useCallback(() => {
@@ -135,96 +146,98 @@ function PostDetail() {
   }, [detail]);
 
   return (
-    <DetailPost onClick={onCloseModal}>
-      <Scrollbars autoHide onScrollStop={fetchNextPage}>
-        <DetailWrapper onClick={(e) => e.stopPropagation()}>
-          <FreePost>
-            <PostMenu>
-              <PostUserInfo>
-                <UserImg>
-                  {detail.groupAvatarImg ? (
+    <>
+      <DetailPost onClick={onCloseModal}>
+        <Scrollbars autoHide onScrollStop={fetchNextPage}>
+          <DetailWrapper onClick={(e) => e.stopPropagation()}>
+            <FreePost>
+              <PostMenu>
+                <PostUserInfo>
+                  <UserImg>
+                    {detail.groupAvatarImg ? (
+                      <img
+                        src={detail.groupAvatarImg}
+                        alt="profile"
+                        onError={handleImgError}
+                      />
+                    ) : (
+                      <FakeImg />
+                    )}
+                  </UserImg>
+                  <Nickname>{detail.groupUserNickname}</Nickname>
+                  <LoadTime>{detail.createdAt.slice(0, 10)}</LoadTime>
+                </PostUserInfo>
+              </PostMenu>
+            </FreePost>
+            <PostContent>
+              <PostImgWrap>
+                {detail?.postImg?.map((Image) => (
+                  <ImageWrap key={Image.postImg}>
                     <img
-                      src={detail.groupAvatarImg}
-                      alt="profile"
+                      src={Image.postImg}
+                      alt="postImg"
                       onError={handleImgError}
                     />
-                  ) : (
-                    <FakeImg />
-                  )}
-                </UserImg>
-                <Nickname>{detail.groupUserNickname}</Nickname>
-                <LoadTime>{detail.createdAt.slice(0, 10)}</LoadTime>
-              </PostUserInfo>
-            </PostMenu>
-          </FreePost>
-          <PostContent>
-            <PostImgWrap>
-              {detail?.postImg?.map((Image) => (
-                <ImageWrap key={Image.postImg}>
-                  <img
-                    src={Image.postImg}
-                    alt="postImg"
-                    onError={handleImgError}
-                  />
-                </ImageWrap>
-              ))}
-            </PostImgWrap>
-            <Content>{detail.content}</Content>
-            <PostResponse>
-              <PostLike onClick={toggleLike}>
-                {detail.findLike ? <LikeSvg /> : <SpaceLikeSvg />}
-                <PostLikeCount>{detail.likeCount}</PostLikeCount>
-              </PostLike>
-              <PostComment>
-                <CommentSvg />
-                <CommentCount>{commentCount}</CommentCount>
-              </PostComment>
-            </PostResponse>
-          </PostContent>
-          <CommentForm>
-            {groupUser && groupUser.groupAvatarImg ? (
-              <CommentFormUserImg
-                src={groupUser.groupAvatarImg}
-                alt={groupUser.groupUserNickname}
-                onError={handleImgError}
+                  </ImageWrap>
+                ))}
+              </PostImgWrap>
+              <Content>{detail.content}</Content>
+              <PostResponse>
+                <PostLike onClick={toggleLike}>
+                  {detail.findLike ? <LikeSvg /> : <SpaceLikeSvg />}
+                  <PostLikeCount>{detail.likeCount}</PostLikeCount>
+                </PostLike>
+                <PostComment>
+                  <CommentSvg />
+                  <CommentCount>{commentCount}</CommentCount>
+                </PostComment>
+              </PostResponse>
+            </PostContent>
+            <CommentForm>
+              {groupUser && groupUser.groupAvatarImg ? (
+                <CommentFormUserImg
+                  src={groupUser.groupAvatarImg}
+                  alt={groupUser.groupUserNickname}
+                  onError={handleImgError}
+                />
+              ) : (
+                <FakeImg />
+              )}
+              <CommentInput
+                value={postComment}
+                placeholder="댓글을 남겨주세요."
+                type="text"
+                onChange={onChange}
+                onKeyPress={onKeyPress}
               />
-            ) : (
-              <FakeImg />
-            )}
-            <CommentInput
-              value={postComment}
-              placeholder="댓글을 남겨주세요."
-              type="text"
-              onChange={onChange}
-              onKeyPress={onKeyPress}
-            />
-            <CommentSubmitBtn onClick={Submit}>
-              <CommentPostSvg />
-            </CommentSubmitBtn>
-          </CommentForm>
-          {isSuccess && getComment?.pages
-            ? getComment?.pages.map((page) => (
-                <React.Fragment key={page.currentPage}>
-                  {page?.data.map((comment) => {
-                    return (
-                      <Comment
-                        nowRef={ref}
-                        key={comment.commentId}
-                        groupId={groupId}
-                        commentId={comment.commentId}
-                        comment={comment}
-                        refetch={refetch}
-                        setCommentCount={setCommentCount}
-                        detailMode={true}
-                      />
-                    );
-                  })}
-                </React.Fragment>
-              ))
-            : null}
-        </DetailWrapper>
-      </Scrollbars>
-    </DetailPost>
+              <CommentSubmitBtn onClick={Submit}>
+                <CommentPostSvg />
+              </CommentSubmitBtn>
+            </CommentForm>
+            {isSuccess && getComment?.pages
+              ? getComment?.pages.map((page) => (
+                  <React.Fragment key={page.currentPage}>
+                    {page?.data.map((comment) => {
+                      return (
+                        <Comment
+                          nowRef={ref}
+                          key={comment.commentId}
+                          groupId={groupId}
+                          commentId={comment.commentId}
+                          comment={comment}
+                          refetch={refetch}
+                          setCommentCount={setCommentCount}
+                          detailMode={true}
+                        />
+                      );
+                    })}
+                  </React.Fragment>
+                ))
+              : null}
+          </DetailWrapper>
+        </Scrollbars>
+      </DetailPost>
+    </>
   );
 }
 

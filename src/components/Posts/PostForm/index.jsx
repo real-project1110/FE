@@ -27,6 +27,8 @@ import {
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { handleImgError } from "../../../utils/handleImgError";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function PostForm() {
   const { groupId } = useParams();
@@ -48,7 +50,16 @@ function PostForm() {
   // 사진 업로드 미리보기 예외처리
   useEffect(() => {
     if (imagePreview.length > 5) {
-      alert("이미지는 5장까지 첨부가능합니다.");
+      toast.error("이미지는 5장까지 첨부가능합니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setImagePreview((prev) => prev.slice(0, 5));
     }
   }, [imagePreview]);
@@ -134,6 +145,7 @@ function PostForm() {
 
   return (
     <Wrapper onClick={onCloseModal}>
+      <ToastContainer />
       <EditorWrapper onClick={(e) => e.stopPropagation()}>
         <Editor onSubmit={Submit}>
           <Header>글쓰기</Header>
