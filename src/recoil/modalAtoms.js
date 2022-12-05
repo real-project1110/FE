@@ -41,3 +41,9 @@ export const PostDetailModalAtom = atom({
   key: "PostDetailModalAtom",
   default: false,
 });
+
+// post 삭제 여닫기 모달
+export const PostDeleteModalAtom = atom({
+  key: "PostDeleteModalAtom",
+  default: false,
+});
