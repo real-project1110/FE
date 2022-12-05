@@ -277,7 +277,7 @@ const Signup = () => {
                 errors={errors}
                 errorName={"nickname"}
                 _border={
-                  watch("nickname")?.length === 0
+                  !watch("nickname")
                     ? "#BBBBBB"
                     : errors.nickname
                     ? "#FF2D53"
@@ -308,7 +308,7 @@ const Signup = () => {
                 errors={errors}
                 errorName={"password"}
                 _border={
-                  watch("password")?.length === 0
+                  !watch("password")
                     ? "#BBBBBB"
                     : errors.password
                     ? "#FF2D53"
@@ -330,7 +330,7 @@ const Signup = () => {
                 errors={errors}
                 errorName={"confirm"}
                 _border={
-                  watch("confirm")?.length === 0
+                  !watch("confirm")
                     ? "#BBBBBB"
                     : errors.confirm
                     ? "#FF2D53"
@@ -341,7 +341,16 @@ const Signup = () => {
             </>
           ) : null}
           {checkIsAuth ? (
-            <Join>가입하기</Join>
+            <Join
+              isValid={
+                watch("nickname") &&
+                watch("password") &&
+                watch("confirm") &&
+                Object.values(errors).length === 0
+              }
+            >
+              가입하기
+            </Join>
           ) : (
             <>
               {isAuth ? (

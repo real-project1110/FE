@@ -44,6 +44,7 @@ import {
   PostContent,
 } from "./styles";
 import CancelSvg from "../../../assets/svg/CancelSvg";
+import getTime from "../../../utils/getTime";
 
 function PostDetail() {
   const { groupId } = useParams();
@@ -157,7 +158,7 @@ function PostDetail() {
               <DetailPostUserInfo>
                 <div>
                   <strong>{detail.groupUserNickname}</strong>
-                  <span>{detail.createdAt.slice(0, 10)}</span>
+                  <span>{getTime(detail.createdAt)}</span>
                 </div>
                 <Cancel onClick={onCloseModal}>
                   <CancelSvg />

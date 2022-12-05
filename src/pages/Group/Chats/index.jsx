@@ -27,11 +27,13 @@ const Chat = () => {
   const scrollRef = useRef(null);
   const [socket] = useSocket(groupId);
   const [pages, setPages] = useState(0);
+
   const {
     data: chatsData,
     fetchNextPage,
     hasNextPage,
   } = useChatApis.ReadChats(roomId);
+  const [height, setHeight] = useState(null);
 
   // 채팅방에 데이터가 없는지 확인 (없으면 true)
   const isEmpty = useMemo(() => chats && chats[0]?.length === 0, [chats]);
@@ -41,7 +43,6 @@ const Chat = () => {
     () => isEmpty || (chats && chats[chats.length - 1]?.length < 15) || false,
     [chats, isEmpty]
   );
-
   // 채팅 날짜별로 데이터를 묶어주는 함수
   const chatSections = useMemo(() => {
     if (!chats) return;
@@ -54,18 +55,19 @@ const Chat = () => {
       if (values.scrollTop === 0 && !isReachingEnd && hasNextPage) {
         fetchNextPage();
         setPages((prev) => prev + 1);
-        const current = scrollRef?.current;
-        if (current) {
-          setTimeout(() => {
-            current.scrollTop(
-              scrollRef?.current.getScrollHeight() - values.scrollHeight
-            );
-          }, 100);
-        }
+        setHeight(values);
       }
     },
     [isReachingEnd, fetchNextPage, hasNextPage]
   );
+  // *
+  // useEffect(() => {
+  //   if (chats && height) {
+  //     scrollRef?.current.scrollTop(
+  //       scrollRef?.current.getScrollHeight() - height?.scrollHeight
+  //     );
+  //   }
+  // }, [chats, height]);
 
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
@@ -98,9 +100,20 @@ const Chat = () => {
       chatsData &&
       chatsData.pages.length > 0 &&
       chatsData?.pages[pages]?.data
-    )
+    ) {
       setChats((prev) => [...prev, chatsData?.pages[pages]?.data]);
+    }
   }, [chatsData, pages]);
+
+  useEffect(() => {
+    if (height) {
+      setTimeout(() => {
+        scrollRef?.current.scrollTop(
+          scrollRef?.current.getScrollHeight() - height?.scrollHeight
+        );
+      }, 50);
+    }
+  }, [height]);
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
