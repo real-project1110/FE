@@ -70,14 +70,14 @@ const Chat = () => {
     [isReachingEnd, fetchNextPage, hasNextPage]
   );
 
-  useEffect(() => {
-    const current = scrollRef?.current;
-    if (current) {
-      console.log(current.getScrollHeight());
-      console.log(values.scrollHeight);
-      current.scrollTop(current.getScrollHeight() - values.scrollHeight);
-    }
-  });
+  // useEffect(() => {
+  //   const current = scrollRef?.current;
+  //   if (current) {
+  //     console.log(current.getScrollHeight());
+  //     console.log(values.scrollHeight);
+  //     current.scrollTop(current.getScrollHeight() - values.scrollHeight);
+  //   }
+  // });
 
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
