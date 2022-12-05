@@ -8,16 +8,15 @@ import React, {
 import Scrollbars from "react-custom-scrollbars-2";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import styled from "styled-components";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
 import useSocket from "../../../hooks/useSocket";
 import { groupUserAtom } from "../../../recoil/userAtoms";
-import { FlexCenterBox } from "../../../shared/Styles/flex";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
 import { chatUserAtom } from "../../../recoil/userAtoms";
 import { useChatApis } from "../../../apis/chatApis";
+import { ChatList, DayHeader, DaySection, Header, Wrapper } from "./styles";
 
 const Chat = () => {
   const { groupId, roomId } = useParams();
@@ -60,14 +59,6 @@ const Chat = () => {
     },
     [isReachingEnd, fetchNextPage, hasNextPage]
   );
-  // *
-  // useEffect(() => {
-  //   if (chats && height) {
-  //     scrollRef?.current.scrollTop(
-  //       scrollRef?.current.getScrollHeight() - height?.scrollHeight
-  //     );
-  //   }
-  // }, [chats, height]);
 
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
@@ -77,6 +68,17 @@ const Chat = () => {
       }, 100);
     }
   }, [chatsData]);
+
+  // 스크롤의 꼭대기를 찍었을 때 현재 height - 이전 height
+  useEffect(() => {
+    if (height) {
+      setTimeout(() => {
+        scrollRef?.current.scrollTop(
+          scrollRef?.current.getScrollHeight() - height?.scrollHeight
+        );
+      }, 50);
+    }
+  }, [height]);
 
   // 채팅방에 입장했을 때 소켓으로 입장 이벤트 보내기
   useEffect(() => {
@@ -104,16 +106,6 @@ const Chat = () => {
       setChats((prev) => [...prev, chatsData?.pages[pages]?.data]);
     }
   }, [chatsData, pages]);
-
-  useEffect(() => {
-    if (height) {
-      setTimeout(() => {
-        scrollRef?.current.scrollTop(
-          scrollRef?.current.getScrollHeight() - height?.scrollHeight
-        );
-      }, 50);
-    }
-  }, [height]);
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
@@ -185,72 +177,6 @@ const Chat = () => {
 };
 
 export default Chat;
-
-export const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: ${(props) => props.theme.boardColor.white};
-`;
-export const Header = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background-color: ${(props) => props.theme.color.white};
-  padding: 0.5rem 1rem;
-  img {
-    width: 2.4rem;
-    height: 2.4rem;
-    margin-right: 8px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  h3 {
-    font-weight: 500;
-    font-size: 1.1rem;
-  }
-`;
-export const ChatList = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: ${(props) => props.theme.boardColor.yellowGray};
-  height: 100%;
-  //padding: 3rem 0 0.7rem 0;
-`;
-
-export const DaySection = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 28px;
-  margin-top: 3rem;
-`;
-
-export const DayHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  flex: 1;
-  width: 100%;
-  //position: sticky;
-  top: 14px;
-  border-top: 1px solid ${(props) => props.theme.color.gray};
-  & button {
-    ${FlexCenterBox};
-    position: relative;
-    top: -15px;
-    z-index: 2;
-    height: 28px;
-    padding: 10px;
-    color: ${(props) => props.theme.color.gray};
-    font-size: 14px;
-    line-height: 27px;
-    background: ${(props) => props.theme.boardColor.yellowGray};
-    border: 1px solid ${(props) => props.theme.color.gray};
-    border-radius: 24px;
-    outline: none;
-  }
-`;
 
 //import { groupAtom } from "../../../recoil/groupAtoms";
 //import { queryClient } from "../../..";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useParams } from "react-router-dom";
 import CalendarSvg from "../../../assets/svg/CalendarSvg";
 import PostSvg from "../../../assets/svg/PostSvg";
 import {
@@ -16,23 +16,26 @@ import { groupAtom } from "../../../recoil/groupAtoms";
 import ConfigSvg from "../../../assets/svg/ConfigSvg";
 import GroupEditModal from "../../Modals/GroupEditModal";
 import MySvg from "../../../assets/svg/MySvg";
+import { decodeUser } from "../../../utils/decodeUser";
+import { useMemo } from "react";
 
 const TeamNavBar = () => {
   const group = useRecoilValue(groupAtom);
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
-
   const [isEdit, setIsEdit] = useState(false);
-
+  const user = useMemo(() => decodeUser(), []);
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>
         <GroupNav>
           <GroupInfo>
             <h3>{group && group.groupName}</h3>
-            <GroupConfig onClick={() => setIsEdit(true)}>
-              <ConfigSvg />
-            </GroupConfig>
+            {user && group && user.userId === group.onerId && (
+              <GroupConfig onClick={() => setIsEdit(true)}>
+                <ConfigSvg />
+              </GroupConfig>
+            )}
           </GroupInfo>
 
           <Link to={`/groups/${group?.groupId}`}>
