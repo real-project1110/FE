@@ -5,7 +5,6 @@ import { PostFormModalAtom } from "../../../recoil/modalAtoms";
 import { useReadFreePosts } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import { Buttons } from "../../Chats/ChatForm";
 import FreePostItem from "../FreePostItem";
 import {
   PostHeader,
@@ -30,6 +29,7 @@ import FileSvg from "../../../assets/svg/FileSvg";
 import EmojiSvg from "../../../assets/svg/EmojiSvg";
 import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
 import SearchSvg from "../../../assets/svg/SearchSvg";
+import { Buttons } from "../../Chats/ChatForm/styles";
 
 function FreePosts() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);

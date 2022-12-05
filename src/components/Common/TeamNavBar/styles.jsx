@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {
   FlexAlignBox,
   FlexBetweenBox,
-  FlexCenterBox,
   FlexColumnBox,
 } from "../../../shared/Styles/flex";
 
