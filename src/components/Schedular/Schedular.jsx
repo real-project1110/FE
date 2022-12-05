@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Eventcalendar,
-  setOptions,
-  Popup,
-  Button,
-  Input,
-  Textarea,
-  Datepicker,
-} from "@mobiscroll/react";
+import { Eventcalendar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
 import { useState, useCallback, useMemo, useRef } from "react";
 import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
@@ -15,13 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useMutation, useQuery } from "react-query";
-import {
-  addSchedule,
-  DragResizeSchedule,
-  editSchedule,
-  readSchedule,
-  removeSchedule,
-} from "../../apis/scheduleApi";
+import { addSchedule, DragResizeSchedule, editSchedule, readSchedule, removeSchedule } from "../../apis/scheduleApi";
 import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
@@ -82,37 +68,33 @@ const Schedular = () => {
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { refetch } = useQuery(
-    ["schedules", groupId],
-    () => readSchedule(groupId),
-    {
-      refetchOnWindowFocus: false,
-      retry: 1,
-      onSuccess: (data) => {
-        setMyEvents(
-          data.map((schedule) => {
-            return {
-              ...schedule,
-              start: new Date(+schedule.start),
-              end: new Date(+schedule.end),
-            };
-          })
-        );
-      },
-      onError: (e) => {
-        toast.error(e.message, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      },
-    }
-  );
+  const { refetch } = useQuery(["schedules", groupId], () => readSchedule(groupId), {
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onSuccess: (data) => {
+      setMyEvents(
+        data.map((schedule) => {
+          return {
+            ...schedule,
+            start: new Date(+schedule.start),
+            end: new Date(+schedule.end),
+          };
+        })
+      );
+    },
+    onError: (e) => {
+      toast.error(e.message, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
+  });
 
   // 스케쥴을 추가하는 요청
   const { mutate: addMutate } = useMutation(addSchedule, {
@@ -251,19 +233,7 @@ const Schedular = () => {
     }
     setSelectedDate(popupEventDate[0]);
     setOpen(false);
-  }, [
-    isEdit,
-    myEvents,
-    popupEventDate,
-    popupEventDescription,
-    popupEventTitle,
-    tempEvent,
-    selectedColor,
-    addMutate,
-    editMutate,
-    groupId,
-    addTitle,
-  ]);
+  }, [isEdit, myEvents, popupEventDate, popupEventDescription, popupEventTitle, tempEvent, selectedColor, addMutate, editMutate, groupId, addTitle]);
 
   // 스케쥴을 삭제할 때 발생하는 함수
   const deleteEvent = useCallback(
@@ -356,8 +326,7 @@ const Schedular = () => {
 
   // 드래그앤 드롭, 리사이징 수정부분 api 요청
   const onEventUpdated = useCallback((args) => {
-    const { scheduleId, title, description, start, end, color, groupId } =
-      args.event;
+    const { scheduleId, title, description, start, end, color, groupId } = args.event;
 
     const editEvent = {
       scheduleId,
@@ -374,10 +343,7 @@ const Schedular = () => {
   }, []);
 
   // 팝업의 Header 텍스트
-  const headerText = useMemo(
-    () => (isEdit ? "일정 수정" : "일정 추가"),
-    [isEdit]
-  );
+  const headerText = useMemo(() => (isEdit ? "일정 수정" : "일정 추가"), [isEdit]);
 
   // 팝업의 버튼 이름 등
   const popupButtons = useMemo(() => {
@@ -475,46 +441,20 @@ const Schedular = () => {
         responsive={responsivePopup}
       >
         <div className="mbsc-form-group">
-          <Input
-            label="이름"
-            value={isEdit ? popupEventTitle : addTitle}
-            onChange={titleChange}
-            required="required"
-          />
-          <Textarea
-            label="상세 내용"
-            value={popupEventDescription}
-            onChange={descriptionChange}
-            required="required"
-          />
+          <Input label="이름" value={isEdit ? popupEventTitle : addTitle} onChange={titleChange} required="required" />
+          <Textarea label="상세 내용" value={popupEventDescription} onChange={descriptionChange} required="required" />
         </div>
         <div className="mbsc-form-group">
           <Input ref={startRef} label="시작 날짜" />
           <Input ref={endRef} label="종료 날짜" />
-          <Datepicker
-            select="range"
-            touchUi={true}
-            startInput={start}
-            endInput={end}
-            showRangeLabels={false}
-            onChange={dateChange}
-            value={popupEventDate}
-          />
+          <Datepicker select="range" touchUi={true} startInput={start} endInput={end} showRangeLabels={false} onChange={dateChange} value={popupEventDate} />
           <div onClick={openColorPicker} className="event-color-c">
             <div className="event-color-label">Color</div>
-            <div
-              className="event-color"
-              style={{ background: selectedColor }}
-            ></div>
+            <div className="event-color" style={{ background: selectedColor }}></div>
           </div>
           {isEdit ? (
             <div className="mbsc-button-group">
-              <Button
-                className="mbsc-button-block"
-                color="danger"
-                variant="outline"
-                onClick={onDeleteClick}
-              >
+              <Button className="mbsc-button-block" color="danger" variant="outline" onClick={onDeleteClick}>
                 일정 삭제하기
               </Button>
             </div>
@@ -536,18 +476,8 @@ const Schedular = () => {
           {colors?.map((color, index) => {
             if (index < 5) {
               return (
-                <div
-                  key={index}
-                  onClick={changeColor}
-                  className={
-                    "crud-color-c " + (tempColor === color ? "selected" : "")
-                  }
-                  data-value={color}
-                >
-                  <div
-                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                    style={{ background: color }}
-                  ></div>
+                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
+                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
                 </div>
               );
             } else return null;
@@ -557,18 +487,8 @@ const Schedular = () => {
           {colors?.map((color, index) => {
             if (index >= 5) {
               return (
-                <div
-                  key={index}
-                  onClick={changeColor}
-                  className={
-                    "crud-color-c " + (tempColor === color ? "selected" : "")
-                  }
-                  data-value={color}
-                >
-                  <div
-                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                    style={{ background: color }}
-                  ></div>
+                <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
+                  <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
                 </div>
               );
             } else return null;
