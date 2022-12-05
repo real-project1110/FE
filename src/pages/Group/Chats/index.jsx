@@ -18,20 +18,15 @@ import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
 import { chatUserAtom } from "../../../recoil/userAtoms";
 import { useChatApis } from "../../../apis/chatApis";
-//import { groupAtom } from "../../../recoil/groupAtoms";
-//import { queryClient } from "../../..";
 
 const Chat = () => {
   const { groupId, roomId } = useParams();
   const [chats, setChats] = useState([]);
   const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
-  //const group = useRecoilValue(groupAtom);
   const scrollRef = useRef(null);
-  //const navigate = useNavigate();
   const [socket] = useSocket(groupId);
   const [pages, setPages] = useState(0);
-
   const {
     data: chatsData,
     fetchNextPage,
@@ -59,32 +54,27 @@ const Chat = () => {
       if (values.scrollTop === 0 && !isReachingEnd && hasNextPage) {
         fetchNextPage();
         setPages((prev) => prev + 1);
-        //   setSize((prevSize) => prevSize + 1).then(() => {
-        //     // 스크롤 위치 유지
-        //     const current = scrollRef?.current;
-        //     if (current) {
-        //       current.scrollTop(current.getScrollHeight() - values.scrollHeight);
-        //     }
+        const current = scrollRef?.current;
+        if (current) {
+          setTimeout(() => {
+            current.scrollTop(
+              scrollRef?.current.getScrollHeight() - values.scrollHeight
+            );
+          }, 100);
+        }
       }
     },
     [isReachingEnd, fetchNextPage, hasNextPage]
   );
 
-  // useEffect(() => {
-  //   const current = scrollRef?.current;
-  //   if (current) {
-  //     console.log(current.getScrollHeight());
-  //     console.log(values.scrollHeight);
-  //     current.scrollTop(current.getScrollHeight() - values.scrollHeight);
-  //   }
-  // });
-
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
-    setTimeout(() => {
-      scrollRef.current?.scrollToBottom();
-    }, 100);
-  }, []);
+    if (chatsData?.pages.length === 1) {
+      setTimeout(() => {
+        scrollRef.current?.scrollToBottom();
+      }, 100);
+    }
+  }, [chatsData]);
 
   // 채팅방에 입장했을 때 소켓으로 입장 이벤트 보내기
   useEffect(() => {
@@ -248,6 +238,10 @@ export const DayHeader = styled.div`
     outline: none;
   }
 `;
+
+//import { groupAtom } from "../../../recoil/groupAtoms";
+//import { queryClient } from "../../..";
+//const navigate = useNavigate();
 
 // useEffect(() => {
 //   (async () => await queryClient.invalidateQueries(["group", groupId]))();

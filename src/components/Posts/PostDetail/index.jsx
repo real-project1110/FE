@@ -155,12 +155,14 @@ function PostDetail() {
                 )}
               </UserImg>
               <DetailPostUserInfo>
-                <strong>{detail.groupUserNickname}</strong>
-                <span>{detail.createdAt.slice(0, 10)}</span>
+                <div>
+                  <strong>{detail.groupUserNickname}</strong>
+                  <span>{detail.createdAt.slice(0, 10)}</span>
+                </div>
+                <Cancel onClick={onCloseModal}>
+                  <CancelSvg />
+                </Cancel>
               </DetailPostUserInfo>
-              <Cancel onClick={onCloseModal}>
-                <CancelSvg />
-              </Cancel>
             </DetailPostUserBox>
             <PostContent>
               <PostImgWrap>

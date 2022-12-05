@@ -34,7 +34,7 @@ export const CommentInput = styled.input`
 export const CommentSubmitBtn = styled.button`
   ${FlexCenterBox};
   padding: 0.5rem 0;
-  width: 7rem;
+  width: 3rem;
   display: flex;
   border: none;
   border-radius: 5px;
