@@ -38,22 +38,20 @@ const Chat = () => {
     hasNextPage,
   } = useChatApis.ReadChats(roomId);
 
+  // 채팅방에 데이터가 없는지 확인 (없으면 true)
   const isEmpty = useMemo(() => chats && chats[0]?.length === 0, [chats]);
 
+  // 스크롤을 올려도 가져올 데이터가 없다면 true
   const isReachingEnd = useMemo(
     () => isEmpty || (chats && chats[chats.length - 1]?.length < 15) || false,
     [chats, isEmpty]
   );
 
+  // 채팅 날짜별로 데이터를 묶어주는 함수
   const chatSections = useMemo(() => {
     if (!chats) return;
     return makeSection(chats ? chats.flat().reverse() : []);
   }, [chats]);
-
-  // const sectionsLen = useMemo(() => {
-  //   if (!chatSections) return;
-  //   return Object.keys(chatSections).length;
-  // }, [chatSections]);
 
   // 스크롤 이벤트  ( 스크롤이 가장 위로 도달하였을 때 데이터를 불러오는 함수 )
   const onScroll = useCallback(
@@ -61,10 +59,6 @@ const Chat = () => {
       if (values.scrollTop === 0 && !isReachingEnd && hasNextPage) {
         fetchNextPage();
         setPages((prev) => prev + 1);
-        // const current = scrollRef?.current;
-        // if (current) {
-        //   current.scrollTop(current.getScrollHeight() - values.scrollHeight);
-        // }
         //   setSize((prevSize) => prevSize + 1).then(() => {
         //     // 스크롤 위치 유지
         //     const current = scrollRef?.current;
@@ -76,16 +70,39 @@ const Chat = () => {
     [isReachingEnd, fetchNextPage, hasNextPage]
   );
 
-  // chats의 값이 변화할 때마다 스크롤을 밑으로 보냄
   useEffect(() => {
-    if (chats) {
-      scrollRef.current?.scrollToBottom();
+    const current = scrollRef?.current;
+    if (current) {
+      console.log(current.getScrollHeight());
+      console.log(values.scrollHeight);
+      current.scrollTop(current.getScrollHeight() - values.scrollHeight);
     }
-    // if (sectionsLen) {
-    //   scrollReㅇf.current?.scrollToBottom();
-    // }
-  }, [chats]);
+  });
 
+  // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
+  useEffect(() => {
+    setTimeout(() => {
+      scrollRef.current?.scrollToBottom();
+    }, 100);
+  }, []);
+
+  // 채팅방에 입장했을 때 소켓으로 입장 이벤트 보내기
+  useEffect(() => {
+    if (roomId && me) {
+      socket.emit("joinRoom", { roomId, groupUserId: me?.groupUserId });
+    }
+  }, [groupId, socket, roomId, me]);
+
+  // 채팅방에 입장했을 때 시간 저장
+  useEffect(() => {
+    localStorage.setItem(
+      `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
+      //new Date()
+      new Date().getTime().toString()
+    );
+  }, [groupId, roomId, me, otherUser]);
+
+  // 스크롤을 올릴 때 state에 데이터 추가 (무한스크롤)
   useEffect(() => {
     if (
       chatsData &&
@@ -95,19 +112,15 @@ const Chat = () => {
       setChats((prev) => [...prev, chatsData?.pages[pages]?.data]);
   }, [chatsData, pages]);
 
-  useEffect(() => {
-    if (roomId && me) {
-      socket.emit("joinRoom", { roomId, groupUserId: me?.groupUserId });
-    }
-  }, [groupId, socket, roomId, me]);
-
-  // 메세지를 받을 때 마다 실행 (해당 룸에 대한 로컬 스토리지의 시간 값을 갱신 )
+  // 메세지를 받을 때 마다 실행
   useEffect(() => {
     socket.on("message", (data) => {
+      // 채팅방 접속 시간 갱신
       localStorage.setItem(
         `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
         new Date().getTime().toString()
       );
+      // 내가 보낸 메시지가 아니라면 state에 추가
       if (data.groupUserId !== me?.groupUserId) {
         setChats((prev) => [data, ...prev]);
       }
@@ -123,22 +136,6 @@ const Chat = () => {
       socket.off("joinRoom");
     };
   }, [socket, me, roomId]);
-
-  // 채팅방에 입장했을 때 시간 저장
-  useEffect(() => {
-    localStorage.setItem(
-      `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
-      //new Date()
-      new Date().getTime().toString()
-    );
-  }, [groupId, roomId, me, otherUser]);
-
-  // useEffect(() => {
-  //   (async () => await queryClient.invalidateQueries(["group", groupId]))();
-  //   if (group && !group.roomIds.includes(+roomId)) {
-  //     navigate(-1);
-  //   }
-  // }, [group, roomId, navigate, groupId]);
 
   return (
     <Wrapper as="main">
@@ -251,3 +248,10 @@ export const DayHeader = styled.div`
     outline: none;
   }
 `;
+
+// useEffect(() => {
+//   (async () => await queryClient.invalidateQueries(["group", groupId]))();
+//   if (group && !group.roomIds.includes(+roomId)) {
+//     navigate(-1);
+//   }
+// }, [group, roomId, navigate, groupId]);
