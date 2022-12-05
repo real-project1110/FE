@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import CalendarSvg from "../../../assets/svg/CalendarSvg";
-import FolderSvg from "../../../assets/svg/FolderSvg";
 import PostSvg from "../../../assets/svg/PostSvg";
 import {
   GroupConfig,
@@ -16,6 +15,7 @@ import { useRecoilValue } from "recoil";
 import { groupAtom } from "../../../recoil/groupAtoms";
 import ConfigSvg from "../../../assets/svg/ConfigSvg";
 import GroupEditModal from "../../Modals/GroupEditModal";
+import MySvg from "../../../assets/svg/MySvg";
 
 const TeamNavBar = () => {
   const group = useRecoilValue(groupAtom);
@@ -49,8 +49,8 @@ const TeamNavBar = () => {
           </Link>
           <Link to={"#"}>
             <GroupNavItem>
-              <FolderSvg />
-              <strong>프로젝트</strong>
+              <MySvg />
+              <strong>MY</strong>
             </GroupNavItem>
           </Link>
         </GroupNav>
