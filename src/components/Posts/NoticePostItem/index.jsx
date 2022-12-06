@@ -13,20 +13,7 @@ import getTime from "../../../utils/getTime";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
 import { CloseContainer, MenuList, PostOption } from "../FreePostItem/styles";
-import {
-  ContentBox,
-  LikeCount,
-  Post,
-  PostContent,
-  PostDate,
-  PostImg,
-  PostInfo,
-  PostInfoWrap,
-  PostLike,
-  PostWriter,
-  TitleWrap,
-  Vector,
-} from "./styles";
+import { ContentBox, LikeCount, Post, PostContent, PostDate, PostImg, PostInfo, PostInfoWrap, PostLike, PostWriter, TitleWrap, Vector } from "./styles";
 
 function NoticePostItem({ groupId, ref, notice, refetch }) {
   const [openPostMenu, setOpenPostMenu] = useState(false);
@@ -107,17 +94,11 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
   return (
     <>
       {openPostMenu && <CloseContainer onClick={onCloseModal} />}
-      <Post newRef={ref} key={notice.postId} onClick={viewDetail}>
-        {notice?.postImg[0] && (
-          <PostImg
-            src={notice.postImg[0].postImg}
-            alt={notice.groupUserNickname}
-            onError={handleImgError}
-          />
-        )}
+      <Post newRef={ref} key={notice.postId}>
+        {notice?.postImg[0] && <PostImg src={notice.postImg[0].postImg} alt={notice.groupUserNickname} onError={handleImgError} />}
         <ContentBox>
           <TitleWrap>
-            <PostContent>{notice.content}</PostContent>
+            <PostContent onClick={viewDetail}>{notice.content}</PostContent>
             <PostOption onClick={modalOpen}>
               {openPostMenu ? (
                 <MenuBox right={"1rem"} top={"1.2rem"}>
