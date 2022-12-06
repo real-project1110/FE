@@ -10,12 +10,14 @@ import Group from "../../pages/Group";
 import Signup from "../../pages/Signup";
 import Chats from "../../pages/Group/Chats";
 import KakaoLogin from "../../pages/Social/KakaoLogin";
+import Start from "../../pages/Start";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Start />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/signup" element={<Signup />} />
