@@ -9,6 +9,7 @@ import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import { PostDetailAtom } from "../../../recoil/groupAtoms";
 import { PostDetailModalAtom } from "../../../recoil/modalAtoms";
 import { groupUserAtom } from "../../../recoil/userAtoms";
+import getTime from "../../../utils/getTime";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
 import { CloseContainer, MenuList, PostOption } from "../FreePostItem/styles";
@@ -140,7 +141,7 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
             <PostInfo>
               <PostWriter>{notice.groupUserNickname}</PostWriter>
               <Vector>|</Vector>
-              <PostDate>{notice.createdAt.slice(0, 10)}</PostDate>
+              <PostDate>{getTime(notice.createdAt)}</PostDate>
             </PostInfo>
             <PostLike onClick={toggleLike}>
               {notice.findLike ? <LikeSvg /> : <SpaceLikeSvg />}

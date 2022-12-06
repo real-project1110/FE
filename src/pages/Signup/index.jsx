@@ -258,7 +258,7 @@ const Signup = () => {
                 type={"nickname"}
                 errors={errors}
                 errorName={"nickname"}
-                _border={watch("nickname")?.length === 0 ? "#BBBBBB" : errors.nickname ? "#FF2D53" : "#5FCB94"}
+                _border={!watch("nickname") ? "#BBBBBB" : errors.nickname ? "#FF2D53" : "#5FCB94"}
                 label={"닉네임"}
               />
               <Input
@@ -303,7 +303,7 @@ const Signup = () => {
             </>
           ) : null}
           {checkIsAuth ? (
-            <Join>가입하기</Join>
+            <Join isValid={watch("nickname") && watch("password") && watch("confirm") && Object.values(errors).length === 0}>가입하기</Join>
           ) : (
             <>{isAuth ? <SuccessNextButton onClick={nextStep}>다음 단계</SuccessNextButton> : <NextButton disabled>다음 단계</NextButton>}</>
           )}

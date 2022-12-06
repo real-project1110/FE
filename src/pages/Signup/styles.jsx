@@ -81,7 +81,8 @@ export const Join = styled.button`
   width: 100%;
   height: 43px;
   margin-top: 10%;
-  background-color: ${(props) => props.theme.color.green};
+  background-color: ${(props) =>
+    props.isValid ? props.theme.color.green : props.theme.color.gray};
   border-radius: 5px;
   color: #ffffff;
   font-weight: 500;
@@ -105,4 +106,8 @@ export const NextButton = styled.button`
 
 export const SuccessNextButton = styled(NextButton)`
   background-color: ${(props) => props.theme.color.green};
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.color.hoverGreen};
+  }
 `;

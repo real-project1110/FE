@@ -5,15 +5,15 @@ export const Wrapper = styled.div`
   ${FlexAlignBox};
   position: relative;
   width: 100%;
-  height: 80px;
+  height: ${(props) => props.theme.headerHeight};
   background-color: ${(props) => props.theme.layoutColor.white};
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0 3rem;
 `;
 
 export const Nav = styled.div`
-  display: grid;
-  grid-template-columns: 10rem 1fr 10rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   z-index: 100;

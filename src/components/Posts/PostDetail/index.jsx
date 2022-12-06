@@ -24,6 +24,7 @@ import { CommentCount, Content, FakeImg, PostComment, PostImgWrap, PostLike, Pos
 import { Cancel, DetailPost, DetailPostUserBox, DetailPostUserInfo, DetailWrapper, Images, PostContent } from "./styles";
 import ImageModal from "../ImageModal";
 import CancelSvg from "../../../assets/svg/CancelSvg";
+import getTime from "../../../utils/getTime";
 
 function PostDetail() {
   const { groupId } = useParams();
@@ -139,12 +140,14 @@ function PostDetail() {
             <DetailPostUserBox>
               <UserImg>{detail.groupAvatarImg ? <img src={detail.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
               <DetailPostUserInfo>
-                <strong>{detail.groupUserNickname}</strong>
-                <span>{detail.createdAt.slice(0, 10)}</span>
+                <div>
+                  <strong>{detail.groupUserNickname}</strong>
+                  <span>{getTime(detail.createdAt)}</span>
+                </div>
+                <Cancel onClick={onCloseModal}>
+                  <CancelSvg />
+                </Cancel>
               </DetailPostUserInfo>
-              <Cancel onClick={onCloseModal}>
-                <CancelSvg />
-              </Cancel>
             </DetailPostUserBox>
             <PostContent>
               <PostImgWrap>

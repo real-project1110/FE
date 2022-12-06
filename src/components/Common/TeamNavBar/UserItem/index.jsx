@@ -9,7 +9,13 @@ import { chatUserAtom } from "../../../../recoil/userAtoms";
 
 import { getIcon } from "../../../../utils/getIcon";
 import { handleImgError } from "../../../../utils/handleImgError";
-import { Icon, UserContainer, UserImg, UserStatusModal } from "./styles";
+import {
+  Icon,
+  UserContainer,
+  UserImg,
+  UserStatusModal,
+  UnReadBox,
+} from "./styles";
 
 const UserItem = ({
   user,
@@ -26,7 +32,7 @@ const UserItem = ({
   const [chatCount, setChatCount] = useState(0);
 
   const { data: unreadCount } = useQuery(
-    ["unread", user.groupUserId],
+    ["unread", myUserData?.groupUserId, user?.groupUserId],
     () =>
       readUnread({
         sender: Math.min(user?.groupUserId, myUserData?.groupUserId),
@@ -100,14 +106,15 @@ const UserItem = ({
             alt={user.groupUserNickname}
             onError={handleImgError}
           />
-          {isLoggedIn ? <div /> : null}
+          {isLoggedIn || isMe ? <div /> : null}
         </UserImg>
         <span>
           {user.groupUserNickname}
           {isMe && <strong>나</strong>}
         </span>
-        {chatCount > 0 && chatCount}
+
         <Icon>{getIcon(isMe ? status : user?.status)}</Icon>
+        {chatCount > 0 && <UnReadBox>{chatCount}</UnReadBox>}
         {isHover && user?.statusMessage && (
           <UserStatusModal style={{ left: mouseX + 20, top: mouseY - 20 }}>
             {user?.statusMessage}

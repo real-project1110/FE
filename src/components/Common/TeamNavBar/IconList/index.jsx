@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Icon, MessageModal, StatusIcons } from "./styles";
-
+import { getIcon } from "../../../../utils/getIcon";
 const IconList = ({ status, changeStatus, groupId, editStatusFn }) => {
   const { register, handleSubmit, reset } = useForm();
   const [showForm, setShowForm] = useState(false);
@@ -45,22 +45,22 @@ const IconList = ({ status, changeStatus, groupId, editStatusFn }) => {
     <>
       <StatusIcons>
         <Icon isFocus={1 === status} onClick={() => iconClick(1)}>
-          🗓
+          {getIcon(1)}
         </Icon>
         <Icon isFocus={2 === status} onClick={() => iconClick(2)}>
-          🌴
+          {getIcon(2)}
         </Icon>
         <Icon isFocus={3 === status} onClick={() => iconClick(3)}>
-          🤒
+          {getIcon(3)}
         </Icon>
         <Icon isFocus={4 === status} onClick={() => iconClick(4)}>
-          🏡
+          {getIcon(4)}
         </Icon>
         <Icon isFocus={5 === status} onClick={() => iconClick(5)}>
-          🚌
+          {getIcon(5)}
         </Icon>
         <Icon isFocus={6 === status} onClick={() => iconClick(6)}>
-          💬
+          {getIcon(6)}
         </Icon>
       </StatusIcons>
       {showForm && (

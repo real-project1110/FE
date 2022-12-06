@@ -12,6 +12,7 @@ import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import { editPostAtom, PostDetailAtom } from "../../../recoil/groupAtoms";
 import { PostDeleteModalAtom, PostDetailModalAtom, PostFormModalAtom } from "../../../recoil/modalAtoms";
 import { groupUserAtom } from "../../../recoil/userAtoms";
+import getTime from "../../../utils/getTime";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
 import CommentList from "../CommentList";
@@ -149,7 +150,7 @@ const FreePostItem = ({ post, refetch }) => {
               <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
               <PostUserDetail>
                 <Nickname>{post.groupUserNickname}</Nickname>
-                <LoadTime>{post.createdAt.slice(0, 10)}</LoadTime>
+                <LoadTime>{getTime(post.createdAt)}</LoadTime>
               </PostUserDetail>
             </PostUserInfo>
             <PostOption onClick={modalOpen}>

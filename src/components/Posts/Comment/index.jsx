@@ -37,6 +37,7 @@ import {
   MenuList,
   Nickname,
 } from "./styles";
+import getTime from "../../../utils/getTime";
 
 function Comment({
   comment,
@@ -176,7 +177,7 @@ function Comment({
           </CommentHeader>
           <CommentContent>{comment.comment}</CommentContent>
           <CommentResponse>
-            <CommentLoadTime>{comment.createdAt?.slice(0, 10)}</CommentLoadTime>
+            <CommentLoadTime>{getTime(comment.createdAt)}</CommentLoadTime>
             <CommentLike onClick={toggleLike}>
               {comment.commentLike ? <LikeSvg /> : <SpaceLikeSvg />}
               <CommentLikeCount>{comment.likeCount}</CommentLikeCount>
