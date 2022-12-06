@@ -51,7 +51,7 @@ const Signup = () => {
           toast.success(response.data.message, {
             position: "top-center",
             autoClose: 1000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -63,7 +63,7 @@ const Signup = () => {
           return toast.error("회원가입 실패", {
             position: "top-center",
             autoClose: 1000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -75,7 +75,7 @@ const Signup = () => {
         return toast.error("이메일 인증을 해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -95,7 +95,7 @@ const Signup = () => {
       toast.success("인증번호 발송", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -107,7 +107,7 @@ const Signup = () => {
       return toast.error("이미 가입된 이메일 입니다.", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -128,7 +128,7 @@ const Signup = () => {
       toast.success("인증성공", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -140,7 +140,7 @@ const Signup = () => {
       toast.error("인증번호를 확인해주세요!", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

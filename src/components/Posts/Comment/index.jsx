@@ -111,7 +111,7 @@ function Comment({
       toast.success("삭제되었습니다", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

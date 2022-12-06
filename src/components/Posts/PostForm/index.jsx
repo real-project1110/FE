@@ -55,7 +55,7 @@ function PostForm() {
       toast.error("이미지는 5장까지 첨부가능합니다.", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

@@ -103,7 +103,7 @@ const Schedular = () => {
         toast.error(e.message, {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -175,7 +175,7 @@ const Schedular = () => {
         return toast.error("이름을 작성해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -186,7 +186,7 @@ const Schedular = () => {
         return toast.error("내용을 작성해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -197,7 +197,7 @@ const Schedular = () => {
         return toast.error("색상을 지정해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -217,7 +217,7 @@ const Schedular = () => {
         return toast.error("이름을 작성해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -228,7 +228,7 @@ const Schedular = () => {
         return toast.error("내용을 작성해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -239,7 +239,7 @@ const Schedular = () => {
         return toast.error("색상을 지정해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,

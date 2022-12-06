@@ -56,7 +56,7 @@ function StatusModal({ groupId }) {
       return toast.error("모두 입력해주세요", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -68,7 +68,7 @@ function StatusModal({ groupId }) {
     toast.success("상태가 추가되었습니다 😊", {
       position: "top-center",
       autoClose: 1000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,

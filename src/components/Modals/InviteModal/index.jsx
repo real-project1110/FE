@@ -56,7 +56,7 @@ const InviteModal = () => {
         return toast.error("초대 실패", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,

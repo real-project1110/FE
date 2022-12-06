@@ -69,7 +69,7 @@ const CreateGroup = () => {
           return toast.error("초대 실패", {
             position: "top-center",
             autoClose: 1000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -90,7 +90,7 @@ const CreateGroup = () => {
           return toast.error("이미지 등록 실패", {
             position: "top-center",
             autoClose: 1000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,

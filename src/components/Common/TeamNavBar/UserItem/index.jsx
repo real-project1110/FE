@@ -77,7 +77,7 @@ const UserItem = ({
       return toast.error("채팅방 입장에 실패하였습니다.", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
