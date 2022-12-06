@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
+import { groupUserAtom } from "../../recoil/userAtoms";
 
 setOptions({
   theme: "ios",
@@ -60,6 +61,7 @@ const Schedular = () => {
   const [tempColor, setTempColor] = useState("");
   const [addTitle, setAddTitle] = useState("");
   const colorPicker = useRef();
+  const groupUser = useRecoilValue(groupUserAtom);
   const { groupId } = useParams();
 
   // 고를 수 있는 색상
@@ -68,7 +70,7 @@ const Schedular = () => {
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { refetch } = useQuery(["schedules", groupId], () => readSchedule(groupId), {
+  const { data, refetch } = useQuery(["schedules", groupId], () => readSchedule(groupId), {
     refetchOnWindowFocus: false,
     retry: 1,
     onSuccess: (data) => {
@@ -95,6 +97,7 @@ const Schedular = () => {
       });
     },
   });
+  console.log("data", data);
 
   // 스케쥴을 추가하는 요청
   const { mutate: addMutate } = useMutation(addSchedule, {
@@ -327,7 +330,6 @@ const Schedular = () => {
   // 드래그앤 드롭, 리사이징 수정부분 api 요청
   const onEventUpdated = useCallback((args) => {
     const { scheduleId, title, description, start, end, color, groupId } = args.event;
-
     const editEvent = {
       scheduleId,
       groupId,
