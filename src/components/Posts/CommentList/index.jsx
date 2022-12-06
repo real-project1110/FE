@@ -75,6 +75,7 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
     setPostComment(e.target.value);
   };
 
+  // 더보기를 통한 무한스크롤
   const moreComments = () => {
     fetchNextPage();
     setPageSize((prev) => prev + 1);
