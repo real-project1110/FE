@@ -6,6 +6,26 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
 `;
+
+export const Man = styled.div`
+  position: fixed;
+  top: 47%;
+  margin-left: -40%;
+`;
+
+export const Lady = styled.div`
+  position: fixed;
+  top: 50%;
+  margin-left: 40%;
+`;
+
+export const BottomShadow = styled.div`
+  position: fixed;
+  top: 90%;
+  margin-left: 8%;
+  z-index: -1;
+`;
+
 export const LoginBox = styled.div`
   ${FlexColumnBox};
   align-items: center;
