@@ -43,18 +43,13 @@ export const useChatApis = {
       };
     };
 
-    return useInfiniteQuery(
-      ["chatsData", roomId],
-      getChats,
-      {
-        getNextPageParam: (lastPage) =>
-          lastPage.data[0] ? lastPage.currentPage + 1 : undefined,
-      },
-      {
-        refetchOnWindowFocus: false,
-        retry: false,
-      }
-    );
+    return useInfiniteQuery(["chatsData", roomId], getChats, {
+      getNextPageParam: (lastPage) =>
+        lastPage.data[0] ? lastPage.currentPage + 1 : undefined,
+      refetchOnWindowFocus: false,
+      retry: false,
+      //staleTime: Infinity,
+    });
   },
 };
 

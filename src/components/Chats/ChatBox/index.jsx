@@ -1,7 +1,10 @@
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 import React from "react";
 import { handleImgError } from "../../../utils/handleImgError";
 import { ChatContainer, Comment, UserImg } from "./styles";
 
+dayjs.locale("ko");
 const ChatBox = ({ isMe, otherUser, chat }) => {
   return (
     <ChatContainer isMe={isMe}>
@@ -18,11 +21,11 @@ const ChatBox = ({ isMe, otherUser, chat }) => {
         {isMe ? (
           <div>
             <strong>1</strong>
-            <span>오후 11:33</span>
+            <span>{dayjs(chat.createdAt).format("A HH:mm")}</span>
           </div>
         ) : null}
         <p>{chat?.message} </p>
-        {!isMe ? <span>오후 11:33</span> : null}
+        {!isMe ? <span>{dayjs(chat.createdAt).format("A HH:mm")}</span> : null}
       </Comment>
     </ChatContainer>
   );

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
+import { FlexBetweenBox, FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const DetailWrapper = styled.div`
   width: 100%;
@@ -25,32 +25,56 @@ export const DetailPost = styled.div`
   }
 `;
 
+export const Images = styled.div`
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  & > img {
+    width: 70px;
+    height: 70px;
+    margin-right: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    object-fit: cover;
+  }
+`;
+
 export const DetailPostUserBox = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem;
 `;
 
-export const Cancel = styled.div`
+export const Cancel = styled.span`
   width: 20px;
   height: 20px;
-  margin-left: 77%;
-  margin-top: -10%;
+
   cursor: pointer;
+  position: relative;
+  top: -1.5rem;
+  svg {
+    width: 20px;
+  }
+  &:hover {
+    color: ${(props) => props.theme.color.gray};
+  }
 `;
 
 export const DetailPostUserInfo = styled.div`
-  ${FlexColumnBox};
-  margin-left: 0.5rem;
-  strong {
-    font-weight: 500;
-  }
-  span {
-    margin-top: 2px;
-    color: rgba(0, 0, 0, 0.4);
-    font-weight: 500;
-    font-size: 0.8rem;
+  ${FlexBetweenBox};
+  width: 100%;
+  margin-left: 0.7rem;
+  & > div {
+    ${FlexColumnBox};
+    strong {
+      font-weight: 500;
+    }
+    span {
+      margin-top: 4px;
+      color: rgba(0, 0, 0, 0.4);
+      font-weight: 500;
+      font-size: 0.75rem;
+    }
   }
 `;
 

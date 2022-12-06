@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { FlexAlignBox, FlexColumnBox } from "../../../shared/Styles/flex";
+import {
+  FlexAlignBox,
+  FlexBetweenBox,
+  FlexColumnBox,
+} from "../../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   max-height: ${(props) => props.theme.bodyHeight.normal};
@@ -17,10 +21,25 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const GroupName = styled.div`
-  font-size: 1.1rem;
-  font-weight: 700;
+export const GroupInfo = styled.div`
+  ${FlexBetweenBox};
+  align-items: center;
   margin-bottom: 1rem;
+
+  h3 {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+`;
+
+export const GroupConfig = styled.div`
+  margin-right: 0.2rem;
+  cursor: pointer;
+  &:hover {
+    svg {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
 `;
 
 export const GroupNav = styled.ul`

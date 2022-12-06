@@ -1,15 +1,31 @@
 import styled from "styled-components";
-import {
-  FlexAlignBox,
-  FlexCenterBox,
-  FlexColumnBox,
-} from "../../shared/Styles/flex";
+import { FlexAlignBox, FlexCenterBox, FlexColumnBox } from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   ${FlexCenterBox};
   width: 100%;
   height: 100vh;
 `;
+
+export const Man = styled.div`
+  position: fixed;
+  top: 47%;
+  margin-left: -40%;
+`;
+
+export const Lady = styled.div`
+  position: fixed;
+  top: 50%;
+  margin-left: 40%;
+`;
+
+export const BottomShadow = styled.div`
+  position: fixed;
+  top: 90%;
+  margin-left: 8%;
+  z-index: -1;
+`;
+
 export const LoginBox = styled.div`
   ${FlexColumnBox};
   align-items: center;
@@ -124,6 +140,22 @@ export const SocialItem = styled(EmailLogin)`
   border: none;
   box-shadow: 0px 2px 3px ${(props) => props.theme.color.lightGray};
   margin-bottom: 0.6rem;
+  .naver {
+    height: 30px;
+    border-radius: 50%;
+    outline: 2.5px solid #dcffc7;
+  }
+  .kakao {
+    height: 30px;
+    border-radius: 50%;
+    outline: 2.5px solid #fff9c4;
+  }
+  .google {
+    height: 30px;
+    border-radius: 50%;
+    outline: 2.5px solid #ffffff;
+    outline-offset: -2px;
+  }
   img {
     width: 2rem;
     height: 2rem;
@@ -137,7 +169,7 @@ export const SocialItem = styled(EmailLogin)`
     background-color: #ffe80f;
   }
   &:last-child {
-    color: inherit;
-    background-color: white;
+    color: #ffffff;
+    background-color: #5383ec;
   }
 `;
