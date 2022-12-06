@@ -25,6 +25,19 @@ export const DetailPost = styled.div`
   }
 `;
 
+export const Images = styled.div`
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  & > img {
+    width: 70px;
+    height: 70px;
+    margin-right: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    object-fit: cover;
+  }
+`;
+
 export const DetailPostUserBox = styled.div`
   display: flex;
   align-items: center;

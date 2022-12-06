@@ -1,9 +1,5 @@
 import styled from "styled-components";
-import {
-  FlexAlignBox,
-  FlexCenterBox,
-  FlexColumnBox,
-} from "../../shared/Styles/flex";
+import { FlexAlignBox, FlexBetweenBox, FlexCenterBox, FlexColumnBox } from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -120,13 +116,31 @@ export const Or = styled.div`
 `;
 
 export const SocialButtonWrap = styled.div`
-  ${FlexCenterBox};
-  width: 100%;
+  ${FlexBetweenBox};
+  width: 60%;
   cursor: pointer;
+  .kakao {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background-color: #fff9c4;
+  }
+  .naver {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background-color: #dcffd7;
+  }
+  .google {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background-color: #f7fcff;
+  }
+
   img {
     border-radius: 50%;
-    &:nth-child(2) {
-      margin: 0 2rem;
-    }
+    margin-left: 7%;
+    margin-top: 6%;
   }
 `;

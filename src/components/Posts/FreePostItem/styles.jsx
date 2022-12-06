@@ -115,6 +115,7 @@ export const ImageWrap = styled.div`
     height: 70px;
     margin-right: 0.8rem;
     border-radius: 8px;
+    object-fit: cover;
   }
 `;
 
