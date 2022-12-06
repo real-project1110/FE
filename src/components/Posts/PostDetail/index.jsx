@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
@@ -18,31 +19,10 @@ import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import Comment from "../Comment";
 import { CommentForm } from "../Comment/styles";
-import {
-  CommentFormUserImg,
-  CommentInput,
-  CommentSubmitBtn,
-} from "../CommentList/styles";
-import {
-  CommentCount,
-  Content,
-  FakeImg,
-  ImageWrap,
-  PostComment,
-  PostImgWrap,
-  PostLike,
-  PostLikeCount,
-  PostResponse,
-  UserImg,
-} from "../FreePostItem/styles";
-import {
-  Cancel,
-  DetailPost,
-  DetailPostUserBox,
-  DetailPostUserInfo,
-  DetailWrapper,
-  PostContent,
-} from "./styles";
+import { CommentFormUserImg, CommentInput, CommentSubmitBtn } from "../CommentList/styles";
+import { CommentCount, Content, FakeImg, PostComment, PostImgWrap, PostLike, PostLikeCount, PostResponse, UserImg } from "../FreePostItem/styles";
+import { Cancel, DetailPost, DetailPostUserBox, DetailPostUserInfo, DetailWrapper, Images, PostContent } from "./styles";
+import ImageModal from "../ImageModal";
 import CancelSvg from "../../../assets/svg/CancelSvg";
 import getTime from "../../../utils/getTime";
 
@@ -50,9 +30,11 @@ function PostDetail() {
   const { groupId } = useParams();
   const showDetail = useSetRecoilState(PostDetailModalAtom);
   const [detail, setDetail] = useRecoilState(PostDetailAtom);
+  const [showImage, setShowImage] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
   const groupUser = useRecoilValue(groupUserAtom);
   const [postComment, setPostComment] = useState("");
+  console.log(detail);
 
   const { mutate: likeFn } = useMutation(postLike, {
     onSuccess: () => {
@@ -65,13 +47,7 @@ function PostDetail() {
     groupId: groupId,
     postId: detail.postId,
   };
-  const {
-    data: getComment,
-    fetchNextPage,
-    isSuccess,
-    hasNextPage,
-    refetch,
-  } = useReadComments(readCommentData);
+  const { data: getComment, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadComments(readCommentData);
 
   const { ref, inView } = useInView();
 
@@ -102,16 +78,33 @@ function PostDetail() {
   // 댓글 작성 form
   const Submit = (e) => {
     e.preventDefault();
-    const commentData = {
-      groupId: groupId,
-      postId: detail.postId,
-      body: {
-        comment: postComment,
-      },
-    };
-    addCommentMutate(commentData);
-    setPostComment("");
+    if (postComment === "") {
+      toast.error("댓글을 작성해주세요", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      const commentData = {
+        groupId: groupId,
+        postId: detail.postId,
+        body: {
+          comment: postComment,
+        },
+      };
+      addCommentMutate(commentData);
+      setPostComment("");
+    }
   };
+
+  const ImageModalOpen = useCallback(() => {
+    setShowImage(true);
+  }, [setShowImage]);
 
   const toggleLike = useCallback(() => {
     const LikeData = {
@@ -140,21 +133,12 @@ function PostDetail() {
 
   return (
     <>
+      {showImage && <ImageModal detail={detail} />}
       <DetailPost onClick={onCloseModal}>
         <Scrollbars autoHide onScrollStop={fetchNextPage}>
           <DetailWrapper onClick={(e) => e.stopPropagation()}>
             <DetailPostUserBox>
-              <UserImg>
-                {detail.groupAvatarImg ? (
-                  <img
-                    src={detail.groupAvatarImg}
-                    alt="profile"
-                    onError={handleImgError}
-                  />
-                ) : (
-                  <FakeImg />
-                )}
-              </UserImg>
+              <UserImg>{detail.groupAvatarImg ? <img src={detail.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
               <DetailPostUserInfo>
                 <div>
                   <strong>{detail.groupUserNickname}</strong>
@@ -168,13 +152,9 @@ function PostDetail() {
             <PostContent>
               <PostImgWrap>
                 {detail?.postImg?.map((Image) => (
-                  <ImageWrap key={Image.postImg}>
-                    <img
-                      src={Image.postImg}
-                      alt="postImg"
-                      onError={handleImgError}
-                    />
-                  </ImageWrap>
+                  <Images key={Image.postImg} onClick={ImageModalOpen}>
+                    <img src={Image.postImg} alt="postImg" onError={handleImgError} />
+                  </Images>
                 ))}
               </PostImgWrap>
               <Content>{detail.content}</Content>
@@ -191,21 +171,11 @@ function PostDetail() {
             </PostContent>
             <CommentForm>
               {groupUser && groupUser.groupAvatarImg ? (
-                <CommentFormUserImg
-                  src={groupUser.groupAvatarImg}
-                  alt={groupUser.groupUserNickname}
-                  onError={handleImgError}
-                />
+                <CommentFormUserImg src={groupUser.groupAvatarImg} alt={groupUser.groupUserNickname} onError={handleImgError} />
               ) : (
                 <FakeImg />
               )}
-              <CommentInput
-                value={postComment}
-                placeholder="댓글을 남겨주세요."
-                type="text"
-                onChange={onChange}
-                onKeyPress={onKeyPress}
-              />
+              <CommentInput value={postComment} placeholder="댓글을 남겨주세요." type="text" onChange={onChange} onKeyPress={onKeyPress} />
               <CommentSubmitBtn onClick={Submit}>
                 <CommentPostSvg />
               </CommentSubmitBtn>

@@ -21,7 +21,7 @@ import {
 } from "./styles";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
-import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
+import GoogleLogin from "../../assets/image/구글.png";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
 
 const Login = () => {
@@ -40,12 +40,8 @@ const Login = () => {
           <Info>
             <BigMent>나의 팀을 이해하는 곳</BigMent>
             <Ment>
-              <SmallMent>
-                일을 잘하는 것만큼 내 팀의 상태를 파악하는 것도 중요하죠.
-              </SmallMent>
-              <SmallMent>
-                스테이터스로 팀원의 일정과 상태를 체크하세요.
-              </SmallMent>
+              <SmallMent>일을 잘하는 것만큼 내 팀의 상태를 파악하는 것도 중요하죠.</SmallMent>
+              <SmallMent>스테이터스로 팀원의 일정과 상태를 체크하세요.</SmallMent>
             </Ment>
           </Info>
         </Logo>
@@ -69,30 +65,21 @@ const Login = () => {
           <EasyJoin>간편하게 가입하세요!</EasyJoin>
           <SocialList>
             <SocialItem>
-              <img
-                src={NaverLogin}
-                alt="kakaoLogin"
-                width="32px"
-                height="32px"
-              />
+              <div className="naver">
+                <img src={NaverLogin} alt="kakaoLogin" width="32px" height="32px" />
+              </div>
               <span>네이버 로그인</span>
             </SocialItem>
             <SocialItem onClick={LoginWithKakao}>
-              <img
-                src={kakaoLogin}
-                alt="kakaoLogin"
-                width="32px"
-                height="32px"
-              />
+              <div className="kakao">
+                <img src={kakaoLogin} alt="kakaoLogin" width="32px" height="32px" />
+              </div>
               <span>카카오톡 로그인</span>
             </SocialItem>
             <SocialItem>
-              <img
-                src={GoogleLogin}
-                alt="kakaoLogin"
-                width="32px"
-                height="32px"
-              />
+              <div className="google">
+                <img src={GoogleLogin} alt="kakaoLogin" width="32px" height="32px" />
+              </div>
               <span>구글 로그인</span>
             </SocialItem>
           </SocialList>

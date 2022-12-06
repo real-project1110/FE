@@ -3,17 +3,14 @@ import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../..";
-import { postLike, removePost, togglePost } from "../../../apis/postApi";
+import { postLike, togglePost } from "../../../apis/postApi";
 import ArrowSvg from "../../../assets/svg/ArrowSvg";
 import CommentSvg from "../../../assets/svg/CommentSvg";
 import LikeSvg from "../../../assets/svg/LikeSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import { editPostAtom, PostDetailAtom } from "../../../recoil/groupAtoms";
-import {
-  PostDetailModalAtom,
-  PostFormModalAtom,
-} from "../../../recoil/modalAtoms";
+import { PostDeleteModalAtom, PostDetailModalAtom, PostFormModalAtom } from "../../../recoil/modalAtoms";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import getTime from "../../../utils/getTime";
 import { handleImgError } from "../../../utils/handleImgError";
@@ -52,12 +49,9 @@ const FreePostItem = ({ post, refetch }) => {
   const setDetailPost = useSetRecoilState(PostDetailAtom);
   const setShowPostModal = useSetRecoilState(PostFormModalAtom);
   const setShowPostDetail = useSetRecoilState(PostDetailModalAtom);
+  const setShowDeleteModal = useSetRecoilState(PostDeleteModalAtom);
   const groupUser = useRecoilValue(groupUserAtom);
   const [commentCount, setCommentCount] = useState(0);
-
-  const { mutate: removePostFn } = useMutation(removePost, {
-    onSuccess: () => refetch(),
-  });
 
   const { mutate: togglePostFn } = useMutation(togglePost, {
     onSuccess: () => {
@@ -95,20 +89,6 @@ const FreePostItem = ({ post, refetch }) => {
     setCommentOpen((prev) => !prev);
   }, []);
 
-  // 게시글 삭제
-  const onDeletePost = useCallback(
-    (e) => {
-      e.stopPropagation();
-      const removePostData = {
-        groupId: groupId,
-        postId: post.postId,
-      };
-      removePostFn(removePostData);
-      onCloseModal();
-    },
-    [post, groupId, removePostFn, onCloseModal]
-  );
-
   // 자유게시글을 공지글로 바꾸는 함수
   const onTogglePost = useCallback(
     (e) => {
@@ -141,6 +121,17 @@ const FreePostItem = ({ post, refetch }) => {
     [onCloseModal, setShowPostDetail, setDetailPost, post]
   );
 
+  // 삭제 모달열기
+  const deleteModalOpen = useCallback(
+    (e) => {
+      e.stopPropagation();
+      setShowDeleteModal(true);
+      onCloseModal();
+      setDetailPost(post);
+    },
+    [setShowDeleteModal, onCloseModal, post, setDetailPost]
+  );
+
   useEffect(() => {
     if (post) {
       setCommentCount(post.commentCount);
@@ -156,17 +147,7 @@ const FreePostItem = ({ post, refetch }) => {
         <FreePost>
           <PostMenu>
             <PostUserInfo>
-              <UserImg>
-                {post.groupAvatarImg ? (
-                  <img
-                    src={post.groupAvatarImg}
-                    alt="profile"
-                    onError={handleImgError}
-                  />
-                ) : (
-                  <FakeImg />
-                )}
-              </UserImg>
+              <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
               <PostUserDetail>
                 <Nickname>{post.groupUserNickname}</Nickname>
                 <LoadTime>{getTime(post.createdAt)}</LoadTime>
@@ -180,7 +161,7 @@ const FreePostItem = ({ post, refetch }) => {
                       <li onClick={onEditPost}>글 수정</li>
                       <li onClick={onTogglePost}>공지로 등록</li>
                       <li onClick={viewDetail}>상세 보기</li>
-                      <li onClick={onDeletePost}>삭제</li>
+                      <li onClick={deleteModalOpen}>삭제</li>
                     </MenuList>
                   ) : (
                     <MenuList>
@@ -196,11 +177,7 @@ const FreePostItem = ({ post, refetch }) => {
             <PostImgWrap>
               {post?.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>
-                  <img
-                    src={Image.postImg}
-                    alt="postImg"
-                    onError={handleImgError}
-                  />
+                  <img src={Image.postImg} alt="postImg" onError={handleImgError} />
                 </ImageWrap>
               ))}
             </PostImgWrap>
@@ -220,13 +197,7 @@ const FreePostItem = ({ post, refetch }) => {
             </SpreadBtn>
           </PostResponse>
         </FreePost>
-        {CommentListOpen ? (
-          <CommentList
-            postId={post.postId}
-            groupId={groupId}
-            setCommentCount={setCommentCount}
-          />
-        ) : null}
+        {CommentListOpen ? <CommentList postId={post.postId} groupId={groupId} setCommentCount={setCommentCount} /> : null}
       </FreePostItemContainer>
     </>
   );
