@@ -6,7 +6,7 @@ import { FlexBetweenBox, FlexColumnBox } from "../../shared/Styles/flex";
 
 const Start = () => {
   return (
-    <Wrapper as="main">
+    <Wrapper>
       <Header as="header">
         <Logo>
           <BigLogoSvg />
@@ -17,22 +17,32 @@ const Start = () => {
           <button>Status 무료 가입</button>
         </Nav>
       </Header>
+      <Main as="main">
+        <Section1></Section1>
+        <Section2></Section2>
+        <Section3></Section3>
+      </Main>
     </Wrapper>
   );
 };
 
 export default Start;
 
+// padding 0 10w;
 export const Wrapper = styled.div`
   ${FlexColumnBox};
   width: 100%;
+  height: 100%;
+  background-color: #fafafa;
 `;
 
 export const Header = styled.div`
+  width: 100%;
+  position: fixed;
   ${FlexBetweenBox};
   align-items: center;
-
-  padding: 1.7rem 10vw;
+  padding: 0 10vw;
+  background-color: #fafafa;
 `;
 
 export const Logo = styled.div`
@@ -44,6 +54,7 @@ export const Logo = styled.div`
 export const Nav = styled.div`
   display: flex;
   align-items: center;
+  height: 70px;
   cursor: pointer;
   span {
     padding: 0 2.5rem;
@@ -59,7 +70,6 @@ export const Nav = styled.div`
     color: white;
     font-weight: 600;
     font-size: 1.1rem;
-
     background-color: ${(props) => props.theme.color.green};
     border-radius: 5px;
     &:hover {
@@ -67,3 +77,15 @@ export const Nav = styled.div`
     }
   }
 `;
+
+export const Main = styled.div`
+  width: 100%;
+  ${FlexColumnBox};
+`;
+export const Section1 = styled.div`
+  width: 100%;
+  height: 524px;
+  background-color: red;
+`;
+export const Section2 = styled.div``;
+export const Section3 = styled.div``;
