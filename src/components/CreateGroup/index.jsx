@@ -44,6 +44,25 @@ const CreateGroup = () => {
     onError: (error) => console.log(error),
   });
 
+  const { mutate: editGroupImageFn } = useMutation(editGroupImage, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["groupList"]);
+      setStep((prev) => prev + 1);
+    },
+    onError: () => {
+      toast.error("이미지 등록 실패", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -82,28 +101,16 @@ const CreateGroup = () => {
         }
         // 그룹 이미지 수정
       } else if (step === 3) {
-        const response = await editGroupImage({
+        editGroupImageFn({
           id: groupId,
           body: { image: file },
         });
-        if (response.status === 400)
-          return toast.error("이미지 등록 실패", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        setStep((prev) => prev + 1);
         // 그룹 url로 이동
       } else if (step === 4) {
         navigate(`/groups/${groupId}`);
       }
     },
-    [step, navigate, addGroupFn, groupId, emails, file]
+    [step, navigate, addGroupFn, groupId, emails, file, editGroupImageFn]
   );
 
   // 나중에 할래요. 클릭시 실행되는 함수
