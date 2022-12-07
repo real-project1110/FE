@@ -20,7 +20,7 @@ const ChatBox = ({ isMe, otherUser, chat }) => {
       <Comment isMe={isMe}>
         {isMe ? (
           <div>
-            <strong>1</strong>
+            {/* <strong>1</strong> */}
             <span>{dayjs(chat.createdAt).format("A HH:mm")}</span>
           </div>
         ) : null}
