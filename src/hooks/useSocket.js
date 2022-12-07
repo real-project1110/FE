@@ -5,7 +5,7 @@ const backUrl = process.env.REACT_APP_SERVER_URL;
 
 const sockets = {};
 
-const useSocket = (groupId) => {
+const useSocket2 = (groupId) => {
   const disconnect = useCallback(() => {
     if (groupId) {
       sockets[groupId].disconnect();
@@ -27,4 +27,4 @@ const useSocket = (groupId) => {
   return [sockets[groupId], disconnect];
 };
 
-export default useSocket;
+export default useSocket2;

@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSetRecoilState } from "recoil";
 import { goChatRoom, readUnread } from "../../../../apis/chatApis";
+import useSocket from "../../../../hooks/useSocket";
 import { chatUserAtom } from "../../../../recoil/userAtoms";
 
 import { getIcon } from "../../../../utils/getIcon";
@@ -30,6 +31,7 @@ const UserItem = ({
   const [mouseY, setMouseY] = useState(0);
   const setChatUser = useSetRecoilState(chatUserAtom);
   const [chatCount, setChatCount] = useState(0);
+  const [socket] = useSocket(groupId);
 
   const { data: unreadCount } = useQuery(
     ["unread", myUserData?.groupUserId, user?.groupUserId],
@@ -92,6 +94,17 @@ const UserItem = ({
       setChatCount(unreadCount);
     }
   }, [unreadCount]);
+
+  useEffect(() => {
+    if (socket && user) {
+      socket?.on("unread", (data) => {
+        if (data === user.groupUserId) setChatCount((prev) => prev + 1);
+      });
+      return () => {
+        socket.off("unread");
+      };
+    }
+  }, [socket, user]);
   return (
     <>
       <ToastContainer />

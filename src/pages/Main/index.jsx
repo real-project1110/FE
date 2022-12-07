@@ -8,7 +8,6 @@ import { existCookie } from "../../utils/existCookie";
 const Main = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
   useEffect(() => {
     const cookie = existCookie();
     if (!cookie) {
