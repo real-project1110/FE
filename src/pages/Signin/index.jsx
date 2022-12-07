@@ -5,7 +5,20 @@ import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
 import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
 import signinImage from "../../assets/image/signinImage.png";
-import { LoginContainer, Title, Form, Or, ButtonWrap, LoginButton, SocialButtonWrap, SignInLogo, Wrapper, BigMent, LogoBox, ImageDiv } from "./styles";
+import {
+  LoginContainer,
+  Title,
+  Form,
+  Or,
+  ButtonWrap,
+  LoginButton,
+  SocialButtonWrap,
+  SignInLogo,
+  Wrapper,
+  BigMent,
+  LogoBox,
+  ImageDiv,
+} from "./styles";
 import Input from "../../components/Common/Elements/Input";
 import { signin } from "../../apis/userApi";
 import { setAccessToken } from "../../shared/Cookie/Cookie";
@@ -35,7 +48,9 @@ function Signin() {
   const password = watch("password");
 
   const ActiveIsPassedLogin = () => {
-    return email.includes("@") && password.length >= 8 && !errors.password ? setIsActive(true) : setIsActive(false);
+    return email.includes("@") && password.length >= 8 && !errors.password
+      ? setIsActive(true)
+      : setIsActive(false);
   };
 
   const onSubmit = async (data) => {
@@ -82,7 +97,9 @@ function Signin() {
             type={"email"}
             placeholder="이메일 입력"
             onKeyUp={ActiveIsPassedLogin}
-            _border={!watch("email") ? "#BBBBBB" : errors.email ? "#FF2D53" : "#5FCB94"}
+            _border={
+              !watch("email") ? "#BBBBBB" : errors.email ? "#FF2D53" : "#5FCB94"
+            }
             label={"이메일"}
             errors={errors}
             errorName={"email"}
@@ -100,7 +117,8 @@ function Signin() {
                   message: "8자리 이상으로 작성해주세요",
                 },
                 pattern: {
-                  value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+                  value:
+                    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
                   message: "영어, 특수문자 포함 8~20자리 입니다.",
                 },
               }),
@@ -108,7 +126,13 @@ function Signin() {
             type={"password"}
             placeholder="비밀번호 입력"
             onKeyUp={ActiveIsPassedLogin}
-            _border={!watch("password") ? "#BBBBBB" : errors.password ? "#FF2D53" : "#5FCB94"}
+            _border={
+              !watch("password")
+                ? "#BBBBBB"
+                : errors.password
+                ? "#FF2D53"
+                : "#5FCB94"
+            }
             label={"비밀번호"}
             errors={errors}
             errorName={"password"}
@@ -117,19 +141,37 @@ function Signin() {
             <button>계정 찾기</button>
             <button>비밀번호 찾기</button>
           </ButtonWrap>
-          <LoginButton className={isActive ? "activeLoginBtn" : "loginBtn"}>로그인</LoginButton>
+          <LoginButton className={isActive ? "activeLoginBtn" : "loginBtn"}>
+            로그인
+          </LoginButton>
           <Or>
             <span>또는</span>
           </Or>
           <SocialButtonWrap>
             <div className="naver">
-              <img src={NaverLogin} alt="NaverLogin" width="32px" height="32px" />
+              <img
+                src={NaverLogin}
+                alt="NaverLogin"
+                width="32px"
+                height="32px"
+              />
             </div>
             <div className="kakao">
-              <img src={kakaoLogin} alt="kakaoLogin" width="32px" height="32px" onClick={LoginWithKakao} />
+              <img
+                src={kakaoLogin}
+                alt="kakaoLogin"
+                width="32px"
+                height="32px"
+                onClick={LoginWithKakao}
+              />
             </div>
             <div className="google">
-              <img src={GoogleLogin} alt="GoogleLogin" width="32px" height="32px" />
+              <img
+                src={GoogleLogin}
+                alt="GoogleLogin"
+                width="32px"
+                height="32px"
+              />
             </div>
           </SocialButtonWrap>
         </Form>

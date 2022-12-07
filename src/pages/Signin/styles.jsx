@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { FlexAlignBox, FlexBetweenBox, FlexCenterBox, FlexColumnBox } from "../../shared/Styles/flex";
+import {
+  FlexAlignBox,
+  FlexBetweenBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   width: 1500px;
@@ -127,7 +132,7 @@ export const Or = styled.div`
     left: 50%;
     width: 4rem;
     color: ${(props) => props.theme.color.gray};
-    background-color: ${(props) => props.theme.boardColor.lightGray};
+    background-color: ${(props) => props.theme.boardColor.yellowGray};
     transform: translate(-50%, -50%);
   }
 `;
@@ -139,25 +144,25 @@ export const SocialButtonWrap = styled.div`
   .kakao {
     width: 37px;
     height: 37px;
-    border-radius: 50%;
     background-color: #fff9c4;
+    border-radius: 50%;
   }
   .naver {
     width: 37px;
     height: 37px;
-    border-radius: 50%;
     background-color: #dcffd7;
+    border-radius: 50%;
   }
   .google {
     width: 37px;
     height: 37px;
-    border-radius: 50%;
     background-color: #f7fcff;
+    border-radius: 50%;
   }
 
   img {
-    border-radius: 50%;
-    margin-left: 7%;
     margin-top: 6%;
+    margin-left: 7%;
+    border-radius: 50%;
   }
 `;
