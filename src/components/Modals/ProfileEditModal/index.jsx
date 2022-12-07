@@ -194,7 +194,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
           </Switch>
           {change ? (
             <UserInfoForm onSubmit={handleSubmit(onSubmitEditNickname)}>
-              <label>닉네임</label>
+              <label>{isMain ? "기본 닉네임" : "그룹 닉네임"}</label>
               <div>
                 <input
                   {...register("nickname", {

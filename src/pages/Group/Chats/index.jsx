@@ -89,11 +89,13 @@ const Chat = () => {
 
   // 채팅방에 입장했을 때 시간 저장
   useEffect(() => {
-    localStorage.setItem(
-      `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
-      //new Date()
-      new Date().getTime().toString()
-    );
+    if (groupId && me && otherUser) {
+      localStorage.setItem(
+        `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
+        //new Date()
+        new Date().getTime().toString()
+      );
+    }
   }, [groupId, roomId, me, otherUser]);
 
   // 스크롤을 올릴 때 state에 데이터 추가 (무한스크롤)
@@ -109,17 +111,31 @@ const Chat = () => {
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
-    socket.on("message", (data) => {
-      // 채팅방 접속 시간 갱신
-      localStorage.setItem(
-        `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
-        new Date().getTime().toString()
-      );
-      // 내가 보낸 메시지가 아니라면 state에 추가
-      if (data.groupUserId !== me?.groupUserId) {
-        setChats((prev) => [data, ...prev]);
-      }
-    });
+    if (socket && me && otherUser) {
+      socket.on("message", (data) => {
+        // 채팅방 접속 시간 갱신
+        localStorage.setItem(
+          `${groupId}-${me.groupUserId}-${otherUser.groupUserId}`,
+          new Date().getTime().toString()
+        );
+        // 내가 보낸 메시지가 아니라면 state에 추가
+        if (data.groupUserId !== me.groupUserId) {
+          setChats((prev) => [data, ...prev]);
+          if (scrollRef.current) {
+            if (
+              scrollRef.current.getScrollHeight() <
+              scrollRef.current.getClientHeight() +
+                scrollRef.current.getScrollTop() +
+                150
+            ) {
+              setTimeout(() => {
+                scrollRef.current?.scrollToBottom();
+              }, 50);
+            }
+          }
+        }
+      });
+    }
   }, [socket, groupId, me, otherUser]);
 
   // 채팅방을 나갔을 때 실행 소켓의 이벤트에 대한 연결을 off

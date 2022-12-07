@@ -23,5 +23,6 @@ export const lightMode = {
     normal: "calc(100vh - 60px)",
     halfNormal: "calc(50vh - 30px)",
   },
+  modalBg: "",
   headerHeight: "60px",
 };

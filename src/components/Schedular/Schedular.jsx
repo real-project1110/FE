@@ -115,7 +115,6 @@ const Schedular = () => {
       },
     }
   );
-  console.log("data", data);
 
   // 스케쥴을 추가하는 요청
   const { mutate: addMutate } = useMutation(addSchedule, {

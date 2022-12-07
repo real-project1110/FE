@@ -73,7 +73,7 @@ const AlertModal = ({ setHeaderAlert }) => {
           </span>
         </TitleBox>
         {isLoading ? (
-          <span>로딩중...</span>
+          <div />
         ) : (
           <AlertList onClick={(e) => e.stopPropagation()}>
             {invites &&
