@@ -30,6 +30,7 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
 
   const { ref, inView } = useInView();
 
+  // 다음페이지 로딩
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
