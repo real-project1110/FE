@@ -43,7 +43,7 @@ const GroupHeader = () => {
   return (
     <Wrapper as="header">
       <Nav as="nav">
-        <Link to={"/main"}>
+        <Link to={"/main/write"}>
           <BigLogoSvg />
         </Link>
         <RightNav>
