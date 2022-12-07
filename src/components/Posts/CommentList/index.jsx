@@ -6,7 +6,7 @@ import { addComment, useReadComments } from "../../../apis/commentApi";
 import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import { handleImgError } from "../../../utils/handleImgError";
 import { readGroupUser } from "../../../apis/groupUserApi";
-import { CommentForm, CommentFormUserImg, CommentInput, CommentSubmitBtn, List, More } from "./styles";
+import { CommentForm, CommentFormUserImg, CommentInput, CommentSubmit, CommentSubmitBtn, List, More } from "./styles";
 import { FakeImg } from "../FreePostItem/styles";
 import Comment from "../Comment";
 import { useInView } from "react-intersection-observer";
@@ -123,9 +123,9 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
           <FakeImg />
         )}
         <CommentInput value={postComment} placeholder="댓글을 남겨주세요." type="text" onChange={onChange} />
-        <CommentSubmitBtn>
+        <CommentSubmit>
           <CommentPostSvg />
-        </CommentSubmitBtn>
+        </CommentSubmit>
       </CommentForm>
     </List>
   );

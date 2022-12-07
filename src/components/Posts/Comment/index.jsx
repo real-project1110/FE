@@ -1,24 +1,19 @@
 import React, { useCallback, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation } from "react-query";
 import { useRecoilValue } from "recoil";
-import {
-  commentLike,
-  editComment,
-  removeComment,
-} from "../../../apis/commentApi";
+import { commentLike, editComment, removeComment } from "../../../apis/commentApi";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import LikeSvg from "../../../assets/svg/LikeSvg";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
-import {
-  CommentFormUserImg,
-  CommentInput,
-  CommentSubmitBtn,
-} from "../CommentList/styles";
+import { CommentFormUserImg, CommentInput, CommentSubmitBtn } from "../CommentList/styles";
 import { CloseContainer, FakeImg } from "../FreePostItem/styles";
 import { SendComment } from "../FreePosts/styles";
 import {
@@ -39,14 +34,7 @@ import {
 } from "./styles";
 import getTime from "../../../utils/getTime";
 
-function Comment({
-  comment,
-  refetch,
-  groupId,
-  commentId,
-  setCommentCount,
-  detailMode,
-}) {
+function Comment({ comment, refetch, groupId, commentId, setCommentCount, detailMode }) {
   const [openCommentModal, setOpenCommentModal] = useState(false);
   const [editMyComment, setEditMyComment] = useState(false);
   const [textValue, setTextValue] = useState("");
@@ -71,6 +59,12 @@ function Comment({
     },
   });
 
+  // 모달 닫기
+  const onCloseModal = useCallback((e) => {
+    e.stopPropagation();
+    setOpenCommentModal(false);
+  }, []);
+
   // 코멘트 메뉴 열기
   const CommentModalOpen = useCallback(() => {
     setOpenCommentModal(true);
@@ -82,10 +76,14 @@ function Comment({
   }, []);
 
   // 댓글 수정 onClick
-  const edit = useCallback(() => {
-    setEditMyComment((prev) => !prev);
-    setTextValue(comment.comment);
-  }, [comment.comment]);
+  const edit = useCallback(
+    (e) => {
+      setEditMyComment((prev) => !prev);
+      setTextValue(comment.comment);
+      onCloseModal(e);
+    },
+    [comment.comment]
+  );
 
   // 댓글 수정 저장
   const editSave = useCallback(() => {
@@ -132,12 +130,6 @@ function Comment({
     likeFn(LikeData);
   }, [comment.commentId, groupId, likeFn]);
 
-  // 모달 닫기
-  const onCloseModal = useCallback((e) => {
-    e.stopPropagation();
-    setOpenCommentModal(false);
-  }, []);
-
   // 수정 엔터키도 활용 가능
   const onKeyPress = (e) => {
     if (e.key === "Enter") editSave();
@@ -150,11 +142,7 @@ function Comment({
       {openCommentModal && <CloseContainer onClick={onCloseModal} />}
       <FreeComment detailMode={detailMode}>
         <CommentUserImg>
-          <img
-            src={comment.groupAvatarImg}
-            alt="profile"
-            onError={handleImgError}
-          />
+          <img src={comment.groupAvatarImg} alt="profile" onError={handleImgError} />
         </CommentUserImg>
         <CommentContainer>
           <CommentHeader>
@@ -188,25 +176,18 @@ function Comment({
       {editMyComment ? (
         <CommentForm>
           {groupUser && groupUser.groupAvatarImg ? (
-            <CommentFormUserImg
-              src={groupUser.groupAvatarImg}
-              alt={groupUser.groupUserNickname}
-              onError={handleImgError}
-            />
+            <CommentFormUserImg src={groupUser.groupAvatarImg} alt={groupUser.groupUserNickname} onError={handleImgError} />
           ) : (
             <FakeImg />
           )}
-          <CommentInput
-            onKeyPress={onKeyPress}
-            onChange={onChangeText}
-            value={textValue}
-            required
-          />
+          <CommentInput onKeyPress={onKeyPress} onChange={onChangeText} value={textValue} required />
           <CommentSubmitBtn>
             <SendComment onClick={() => setEditMyComment(false)}>
-              취소
+              <FontAwesomeIcon icon={faBan} />
             </SendComment>
-            <SendComment onClick={editSave}>저장</SendComment>
+            <SendComment onClick={editSave}>
+              <FontAwesomeIcon icon={faCircleCheck} />
+            </SendComment>
           </CommentSubmitBtn>
         </CommentForm>
       ) : null}

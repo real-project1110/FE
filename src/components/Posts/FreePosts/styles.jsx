@@ -155,9 +155,9 @@ export const NewestComment = styled.span`
 
 export const SendComment = styled.div`
   width: 100%;
-  margin: 5px 0px 0px 5px;
+  margin: 5px 5px 0px 5px;
   color: #1c1c1c;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 19px;
   letter-spacing: -0.055em;
 `;
