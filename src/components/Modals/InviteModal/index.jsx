@@ -53,7 +53,7 @@ const InviteModal = () => {
         body: { email: emails },
       });
       if (response.status === 400)
-        return toast.error("초대 실패", {
+        return toast.error("존재하지 않는 이메일입니다.", {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: true,
