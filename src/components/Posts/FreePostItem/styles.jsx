@@ -1,9 +1,5 @@
 import styled from "styled-components";
-import {
-  FlexAlignBox,
-  FlexCenterBox,
-  FlexColumnBox,
-} from "../../../shared/Styles/flex";
+import { FlexAlignBox, FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const CloseContainer = styled.div`
   position: fixed;
@@ -119,6 +115,7 @@ export const ImageWrap = styled.div`
     height: 70px;
     margin-right: 0.8rem;
     border-radius: 8px;
+    object-fit: cover;
   }
 `;
 
@@ -173,7 +170,6 @@ export const SpreadBtn = styled.div`
   svg {
     width: 10px;
     color: rgba(0, 0, 0, 0.3);
-    transform: ${(props) =>
-      props.isSpread ? "rotateZ(180deg)" : "rotateZ(360deg)"};
+    transform: ${(props) => (props.isSpread ? "rotateZ(180deg)" : "rotateZ(360deg)")};
   }
 `;

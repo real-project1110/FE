@@ -1,9 +1,5 @@
 import styled from "styled-components";
-import {
-  FlexBetweenBox,
-  FlexCenterBox,
-  FlexColumnBox,
-} from "../../../shared/Styles/flex";
+import { FlexBetweenBox, FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
 export const DetailWrapper = styled.div`
   width: 100%;
@@ -26,6 +22,19 @@ export const DetailPost = styled.div`
     margin: 4% auto 4% auto;
     background-color: #ffffff;
     border-radius: 8px;
+  }
+`;
+
+export const Images = styled.div`
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  & > img {
+    width: 70px;
+    height: 70px;
+    margin-right: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    object-fit: cover;
   }
 `;
 
@@ -52,8 +61,8 @@ export const Cancel = styled.span`
 `;
 
 export const DetailPostUserInfo = styled.div`
-${FlexBetweenBox};
-width: 100%;
+  ${FlexBetweenBox};
+  width: 100%;
   margin-left: 0.7rem;
   & > div {
     ${FlexColumnBox};
@@ -67,7 +76,6 @@ width: 100%;
       font-size: 0.75rem;
     }
   }
-  &>span
 `;
 
 export const PostContent = styled.div`
