@@ -26,7 +26,7 @@ import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
-import { groupUserAtom } from "../../recoil/userAtoms";
+
 import Spinner from "../Common/Elements/Spinner";
 
 setOptions({
@@ -84,7 +84,7 @@ const Schedular = () => {
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { refetch, isLoading } = useQuery(
+  const { refetch } = useQuery(
     ["schedules", groupId],
     () => readSchedule(groupId),
     {

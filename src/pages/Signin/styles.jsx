@@ -2,9 +2,14 @@ import styled from "styled-components";
 import { FlexAlignBox, FlexBetweenBox, FlexCenterBox, FlexColumnBox } from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
-  width: 100%;
+  width: 1500px;
   height: 100vh;
-  ${FlexCenterBox};
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 500px 450px 500px;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 `;
 
 export const LoginContainer = styled.div`
@@ -12,6 +17,18 @@ export const LoginContainer = styled.div`
   align-items: center;
   width: 500px;
   z-index: 100;
+`;
+
+export const ImageDiv = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  & > img {
+    position: absolute;
+    bottom: 5%;
+    width: 370px;
+    object-fit: scale-down;
+  }
 `;
 
 export const SignInLogo = styled.div``;

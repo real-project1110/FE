@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
 import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
-import { LoginContainer, Title, Form, Or, ButtonWrap, LoginButton, SocialButtonWrap, SignInLogo, Wrapper, BigMent, LogoBox } from "./styles";
+import signinImage from "../../assets/image/signinImage.png";
+import { LoginContainer, Title, Form, Or, ButtonWrap, LoginButton, SocialButtonWrap, SignInLogo, Wrapper, BigMent, LogoBox, ImageDiv } from "./styles";
 import Input from "../../components/Common/Elements/Input";
 import { signin } from "../../apis/userApi";
 import { setAccessToken } from "../../shared/Cookie/Cookie";
@@ -58,6 +59,7 @@ function Signin() {
 
   return (
     <Wrapper>
+      <div></div>
       <LoginContainer>
         <SignInLogo>
           <LogoBox onClick={() => navigate("/")}>
@@ -132,6 +134,9 @@ function Signin() {
           </SocialButtonWrap>
         </Form>
       </LoginContainer>
+      <ImageDiv>
+        <img src={signinImage} alt={signinImage} />
+      </ImageDiv>
     </Wrapper>
   );
 }
