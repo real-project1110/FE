@@ -10,7 +10,6 @@ import { addPost, editPost } from "../../../apis/postApi";
 import { queryClient } from "../../..";
 import {
   SubmitBtn,
-  PostButton,
   Posting,
   Wrapper,
   EditorWrapper,
