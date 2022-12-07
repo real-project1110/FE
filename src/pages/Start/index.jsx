@@ -60,7 +60,12 @@ const Start = () => {
       </Header>
       <Main as="main">
         <Section1 as="section">
-          <Section1Text>
+          <Section1Text
+            variants={section1TextAni}
+            initial="initial"
+            animate="animate"
+            transition={{ type: "tween", duration: 1 }}
+          >
             <h2>나와 팀을 알아가는</h2>
             <h2>워크 스페이스</h2>
             <p>일을 잘하는 것만큼 함께하는 팀을 알아가는 것도 중요하죠.</p>
@@ -79,7 +84,12 @@ const Start = () => {
               </button>
             </Section1Btns>
           </Section1Text>
-          <Section1Img>
+          <Section1Img
+            variants={section1Img}
+            initial="initial"
+            animate="animate"
+            transition={{ type: "tween", duration: 1 }}
+          >
             <img src={start1} alt="start1" />
           </Section1Img>
         </Section1>
@@ -177,3 +187,12 @@ const Start = () => {
 export default Start;
 
 // padding 0 10w;
+
+const section1TextAni = {
+  initial: { opacity: 0, x: -100 },
+  animate: { opacity: 1, x: 0 },
+};
+const section1Img = {
+  initial: { opacity: 0, x: 100 },
+  animate: { opacity: 1, x: 0 },
+};
