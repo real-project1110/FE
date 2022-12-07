@@ -157,7 +157,7 @@ export const Section2 = styled.div`
 
 export const Section2Item = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
 `;
 
 export const Section2Img = styled.div`
@@ -166,7 +166,6 @@ export const Section2Img = styled.div`
   img {
     width: 100%;
     min-width: 600px;
-    max-width: 750px;
     height: 100%;
     object-fit: scale-down;
   }
