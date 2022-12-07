@@ -10,7 +10,6 @@ import { addPost, editPost } from "../../../apis/postApi";
 import { queryClient } from "../../..";
 import {
   SubmitBtn,
-  PostButton,
   Posting,
   Wrapper,
   EditorWrapper,
@@ -146,9 +145,23 @@ function PostForm() {
   }, [editPostData, setEditPostData, setEditMode, editMode]);
 
   return (
-    <Wrapper onClick={onCloseModal}>
+    <Wrapper
+      onClick={onCloseModal}
+      variants={bgAni}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.2 }}
+    >
       <ToastContainer />
-      <EditorWrapper onClick={(e) => e.stopPropagation()}>
+      <EditorWrapper
+        onClick={(e) => e.stopPropagation()}
+        variants={ModalAni}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ type: "tween", duration: 0.2 }}
+      >
         <Editor onSubmit={Submit}>
           <Header>
             <div style={{ position: "fixed" }}>글쓰기</div>
@@ -210,3 +223,15 @@ function PostForm() {
 }
 
 export default PostForm;
+
+const ModalAni = {
+  initial: { y: 100, opacity: 0 },
+  animate: { y: 0, opacity: 1 },
+  exit: { y: 100, opacity: 0 },
+};
+
+const bgAni = {
+  initial: { backgroundColor: "rgba(0,0,0,0)" },
+  animate: { backgroundColor: "rgba(0,0,0,0.4)" },
+  exit: { backgroundColor: "rgba(0,0,0,0)" },
+};

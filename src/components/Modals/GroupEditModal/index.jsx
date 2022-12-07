@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { toast } from "react-toastify";
 import { queryClient } from "../../..";
 import { editGroupImage, EditGroupName } from "../../../apis/groupApi";
 import CameraSvg from "../../../assets/svg/CameraSvg";
@@ -22,12 +23,56 @@ const GroupEditModal = ({ group, setIsEdit }) => {
     onSuccess: () => {
       queryClient.invalidateQueries(["groupList"]);
       queryClient.invalidateQueries(["group", group?.groupId + ""]);
+      toast.success("그룹 이름이 수정되었습니다. 😊", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
+    onError: () => {
+      toast.error("그룹 이름 수정에 실패하였습니다. 😰", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     },
   });
   const { mutate: editGroupImageFn } = useMutation(editGroupImage, {
     onSuccess: () => {
       queryClient.invalidateQueries(["groupList"]);
       queryClient.invalidateQueries(["group", group?.groupId + ""]);
+      toast.success("그룹 이미지가 변경되었습니다. 😊", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
+    onError: () => {
+      toast.error("이미지 변경에 실패하였습니다. 😰", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     },
   });
 
@@ -71,8 +116,20 @@ const GroupEditModal = ({ group, setIsEdit }) => {
         e.stopPropagation();
         setIsEdit(false);
       }}
+      variants={bgAni}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.2 }}
     >
-      <EditModal onClick={(e) => e.stopPropagation()}>
+      <EditModal
+        onClick={(e) => e.stopPropagation()}
+        variants={ModalAni}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ type: "tween", duration: 0.2 }}
+      >
         <EditModalHeader>
           <div />
           <h4>그룹 정보 수정</h4>
@@ -118,3 +175,14 @@ const GroupEditModal = ({ group, setIsEdit }) => {
 };
 
 export default GroupEditModal;
+const ModalAni = {
+  initial: { y: 100, opacity: 0 },
+  animate: { y: 0, opacity: 1 },
+  exit: { y: 100, opacity: 0 },
+};
+
+const bgAni = {
+  initial: { backgroundColor: "rgba(0,0,0,0)" },
+  animate: { backgroundColor: "rgba(0,0,0,0.4)" },
+  exit: { backgroundColor: "rgba(0,0,0,0)" },
+};

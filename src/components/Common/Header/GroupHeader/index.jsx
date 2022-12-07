@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import BellSvg from "../../../../assets/svg/BellSvg";
-import LogoSvg from "../../../../assets/svg/LogoSvg";
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import {
   editProfileModalAtom,
@@ -15,6 +14,8 @@ import AlertModal from "../../../Modals/AlertModal";
 import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, Wrapper, FakeImg } from "./styles";
+import { AnimatePresence } from "framer-motion";
+import BigLogoSvg from "../../../../assets/svg/BigLogoSvg";
 
 const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
@@ -36,7 +37,7 @@ const GroupHeader = () => {
     <Wrapper as="header">
       <Nav as="nav">
         <Link to={"/main"}>
-          <LogoSvg />
+          <BigLogoSvg />
         </Link>
         <RightNav>
           <li>
@@ -60,14 +61,16 @@ const GroupHeader = () => {
           </li>
         </RightNav>
       </Nav>
-      {headerAlert ? <AlertModal setHeaderAlert={setHeaderAlert} /> : null}
-      {editProfile ? (
-        <ProfileEditModal
-          closeModal={setEditProfile}
-          user={groupUser}
-          groupId={groupId}
-        />
-      ) : null}
+      <AnimatePresence>
+        {headerAlert ? <AlertModal setHeaderAlert={setHeaderAlert} /> : null}
+        {editProfile ? (
+          <ProfileEditModal
+            closeModal={setEditProfile}
+            user={groupUser}
+            groupId={groupId}
+          />
+        ) : null}
+      </AnimatePresence>
     </Wrapper>
   );
 };

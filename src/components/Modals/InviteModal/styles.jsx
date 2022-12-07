@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import {
   FlexAlignBox,
   FlexBetweenBox,
@@ -6,7 +7,7 @@ import {
   FlexColumnBox,
 } from "../../../shared/Styles/flex";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(motion.div)`
   position: fixed;
   ${FlexCenterBox};
   width: 100%;
@@ -15,7 +16,7 @@ export const Wrapper = styled.div`
   z-index: 100;
 `;
 
-export const InviteForm = styled.form`
+export const InviteForm = styled(motion.form)`
   ${FlexColumnBox};
   justify-content: space-between;
   width: 30vw;
@@ -27,6 +28,7 @@ export const InviteForm = styled.form`
   background-color: ${(props) => props.theme.layoutColor.white};
   border-radius: 10px;
   z-index: 9999;
+  margin-top: -20vh;
 `;
 
 export const FormWrapper = styled.div`

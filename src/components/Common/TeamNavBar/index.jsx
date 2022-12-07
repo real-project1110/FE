@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useMatch, useParams } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import CalendarSvg from "../../../assets/svg/CalendarSvg";
 import PostSvg from "../../../assets/svg/PostSvg";
 import {
@@ -18,6 +18,7 @@ import GroupEditModal from "../../Modals/GroupEditModal";
 import MySvg from "../../../assets/svg/MySvg";
 import { decodeUser } from "../../../utils/decodeUser";
 import { useMemo } from "react";
+import { AnimatePresence } from "framer-motion";
 
 const TeamNavBar = () => {
   const group = useRecoilValue(groupAtom);
@@ -59,7 +60,15 @@ const TeamNavBar = () => {
         </GroupNav>
         <UserList />
       </Scrollbars>
-      {isEdit && <GroupEditModal setIsEdit={setIsEdit} group={group} />}
+      <AnimatePresence>
+        {isEdit && (
+          <GroupEditModal
+            key="GroupEditModal"
+            setIsEdit={setIsEdit}
+            group={group}
+          />
+        )}
+      </AnimatePresence>
     </Wrapper>
   );
 };

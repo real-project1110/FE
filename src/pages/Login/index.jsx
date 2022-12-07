@@ -1,5 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "react-toastify/dist/ReactToastify.css";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,7 +22,7 @@ import {
 } from "./styles";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
-import GoogleLogin from "../../assets/image/구글.png";
+import GoogleLoginImage from "../../assets/image/구글.png";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
 import login from "../../assets/image/login.png";
 
@@ -30,6 +31,57 @@ const Login = () => {
   const LoginWithKakao = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
+
+  // useEffect(() => {
+  //   const initClient = () => {
+  //     gapi.client.init({
+  //       clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+  //       scope: "",
+  //     });
+  //   };
+  //   gapi.load("client:auth2", initClient);
+  // });
+
+  // const onSuccess = async (res) => {
+  //   try {
+  //     const token = res.accessToken;
+  //     const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}auth/google`, res, {
+  //       headers: {
+  //         Authorization: token,
+  //       },
+  //     });
+  //     const {
+  //       status,
+  //       data: { accessToken, refreshToken, currentPage },
+  //     } = response;
+  //     if (status !== 200) return;
+  //     setAccessToken(accessToken);
+  //     localStorage.setItem("token", refreshToken);
+
+  //     if (currentPage) {
+  //       return window.location.replace(`/groups/${currentPage}`);
+  //     } else {
+  //       return window.location.replace("/main/write");
+  //     }
+  //   } catch (e) {
+  //     // window.location.replace("/login");
+  //     toast.error("이미 가입된 이메일 입니다.", {
+  //       position: "top-center",
+  //       autoClose: 1000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "light",
+  //     });
+  //   }
+  // };
+
+  // const onFailure = (err) => {
+  //   console.log("에러", err);
+  // };
+
   const navigate = useNavigate();
   return (
     <Wrapper style={{ backgroundImage: `url(${login})` }}>
@@ -79,9 +131,10 @@ const Login = () => {
             </SocialItem>
             <SocialItem>
               <div className="google">
-                <img src={GoogleLogin} alt="kakaoLogin" width="32px" height="32px" />
+                <img src={GoogleLoginImage} alt="kakaoLogin" width="32px" height="32px" />
               </div>
               <span>구글 로그인</span>
+              {/* <GoogleLogin icon={false} clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} buttonText="" /> */}
             </SocialItem>
           </SocialList>
         </ButtonContainer>

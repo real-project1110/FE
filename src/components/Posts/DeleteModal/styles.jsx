@@ -1,15 +1,16 @@
 import styled from "styled-components";
-
-export const DeleteBox = styled.div`
+import { motion } from "framer-motion";
+export const DeleteBox = styled(motion.div)`
   width: 450px;
   height: 150px;
   background-color: #ffffff;
   border-radius: 8px;
   padding: 2rem 2rem;
+  margin-top: -20vh;
 `;
 
-export const Confirm = styled.div`
-  font-weight: 700;
+export const Confirm = styled.h3`
+  font-weight: 500;
   font-size: 20px;
 `;
 
@@ -29,8 +30,8 @@ export const Cancel = styled.button`
   color: #aaaaaa;
 
   &:hover {
-    background-color: ${(props) => props.theme.color.lightGray};
     color: #ffffff;
+    background-color: ${(props) => props.theme.color.lightGray};
   }
 `;
 
