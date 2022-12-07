@@ -75,6 +75,7 @@ const UserList = () => {
             user={groupUser}
             isMe={true}
             status={status}
+            groupId={groupId}
             isLoggedIn={onlineList.includes(groupUser?.groupUserId)}
           />
           <IconList
