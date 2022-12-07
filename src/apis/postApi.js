@@ -3,7 +3,6 @@ import instance, { postApi } from "./instance/instance";
 
 /** 게시글 생성 { id, body:{ content,postImg,category } } */
 export const addPost = async (payload) => {
-  console.log(payload);
   const { data } = await postApi.post(
     `groups/${payload.groupId}/posts`,
     payload.body
