@@ -34,6 +34,21 @@ export const CommentInput = styled.input`
 export const CommentSubmitBtn = styled.button`
   ${FlexCenterBox};
   padding: 0.5rem 0;
+  margin-top: -5px;
+  margin-right: 25px;
+  width: 3rem;
+  display: flex;
+  border: none;
+  border-radius: 5px;
+  svg {
+    width: 20px;
+    margin-left: 0.5rem;
+  }
+`;
+
+export const CommentSubmit = styled.button`
+  ${FlexCenterBox};
+  margin-right: 15px;
   width: 3rem;
   display: flex;
   border: none;
