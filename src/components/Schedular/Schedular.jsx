@@ -28,6 +28,7 @@ import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
 
 import Spinner from "../Common/Elements/Spinner";
+import { useEffect } from "react";
 
 setOptions({
   theme: "ios",
@@ -77,7 +78,7 @@ const Schedular = () => {
   const [addTitle, setAddTitle] = useState("");
   const colorPicker = useRef();
   const { groupId } = useParams();
-
+  const scheduleLoading = useRef(false);
   // 고를 수 있는 색상
   const colors = useMemo(() => {
     return existColors?.map((color) => color.color);
@@ -91,6 +92,7 @@ const Schedular = () => {
       refetchOnWindowFocus: false,
       retry: 1,
       onSuccess: (data) => {
+        scheduleLoading.current = true;
         setMyEvents(
           data.map((schedule) => {
             return {
@@ -446,6 +448,7 @@ const Schedular = () => {
     },
     [selectColor, setSelectedColor]
   );
+
   if (isLoading) return <Spinner />;
   return (
     <Wrapper>
