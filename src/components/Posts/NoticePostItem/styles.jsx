@@ -22,11 +22,13 @@ export const TitleWrap = styled.div`
 `;
 
 export const PostImg = styled.img`
-  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
   height: 100px;
   object-fit: cover;
   border: none;
   border-radius: 8px;
+  background-color: red;
 `;
 
 export const ContentBox = styled.div`
