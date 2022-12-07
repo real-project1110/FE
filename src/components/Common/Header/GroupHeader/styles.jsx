@@ -36,7 +36,20 @@ export const RightNav = styled.ul`
     cursor: pointer;
     ${FlexCenterBox};
     &:nth-child(2) {
+      position: relative;
       margin-left: 0.5rem;
+      span {
+        ${FlexCenterBox};
+        position: absolute;
+        top: -3px;
+        right: -2px;
+        width: 20px;
+        height: 20px;
+        color: white;
+        font-size: 0.8rem;
+        background-color: ${(props) => props.theme.color.red};
+        border-radius: 50%;
+      }
     }
     & > img {
       width: 2.4rem;

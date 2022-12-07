@@ -21,7 +21,7 @@ const NavItem = ({ group }) => {
             onError={handleImgError}
           />
         ) : (
-          <FakeImg />
+          <FakeImg isFocus={groupMatch} />
         )}
 
         {isHover && <GroupName>{group?.groupName}</GroupName>}
