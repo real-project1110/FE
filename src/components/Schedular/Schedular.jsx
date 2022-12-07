@@ -27,6 +27,7 @@ import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
 import { groupUserAtom } from "../../recoil/userAtoms";
+import Spinner from "../Common/Elements/Spinner";
 
 setOptions({
   theme: "ios",
@@ -75,7 +76,6 @@ const Schedular = () => {
   const [tempColor, setTempColor] = useState("");
   const [addTitle, setAddTitle] = useState("");
   const colorPicker = useRef();
-  const groupUser = useRecoilValue(groupUserAtom);
   const { groupId } = useParams();
 
   // 고를 수 있는 색상
@@ -84,7 +84,7 @@ const Schedular = () => {
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { data, refetch } = useQuery(
+  const { refetch, isLoading } = useQuery(
     ["schedules", groupId],
     () => readSchedule(groupId),
     {
@@ -446,7 +446,7 @@ const Schedular = () => {
     },
     [selectColor, setSelectedColor]
   );
-
+  if (isLoading) return <Spinner />;
   return (
     <Wrapper>
       <ToastContainer />

@@ -18,6 +18,7 @@ import {
   onlineListAtom,
 } from "../../recoil/userAtoms";
 import { Wrapper, Body } from "./styles";
+import { AnimatePresence } from "framer-motion";
 
 const Group = () => {
   const { groupId } = useParams();
@@ -96,7 +97,9 @@ const Group = () => {
         <SideTeamBar />
         <TeamNavBar />
         <Outlet />
-        {isInviteModal ? <InviteModal /> : null}
+        <AnimatePresence>
+          {isInviteModal ? <InviteModal /> : null}
+        </AnimatePresence>
       </Body>
     </Wrapper>
   );

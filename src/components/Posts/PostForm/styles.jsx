@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import {
   FlexAlignBox,
   FlexCenterBox,
   FlexColumnBox,
 } from "../../../shared/Styles/flex";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(motion.div)`
   ${FlexCenterBox}
   position: absolute;
   top: 0;
@@ -15,7 +16,7 @@ export const Wrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 
-export const EditorWrapper = styled.div`
+export const EditorWrapper = styled(motion.div)`
   //margin: 4% auto 4% auto;
 `;
 

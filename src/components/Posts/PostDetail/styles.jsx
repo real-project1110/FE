@@ -1,12 +1,16 @@
 import styled from "styled-components";
-import { FlexBetweenBox, FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
-
-export const DetailWrapper = styled.div`
+import {
+  FlexBetweenBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../../shared/Styles/flex";
+import { motion } from "framer-motion";
+export const DetailWrapper = styled(motion.div)`
   width: 100%;
   padding: 1rem 0;
 `;
 
-export const DetailPost = styled.div`
+export const DetailPost = styled(motion.div)`
   ${FlexCenterBox}
   position: absolute;
   top: 0;
@@ -25,16 +29,16 @@ export const DetailPost = styled.div`
   }
 `;
 
-export const Images = styled.div`
+export const Images = styled(motion.div)`
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   & > img {
     width: 70px;
     height: 70px;
     margin-right: 0.8rem;
+    object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
-    object-fit: cover;
   }
 `;
 

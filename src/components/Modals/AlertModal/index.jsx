@@ -64,8 +64,21 @@ const AlertModal = ({ setHeaderAlert }) => {
     [deleteAlertFn]
   );
   return (
-    <Wrapper onClick={onCloseModal}>
-      <SideContainer>
+    <Wrapper
+      onClick={onCloseModal}
+      variants={bgAni}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.2 }}
+    >
+      <SideContainer
+        variants={modalAni}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ type: "tween", duration: 0.2 }}
+      >
         <TitleBox>
           <Title>알림</Title>
           <span>
@@ -119,8 +132,14 @@ const AlertModal = ({ setHeaderAlert }) => {
 
 export default AlertModal;
 
-// const invites = [
-//   { inviteId: 0, groupId: 1, groupName: "항해99" },
-//   { inviteId: 1, groupId: 2, groupName: "할리스 동호회" },
-//   { inviteId: 2, groupId: 3, groupName: "스타벅스 동호회" },
-// ];
+const modalAni = {
+  initial: { x: 400, opacity: 0 },
+  animate: { x: 0, opacity: 1 },
+  exit: { x: 400, opacity: 0 },
+};
+
+const bgAni = {
+  initial: { backgroundColor: "rgba(0,0,0,0)" },
+  animate: { backgroundColor: "rgba(0,0,0,0.4)" },
+  exit: { backgroundColor: "rgba(0,0,0,0)" },
+};

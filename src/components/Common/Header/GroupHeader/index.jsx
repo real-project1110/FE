@@ -15,6 +15,7 @@ import AlertModal from "../../../Modals/AlertModal";
 import ProfileEditModal from "../../../Modals/ProfileEditModal";
 import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, Wrapper, FakeImg } from "./styles";
+import { AnimatePresence } from "framer-motion";
 
 const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
@@ -60,14 +61,16 @@ const GroupHeader = () => {
           </li>
         </RightNav>
       </Nav>
-      {headerAlert ? <AlertModal setHeaderAlert={setHeaderAlert} /> : null}
-      {editProfile ? (
-        <ProfileEditModal
-          closeModal={setEditProfile}
-          user={groupUser}
-          groupId={groupId}
-        />
-      ) : null}
+      <AnimatePresence>
+        {headerAlert ? <AlertModal setHeaderAlert={setHeaderAlert} /> : null}
+        {editProfile ? (
+          <ProfileEditModal
+            closeModal={setEditProfile}
+            user={groupUser}
+            groupId={groupId}
+          />
+        ) : null}
+      </AnimatePresence>
     </Wrapper>
   );
 };

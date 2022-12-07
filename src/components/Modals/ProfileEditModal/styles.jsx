@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import {
   FlexAlignBox,
   FlexCenterBox,
   FlexColumnBox,
 } from "../../../shared/Styles/flex";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(motion.div)`
   position: fixed;
   top: ${(props) => props.theme.headerHeight};
   bottom: 0;
@@ -15,7 +16,7 @@ export const Wrapper = styled.div`
   z-index: 100;
 `;
 
-export const SideContainer = styled.div`
+export const SideContainer = styled(motion.div)`
   ${FlexColumnBox};
   position: absolute;
   right: 0;

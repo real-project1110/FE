@@ -163,9 +163,23 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   }, [user, setValue, isMain]);
 
   return (
-    <Wrapper onClick={onCloseModal}>
+    <Wrapper
+      onClick={onCloseModal}
+      variants={bgAni}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.2 }}
+    >
       <ToastContainer />
-      <SideContainer onClick={(e) => e.stopPropagation()}>
+      <SideContainer
+        onClick={(e) => e.stopPropagation()}
+        variants={modalAni}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ type: "tween", duration: 0.2 }}
+      >
         <TitleBox>
           <Title>프로필 편집</Title>
           <span onClick={() => closeModal(false)}>
@@ -263,3 +277,15 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
 };
 
 export default ProfileEditModal;
+
+const modalAni = {
+  initial: { x: 400, opacity: 0 },
+  animate: { x: 0, opacity: 1 },
+  exit: { x: 400, opacity: 0 },
+};
+
+const bgAni = {
+  initial: { backgroundColor: "rgba(0,0,0,0)" },
+  animate: { backgroundColor: "rgba(0,0,0,0.3)" },
+  exit: { backgroundColor: "rgba(0,0,0,0)" },
+};
