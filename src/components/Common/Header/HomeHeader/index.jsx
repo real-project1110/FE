@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { readUser } from "../../../../apis/userApi";
 import BellSvg from "../../../../assets/svg/BellSvg";
-import LogoSvg from "../../../../assets/svg/LogoSvg";
+import BigLogoSvg from "../../../../assets/svg/BigLogoSvg";
+
 import QuestionSvg from "../../../../assets/svg/QuestionSvg";
 import {
   editProfileModalAtom,
@@ -51,7 +52,7 @@ const HomeHeader = () => {
     <Wrapper as="header">
       <Nav as="nav">
         <Link to={"/main"}>
-          <LogoSvg />
+          <BigLogoSvg />
         </Link>
         <RightNav>
           <li>

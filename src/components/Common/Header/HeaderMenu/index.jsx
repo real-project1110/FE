@@ -83,7 +83,9 @@ const HeaderMenu = ({ user, isMain = false }) => {
 
           <span>{isMain ? user?.nickname : user?.groupUserNickname}</span>
         </UserInfo>
-        <li onClick={onClickShowEditProfile}>프로필 편집</li>
+        <li onClick={onClickShowEditProfile}>
+          프로필 편집 ({group?.groupName})
+        </li>
         {!isMain && group && (
           <li onClick={onClickGroupout}>
             <strong>{group.groupName}</strong>에서 나가기

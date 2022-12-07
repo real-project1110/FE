@@ -92,13 +92,13 @@ function FreePosts() {
         <AllFreePost>
           {isSuccess && getPost?.pages
             ? getPost?.pages?.map((page) => (
-                <React.Fragment key={page.currentPage}>
+                <React.Fragment key={page?.currentPage}>
                   {page?.data?.map((post) => {
                     return (
                       <FreePostItem
                         nowRef={ref}
                         groupId={groupId}
-                        key={post.postId}
+                        key={post?.postId}
                         refetch={refetch}
                         post={post}
                       />

@@ -73,11 +73,23 @@ const InviteModal = () => {
     setEmails((prev) => prev.filter((item, idx) => idx !== num));
   }, []);
   return (
-    <Wrapper onClick={() => setIsInviteModal(false)}>
+    <Wrapper
+      onClick={() => setIsInviteModal(false)}
+      variants={bgAni}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.2 }}
+    >
       <ToastContainer />
       <InviteForm
         onSubmit={handleSubmit(onValid)}
         onClick={(e) => e.stopPropagation()}
+        variants={modalAni}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ type: "tween", duration: 0.2 }}
       >
         <FormWrapper>
           <FormHeader>
@@ -118,3 +130,15 @@ const InviteModal = () => {
 };
 
 export default InviteModal;
+
+const modalAni = {
+  initial: { y: 100, opacity: 0 },
+  animate: { y: 0, opacity: 1 },
+  exit: { y: 100, opacity: 0 },
+};
+
+const bgAni = {
+  initial: { backgroundColor: "rgba(0,0,0,0)" },
+  animate: { backgroundColor: "rgba(0,0,0,0.4)" },
+  exit: { backgroundColor: "rgba(0,0,0,0)" },
+};

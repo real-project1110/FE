@@ -1,10 +1,20 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
+import CancelSvg from "../../../assets/svg/CancelSvg";
 import { PostDetailAtom } from "../../../recoil/groupAtoms";
-import { AllImg, BigImage, Image, ImageSlide, ImageWrap, StyledSlider } from "./styles";
+import {
+  AllImg,
+  BigImage,
+  Header,
+  Image,
+  ImageSlide,
+  ImageWrap,
+  StyledSlider,
+  Wrapper,
+} from "./styles";
 
-function ImageModal() {
-  const [detail, setDetail] = useRecoilState(PostDetailAtom);
+function ImageModal({ layoutId, setShowImage }) {
+  const detail = useRecoilValue(PostDetailAtom);
   const settings = {
     dots: false,
     infinite: true,
@@ -14,25 +24,47 @@ function ImageModal() {
     autoplay: true,
   };
   return (
-    <ImageWrap>
-      <ImageSlide>
-        <StyledSlider {...settings}>
+    <Wrapper
+      variants={bgAni}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.2 }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <ImageWrap layoutId={layoutId} onClick={(e) => e.stopPropagation()}>
+        <Header>
+          <div />
+          <h3>상세 이미지</h3>
+          <span onClick={() => setShowImage(null)}>
+            <CancelSvg />
+          </span>
+        </Header>
+        <ImageSlide>
+          <StyledSlider {...settings}>
+            {detail?.postImg?.map((image) => (
+              <BigImage key={image.postImg}>
+                <img src={image.postImg} alt={image} />
+              </BigImage>
+            ))}
+          </StyledSlider>
+        </ImageSlide>
+        <AllImg>
           {detail?.postImg?.map((image) => (
-            <BigImage key={image.postImg}>
+            <Image key={image.postImg}>
               <img src={image.postImg} alt={image} />
-            </BigImage>
+            </Image>
           ))}
-        </StyledSlider>
-      </ImageSlide>
-      <AllImg>
-        {detail?.postImg?.map((image) => (
-          <Image key={image.postImg}>
-            <img src={image.postImg} alt={image} />
-          </Image>
-        ))}
-      </AllImg>
-    </ImageWrap>
+        </AllImg>
+      </ImageWrap>
+    </Wrapper>
   );
 }
 
 export default ImageModal;
+
+const bgAni = {
+  initial: { backgroundColor: "rgba(0,0,0,0)" },
+  animate: { backgroundColor: "rgba(0,0,0,0.6)" },
+  exit: { backgroundColor: "rgba(0,0,0,0)" },
+};

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
+import { motion } from "framer-motion";
 
-export const EditModalBg = styled.div`
+export const EditModalBg = styled(motion.div)`
   ${FlexCenterBox};
   position: fixed;
   top: 0;
@@ -12,7 +13,7 @@ export const EditModalBg = styled.div`
   z-index: 1000;
 `;
 
-export const EditModal = styled.div`
+export const EditModal = styled(motion.div)`
   ${FlexColumnBox};
   width: 400px;
   height: 500px;
