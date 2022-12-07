@@ -91,9 +91,9 @@ function FreePosts() {
         </PostHeader>
         <AllFreePost>
           {isSuccess && getPost?.pages
-            ? getPost?.pages.map((page) => (
+            ? getPost?.pages?.map((page) => (
                 <React.Fragment key={page.currentPage}>
-                  {page?.data.map((post) => {
+                  {page?.data?.map((post) => {
                     return (
                       <FreePostItem
                         nowRef={ref}

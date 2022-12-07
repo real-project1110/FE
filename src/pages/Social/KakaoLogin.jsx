@@ -44,7 +44,7 @@ function KakaoLogin() {
         toast.error("이미 가입된 이메일 입니다.", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,

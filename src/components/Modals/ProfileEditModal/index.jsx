@@ -45,7 +45,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
         toast.success("닉네임이 변경되었습니다.", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -63,7 +63,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
       toast.success("닉네임이 변경되었습니다.", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -80,7 +80,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
       toast.success("프로필이 변경되었습니다.", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -97,7 +97,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
       toast.success("프로필이 변경되었습니다.", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

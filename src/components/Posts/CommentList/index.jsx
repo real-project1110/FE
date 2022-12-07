@@ -83,7 +83,7 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
       toast("마지막 댓글입니다", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

@@ -22,6 +22,8 @@ import {
 } from "./styles";
 import { LogoBox, BigMent } from "../Login/styles";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
+import { ImageDiv } from "../Signin/styles";
+import signinImage from "../../assets/image/signinImage.png";
 
 const Signup = () => {
   const {
@@ -51,7 +53,7 @@ const Signup = () => {
           toast.success(response.data.message, {
             position: "top-center",
             autoClose: 1000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -63,7 +65,7 @@ const Signup = () => {
           return toast.error("회원가입 실패", {
             position: "top-center",
             autoClose: 1000,
-            hideProgressBar: false,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -75,7 +77,7 @@ const Signup = () => {
         return toast.error("이메일 인증을 해주세요", {
           position: "top-center",
           autoClose: 1000,
-          hideProgressBar: false,
+          hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -95,7 +97,7 @@ const Signup = () => {
       toast.success("인증번호 발송", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -107,7 +109,7 @@ const Signup = () => {
       return toast.error("이미 가입된 이메일 입니다.", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -128,7 +130,7 @@ const Signup = () => {
       toast.success("인증성공", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -140,7 +142,7 @@ const Signup = () => {
       toast.error("인증번호를 확인해주세요!", {
         position: "top-center",
         autoClose: 1000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -282,7 +284,7 @@ const Signup = () => {
                 type={"password"}
                 errors={errors}
                 errorName={"password"}
-                _border={watch("password")?.length === 0 ? "#BBBBBB" : errors.password ? "#FF2D53" : "#5FCB94"}
+                _border={!watch("password")?.length === 0 ? "#BBBBBB" : errors.password ? "#FF2D53" : "#5FCB94"}
                 label={"비밀번호"}
               />
               <Input
@@ -297,7 +299,7 @@ const Signup = () => {
                 type={"password"}
                 errors={errors}
                 errorName={"confirm"}
-                _border={watch("confirm")?.length === 0 ? "#BBBBBB" : errors.confirm ? "#FF2D53" : "#5FCB94"}
+                _border={!watch("confirm")?.length === 0 ? "#BBBBBB" : errors.confirm ? "#FF2D53" : "#5FCB94"}
                 label={"비밀번호 확인"}
               />
             </>
@@ -309,6 +311,9 @@ const Signup = () => {
           )}
         </JoinForm>
       </SignUpContainer>
+      <ImageDiv>
+        <img src={signinImage} alt={signinImage} />
+      </ImageDiv>
     </Wrapper>
   );
 };

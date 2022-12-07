@@ -125,8 +125,8 @@ const Chat = () => {
   // 채팅방을 나갔을 때 실행 소켓의 이벤트에 대한 연결을 off
   useEffect(() => {
     return () => {
-      // socket.emit("leaveRoom", { roomId, groupUserId: me.groupUserId + "" });
-      // socket.off("leaveRoom");
+      socket.emit("leaveRoom", { roomId, groupUserId: me.groupUserId });
+      socket.off("leaveRoom");
       socket.off("message");
       socket.off("joinRoom");
     };

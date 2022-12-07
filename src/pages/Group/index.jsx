@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { readGroup } from "../../apis/groupApi";
 import { readGroupUser, readGroupUsers } from "../../apis/groupUserApi";

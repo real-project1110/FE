@@ -26,7 +26,7 @@ function NoticePosts() {
       <AllPost>
         <Scrollbars autoHide onScrollStop={fetchNextPage}>
           {isSuccess && getNotice?.pages
-            ? getNotice?.pages.map((page) => (
+            ? getNotice?.pages?.map((page) => (
                 <React.Fragment key={page.currentPage}>
                   {page?.data.map((notice) => (
                     <NoticePostItem
