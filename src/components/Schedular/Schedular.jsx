@@ -84,7 +84,7 @@ const Schedular = () => {
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { refetch } = useQuery(
+  const { refetch, isLoading } = useQuery(
     ["schedules", groupId],
     () => readSchedule(groupId),
     {
