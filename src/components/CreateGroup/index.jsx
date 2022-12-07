@@ -41,7 +41,17 @@ const CreateGroup = () => {
       setGroupId(data);
       setStep((prev) => prev + 1);
     },
-    onError: (error) => console.log(error),
+    onError: () =>
+      toast.error("그룹 생성 실패", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      }),
   });
 
   const { mutate: editGroupImageFn } = useMutation(editGroupImage, {

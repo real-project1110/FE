@@ -43,7 +43,7 @@ const AlertModal = ({ setHeaderAlert }) => {
     async (groupId, inviteId) => {
       //e.stopPropagation();
       const response = await addGroupUsers({ groupId });
-      console.log(response);
+
       if (response.status === 201) {
         queryClient.invalidateQueries(["groupList"]);
         deleteAlertFn(inviteId);

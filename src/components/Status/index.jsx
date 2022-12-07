@@ -15,9 +15,9 @@ import { readStatus, removeStatus } from "../../apis/colorApi";
 import { useSetRecoilState } from "recoil";
 import { ColorFormModalAtom } from "../../recoil/modalAtoms";
 import { nowColor } from "../../recoil/ColorAtom";
+import { toast } from "react-toastify";
 
 function Status({ groupId }) {
-  const [openModal, setOpenModal] = useState(false);
   const setIsColor = useSetRecoilState(ColorFormModalAtom);
   const setColor = useSetRecoilState(nowColor);
 
@@ -30,9 +30,17 @@ function Status({ groupId }) {
       onSuccess: (data) => {
         setColor(data);
       },
-      onError: (e) => {
-        console.log(e.message);
-      },
+      onError: (e) =>
+        toast.error("상태 정보를 가져오는데 실패하였습니다.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }),
     }
   );
 
@@ -50,11 +58,6 @@ function Status({ groupId }) {
     setIsColor(true);
   };
 
-  // 모달 닫기
-  const onCloseModal = () => {
-    setOpenModal(false);
-  };
-
   // 컬러 삭제
   const remove = (id) => {
     const colorData = {
@@ -69,7 +72,7 @@ function Status({ groupId }) {
   };
 
   return (
-    <StatusBox onClick={onCloseModal}>
+    <StatusBox onClick={(e) => e.stopPropagation()}>
       <CalendarLogo>
         <LogoSvg />
       </CalendarLogo>
