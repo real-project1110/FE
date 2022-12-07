@@ -27,12 +27,14 @@ import {
   Section3Second,
   Wrapper,
 } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 const Start = () => {
   const [isTop, setIsTop] = useState(true);
+  const navigate = useNavigate();
 
   const onScrollFn = useCallback(() => {
-    if (window.scrollY > 60) {
+    if (window.scrollY > 65) {
       setIsTop(false);
     } else {
       setIsTop(true);
@@ -52,8 +54,8 @@ const Start = () => {
         </Logo>
         <Nav>
           <span>문의하기</span>
-          <span>로그인하기</span>
-          <button>Status 무료 가입</button>
+          <span onClick={() => navigate("/signin")}>로그인하기</span>
+          <button onClick={() => navigate("/login")}>Status 무료 가입</button>
         </Nav>
       </Header>
       <Main as="main">
@@ -66,7 +68,9 @@ const Start = () => {
               스테이터스로 팀원의 일정과 상태를 체크하며 서로를 알아가세요.
             </strong>
             <Section1Btns>
-              <button>Status 무료 가입</button>
+              <button onClick={() => navigate("/login")}>
+                Status 무료 가입
+              </button>
               <button>
                 <span>
                   <img src={GoogleLogin} alt="구글" />
@@ -151,7 +155,7 @@ const Start = () => {
             <BigLogoSvg />
             <h2>오늘 바로 팀과 Status를 사용해 보세요.</h2>
             <p>Get to know your team better.</p>
-            <button>Status 무료 가입</button>
+            <button onClick={() => navigate("/login")}>Status 무료 가입</button>
           </Section3First>
           <Section3Second>
             <BigLogoSvg />

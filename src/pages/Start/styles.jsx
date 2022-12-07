@@ -156,16 +156,15 @@ export const Section2 = styled.div`
 `;
 
 export const Section2Item = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  display: flex;
+  justify-content: center;
 `;
 
 export const Section2Img = styled.div`
-  width: 100%;
-  height: 100%;
   img {
     width: 100%;
-    min-width: 600px;
+    min-width: 500px;
+    max-width: 750px;
     height: 100%;
     object-fit: scale-down;
   }
@@ -175,7 +174,8 @@ export const Section2Text = styled.div`
   ${FlexColumnBox};
   justify-content: center;
   margin-left: 42px;
-  min-width: 500px;
+  min-width: 430px;
+
   h3 {
     margin-bottom: 8px;
     font-weight: 700;
