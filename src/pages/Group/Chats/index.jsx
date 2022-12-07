@@ -60,11 +60,7 @@ const Chat = () => {
     [isReachingEnd, fetchNextPage, hasNextPage]
   );
 
-  useEffect(() => {
-    if (pages === 0 && chatsData && chatsData.pages[0]?.data) {
-      setChats(chatsData.pages[0].data);
-    }
-  }, [chatsData, pages, roomId]);
+  //useEffect(() => {}, [chatsData, pages, roomId]);
 
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
@@ -106,14 +102,16 @@ const Chat = () => {
 
   // 스크롤을 올릴 때 state에 데이터 추가 (무한스크롤)
   useEffect(() => {
-    if (
+    if (pages === 0 && chatsData && chatsData.pages[0]?.data) {
+      setChats(chatsData.pages[0].data);
+    } else if (
       chatsData &&
       chatsData.pages.length > 0 &&
       chatsData?.pages[pages]?.data
     ) {
       setChats((prev) => [...prev, chatsData?.pages[pages]?.data]);
     }
-  }, [chatsData, pages]);
+  }, [chatsData, pages, roomId]);
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
