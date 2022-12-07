@@ -7,7 +7,6 @@ export const FreeComment = styled.div`
   display: grid;
   grid-template-columns: 40px 1fr;
   border-bottom: 1px solid ${(props) => props.theme.color.lightGray};
-  //background-color: ${(props) => (props.detailMode ? "#ffffff" : "#f2f4f6")};
   background-color: #fcfcfc;
 `;
 
