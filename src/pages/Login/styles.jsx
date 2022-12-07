@@ -3,33 +3,16 @@ import { FlexAlignBox, FlexCenterBox, FlexColumnBox } from "../../shared/Styles/
 
 export const Wrapper = styled.div`
   ${FlexCenterBox};
-  width: 100%;
+  width: 1500px;
   height: 100vh;
-`;
-
-export const Man = styled.div`
-  position: fixed;
-  top: 47%;
-  margin-left: -40%;
-`;
-
-export const Lady = styled.div`
-  position: fixed;
-  top: 50%;
-  margin-left: 40%;
-`;
-
-export const BottomShadow = styled.div`
-  position: fixed;
-  top: 90%;
-  margin-left: 8%;
-  z-index: -1;
+  margin: 0 auto;
+  background-repeat: no-repeat;
 `;
 
 export const LoginBox = styled.div`
   ${FlexColumnBox};
-  align-items: center;
   width: 802px;
+  align-items: center;
 `;
 export const Logo = styled.div`
   ${FlexColumnBox};

@@ -22,6 +22,8 @@ import {
 } from "./styles";
 import { LogoBox, BigMent } from "../Login/styles";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
+import { ImageDiv } from "../Signin/styles";
+import signinImage from "../../assets/image/signinImage.png";
 
 const Signup = () => {
   const {
@@ -282,7 +284,7 @@ const Signup = () => {
                 type={"password"}
                 errors={errors}
                 errorName={"password"}
-                _border={watch("password")?.length === 0 ? "#BBBBBB" : errors.password ? "#FF2D53" : "#5FCB94"}
+                _border={!watch("password")?.length === 0 ? "#BBBBBB" : errors.password ? "#FF2D53" : "#5FCB94"}
                 label={"비밀번호"}
               />
               <Input
@@ -297,7 +299,7 @@ const Signup = () => {
                 type={"password"}
                 errors={errors}
                 errorName={"confirm"}
-                _border={watch("confirm")?.length === 0 ? "#BBBBBB" : errors.confirm ? "#FF2D53" : "#5FCB94"}
+                _border={!watch("confirm")?.length === 0 ? "#BBBBBB" : errors.confirm ? "#FF2D53" : "#5FCB94"}
                 label={"비밀번호 확인"}
               />
             </>
@@ -309,6 +311,9 @@ const Signup = () => {
           )}
         </JoinForm>
       </SignUpContainer>
+      <ImageDiv>
+        <img src={signinImage} alt={signinImage} />
+      </ImageDiv>
     </Wrapper>
   );
 };

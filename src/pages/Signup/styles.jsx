@@ -1,14 +1,13 @@
 import styled from "styled-components";
-import {
-  FlexAlignBox,
-  FlexCenterBox,
-  FlexColumnBox,
-} from "../../shared/Styles/flex";
+import { FlexAlignBox, FlexCenterBox, FlexColumnBox } from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   ${FlexCenterBox};
   width: 100%;
   height: 100vh;
+  display: grid;
+  grid-template-columns: 500px 450px 500px;
+  justify-content: center;
 `;
 
 export const SignUpContainer = styled.div`
@@ -45,8 +44,7 @@ export const AuthBtn = styled.button`
   position: absolute;
   right: 3px;
   min-width: 5.5rem;
-  background-color: ${(props) =>
-    props.isValid ? props.theme.color.lightGray : props.theme.color.gray};
+  background-color: ${(props) => (props.isValid ? props.theme.color.lightGray : props.theme.color.gray)};
   color: white;
 
   padding: 0.6rem 0.5rem;
@@ -81,8 +79,7 @@ export const Join = styled.button`
   width: 100%;
   height: 43px;
   margin-top: 10%;
-  background-color: ${(props) =>
-    props.isValid ? props.theme.color.green : props.theme.color.gray};
+  background-color: ${(props) => (props.isValid ? props.theme.color.green : props.theme.color.gray)};
   border-radius: 5px;
   color: #ffffff;
   font-weight: 500;
