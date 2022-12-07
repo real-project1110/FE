@@ -16,6 +16,8 @@ import HeaderMenu from "../HeaderMenu";
 import { RightNav, Nav, Wrapper, FakeImg } from "./styles";
 import { AnimatePresence } from "framer-motion";
 import BigLogoSvg from "../../../../assets/svg/BigLogoSvg";
+import { useQuery } from "react-query";
+import { readInvites } from "../../../../apis/groupApi";
 
 const GroupHeader = () => {
   const [headerMenu, setHeaderMenu] = useRecoilState(headerMenuAtom);
@@ -24,6 +26,11 @@ const GroupHeader = () => {
   const { groupId } = useParams();
   const groupUser = useRecoilValue(groupUserAtom);
   const navigate = useNavigate();
+  const { data: invites } = useQuery(["alerts"], readInvites, {
+    staleTime: 3000,
+    refetchOnWindowFocus: false,
+    retry: 0,
+  });
 
   // 토큰이 없다면 시작페이지로 이동
   useEffect(() => {
@@ -45,6 +52,7 @@ const GroupHeader = () => {
           </li>
           <li onClick={() => setHeaderAlert(true)}>
             <BellSvg />
+            {invites && invites.length > 0 && <span>{invites?.length}</span>}
           </li>
           <li onClick={() => setHeaderMenu(true)}>
             {groupUser && groupUser.groupAvatarImg ? (
