@@ -36,7 +36,7 @@ const GroupHeader = () => {
   useEffect(() => {
     const cookie = existCookie();
     if (!cookie) {
-      return navigate("/");
+      return navigate("/login");
     }
   }, [navigate]);
 
