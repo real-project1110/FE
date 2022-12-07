@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../../..";
 import { editGroupUserState } from "../../../../apis/groupUserApi";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
-import useSocket from "../../../../hooks/useSocket";
 import { inviteModalAtom } from "../../../../recoil/modalAtoms";
 import {
   groupUserAtom,
