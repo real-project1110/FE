@@ -41,7 +41,7 @@ const HomeHeader = () => {
   useEffect(() => {
     const cookie = existCookie();
     if (!cookie) {
-      return navigate("/");
+      return navigate("/login");
     }
   }, [navigate]);
 
@@ -57,7 +57,7 @@ const HomeHeader = () => {
   return (
     <Wrapper as="header">
       <Nav as="nav">
-        <Link to={"/main"}>
+        <Link to={"/main/write"}>
           <BigLogoSvg />
         </Link>
         <RightNav>
