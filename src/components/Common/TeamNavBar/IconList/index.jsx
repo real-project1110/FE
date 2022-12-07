@@ -66,8 +66,9 @@ const IconList = ({ status, changeStatus, groupId, editStatusFn }) => {
       {showForm && (
         <MessageModal onSubmit={handleSubmit(onValid)}>
           <input
-            {...register("statusMessage")}
+            {...register("statusMessage", { minLength: 2 })}
             type="text"
+            required
             placeholder="지금 상태가 어떻게 되세요?"
           />
           <div>
