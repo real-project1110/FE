@@ -7,11 +7,7 @@ import { editGroupUserState } from "../../../../apis/groupUserApi";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
 import { inviteModalAtom } from "../../../../recoil/modalAtoms";
-import {
-  groupUserAtom,
-  groupUserListAtom,
-  onlineListAtom,
-} from "../../../../recoil/userAtoms";
+import { groupUserAtom, groupUserListAtom, onlineListAtom } from "../../../../recoil/userAtoms";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
@@ -68,22 +64,14 @@ const UserList = () => {
         </span>
         <strong>다이렉트 메세지</strong>
       </ToggleUsers>
+      <AddUserBtn onClick={() => setIsInviteModal(true)}>
+        <PlusSvg />
+        <span>팀원 추가하기</span>
+      </AddUserBtn>
       {groupUser && (
         <UserItems>
-          <UserItem
-            user={groupUser}
-            isMe={true}
-            status={status}
-            groupId={groupId}
-            isLoggedIn={onlineList.includes(groupUser?.groupUserId)}
-          />
-          <IconList
-            user={groupUser}
-            changeStatus={changeStatus}
-            status={status}
-            groupId={groupId}
-            editStatusFn={editStatusFn}
-          />
+          <UserItem user={groupUser} isMe={true} status={status} groupId={groupId} isLoggedIn={onlineList.includes(groupUser?.groupUserId)} />
+          <IconList user={groupUser} changeStatus={changeStatus} status={status} groupId={groupId} editStatusFn={editStatusFn} />
           {isFocus && (
             <>
               {groupUserList &&
@@ -92,20 +80,10 @@ const UserList = () => {
                   .filter((user) => user.groupUserId !== groupUser.groupUserId)
                   .sort((a, b) => (onlineList.includes(a.groupUserId) ? -1 : 1))
                   .map((user) => (
-                    <UserItem
-                      user={user}
-                      key={user.groupUserId}
-                      myUserData={groupUser}
-                      groupId={groupId}
-                      isLoggedIn={onlineList.includes(user.groupUserId)}
-                    />
+                    <UserItem user={user} key={user.groupUserId} myUserData={groupUser} groupId={groupId} isLoggedIn={onlineList.includes(user.groupUserId)} />
                   ))}
             </>
           )}
-          <AddUserBtn onClick={() => setIsInviteModal(true)}>
-            <PlusSvg />
-            <span>팀원 추가하기</span>
-          </AddUserBtn>
         </UserItems>
       )}
     </Wrapper>
