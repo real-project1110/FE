@@ -13,7 +13,21 @@ import getTime from "../../../utils/getTime";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
 import { CloseContainer, MenuList, PostOption } from "../FreePostItem/styles";
-import { ContentBox, LikeCount, Post, PostContent, PostDate, PostImg, PostInfo, PostInfoWrap, PostLike, PostWriter, TitleWrap, Vector } from "./styles";
+import { motion } from "framer-motion";
+import {
+  ContentBox,
+  LikeCount,
+  Post,
+  PostContent,
+  PostDate,
+  PostImg,
+  PostInfo,
+  PostInfoWrap,
+  PostLike,
+  PostWriter,
+  TitleWrap,
+  Vector,
+} from "./styles";
 
 function NoticePostItem({ groupId, ref, notice, refetch }) {
   const [openPostMenu, setOpenPostMenu] = useState(false);
@@ -92,10 +106,16 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
   );
 
   return (
-    <>
+    <motion.div layout>
       {openPostMenu && <CloseContainer onClick={onCloseModal} />}
       <Post newRef={ref} key={notice.postId}>
-        {notice?.postImg[0] && <PostImg src={notice.postImg[0].postImg} alt={notice.groupUserNickname} onError={handleImgError} />}
+        {notice?.postImg[0] && (
+          <PostImg
+            src={notice.postImg[0].postImg}
+            alt={notice.groupUserNickname}
+            onError={handleImgError}
+          />
+        )}
         <ContentBox>
           <TitleWrap>
             <PostContent onClick={viewDetail}>{notice.content}</PostContent>
@@ -131,7 +151,7 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
           </PostInfoWrap>
         </ContentBox>
       </Post>
-    </>
+    </motion.div>
   );
 }
 

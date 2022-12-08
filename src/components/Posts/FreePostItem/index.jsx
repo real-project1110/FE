@@ -10,7 +10,11 @@ import LikeSvg from "../../../assets/svg/LikeSvg";
 import PostOptionSvg from "../../../assets/svg/PostOptionSvg";
 import SpaceLikeSvg from "../../../assets/svg/SpaceLikeSvg";
 import { editPostAtom, PostDetailAtom } from "../../../recoil/groupAtoms";
-import { PostDeleteModalAtom, PostDetailModalAtom, PostFormModalAtom } from "../../../recoil/modalAtoms";
+import {
+  PostDeleteModalAtom,
+  PostDetailModalAtom,
+  PostFormModalAtom,
+} from "../../../recoil/modalAtoms";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import getTime from "../../../utils/getTime";
 import { handleImgError } from "../../../utils/handleImgError";
@@ -143,11 +147,21 @@ const FreePostItem = ({ post, refetch }) => {
   return (
     <>
       {openPostMenu && <CloseContainer onClick={onCloseModal} />}
-      <FreePostItemContainer onClick={onCloseModal}>
+      <FreePostItemContainer onClick={onCloseModal} layout>
         <FreePost>
           <PostMenu>
             <PostUserInfo>
-              <UserImg>{post.groupAvatarImg ? <img src={post.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
+              <UserImg>
+                {post.groupAvatarImg ? (
+                  <img
+                    src={post.groupAvatarImg}
+                    alt="profile"
+                    onError={handleImgError}
+                  />
+                ) : (
+                  <FakeImg />
+                )}
+              </UserImg>
               <PostUserDetail>
                 <Nickname>{post.groupUserNickname}</Nickname>
                 <LoadTime>{getTime(post.createdAt)}</LoadTime>
@@ -177,7 +191,11 @@ const FreePostItem = ({ post, refetch }) => {
             <PostImgWrap>
               {post?.postImg?.map((Image) => (
                 <ImageWrap key={Image.postImg}>
-                  <img src={Image.postImg} alt="postImg" onError={handleImgError} />
+                  <img
+                    src={Image.postImg}
+                    alt="postImg"
+                    onError={handleImgError}
+                  />
                 </ImageWrap>
               ))}
             </PostImgWrap>
@@ -197,7 +215,13 @@ const FreePostItem = ({ post, refetch }) => {
             </SpreadBtn>
           </PostResponse>
         </FreePost>
-        {CommentListOpen ? <CommentList postId={post.postId} groupId={groupId} setCommentCount={setCommentCount} /> : null}
+        {CommentListOpen ? (
+          <CommentList
+            postId={post.postId}
+            groupId={groupId}
+            setCommentCount={setCommentCount}
+          />
+        ) : null}
       </FreePostItemContainer>
     </>
   );

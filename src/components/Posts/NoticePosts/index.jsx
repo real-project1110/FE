@@ -5,6 +5,7 @@ import { useReadNoticePosts } from "../../../apis/postApi";
 import { useParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import NoticePostItem from "../NoticePostItem";
+import { AnimatePresence } from "framer-motion";
 
 function NoticePosts() {
   const { groupId } = useParams();
@@ -25,21 +26,23 @@ function NoticePosts() {
       <Notice>공지사항</Notice>
       <AllPost>
         <Scrollbars autoHide onScrollStop={fetchNextPage}>
-          {isSuccess && getNotice?.pages
-            ? getNotice?.pages?.map((page) => (
-                <React.Fragment key={page.currentPage}>
-                  {page?.data.map((notice) => (
-                    <NoticePostItem
-                      groupId={groupId}
-                      newRef={ref}
-                      key={notice.postId}
-                      notice={notice}
-                      refetch={refetch}
-                    />
-                  ))}
-                </React.Fragment>
-              ))
-            : null}
+          <AnimatePresence>
+            {isSuccess && getNotice?.pages
+              ? getNotice?.pages?.map((page) => (
+                  <React.Fragment key={page?.currentPage}>
+                    {page?.data.map((notice) => (
+                      <NoticePostItem
+                        groupId={groupId}
+                        newRef={ref}
+                        key={notice?.postId}
+                        notice={notice}
+                        refetch={refetch}
+                      />
+                    ))}
+                  </React.Fragment>
+                ))
+              : null}
+          </AnimatePresence>
         </Scrollbars>
       </AllPost>
     </Wrapper>
