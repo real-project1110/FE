@@ -101,16 +101,16 @@ const Chat = () => {
 
   // 스크롤을 올릴 때 state에 데이터 추가 (무한스크롤)
   useEffect(() => {
-    if (pages === 0 && chatsData && chatsData.pages[0]?.data) {
-      setChats(chatsData.pages[0].data);
-    } else if (
-      chatsData &&
-      chatsData.pages.length > 0 &&
-      chatsData?.pages[pages]?.data
-    ) {
+    if (pages > 0 && chatsData && chatsData.pages[pages]?.data) {
       setChats((prev) => [...prev, chatsData?.pages[pages]?.data]);
     }
   }, [chatsData, pages, roomId]);
+
+  useEffect(() => {
+    if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
+      setChats(chatsData?.pages[0]?.data);
+    }
+  }, [chatsData, pages]);
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
