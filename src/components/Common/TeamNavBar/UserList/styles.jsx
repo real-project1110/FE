@@ -1,9 +1,5 @@
 import styled from "styled-components";
-import {
-  FlexAlignBox,
-  FlexCenterBox,
-  FlexColumnBox,
-} from "../../../../shared/Styles/flex";
+import { FlexAlignBox, FlexCenterBox, FlexColumnBox } from "../../../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   ${FlexColumnBox};
@@ -35,7 +31,7 @@ export const UserItems = styled.ul`
 
 export const AddUserBtn = styled.div`
   ${FlexAlignBox};
-  padding: 0 0.5rem;
+  padding: 0 0.5rem 0.5rem;
   cursor: pointer;
   svg {
     width: 1.3rem;
