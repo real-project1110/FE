@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import {} from "../../shared/Styles/flex";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(motion.div)`
   height: 100%;
   & > div {
     border-radius: 8px;
