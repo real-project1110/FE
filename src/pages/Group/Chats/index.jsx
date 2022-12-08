@@ -111,8 +111,8 @@ const Chat = () => {
   useEffect(() => {
     console.log(pages);
     if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
-      setChats(chatsData?.pages[0]?.data || []);
-    }
+      setChats(chatsData?.pages[0]?.data);
+    } else if (chatsData?.pages[0]?.data.length === 0) setChats([]);
   }, [chatsData, pages, roomId]);
 
   // 메세지를 받을 때 마다 실행
