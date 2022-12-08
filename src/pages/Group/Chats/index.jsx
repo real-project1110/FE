@@ -31,6 +31,7 @@ const Chat = () => {
     data: chatsData,
     fetchNextPage,
     hasNextPage,
+    refetch,
   } = useChatApis.ReadChats(roomId);
   const [height, setHeight] = useState(null);
 
@@ -150,6 +151,9 @@ const Chat = () => {
     };
   }, [socket, me, roomId]);
 
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
   return (
     <Wrapper as="main">
       <Header>
