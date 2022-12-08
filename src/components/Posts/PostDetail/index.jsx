@@ -66,8 +66,11 @@ function PostDetail() {
       } else {
         queryClient.invalidateQueries(["noticePosts", groupId]);
       }
-
-      setDetail((prev) => ({ ...prev, findLike: !prev.findLike }));
+      setDetail((prev) => ({
+        ...prev,
+        findLike: !prev.findLike,
+        likeCount: prev.findLike ? prev.likeCount - 1 : prev.likeCount + 1,
+      }));
     },
   });
 
