@@ -33,6 +33,7 @@ export const readUnread = async (payload) => {
 
 export const useChatApis = {
   ReadChats: (roomId) => {
+    console.log(roomId);
     const getChats = async ({ pageParam = 1 }) => {
       const { data } = await instance.get(
         `room/${roomId}?page=${pageParam}&pageSize=15`

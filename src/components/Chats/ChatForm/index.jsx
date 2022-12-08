@@ -53,6 +53,7 @@ const ChatForm = ({
         //new Date()
       );
       setChats((prev) => [payload, ...prev]);
+      scrollRef.current?.scrollToBottom();
       addChatFn({ roomId, body: { groupUserId, message: payload.message } });
     },
 
@@ -65,6 +66,7 @@ const ChatForm = ({
       groupId,
       otherUserId,
       setChats,
+      scrollRef,
     ]
   );
 
