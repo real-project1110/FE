@@ -109,8 +109,9 @@ const Chat = () => {
   }, [chatsData, pages, roomId]);
 
   useEffect(() => {
+    console.log(pages);
     if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
-      setChats(chatsData?.pages[0]?.data);
+      setChats(chatsData?.pages[0]?.data || []);
     }
   }, [chatsData, pages, roomId]);
 
