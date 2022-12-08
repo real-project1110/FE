@@ -89,7 +89,7 @@ const ChatForm = ({
   return (
     <Wrapper>
       <FormContainer onSubmit={onSubmit}>
-        <TextArea onKeyPress={onKeydownChat} ref={textareaRef} />
+        <TextArea onKeyPress={onKeydownChat} ref={textareaRef} required />
         <ButtonContainer>
           <Buttons>
             <BoldSvg />

@@ -28,7 +28,6 @@ import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
 import Spinner from "../Common/Elements/Spinner";
 import { AnimatePresence } from "framer-motion";
-import { useEffect } from "react";
 
 setOptions({
   theme: "ios",
