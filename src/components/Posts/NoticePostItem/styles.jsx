@@ -28,6 +28,7 @@ export const PostImg = styled.img`
   object-fit: cover;
   border: none;
   border-radius: 8px;
+  background-color: red;
 `;
 
 export const ContentBox = styled.div`
