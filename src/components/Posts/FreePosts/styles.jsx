@@ -161,3 +161,21 @@ export const SendComment = styled.div`
   font-size: 19px;
   letter-spacing: -0.055em;
 `;
+
+export const NullPost = styled.div`
+  width: 100%;
+  height: 350px;
+  padding: 8.5rem 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  text-align: center;
+`
+
+export const NullPostMent = styled.p`
+  margin-top: 15px;
+  font-family: Pretendard;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+  color: #AAAAAA;
+`
