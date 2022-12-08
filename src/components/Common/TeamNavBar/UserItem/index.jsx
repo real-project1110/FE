@@ -96,6 +96,7 @@ const UserItem = ({
   }, [unreadCount]);
 
   useEffect(() => {
+    console.log("user", user);
     if (socket && user) {
       socket?.on("unread", (data) => {
         if (data === user.groupUserId) setChatCount((prev) => prev + 1);
