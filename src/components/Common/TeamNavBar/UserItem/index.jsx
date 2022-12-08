@@ -33,7 +33,7 @@ const UserItem = ({
   const [chatCount, setChatCount] = useState(0);
   const [socket] = useSocket(groupId);
 
-  const { data: unreadCount } = useQuery(
+  const { data: unreadCount, refetch: unreadCountRefetch } = useQuery(
     ["unread", myUserData?.groupUserId, user?.groupUserId],
     () =>
       readUnread({
@@ -43,7 +43,7 @@ const UserItem = ({
           `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
         ),
       }),
-    { retry: 0 }
+    { retry: 0, staleTime: Infinity }
   );
 
   const navigate = useNavigate();
@@ -106,6 +106,10 @@ const UserItem = ({
       };
     }
   }, [socket, user, isMe]);
+
+  useEffect(() => {
+    unreadCountRefetch();
+  }, [unreadCountRefetch, groupId]);
   return (
     <>
       <ToastContainer />
