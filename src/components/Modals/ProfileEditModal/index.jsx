@@ -42,17 +42,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
     editGroupUserNickname,
     {
       onSuccess: () => {
-        toast.success("닉네임이 변경되었습니다.", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
+        queryClient.invalidateQueries(["groupUser", groupId]);
       },
     }
   );
@@ -60,16 +50,6 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 유저 닉네임 수정 mutation
   const { mutate: editNicknameFn } = useMutation(editNickname, {
     onSuccess: () => {
-      toast.success("닉네임이 변경되었습니다.", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
       queryClient.invalidateQueries(["user"]);
     },
   });
@@ -77,16 +57,6 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 유저 이미지 수정 mutation
   const { mutate: editUserAvatarFn } = useMutation(editAvatar, {
     onSuccess: () => {
-      toast.success("프로필이 변경되었습니다.", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
       queryClient.invalidateQueries(["user"]);
     },
   });
@@ -94,17 +64,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 그룹 유저 이미지 수정 mutation
   const { mutate: editGroupUserAvatarFn } = useMutation(editGroupUserAvatar, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
-      toast.success("프로필이 변경되었습니다.", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      queryClient.invalidateQueries(["groupUser", groupId]);
     },
   });
 
@@ -122,10 +82,30 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
     (data) => {
       if (isMain) {
         editNicknameFn({ nickname: data.nickname });
+        toast.success("닉네임이 변경되었습니다.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       } else {
         editGroupUserNicknameFn({
           groupId,
           body: { groupUserNickname: data.nickname },
+        });
+        toast.success("닉네임이 변경되었습니다.", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         });
       }
     },
@@ -142,10 +122,30 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
     const fileBlob = URL.createObjectURL(e.target.files[0]);
     if (isMain) {
       editUserAvatarFn({ image: e.target.files[0] });
+      toast.success("프로필이 변경되었습니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
       // const formData = new FormData();
       //formData.append("image", e.target.files[0]);
       editGroupUserAvatarFn({ groupId, body: { image: e.target.files[0] } });
+      toast.success("프로필이 변경되었습니다.", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       //editGroupUserAvatarFn({ groupId, body: formData });
     }
     setImgPreview(fileBlob);
