@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useParams } from "react-router-dom";
+import { useMatch, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
@@ -24,9 +24,11 @@ const Chat = () => {
   const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
   const scrollRef = useRef(null);
+  const match = useMatch(`/groups/*/chats/${roomId}`);
+  console.log(roomId);
   const [socket] = useSocket(groupId);
   const [pages, setPages] = useState(0);
-
+  console.log(match);
   const {
     data: chatsData,
     fetchNextPage,
@@ -108,9 +110,10 @@ const Chat = () => {
 
   useEffect(() => {
     if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
+      console.log("ㅅㅂ");
       setChats(chatsData?.pages[0]?.data);
     }
-  }, [chatsData, pages]);
+  }, [chatsData, pages, roomId]);
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
