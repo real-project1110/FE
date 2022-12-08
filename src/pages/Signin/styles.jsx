@@ -7,14 +7,24 @@ import {
 } from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
-  width: 1500px;
+  width: 1400px;
   height: 100vh;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 500px 450px 500px;
+  grid-template-columns: 500px 500px 500px;
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100vw;
+
+    & > div:first-child {
+      display: none;
+    }
+  }
 `;
 
 export const LoginContainer = styled.div`
@@ -33,6 +43,9 @@ export const ImageDiv = styled.div`
     bottom: 5%;
     width: 370px;
     object-fit: scale-down;
+  }
+  @media (max-width: 1400px) {
+    display: none;
   }
 `;
 
