@@ -108,6 +108,7 @@ const Chat = () => {
     }
   }, [chatsData, pages, roomId]);
 
+  // 마운트 되었을 때 데이터가 있다면 setChats 없다면 빈배열로 설정
   useEffect(() => {
     console.log(pages);
     if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
