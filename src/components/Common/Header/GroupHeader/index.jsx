@@ -36,14 +36,14 @@ const GroupHeader = () => {
   useEffect(() => {
     const cookie = existCookie();
     if (!cookie) {
-      return navigate("/");
+      return navigate("/login");
     }
   }, [navigate]);
 
   return (
     <Wrapper as="header">
       <Nav as="nav">
-        <Link to={"/main"}>
+        <Link to={"/main/write"}>
           <BigLogoSvg />
         </Link>
         <RightNav>

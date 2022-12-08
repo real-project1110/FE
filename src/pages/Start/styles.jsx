@@ -4,6 +4,7 @@ import {
   FlexCenterBox,
   FlexColumnBox,
 } from "../../shared/Styles/flex";
+import { motion } from "framer-motion";
 
 export const Wrapper = styled.div`
   ${FlexColumnBox};
@@ -74,7 +75,7 @@ export const Section1 = styled.div`
   padding: 0 10vw;
 `;
 
-export const Section1Text = styled.div`
+export const Section1Text = styled(motion.div)`
   width: 100%;
   ${FlexColumnBox};
   justify-content: center;
@@ -133,7 +134,7 @@ export const Section1Btns = styled.div`
   }
 `;
 
-export const Section1Img = styled.div`
+export const Section1Img = styled(motion.div)`
   text-align: end;
   width: 100%;
   height: 100%;
@@ -160,7 +161,7 @@ export const Section2Item = styled.div`
   justify-content: center;
 `;
 
-export const Section2Img = styled.div`
+export const Section2Img = styled(motion.div)`
   img {
     width: 100%;
     min-width: 500px;
