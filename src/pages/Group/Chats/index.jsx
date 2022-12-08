@@ -24,17 +24,19 @@ const Chat = () => {
   const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
   const scrollRef = useRef(null);
-  const match = useMatch(`/groups/*/chats/${roomId}`);
-  console.log(roomId);
+
   const [socket] = useSocket(groupId);
   const [pages, setPages] = useState(0);
-  console.log(match);
+
   const {
     data: chatsData,
     fetchNextPage,
     hasNextPage,
     refetch,
   } = useChatApis.ReadChats(roomId);
+
+  console.log("chats", chats);
+  console.log("queryDAta", chatsData);
   const [height, setHeight] = useState(null);
 
   // 채팅방에 데이터가 없는지 확인 (없으면 true)
