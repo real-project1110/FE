@@ -21,6 +21,8 @@ import {
   Wrapper,
   FreePostTitle,
   SearchForm,
+  NullPost,
+  NullPostMent,
 } from "./styles";
 import BoldSvg from "../../../assets/svg/BoldSvg";
 import ItalicSvg from "../../../assets/svg/ItalicSvg";
@@ -31,6 +33,7 @@ import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
 import SearchSvg from "../../../assets/svg/SearchSvg";
 import { Buttons } from "../../Chats/ChatForm/styles";
 import { AnimatePresence } from "framer-motion";
+import NullPostSvg from "../../../assets/svg/NullPostSvg";
 
 function FreePosts() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);
@@ -92,28 +95,39 @@ function FreePosts() {
         </PostHeader>
         <AllFreePost>
           <AnimatePresence>
-            {isSuccess && getPost?.pages
-              ? getPost?.pages?.map((page) => (
-                  <React.Fragment key={page?.currentPage}>
-                    {page?.data?.map((post) => {
-                      return (
-                        <FreePostItem
-                          nowRef={ref}
-                          groupId={groupId}
-                          key={post?.postId}
-                          refetch={refetch}
-                          post={post}
-                        />
-                      );
-                    })}
-                  </React.Fragment>
-                ))
-              : null}
+            {isSuccess && getPost?.pages[0].data.length ? (
+              getPost?.pages?.map((page) => (
+                <React.Fragment key={page?.currentPage}>
+                  {page?.data?.map((post) => {
+                    return (
+                      <FreePostItem
+                        nowRef={ref}
+                        groupId={groupId}
+                        key={post?.postId}
+                        refetch={refetch}
+                        post={post}
+                      />
+                    );
+                  })}
+                </React.Fragment>
+              ))
+            ) : (
+              <NullPost>
+                <div>
+                  <NullPostSvg />
+                </div>
+                <NullPostMent>첫 게시글을 작성해보세요.</NullPostMent>
+                <NullPostMent>
+                  작은 이야기도 팀의 힘이 될 수 있어요.
+                </NullPostMent>
+              </NullPost>
+            )}
           </AnimatePresence>
         </AllFreePost>
       </Scrollbars>
     </Wrapper>
   );
 }
-
+//getPost.pages[0].data.length
+// page?.data.length === 0
 export default FreePosts;
