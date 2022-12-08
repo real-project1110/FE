@@ -50,7 +50,7 @@ export const PostContent = styled.p`
   min-height: 60%;
   font-size: 14px;
   line-height: 21px;
-  color: ${(props) => props.theme.color.gray};
+  color: ${(props) => props.theme.color.black};
   display: -webkit-box;
   display: -ms-flexbox;
   display: box;

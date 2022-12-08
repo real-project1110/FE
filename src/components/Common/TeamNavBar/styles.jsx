@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
   // scrollBar div
   & > div:first-child {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 240px 1fr;
     width: 100%;
     height: 100%;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -44,7 +44,7 @@ export const GroupConfig = styled.div`
 
 export const GroupNav = styled.ul`
   ${FlexColumnBox};
-  height: 50%;
+  height: 240px;
   padding: 1rem;
   a {
     margin-bottom: 0.5rem;
