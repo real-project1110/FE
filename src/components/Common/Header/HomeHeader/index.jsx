@@ -61,7 +61,11 @@ const HomeHeader = () => {
           <BigLogoSvg />
         </Link>
         <RightNav>
-          <li>
+          <li
+            onClick={() =>
+              (window.location.href = "https://forms.gle/Kei4J8JcNRVjrscs6")
+            }
+          >
             <QuestionSvg />
           </li>
           <li onClick={() => setHeaderAlert(true)}>

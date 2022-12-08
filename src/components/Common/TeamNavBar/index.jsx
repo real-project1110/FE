@@ -19,6 +19,8 @@ import MySvg from "../../../assets/svg/MySvg";
 import { decodeUser } from "../../../utils/decodeUser";
 import { useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useCallback } from "react";
+import { toast } from "react-toastify";
 
 const TeamNavBar = () => {
   const group = useRecoilValue(groupAtom);
@@ -26,6 +28,19 @@ const TeamNavBar = () => {
   const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
   const [isEdit, setIsEdit] = useState(false);
   const user = useMemo(() => decodeUser(), []);
+
+  const onMelong = useCallback(() => {
+    toast.error("제작 중에 있는 기능 입니다. 🤑", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }, []);
   return (
     <Wrapper as="aside">
       <Scrollbars autoHide>
@@ -52,7 +67,7 @@ const TeamNavBar = () => {
             </GroupNavItem>
           </Link>
           <Link to={"#"}>
-            <GroupNavItem>
+            <GroupNavItem onClick={onMelong}>
               <MySvg />
               <strong>MY</strong>
             </GroupNavItem>
