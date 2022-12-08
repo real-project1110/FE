@@ -35,8 +35,6 @@ const Chat = () => {
     refetch,
   } = useChatApis.ReadChats(roomId);
 
-  console.log("chats", chats);
-  console.log("queryDAta", chatsData);
   const [height, setHeight] = useState(null);
 
   // 채팅방에 데이터가 없는지 확인 (없으면 true)
@@ -112,7 +110,6 @@ const Chat = () => {
 
   useEffect(() => {
     if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
-      console.log("ㅅㅂ");
       setChats(chatsData?.pages[0]?.data);
     }
   }, [chatsData, pages, roomId]);
@@ -153,6 +150,7 @@ const Chat = () => {
       socket.off("leaveRoom");
       socket.off("message");
       socket.off("joinRoom");
+      setPages(0);
     };
   }, [socket, me, roomId]);
 
