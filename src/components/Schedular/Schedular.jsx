@@ -14,6 +14,7 @@ import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
 
 import Spinner from "../Common/Elements/Spinner";
+import { useEffect } from "react";
 
 setOptions({
   theme: "ios",
@@ -63,40 +64,45 @@ const Schedular = () => {
   const [addTitle, setAddTitle] = useState("");
   const colorPicker = useRef();
   const { groupId } = useParams();
-
+  const scheduleLoading = useRef(false);
   // 고를 수 있는 색상
   const colors = useMemo(() => {
     return existColors?.map((color) => color.color);
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { refetch, isLoading } = useQuery(["schedules", groupId], () => readSchedule(groupId), {
-    refetchOnWindowFocus: false,
-    retry: 1,
-    onSuccess: (data) => {
-      setMyEvents(
-        data.map((schedule) => {
-          return {
-            ...schedule,
-            start: new Date(+schedule.start),
-            end: new Date(+schedule.end),
-          };
-        })
-      );
-    },
-    onError: (e) => {
-      toast.error(e.message, {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    },
-  });
+  const { refetch, isLoading } = useQuery(
+    ["schedules", groupId],
+    () => readSchedule(groupId),
+    {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      onSuccess: (data) => {
+        scheduleLoading.current = true;
+        setMyEvents(
+          data.map((schedule) => {
+            return {
+              ...schedule,
+              start: new Date(+schedule.start),
+              end: new Date(+schedule.end),
+            };
+          })
+        );
+      },
+      onError: (e) => {
+        toast.error(e.message, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      },
+    }
+  );
 
   // 스케쥴을 추가하는 요청
   const { mutate: addMutate } = useMutation(addSchedule, {
@@ -412,6 +418,7 @@ const Schedular = () => {
     },
     [selectColor, setSelectedColor]
   );
+
   if (isLoading) return <Spinner />;
   return (
     <Wrapper>
