@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useInView } from "react-intersection-observer";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { queryClient } from "../../..";
 import { addComment, useReadComments } from "../../../apis/commentApi";
 import { postLike } from "../../../apis/postApi";
@@ -52,7 +52,7 @@ import { motion, AnimatePresence } from "framer-motion";
 function PostDetail() {
   const { groupId } = useParams();
   const showDetail = useSetRecoilState(PostDetailModalAtom);
-  const detail = useRecoilValue(PostDetailAtom);
+  const [detail, setDetail] = useRecoilState(PostDetailAtom);
   const [showImage, setShowImage] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
   const groupUser = useRecoilValue(groupUserAtom);
@@ -61,7 +61,13 @@ function PostDetail() {
 
   const { mutate: likeFn } = useMutation(postLike, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["freePosts", groupId]);
+      if (detail.category === 0) {
+        queryClient.invalidateQueries(["freePosts", groupId]);
+      } else {
+        queryClient.invalidateQueries(["noticePosts", groupId]);
+      }
+
+      setDetail((prev) => ({ ...prev, findLike: !prev.findLike }));
     },
   });
 
