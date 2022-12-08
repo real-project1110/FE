@@ -26,6 +26,9 @@ import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
+import Spinner from "../Common/Elements/Spinner";
+import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 
 setOptions({
   theme: "ios",
@@ -75,7 +78,6 @@ const Schedular = () => {
   const [addTitle, setAddTitle] = useState("");
   const colorPicker = useRef();
   const { groupId } = useParams();
-  const scheduleLoading = useRef(false);
 
   // 고를 수 있는 색상
   const colors = useMemo(() => {
@@ -83,23 +85,14 @@ const Schedular = () => {
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { refetch } = useQuery(
+  const { refetch, isLoading } = useQuery(
     ["schedules", groupId],
     () => readSchedule(groupId),
     {
       refetchOnWindowFocus: false,
       retry: 1,
       onSuccess: (data) => {
-        scheduleLoading.current = true;
-        setMyEvents(
-          data.map((schedule) => {
-            return {
-              ...schedule,
-              start: new Date(+schedule.start),
-              end: new Date(+schedule.end),
-            };
-          })
-        );
+        setMyEvents(data);
       },
       onError: (e) => {
         toast.error(e.message, {
@@ -448,140 +441,149 @@ const Schedular = () => {
   );
 
   return (
-    <Wrapper
-      variants={calendarAni}
-      initial="initial"
-      animate="animate"
-      transition={{ type: "tween", duration: 0.6 }}
-    >
-      <ToastContainer />
-      <Eventcalendar
-        view={viewSettings}
-        data={myEvents}
-        clickToCreate="single"
-        dragToCreate={true}
-        dragToMove={true}
-        dragToResize={true}
-        selectedDate={mySelectedDate}
-        onSelectedDateChange={onSelectedDateChange}
-        onEventClick={onEventClick}
-        onEventCreated={onEventCreated}
-        onEventDeleted={onEventDeleted}
-        onEventUpdated={onEventUpdated}
-      />
-      <Popup
-        display="bottom"
-        fullScreen={true}
-        contentPadding={false}
-        headerText={headerText}
-        anchor={anchor}
-        buttons={popupButtons}
-        isOpen={isOpen}
-        onClose={onClose}
-        responsive={responsivePopup}
-      >
-        <div className="mbsc-form-group">
-          <Input
-            label="이름"
-            value={isEdit ? popupEventTitle : addTitle}
-            onChange={titleChange}
-            required="required"
+    <AnimatePresence>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <Wrapper
+          variants={calendarAni}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ type: "tween", duration: 0.7 }}
+        >
+          <ToastContainer />
+          <Eventcalendar
+            view={viewSettings}
+            data={myEvents}
+            clickToCreate="single"
+            dragToCreate={true}
+            dragToMove={true}
+            dragToResize={true}
+            selectedDate={mySelectedDate}
+            onSelectedDateChange={onSelectedDateChange}
+            onEventClick={onEventClick}
+            onEventCreated={onEventCreated}
+            onEventDeleted={onEventDeleted}
+            onEventUpdated={onEventUpdated}
           />
-          <Textarea
-            label="상세 내용"
-            value={popupEventDescription}
-            onChange={descriptionChange}
-            required="required"
-          />
-        </div>
-        <div className="mbsc-form-group">
-          <Input ref={startRef} label="시작 날짜" />
-          <Input ref={endRef} label="종료 날짜" />
-          <Datepicker
-            select="range"
-            touchUi={true}
-            startInput={start}
-            endInput={end}
-            showRangeLabels={false}
-            onChange={dateChange}
-            value={popupEventDate}
-          />
-          <div onClick={openColorPicker} className="event-color-c">
-            <div className="event-color-label">Color</div>
-            <div
-              className="event-color"
-              style={{ background: selectedColor }}
-            ></div>
-          </div>
-          {isEdit ? (
-            <div className="mbsc-button-group">
-              <Button
-                className="mbsc-button-block"
-                color="danger"
-                variant="outline"
-                onClick={onDeleteClick}
-              >
-                일정 삭제하기
-              </Button>
+          <Popup
+            display="bottom"
+            fullScreen={true}
+            contentPadding={false}
+            headerText={headerText}
+            anchor={anchor}
+            buttons={popupButtons}
+            isOpen={isOpen}
+            onClose={onClose}
+            responsive={responsivePopup}
+          >
+            <div className="mbsc-form-group">
+              <Input
+                label="이름"
+                value={isEdit ? popupEventTitle : addTitle}
+                onChange={titleChange}
+                required="required"
+              />
+              <Textarea
+                label="상세 내용"
+                value={popupEventDescription}
+                onChange={descriptionChange}
+                required="required"
+              />
             </div>
-          ) : null}
-        </div>
-      </Popup>
-      <Popup
-        display="bottom"
-        contentPadding={false}
-        showArrow={false}
-        showOverlay={false}
-        anchor={colorAnchor}
-        isOpen={colorPickerOpen}
-        buttons={colorButtons}
-        responsive={colorPopup}
-        ref={colorPicker}
-      >
-        <div className="crud-color-row">
-          {colors?.map((color, index) => {
-            if (index < 5) {
-              return (
+            <div className="mbsc-form-group">
+              <Input ref={startRef} label="시작 날짜" />
+              <Input ref={endRef} label="종료 날짜" />
+              <Datepicker
+                select="range"
+                touchUi={true}
+                startInput={start}
+                endInput={end}
+                showRangeLabels={false}
+                onChange={dateChange}
+                value={popupEventDate}
+              />
+              <div onClick={openColorPicker} className="event-color-c">
+                <div className="event-color-label">Color</div>
                 <div
-                  key={index}
-                  onClick={changeColor}
-                  className={
-                    "crud-color-c " + (tempColor === color ? "selected" : "")
-                  }
-                  data-value={color}
-                >
-                  <div
-                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                    style={{ background: color }}
-                  ></div>
+                  className="event-color"
+                  style={{ background: selectedColor }}
+                ></div>
+              </div>
+              {isEdit ? (
+                <div className="mbsc-button-group">
+                  <Button
+                    className="mbsc-button-block"
+                    color="danger"
+                    variant="outline"
+                    onClick={onDeleteClick}
+                  >
+                    일정 삭제하기
+                  </Button>
                 </div>
-              );
-            } else return null;
-          })}
-        </div>
-        <div className="crud-color-row">
-          {colors?.map((color, index) => {
-            if (index >= 5) {
-              return (
-                <div
-                  key={index}
-                  onClick={changeColor}
-                  className={
-                    "crud-color-c " + (tempColor === color ? "selected" : "")
-                  }
-                  data-value={color}
-                >
-                  <div
-                    className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                    style={{ background: color }}
-                  ></div>
-                </div>
-              );
-            } else return null;
-          })}
-        </div>
-      </Popup>
-    </Wrapper>
+              ) : null}
+            </div>
+          </Popup>
+          <Popup
+            display="bottom"
+            contentPadding={false}
+            showArrow={false}
+            showOverlay={false}
+            anchor={colorAnchor}
+            isOpen={colorPickerOpen}
+            buttons={colorButtons}
+            responsive={colorPopup}
+            ref={colorPicker}
+          >
+            <div className="crud-color-row">
+              {colors?.map((color, index) => {
+                if (index < 5) {
+                  return (
+                    <div
+                      key={index}
+                      onClick={changeColor}
+                      className={
+                        "crud-color-c " +
+                        (tempColor === color ? "selected" : "")
+                      }
+                      data-value={color}
+                    >
+                      <div
+                        className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                        style={{ background: color }}
+                      ></div>
+                    </div>
+                  );
+                } else return null;
+              })}
+            </div>
+            <div className="crud-color-row">
+              {colors?.map((color, index) => {
+                if (index >= 5) {
+                  return (
+                    <div
+                      key={index}
+                      onClick={changeColor}
+                      className={
+                        "crud-color-c " +
+                        (tempColor === color ? "selected" : "")
+                      }
+                      data-value={color}
+                    >
+                      <div
+                        className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
+                        style={{ background: color }}
+                      ></div>
+                    </div>
+                  );
+                } else return null;
+              })}
+            </div>
+          </Popup>
+        </Wrapper>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -590,4 +592,5 @@ export default Schedular;
 const calendarAni = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
+  exit: { opacity: 0 },
 };

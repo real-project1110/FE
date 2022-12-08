@@ -69,6 +69,7 @@ urls
 
 (현진) url = https://hyunjin9603.shop/
 (정현) url = https://wjdgusgg.shop/
+(정현2) url = https://rlawjdgus.shop:4010/
 (동희) url = http://13.209.98.174/
 (동희2) url = https://d09a-106-101-129-44.jp.ngrok.io/
 
