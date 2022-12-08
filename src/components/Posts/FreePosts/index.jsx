@@ -30,6 +30,7 @@ import EmojiSvg from "../../../assets/svg/EmojiSvg";
 import PostButtonSvg from "../../../assets/svg/PostButtonSvg";
 import SearchSvg from "../../../assets/svg/SearchSvg";
 import { Buttons } from "../../Chats/ChatForm/styles";
+import { AnimatePresence } from "framer-motion";
 
 function FreePosts() {
   const setIsForm = useSetRecoilState(PostFormModalAtom);
@@ -90,23 +91,25 @@ function FreePosts() {
           </New>
         </PostHeader>
         <AllFreePost>
-          {isSuccess && getPost?.pages
-            ? getPost?.pages?.map((page) => (
-                <React.Fragment key={page?.currentPage}>
-                  {page?.data?.map((post) => {
-                    return (
-                      <FreePostItem
-                        nowRef={ref}
-                        groupId={groupId}
-                        key={post?.postId}
-                        refetch={refetch}
-                        post={post}
-                      />
-                    );
-                  })}
-                </React.Fragment>
-              ))
-            : null}
+          <AnimatePresence>
+            {isSuccess && getPost?.pages
+              ? getPost?.pages?.map((page) => (
+                  <React.Fragment key={page?.currentPage}>
+                    {page?.data?.map((post) => {
+                      return (
+                        <FreePostItem
+                          nowRef={ref}
+                          groupId={groupId}
+                          key={post?.postId}
+                          refetch={refetch}
+                          post={post}
+                        />
+                      );
+                    })}
+                  </React.Fragment>
+                ))
+              : null}
+          </AnimatePresence>
         </AllFreePost>
       </Scrollbars>
     </Wrapper>

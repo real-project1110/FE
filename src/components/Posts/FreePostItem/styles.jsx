@@ -1,5 +1,10 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
-import { FlexAlignBox, FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
+import {
+  FlexAlignBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../../shared/Styles/flex";
 
 export const CloseContainer = styled.div`
   position: fixed;
@@ -9,12 +14,12 @@ export const CloseContainer = styled.div`
   right: 0;
 `;
 
-export const FreePostItemContainer = styled.div`
+export const FreePostItemContainer = styled(motion.div)`
   ${FlexColumnBox};
   margin-bottom: 11px;
 `;
 
-export const FreePost = styled.div`
+export const FreePost = styled(motion.div)`
   width: 100%;
   height: auto;
   min-height: 140px;
@@ -114,8 +119,8 @@ export const ImageWrap = styled.div`
     width: 70px;
     height: 70px;
     margin-right: 0.8rem;
-    border-radius: 8px;
     object-fit: cover;
+    border-radius: 8px;
   }
 `;
 
@@ -170,6 +175,7 @@ export const SpreadBtn = styled.div`
   svg {
     width: 10px;
     color: rgba(0, 0, 0, 0.3);
-    transform: ${(props) => (props.isSpread ? "rotateZ(180deg)" : "rotateZ(360deg)")};
+    transform: ${(props) =>
+      props.isSpread ? "rotateZ(180deg)" : "rotateZ(360deg)"};
   }
 `;
