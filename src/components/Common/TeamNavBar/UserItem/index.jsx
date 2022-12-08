@@ -96,7 +96,6 @@ const UserItem = ({
   }, [unreadCount]);
 
   useEffect(() => {
-    console.log("사람있어요", user?.groupUserId);
     if (socket && user && !isMe) {
       socket?.on("unread", (data) => {
         console.log(user, data);
