@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useParams } from "react-router-dom";
+import { useMatch, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
@@ -24,6 +24,7 @@ const Chat = () => {
   const otherUser = useRecoilValue(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
   const scrollRef = useRef(null);
+
   const [socket] = useSocket(groupId);
   const [pages, setPages] = useState(0);
 
@@ -33,6 +34,7 @@ const Chat = () => {
     hasNextPage,
     refetch,
   } = useChatApis.ReadChats(roomId);
+
   const [height, setHeight] = useState(null);
 
   // 채팅방에 데이터가 없는지 확인 (없으면 true)
@@ -110,7 +112,7 @@ const Chat = () => {
     if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
       setChats(chatsData?.pages[0]?.data);
     }
-  }, [chatsData, pages]);
+  }, [chatsData, pages, roomId]);
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
@@ -148,6 +150,7 @@ const Chat = () => {
       socket.off("leaveRoom");
       socket.off("message");
       socket.off("joinRoom");
+      setPages(0);
     };
   }, [socket, me, roomId]);
 
