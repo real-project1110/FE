@@ -96,16 +96,17 @@ const UserItem = ({
   }, [unreadCount]);
 
   useEffect(() => {
-    console.log("user", user);
-    if (socket && user) {
+    console.log("사람있어요", user?.groupUserId);
+    if (socket && user && !isMe) {
       socket?.on("unread", (data) => {
+        console.log(user, data);
         if (data === user.groupUserId) setChatCount((prev) => prev + 1);
       });
       return () => {
         socket.off("unread");
       };
     }
-  }, [socket, user]);
+  }, [socket, user, isMe]);
   return (
     <>
       <ToastContainer />
