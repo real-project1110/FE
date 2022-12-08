@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { FlexAlignBox, FlexCenterBox, FlexColumnBox } from "../../shared/Styles/flex";
+import login from "../../assets/image/login.png";
+import {
+  FlexAlignBox,
+  FlexCenterBox,
+  FlexColumnBox,
+} from "../../shared/Styles/flex";
 
 export const Wrapper = styled.div`
   ${FlexCenterBox};
@@ -7,11 +12,17 @@ export const Wrapper = styled.div`
   height: 100vh;
   margin: 0 auto;
   background-repeat: no-repeat;
+  background-image: url(${login});
+
+  @media (max-width: 1500px) {
+    width: 100vw;
+    background-image: none;
+  }
 `;
 
 export const LoginBox = styled.div`
   ${FlexColumnBox};
-  width: 802px;
+  width: 350px;
   align-items: center;
 `;
 export const Logo = styled.div`
