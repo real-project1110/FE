@@ -94,6 +94,7 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
   // 그룹 유저 이미지 수정 mutation
   const { mutate: editGroupUserAvatarFn } = useMutation(editGroupUserAvatar, {
     onSuccess: () => {
+      queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
       toast.success("프로필이 변경되었습니다.", {
         position: "top-center",
         autoClose: 1000,
@@ -104,7 +105,6 @@ const ProfileEditModal = ({ user, closeModal, isMain, groupId }) => {
         progress: undefined,
         theme: "light",
       });
-      queryClient.invalidateQueries(["groupUser", `group ${groupId}`]);
     },
   });
 
