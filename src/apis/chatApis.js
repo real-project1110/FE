@@ -53,5 +53,7 @@ export const useChatApis = {
   },
 };
 
-// 데이터 받아올 때 스크롤 밑에서 300px 이상이면 scroll 내리지 않기
-// 섹션 나눠지고 있지 않은 상태 확인 필요
+export const readReceiver = async ({ groupId, roomId }) => {
+  const data = await instance.get(`groups/${groupId}/room/${roomId}`);
+  return data;
+};

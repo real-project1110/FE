@@ -6,8 +6,8 @@ import React, {
   useState,
 } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
-import { useMatch, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
 import useSocket from "../../../hooks/useSocket";
@@ -15,18 +15,20 @@ import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
 import { chatUserAtom } from "../../../recoil/userAtoms";
-import { useChatApis } from "../../../apis/chatApis";
+import { readReceiver, useChatApis } from "../../../apis/chatApis";
 import { ChatList, DayHeader, DaySection, Header, Wrapper } from "./styles";
+import { groupAtom } from "../../../recoil/groupAtoms";
 
 const Chat = () => {
   const { groupId, roomId } = useParams();
   const [chats, setChats] = useState([]);
-  const otherUser = useRecoilValue(chatUserAtom);
+  const [receiver, setReceiver] = useRecoilState(chatUserAtom);
   const me = useRecoilValue(groupUserAtom);
   const scrollRef = useRef(null);
-
   const [socket] = useSocket(groupId);
   const [pages, setPages] = useState(0);
+  const navigate = useNavigate();
+  const group = useRecoilValue(groupAtom);
 
   const {
     data: chatsData,
@@ -63,6 +65,32 @@ const Chat = () => {
     [isReachingEnd, fetchNextPage, hasNextPage]
   );
 
+  // 속한 그룹이 아니라면 이전 페이지로 이동
+  useEffect(() => {
+    if (group && roomId) {
+      if (!group.roomIds?.includes(+roomId)) return navigate(-1);
+    }
+  }, [group, roomId, navigate]);
+
+  // 만약 atom에 저장된 데이터와 일치하지 않을 경우 서버로부터 전달받은 상대 유저 데이터로 갈아치운다.
+  useEffect(() => {
+    (async () => {
+      const {
+        status,
+        data: { data: compareUser },
+      } = await readReceiver({
+        roomId,
+        groupId,
+      });
+      if (status !== 200) return;
+      else {
+        if (compareUser?.groupUserId !== receiver?.groupUserId) {
+          setReceiver(compareUser);
+        }
+      }
+    })();
+  });
+
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
     if (chatsData?.pages.length === 1) {
@@ -92,14 +120,14 @@ const Chat = () => {
 
   // 채팅방에 입장했을 때 시간 저장
   useEffect(() => {
-    if (groupId && me && otherUser) {
+    if (groupId && me && receiver) {
       localStorage.setItem(
-        `${groupId}-${me?.groupUserId}-${otherUser?.groupUserId}`,
+        `${groupId}-${me?.groupUserId}-${receiver?.groupUserId}`,
         //new Date()
         new Date().getTime().toString()
       );
     }
-  }, [groupId, roomId, me, otherUser]);
+  }, [groupId, roomId, me, receiver]);
 
   // 스크롤을 올릴 때 state에 데이터 추가 (무한스크롤)
   useEffect(() => {
@@ -110,7 +138,6 @@ const Chat = () => {
 
   // 마운트 되었을 때 데이터가 있다면 setChats 없다면 빈배열로 설정
   useEffect(() => {
-    console.log(pages);
     if (pages === 0 && chatsData?.pages[0]?.data.length > 0) {
       setChats(chatsData?.pages[0]?.data);
     } else if (chatsData?.pages[0]?.data.length === 0) setChats([]);
@@ -118,11 +145,11 @@ const Chat = () => {
 
   // 메세지를 받을 때 마다 실행
   useEffect(() => {
-    if (socket && me && otherUser) {
+    if (socket && me && receiver) {
       socket.on("message", (data) => {
         // 채팅방 접속 시간 갱신
         localStorage.setItem(
-          `${groupId}-${me.groupUserId}-${otherUser.groupUserId}`,
+          `${groupId}-${me.groupUserId}-${receiver.groupUserId}`,
           new Date().getTime().toString()
         );
         // 내가 보낸 메시지가 아니라면 state에 추가
@@ -143,7 +170,7 @@ const Chat = () => {
         }
       });
     }
-  }, [socket, groupId, me, otherUser]);
+  }, [socket, groupId, me, receiver]);
 
   // 채팅방을 나갔을 때 실행 소켓의 이벤트에 대한 연결을 off
   useEffect(() => {
@@ -163,11 +190,11 @@ const Chat = () => {
     <Wrapper as="main">
       <Header>
         <img
-          src={otherUser?.groupAvatarImg}
-          alt={otherUser?.groupUserNickname}
+          src={receiver?.groupAvatarImg}
+          alt={receiver?.groupUserNickname}
           onError={handleImgError}
         />
-        <h3>{otherUser?.groupUserNickname}</h3>
+        <h3>{receiver?.groupUserNickname}</h3>
       </Header>
       <ChatList>
         <Scrollbars autoHide ref={scrollRef} onScrollFrame={onScroll}>
@@ -182,7 +209,7 @@ const Chat = () => {
                     <ChatBox
                       key={chat?.message + idx}
                       isMe={chat?.groupUserId === me?.groupUserId}
-                      otherUser={otherUser}
+                      otherUser={receiver}
                       chat={chat}
                     />
                   ))}
@@ -194,7 +221,7 @@ const Chat = () => {
       <ChatForm
         setChats={setChats}
         groupUserId={me?.groupUserId}
-        otherUserId={otherUser?.groupUserId}
+        otherUserId={receiver?.groupUserId}
         roomId={roomId}
         groupId={groupId}
         scrollRef={scrollRef}
@@ -204,14 +231,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
-//import { groupAtom } from "../../../recoil/groupAtoms";
-//import { queryClient } from "../../..";
-//const navigate = useNavigate();
-
-// useEffect(() => {
-//   (async () => await queryClient.invalidateQueries(["group", groupId]))();
-//   if (group && !group.roomIds.includes(+roomId)) {
-//     navigate(-1);
-//   }
-// }, [group, roomId, navigate, groupId]);
