@@ -14,7 +14,7 @@ export const Form = styled.form`
 `;
 
 export const Step = styled.span`
-  margin-top: ${(props) => (props.isThree ? "13vh" : "20vh")};
+  margin-top: ${(props) => (props.isThree ? "23vh" : "30vh")};
   opacity: ${(props) => (props.isFour ? "0" : "1")};
   color: #aaaaaa;
   font-size: 0.9rem;
