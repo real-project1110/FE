@@ -44,10 +44,6 @@ function Status({ groupId }) {
     }
   );
 
-  // const { mutate: editMutate } = useMutation(editStatus, {
-  //   onSuccess: () => refetch(),
-  // });
-
   const { mutate: removeMutate } = useMutation(removeStatus, {
     onSuccess: () => refetch(),
   });
