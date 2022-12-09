@@ -45,7 +45,7 @@ export const CommentUserImg = styled.div`
     height: 28px;
     border: none;
     border-radius: 50%;
-    opacity: 0.7;
+    opacity: 1;
   }
 `;
 
