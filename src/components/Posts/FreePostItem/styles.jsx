@@ -54,6 +54,7 @@ export const UserImg = styled.div`
     border: none;
     border-radius: 50%;
     opacity: 0.7;
+    object-fit: cover;
   }
 `;
 
