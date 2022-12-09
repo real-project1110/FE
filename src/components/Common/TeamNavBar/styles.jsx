@@ -10,15 +10,15 @@ export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.layoutColor.white};
   box-sizing: border-box;
   padding: 1rem 0;
-  p
-  // scrollBar div
-  & > div:first-child {
-    display: grid;
+  display: grid;
     grid-template-rows: 240px 1fr;
     width: 100%;
     height: 100%;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
-  }
+  // scrollBar div
+ 
+    
+  
 `;
 
 export const GroupInfo = styled.div`
