@@ -20,8 +20,8 @@ export const lightMode = {
     lightGray: "#F4F4F4",
   },
   bodyHeight: {
-    normal: "calc(100vh - 60px)",
-    halfNormal: "calc(50vh - 30px)",
+    normal: "calc(100vh - 50px)",
+    halfNormal: "calc(50vh - 25px)",
   },
   modalBg: "",
   headerHeight: "50px",

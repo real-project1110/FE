@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useCallback } from "react";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
-import start1 from "../../assets/image/start1.png";
-import start2 from "../../assets/image/start2.png";
-import start3 from "../../assets/image/start3.png";
-import start4 from "../../assets/image/start4.png";
-import start5 from "../../assets/image/start5.png";
+import start1 from "../../assets/image/start1.webp";
+import start2 from "../../assets/image/start2.webp";
+import start3 from "../../assets/image/start3.webp";
+import start4 from "../../assets/image/start4.webp";
+import start5 from "../../assets/image/start5.webp";
 import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
 import {
   Header,
@@ -42,18 +42,22 @@ const Start = () => {
     [0.02, 0.13],
     [0.3, 1]
   );
-  const section2_2_y = useTransform(scrollYProgress, [0.25, 0.43], [200, 0]);
+  const section2_2_y = useTransform(scrollYProgress, [0.25, 0.35], [300, 0]);
   const section2_2_opacity = useTransform(
     scrollYProgress,
-    [0.25, 0.43],
+    [0.25, 0.35],
     [0, 1]
   );
-  const section2_3_y = useTransform(scrollYProgress, [0.46, 0.6], [200, 0]);
-  const section2_3_opacity = useTransform(scrollYProgress, [0.46, 0.6], [0, 1]);
-  const section2_4_y = useTransform(scrollYProgress, [0.67, 0.8], [200, 0]);
-  const section2_4_opacity = useTransform(scrollYProgress, [0.67, 0.8], [0, 1]);
-  const section3_y = useTransform(scrollYProgress, [0.83, 0.98], [200, 0]);
-  const section3_opacity = useTransform(scrollYProgress, [0.83, 0.95], [0, 1]);
+  const section2_3_y = useTransform(scrollYProgress, [0.46, 0.56], [300, 0]);
+  const section2_3_opacity = useTransform(
+    scrollYProgress,
+    [0.46, 0.56],
+    [0, 1]
+  );
+  const section2_4_y = useTransform(scrollYProgress, [0.68, 0.8], [300, 0]);
+  const section2_4_opacity = useTransform(scrollYProgress, [0.68, 0.8], [0, 1]);
+  const section3_y = useTransform(scrollYProgress, [0.83, 0.93], [300, 0]);
+  const section3_opacity = useTransform(scrollYProgress, [0.83, 0.93], [0, 1]);
   // 일정 스크롤이 내려가면 헤더에 보더값이 생기게 하는 함수
   const onScrollFn = useCallback(() => {
     if (window.scrollY > 65) {
@@ -159,14 +163,7 @@ const Start = () => {
             style={{ y: section2_3_y, opacity: section2_3_opacity }}
           >
             <Section2Img>
-              <img
-                src={start4}
-                alt="start4"
-                style={{
-                  borderRadius: "15px",
-                  paddingLeft: "20px",
-                }}
-              />
+              <img src={start4} alt="start4" />
             </Section2Img>
 
             <Section2Text>

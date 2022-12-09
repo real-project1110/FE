@@ -5,6 +5,7 @@ import {
   FlexColumnBox,
 } from "../../../shared/Styles/flex";
 import { motion } from "framer-motion";
+
 export const DetailWrapper = styled(motion.div)`
   width: 100%;
   padding: 1rem 0;
@@ -30,19 +31,38 @@ export const DetailPost = styled(motion.div)`
 `;
 
 export const Images = styled(motion.div)`
+  position: relative;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    & > div {
+      opacity: 1;
+    }
+  }
+
   & > img {
     width: 70px;
     height: 70px;
     margin-right: 0.8rem;
     object-fit: cover;
+
     border-radius: 8px;
-    cursor: pointer;
-    &:hover{
+    /* &:hover{
       opacity: 0.7;
       scale: 1.1;
-    }
+    } */
+  }
+  & > div {
+    position: absolute;
+    top: 0;
+    width: 70px;
+    height: 70px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.15s linear;
   }
 `;
 
