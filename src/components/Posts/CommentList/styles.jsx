@@ -18,8 +18,8 @@ export const CommentForm = styled.form`
 `;
 
 export const CommentFormUserImg = styled.img`
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 35px;
   object-fit: cover;
   background-color: ${(props) => props.theme.color.lightGray};
   border-radius: 50%;
@@ -35,8 +35,7 @@ export const CommentInput = styled.input`
 export const CommentSubmitBtn = styled.button`
   ${FlexCenterBox};
   padding: 0.5rem 0;
-  margin-top: -5px;
-  margin-right: 25px;
+  margin-right: 15px;
   width: 3rem;
   display: flex;
   border: none;
