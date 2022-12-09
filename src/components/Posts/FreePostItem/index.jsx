@@ -20,6 +20,7 @@ import getTime from "../../../utils/getTime";
 import { handleImgError } from "../../../utils/handleImgError";
 import { MenuBox } from "../../Modals/Menu";
 import CommentList from "../CommentList";
+
 import {
   CloseContainer,
   CommentCount,
@@ -147,8 +148,8 @@ const FreePostItem = ({ post, refetch }) => {
   return (
     <>
       {openPostMenu && <CloseContainer onClick={onCloseModal} />}
-      <FreePostItemContainer onClick={onCloseModal} layout>
-        <FreePost>
+      <FreePostItemContainer onClick={onCloseModal}>
+        <FreePost layout>
           <PostMenu>
             <PostUserInfo>
               <UserImg>

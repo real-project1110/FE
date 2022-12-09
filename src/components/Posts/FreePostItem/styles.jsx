@@ -14,7 +14,7 @@ export const CloseContainer = styled.div`
   right: 0;
 `;
 
-export const FreePostItemContainer = styled(motion.div)`
+export const FreePostItemContainer = styled.div`
   ${FlexColumnBox};
   margin-bottom: 11px;
 `;

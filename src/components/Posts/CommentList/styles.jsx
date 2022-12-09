@@ -1,7 +1,8 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import { FlexCenterBox, FlexColumnBox } from "../../../shared/Styles/flex";
 
-export const List = styled.div`
+export const List = styled(motion.div)`
   ${FlexColumnBox};
   background-color: white;
   border-radius: 0px 0px 8px 8px;
