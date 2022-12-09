@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSetRecoilState } from "recoil";
 import { goChatRoom, readUnread } from "../../../../apis/chatApis";
 import useSocket from "../../../../hooks/useSocket";
+import { groupAtom } from "../../../../recoil/groupAtoms";
 import { chatUserAtom } from "../../../../recoil/userAtoms";
 
 import { getIcon } from "../../../../utils/getIcon";
@@ -30,6 +31,7 @@ const UserItem = ({
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
   const setChatUser = useSetRecoilState(chatUserAtom);
+  const setGroup = useSetRecoilState(groupAtom);
   const [chatCount, setChatCount] = useState(0);
   const [socket] = useSocket(groupId);
 
@@ -72,6 +74,7 @@ const UserItem = ({
       data: { data: roomId },
     } = await goChatRoom(payload);
     if (status === 200) {
+      setGroup((prev) => ({ ...prev, roomIds: [...prev.roomIds, roomId] }));
       navigate(`/groups/${groupId}/chats/${roomId}`);
       setChatCount(0);
       setChatUser(user);
