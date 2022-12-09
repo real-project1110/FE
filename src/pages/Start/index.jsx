@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useCallback } from "react";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
-import start1 from "../../assets/image/start1.png";
-import start2 from "../../assets/image/start2.png";
-import start3 from "../../assets/image/start3.png";
-import start4 from "../../assets/image/start4.png";
-import start5 from "../../assets/image/start5.png";
+import start1 from "../../assets/image/start1.webp";
+import start2 from "../../assets/image/start2.webp";
+import start3 from "../../assets/image/start3.webp";
+import start4 from "../../assets/image/start4.webp";
+import start5 from "../../assets/image/start5.webp";
 import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
 import {
   Header,

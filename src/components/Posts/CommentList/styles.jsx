@@ -18,7 +18,7 @@ export const CommentForm = styled.form`
 `;
 
 export const CommentFormUserImg = styled.img`
-  width: 42px;
+  width: 35px;
   height: 35px;
   object-fit: cover;
   background-color: ${(props) => props.theme.color.lightGray};

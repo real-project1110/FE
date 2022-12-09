@@ -1,12 +1,12 @@
 import React from "react";
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
+// import { useState } from "react";
+// import { useRecoilValue } from "recoil";
 import CancelSvg from "../../../assets/svg/CancelSvg";
-import { PostDetailAtom } from "../../../recoil/groupAtoms";
+// import { PostDetailAtom } from "../../../recoil/groupAtoms";
 import {
   BigImage,
-  Blur,
-  BlurBackground,
+  // Blur,
+  // BlurBackground,
   Header,
   ImageSlide,
   ImageWrap,
@@ -14,10 +14,12 @@ import {
   Wrapper,
 } from "./styles";
 
-function ImageModal({ layoutId, setShowImage }) {
-  const detail = useRecoilValue(PostDetailAtom);
-  const [currentImage, setCurrentImage] = useState(detail?.postImg?.map((x)=> x.postImg))
-  console.log(currentImage[0])
+function ImageModal({ layoutId, setShowImage, detail }) {
+  //const detail = useRecoilValue(PostDetailAtom);
+  // const [currentImage, setCurrentImage] = useState(
+  //   detail?.postImg?.map((x) => x.postImg)
+  // );
+  // console.log(currentImage[0]);
   // detail?.postImg?.map((x)=> x.postImg)
   const settings = {
     dots: false,
@@ -25,10 +27,10 @@ function ImageModal({ layoutId, setShowImage }) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
   };
   return (
-    <Wrapper 
+    <Wrapper
       variants={bgAni}
       initial="initial"
       animate="animate"
@@ -37,26 +39,25 @@ function ImageModal({ layoutId, setShowImage }) {
       onClick={(e) => e.stopPropagation()}
     >
       <ImageWrap layoutId={layoutId} onClick={(e) => e.stopPropagation()}>
+        <Header>
+          <span onClick={() => setShowImage(null)}>
+            <CancelSvg />
+          </span>
+        </Header>
         <ImageSlide>
           <StyledSlider {...settings}>
             {detail?.postImg?.map((image) => (
               <BigImage key={image.postImg}>
-                <img src={image.postImg} alt={image} /> 
+                <img src={image.postImg} alt={image} />
               </BigImage>
             ))}
           </StyledSlider>
         </ImageSlide>
       </ImageWrap>
-      <BlurBackground>
+      {/* <BlurBackground>
         <Blur currentImage={currentImage[0]} />
-        <Header>
-            <div />
-            <div />
-            <span onClick={() => setShowImage(null)}>
-              <CancelSvg />
-            </span>
-        </Header>
-      </BlurBackground>
+      
+      </BlurBackground> */}
     </Wrapper>
   );
 }

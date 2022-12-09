@@ -235,6 +235,7 @@ function PostDetail() {
                         alt="postImg"
                         onError={handleImgError}
                       />
+                      <div />
                     </Images>
                   ))}
                 </PostImgWrap>
