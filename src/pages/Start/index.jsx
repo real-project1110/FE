@@ -28,11 +28,33 @@ import {
   Wrapper,
 } from "./styles";
 import { useNavigate } from "react-router-dom";
+import { useTransform, useViewportScroll } from "framer-motion";
 
 const Start = () => {
   const [isTop, setIsTop] = useState(true);
   const navigate = useNavigate();
 
+  const { scrollYProgress } = useViewportScroll();
+
+  const section2_1_y = useTransform(scrollYProgress, [0.02, 0.13], [100, 0]);
+  const section2_1_opacity = useTransform(
+    scrollYProgress,
+    [0.02, 0.13],
+    [0.3, 1]
+  );
+  const section2_2_y = useTransform(scrollYProgress, [0.25, 0.43], [200, 0]);
+  const section2_2_opacity = useTransform(
+    scrollYProgress,
+    [0.25, 0.43],
+    [0, 1]
+  );
+  const section2_3_y = useTransform(scrollYProgress, [0.46, 0.6], [200, 0]);
+  const section2_3_opacity = useTransform(scrollYProgress, [0.46, 0.6], [0, 1]);
+  const section2_4_y = useTransform(scrollYProgress, [0.67, 0.8], [150, 0]);
+  const section2_4_opacity = useTransform(scrollYProgress, [0.67, 0.8], [0, 1]);
+  const section3_y = useTransform(scrollYProgress, [0.83, 0.98], [150, 0]);
+  const section3_opacity = useTransform(scrollYProgress, [0.83, 0.98], [0, 1]);
+  // 일정 스크롤이 내려가면 헤더에 보더값이 생기게 하는 함수
   const onScrollFn = useCallback(() => {
     if (window.scrollY > 65) {
       setIsTop(false);
@@ -41,6 +63,7 @@ const Start = () => {
     }
   }, []);
 
+  // 스크롤 이벤트를 등록
   useEffect(() => {
     window.addEventListener("scroll", onScrollFn);
     return () => window.removeEventListener("scroll", onScrollFn);
@@ -94,7 +117,9 @@ const Start = () => {
           </Section1Img>
         </Section1>
         <Section2 as="section">
-          <Section2Item>
+          <Section2Item
+            style={{ y: section2_1_y, opacity: section2_1_opacity }}
+          >
             <Section2Img>
               <img src={start2} alt="start2" />
             </Section2Img>
@@ -110,7 +135,9 @@ const Start = () => {
               </p>
             </Section2Text>
           </Section2Item>
-          <Section2Item>
+          <Section2Item
+            style={{ y: section2_2_y, opacity: section2_2_opacity }}
+          >
             <Section2Img>
               <img src={start3} alt="start3" />
             </Section2Img>
@@ -128,7 +155,9 @@ const Start = () => {
               </p>
             </Section2Text>
           </Section2Item>
-          <Section2Item>
+          <Section2Item
+            style={{ y: section2_3_y, opacity: section2_3_opacity }}
+          >
             <Section2Img>
               <img
                 src={start4}
@@ -145,7 +174,9 @@ const Start = () => {
               <p>서로를 알고, 팀을 조직하고 조율하세요.</p>
             </Section2Text>
           </Section2Item>
-          <Section2Item>
+          <Section2Item
+            style={{ y: section2_4_y, opacity: section2_4_opacity }}
+          >
             <Section2Img>
               <img src={start5} alt="start5" />
             </Section2Img>
@@ -161,7 +192,7 @@ const Start = () => {
           </Section2Item>
         </Section2>
         <Section3 as="section">
-          <Section3First>
+          <Section3First style={{ y: section3_y, opacity: section3_opacity }}>
             <BigLogoSvg />
             <h2>오늘 바로 팀과 Status를 사용해 보세요.</h2>
             <p>Get to know your team better.</p>
