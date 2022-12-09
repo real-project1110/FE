@@ -23,25 +23,51 @@ export const ImageWrap = styled(motion.div)`
   box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2);
   border-radius: 15px;
   padding: 0.5rem 0.5rem;
+  z-index: 9999;
 `;
+
+export const BlurBackground = styled.div`
+  width: 70vw;
+  height: 70vh;
+  position: absolute;
+  border-radius: 15px;
+  overflow: hidden;
+`
+
+export const Blur = styled.div`
+  position: absolute;
+  width: 70vw;
+  height: 70vh;
+  filter: blur(10px);
+  background: ${props => `url(${props.currentImage})`};
+  background-repeat : no-repeat;
+  background-size : cover;
+  background-position-y: center;
+  background-color: #ffffff;
+`
 
 export const Header = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 25px 1fr 25px;
   align-items: center;
+  padding: 1rem 1rem;
   span {
     ${FlexCenterBox};
     width: 25px;
     height: 25px;
     border-radius: 50%;
     cursor: pointer;
+    z-index: 10001;
+    background-color: ${props => props.theme.color.green};
+    color: #ffffff;
     svg {
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
     }
     &:hover {
       background-color: ${(props) => props.theme.color.lightGray};
+      color: #000000;
       svg {
         color: ${(props) => props.theme.gray};
       }
@@ -52,28 +78,8 @@ export const Header = styled.div`
 export const ImageSlide = styled.div`
   width: 100%;
   height: 100%;
-  margin-bottom: 20px;
   justify-content: center;
   display: flex;
-  /* span {
-    ${FlexCenterBox};
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    position: fixed;
-    left: 74%;
-    cursor: pointer;
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-    &:hover {
-      background-color: ${(props) => props.theme.color.lightGray};
-      svg {
-        color: ${(props) => props.theme.gray};
-      }
-    }
-  } */
 `;
 
 export const StyledSlider = styled(Slider)`
