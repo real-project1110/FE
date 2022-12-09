@@ -1,12 +1,13 @@
 import React from "react";
+import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import CancelSvg from "../../../assets/svg/CancelSvg";
 import { PostDetailAtom } from "../../../recoil/groupAtoms";
 import {
-  AllImg,
   BigImage,
+  Blur,
+  BlurBackground,
   Header,
-  Image,
   ImageSlide,
   ImageWrap,
   StyledSlider,
@@ -15,6 +16,9 @@ import {
 
 function ImageModal({ layoutId, setShowImage }) {
   const detail = useRecoilValue(PostDetailAtom);
+  const [currentImage, setCurrentImage] = useState(detail?.postImg?.map((x)=> x.postImg))
+  console.log(currentImage[0])
+  // detail?.postImg?.map((x)=> x.postImg)
   const settings = {
     dots: false,
     infinite: true,
@@ -24,7 +28,7 @@ function ImageModal({ layoutId, setShowImage }) {
     autoplay: true,
   };
   return (
-    <Wrapper
+    <Wrapper 
       variants={bgAni}
       initial="initial"
       animate="animate"
@@ -33,30 +37,26 @@ function ImageModal({ layoutId, setShowImage }) {
       onClick={(e) => e.stopPropagation()}
     >
       <ImageWrap layoutId={layoutId} onClick={(e) => e.stopPropagation()}>
-        <Header>
-          <div />
-          <h3>상세 이미지</h3>
-          <span onClick={() => setShowImage(null)}>
-            <CancelSvg />
-          </span>
-        </Header>
         <ImageSlide>
           <StyledSlider {...settings}>
             {detail?.postImg?.map((image) => (
               <BigImage key={image.postImg}>
-                <img src={image.postImg} alt={image} />
+                <img src={image.postImg} alt={image} /> 
               </BigImage>
             ))}
           </StyledSlider>
         </ImageSlide>
-        <AllImg>
-          {detail?.postImg?.map((image) => (
-            <Image key={image.postImg}>
-              <img src={image.postImg} alt={image} />
-            </Image>
-          ))}
-        </AllImg>
       </ImageWrap>
+      <BlurBackground>
+        <Blur currentImage={currentImage[0]} />
+        <Header>
+            <div />
+            <div />
+            <span onClick={() => setShowImage(null)}>
+              <CancelSvg />
+            </span>
+        </Header>
+      </BlurBackground>
     </Wrapper>
   );
 }
