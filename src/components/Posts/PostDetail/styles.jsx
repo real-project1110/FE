@@ -39,6 +39,10 @@ export const Images = styled(motion.div)`
     object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
+    &:hover{
+      opacity: 0.7;
+      scale: 1.1;
+    }
   }
 `;
 

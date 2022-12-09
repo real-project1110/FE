@@ -108,7 +108,6 @@ function StatusModal({ groupId }) {
         </InputWrap>
         <ButtonWrap>
           <Button isAdd={true}>추가</Button>
-          {/* <Button isAdd={false}>취소</Button> */}
         </ButtonWrap>
       </Status>
     </Wrapper>
