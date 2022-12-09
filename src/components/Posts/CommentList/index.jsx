@@ -6,7 +6,15 @@ import { addComment, useReadComments } from "../../../apis/commentApi";
 import CommentPostSvg from "../../../assets/svg/CommentPostSvg";
 import { handleImgError } from "../../../utils/handleImgError";
 import { readGroupUser } from "../../../apis/groupUserApi";
-import { CommentForm, CommentFormUserImg, CommentInput, CommentSubmit, CommentSubmitBtn, List, More } from "./styles";
+import {
+  CommentForm,
+  CommentFormUserImg,
+  CommentInput,
+  CommentSubmit,
+  CommentSubmitBtn,
+  List,
+  More,
+} from "./styles";
 import { FakeImg } from "../FreePostItem/styles";
 import Comment from "../Comment";
 import { useInView } from "react-intersection-observer";
@@ -15,10 +23,14 @@ import { queryClient } from "../../..";
 function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
   const [pageSize, setPageSize] = useState(1);
   // 현재 유저 이미지
-  const { data: groupUser } = useQuery(["groupUser", `group ${groupId}`], () => readGroupUser(groupId), {
-    retry: 1,
-    staleTime: Infinity,
-  });
+  const { data: groupUser } = useQuery(
+    ["groupUser", `group ${groupId}`],
+    () => readGroupUser(groupId),
+    {
+      retry: 1,
+      staleTime: Infinity,
+    }
+  );
   const [postComment, setPostComment] = useState("");
 
   // 댓글 조회
@@ -26,7 +38,13 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
     groupId: groupId,
     postId: postId,
   };
-  const { data: getComment, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadComments(readCommentData);
+  const {
+    data: getComment,
+    fetchNextPage,
+    isSuccess,
+    hasNextPage,
+    refetch,
+  } = useReadComments(readCommentData);
 
   const { ref, inView } = useInView();
 
@@ -119,11 +137,20 @@ function CommentList({ groupId, postId, setCommentCount, detailMode = false }) {
       {!detailMode ? <More onClick={moreComments}>더보기</More> : null}
       <CommentForm onSubmit={Submit}>
         {groupUser && groupUser.groupAvatarImg ? (
-          <CommentFormUserImg src={groupUser.groupAvatarImg} alt={groupUser.groupUserNickname} onError={handleImgError} />
+          <CommentFormUserImg
+            src={groupUser.groupAvatarImg}
+            alt={groupUser.groupUserNickname}
+            onError={handleImgError}
+          />
         ) : (
           <FakeImg />
         )}
-        <CommentInput value={postComment} placeholder="댓글을 남겨주세요." type="text" onChange={onChange} />
+        <CommentInput
+          value={postComment}
+          placeholder="댓글을 남겨주세요."
+          type="text"
+          onChange={onChange}
+        />
         <CommentSubmit>
           <CommentPostSvg />
         </CommentSubmit>
