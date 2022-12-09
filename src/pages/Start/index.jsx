@@ -163,14 +163,7 @@ const Start = () => {
             style={{ y: section2_3_y, opacity: section2_3_opacity }}
           >
             <Section2Img>
-              <img
-                src={start4}
-                alt="start4"
-                style={{
-                  borderRadius: "15px",
-                  paddingLeft: "20px",
-                }}
-              />
+              <img src={start4} alt="start4" />
             </Section2Img>
 
             <Section2Text>
