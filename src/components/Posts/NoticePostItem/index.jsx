@@ -114,11 +114,12 @@ function NoticePostItem({ groupId, ref, notice, refetch }) {
             src={notice.postImg[0].postImg}
             alt={notice.groupUserNickname}
             onError={handleImgError}
+            onClick={viewDetail}
           />
         )}
         <ContentBox>
-          <TitleWrap>
-            <PostContent onClick={viewDetail}>{notice.content}</PostContent>
+          <TitleWrap onClick={viewDetail}>
+            <PostContent>{notice.content}</PostContent>
             <PostOption onClick={modalOpen}>
               {openPostMenu ? (
                 <MenuBox right={"1rem"} top={"1.2rem"}>
