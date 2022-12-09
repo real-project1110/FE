@@ -141,9 +141,9 @@ export const Section1Img = styled(motion.div)`
   img {
     width: 100%;
     min-width: 600px;
-    max-width: 750px;
     height: 100%;
     object-fit: scale-down;
+    aspect-ratio: 16/8;
   }
 `;
 
@@ -163,9 +163,8 @@ export const Section2Item = styled(motion.div)`
 
 export const Section2Img = styled(motion.div)`
   img {
-    width: 100%;
+    width: 95%;
     min-width: 500px;
-    max-width: 750px;
     height: 100%;
     object-fit: scale-down;
   }
