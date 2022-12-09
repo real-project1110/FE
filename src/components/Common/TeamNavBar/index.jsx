@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 const TeamNavBar = () => {
   const group = useRecoilValue(groupAtom);
   const calendarMatch = useMatch(`/groups/${group?.groupId}`);
-  const noticeMatch = useMatch(`/groups/${group?.groupId}/notice`);
+  const noticeMatch = useMatch(`/groups/${group?.groupId}/posts`);
   const [isEdit, setIsEdit] = useState(false);
   const user = useMemo(() => decodeUser(), []);
 
