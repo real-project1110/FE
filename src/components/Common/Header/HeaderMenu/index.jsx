@@ -24,7 +24,7 @@ const HeaderMenu = ({ user, isMain = false }) => {
   const { mutate: groupOutFn } = useMutation(outGroup, {
     onSuccess: () => {
       queryClient.invalidateQueries(["groupList"]);
-      navigate("/main");
+      navigate("/main/write");
     },
   });
 
