@@ -35,7 +35,7 @@ function ImageModal({ layoutId, setShowImage }) {
       <ImageWrap layoutId={layoutId} onClick={(e) => e.stopPropagation()}>
         <Header>
           <div />
-          <h3>상세 이미지</h3>
+          <div />
           <span onClick={() => setShowImage(null)}>
             <CancelSvg />
           </span>
@@ -49,13 +49,6 @@ function ImageModal({ layoutId, setShowImage }) {
             ))}
           </StyledSlider>
         </ImageSlide>
-        <AllImg>
-          {detail?.postImg?.map((image) => (
-            <Image key={image.postImg}>
-              <img src={image.postImg} alt={image} />
-            </Image>
-          ))}
-        </AllImg>
       </ImageWrap>
     </Wrapper>
   );

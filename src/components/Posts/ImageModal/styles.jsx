@@ -22,18 +22,14 @@ export const ImageWrap = styled(motion.div)`
   background-color: ${(props) => props.theme.boardColor.yellowGray};
   box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2);
   border-radius: 15px;
-  padding: 2rem;
+  padding: 0.5rem 0.5rem;
 `;
+
 export const Header = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 25px 1fr 25px;
   align-items: center;
-  h3 {
-    font-weight: 400;
-    font-size: 1.2rem;
-    text-align: center;
-  }
   span {
     ${FlexCenterBox};
     width: 25px;
@@ -52,35 +48,41 @@ export const Header = styled.div`
     }
   }
 `;
-export const Image = styled.div`
-  & > img {
-    width: 70px;
-    height: 70px;
-    margin-right: 2rem;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-`;
-
-export const AllImg = styled.div`
-  width: 100%;
-  margin-top: 10%;
-  justify-content: center;
-  display: flex;
-`;
 
 export const ImageSlide = styled.div`
   width: 100%;
+  height: 100%;
+  margin-bottom: 20px;
   justify-content: center;
   display: flex;
+  /* span {
+    ${FlexCenterBox};
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: fixed;
+    left: 74%;
+    cursor: pointer;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+    &:hover {
+      background-color: ${(props) => props.theme.color.lightGray};
+      svg {
+        color: ${(props) => props.theme.gray};
+      }
+    }
+  } */
 `;
 
 export const StyledSlider = styled(Slider)`
   width: 80%;
-  height: 500px;
+  height: 100%;
   .slick-prev:before {
     color: black;
     font-size: 30px;
+    margin-left: -10px;
   }
 
   .slick-next:before {
@@ -92,11 +94,13 @@ export const StyledSlider = styled(Slider)`
 export const BigImage = styled.div`
   width: 100%;
   height: 500px;
-  margin-left: 31.3%;
-  ${FlexCenterBox}
+  position: relative;
   & > img {
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     position: absolute;
-    top: 10%;
     object-fit: cover;
     border-radius: 8px;
   }
