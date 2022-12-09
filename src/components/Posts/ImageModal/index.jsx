@@ -36,7 +36,10 @@ function ImageModal({ layoutId, setShowImage, detail }) {
       animate="animate"
       exit="exit"
       transition={{ type: "tween", duration: 0.2 }}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation();
+        setShowImage(null);
+      }}
     >
       <ImageWrap layoutId={layoutId} onClick={(e) => e.stopPropagation()}>
         <Header>
