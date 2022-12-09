@@ -11,7 +11,6 @@ import {
   CommentFormUserImg,
   CommentInput,
   CommentSubmit,
-  CommentSubmitBtn,
   List,
   More,
 } from "./styles";
