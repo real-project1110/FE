@@ -43,36 +43,36 @@ const TeamNavBar = () => {
   }, []);
   return (
     <Wrapper as="aside">
-      <Scrollbars autoHide>
-        <GroupNav>
-          <GroupInfo>
-            <h3>{group && group.groupName}</h3>
-            {user && group && user.userId === group.onerId && (
-              <GroupConfig onClick={() => setIsEdit(true)}>
-                <ConfigSvg />
-              </GroupConfig>
-            )}
-          </GroupInfo>
+      <GroupNav>
+        <GroupInfo>
+          <h3>{group && group.groupName}</h3>
+          {user && group && user.userId === group.onerId && (
+            <GroupConfig onClick={() => setIsEdit(true)}>
+              <ConfigSvg />
+            </GroupConfig>
+          )}
+        </GroupInfo>
 
-          <Link to={`/groups/${group?.groupId}`}>
-            <GroupNavItem isFocus={calendarMatch}>
-              <CalendarSvg />
-              <strong>캘린더</strong>
-            </GroupNavItem>
-          </Link>
-          <Link to={`/groups/${group?.groupId}/posts`}>
-            <GroupNavItem isFocus={noticeMatch}>
-              <PostSvg />
-              <strong>게시판</strong>
-            </GroupNavItem>
-          </Link>
-          <Link to={"#"}>
-            <GroupNavItem onClick={onMelong}>
-              <MySvg />
-              <strong>MY</strong>
-            </GroupNavItem>
-          </Link>
-        </GroupNav>
+        <Link to={`/groups/${group?.groupId}`}>
+          <GroupNavItem isFocus={calendarMatch}>
+            <CalendarSvg />
+            <strong>캘린더</strong>
+          </GroupNavItem>
+        </Link>
+        <Link to={`/groups/${group?.groupId}/posts`}>
+          <GroupNavItem isFocus={noticeMatch}>
+            <PostSvg />
+            <strong>게시판</strong>
+          </GroupNavItem>
+        </Link>
+        <Link to={"#"}>
+          <GroupNavItem onClick={onMelong}>
+            <MySvg />
+            <strong>MY</strong>
+          </GroupNavItem>
+        </Link>
+      </GroupNav>
+      <Scrollbars autoHide>
         <UserList />
       </Scrollbars>
       <AnimatePresence>

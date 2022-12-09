@@ -104,7 +104,7 @@ const InviteModal = () => {
             <InputBox>
               <input
                 {...register("email")}
-                type="text"
+                type="email"
                 placeholder="name@gmail.com"
               />
               <button>추가</button>

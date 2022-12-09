@@ -7,7 +7,11 @@ import { editGroupUserState } from "../../../../apis/groupUserApi";
 import ArrowSvg from "../../../../assets/svg/ArrowSvg";
 import PlusSvg from "../../../../assets/svg/PlusSvg";
 import { inviteModalAtom } from "../../../../recoil/modalAtoms";
-import { groupUserAtom, groupUserListAtom, onlineListAtom } from "../../../../recoil/userAtoms";
+import {
+  groupUserAtom,
+  groupUserListAtom,
+  onlineListAtom,
+} from "../../../../recoil/userAtoms";
 import IconList from "../IconList";
 import UserItem from "../UserItem";
 import { AddUserBtn, ToggleUsers, UserItems, Wrapper } from "./styles";
@@ -70,20 +74,44 @@ const UserList = () => {
       </AddUserBtn>
       {groupUser && (
         <UserItems>
-          <UserItem user={groupUser} isMe={true} status={status} groupId={groupId} isLoggedIn={onlineList.includes(groupUser?.groupUserId)} />
-          <IconList user={groupUser} changeStatus={changeStatus} status={status} groupId={groupId} editStatusFn={editStatusFn} />
-          {isFocus && (
-            <>
-              {groupUserList &&
-                groupUser &&
-                groupUserList
-                  .filter((user) => user.groupUserId !== groupUser.groupUserId)
-                  .sort((a, b) => (onlineList.includes(a.groupUserId) ? -1 : 1))
-                  .map((user) => (
-                    <UserItem user={user} key={user.groupUserId} myUserData={groupUser} groupId={groupId} isLoggedIn={onlineList.includes(user.groupUserId)} />
-                  ))}
-            </>
-          )}
+          <UserItem
+            user={groupUser}
+            isMe={true}
+            status={status}
+            groupId={groupId}
+            isLoggedIn={onlineList.includes(groupUser?.groupUserId)}
+          />
+          <IconList
+            user={groupUser}
+            changeStatus={changeStatus}
+            status={status}
+            groupId={groupId}
+            editStatusFn={editStatusFn}
+          />
+          <>
+            {isFocus && (
+              <>
+                {groupUserList &&
+                  groupUser &&
+                  groupUserList
+                    .filter(
+                      (user) => user.groupUserId !== groupUser.groupUserId
+                    )
+                    .sort((a, b) =>
+                      onlineList.includes(a.groupUserId) ? -1 : 1
+                    )
+                    .map((user) => (
+                      <UserItem
+                        user={user}
+                        key={user.groupUserId}
+                        myUserData={groupUser}
+                        groupId={groupId}
+                        isLoggedIn={onlineList.includes(user.groupUserId)}
+                      />
+                    ))}
+              </>
+            )}
+          </>
         </UserItems>
       )}
     </Wrapper>

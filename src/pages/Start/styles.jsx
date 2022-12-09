@@ -156,7 +156,7 @@ export const Section2 = styled.div`
   padding: 1rem 10vw;
 `;
 
-export const Section2Item = styled.div`
+export const Section2Item = styled(motion.div)`
   display: flex;
   justify-content: center;
 `;
@@ -197,7 +197,7 @@ export const Section3 = styled.div`
   padding: 0 10vw;
 `;
 
-export const Section3First = styled.div`
+export const Section3First = styled(motion.div)`
   ${FlexCenterBox};
   flex-direction: column;
   svg {
