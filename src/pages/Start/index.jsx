@@ -53,7 +53,7 @@ const Start = () => {
   const section2_4_y = useTransform(scrollYProgress, [0.67, 0.8], [200, 0]);
   const section2_4_opacity = useTransform(scrollYProgress, [0.67, 0.8], [0, 1]);
   const section3_y = useTransform(scrollYProgress, [0.83, 0.98], [200, 0]);
-  const section3_opacity = useTransform(scrollYProgress, [0.83, 0.98], [0, 1]);
+  const section3_opacity = useTransform(scrollYProgress, [0.83, 0.95], [0, 1]);
   // 일정 스크롤이 내려가면 헤더에 보더값이 생기게 하는 함수
   const onScrollFn = useCallback(() => {
     if (window.scrollY > 65) {
