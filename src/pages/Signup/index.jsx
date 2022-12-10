@@ -23,7 +23,7 @@ import {
 import { LogoBox, BigMent } from "../Login/styles";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
 import { ImageDiv } from "../Signin/styles";
-import signinImage from "../../assets/image/signinImage.png";
+import signinImage from "../../assets/image/signinImage.webp";
 import CustomHelmet from "../../components/Common/Elements/CustomHelmet";
 
 const Signup = () => {

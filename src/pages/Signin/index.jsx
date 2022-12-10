@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import kakaoLogin from "../../assets/image/kakaotalk-icon.png";
 import NaverLogin from "../../assets/image/btnG_아이콘원형.png";
 import GoogleLogin from "../../assets/image/icons8-구글-로고-48.png";
-import signinImage from "../../assets/image/signinImage.png";
+import signinImage from "../../assets/image/signinImage.webp";
 import {
   LoginContainer,
   Title,

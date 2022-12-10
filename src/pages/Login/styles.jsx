@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import login from "../../assets/image/login.png";
+import login from "../../assets/image/login.webp";
 import {
   FlexAlignBox,
   FlexCenterBox,
