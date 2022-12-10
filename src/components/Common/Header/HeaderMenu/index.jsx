@@ -1,14 +1,14 @@
 import React, { useCallback } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { queryClient } from "../../../..";
 import { outGroup } from "../../../../apis/groupApi";
 import { groupAtom } from "../../../../recoil/groupAtoms";
 import {
   editProfileModalAtom,
   headerMenuAtom,
 } from "../../../../recoil/modalAtoms";
+import { groupUserAtom } from "../../../../recoil/userAtoms";
 import { removeCookieToken } from "../../../../shared/Cookie/Cookie";
 import { handleImgError } from "../../../../utils/handleImgError";
 import Menu from "../../../Modals/Menu";
@@ -20,7 +20,8 @@ const HeaderMenu = ({ user, isMain = false }) => {
   const group = useRecoilValue(groupAtom);
   const navigate = useNavigate();
   const { groupId } = useParams();
-
+  const queryClient = useQueryClient();
+  const setGroupUSer = useSetRecoilState(groupUserAtom);
   const { mutate: groupOutFn } = useMutation(outGroup, {
     onSuccess: () => {
       queryClient.invalidateQueries(["groupList"]);
@@ -43,9 +44,10 @@ const HeaderMenu = ({ user, isMain = false }) => {
       setHeaderMenu(false);
       removeCookieToken();
       queryClient.clear();
+      setGroupUSer({});
       navigate("/");
     },
-    [setHeaderMenu, navigate]
+    [setHeaderMenu, navigate, queryClient, setGroupUSer]
   );
 
   // 그룹에서 나가는 함수

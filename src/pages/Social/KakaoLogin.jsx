@@ -20,11 +20,15 @@ function KakaoLogin() {
         );
         if (kakaoResult.status !== 200) return;
         const token = kakaoResult.data.access_token;
-        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}auth/kakao`, kakaoResult.data, {
-          headers: {
-            Authorization: token,
-          },
-        });
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}auth/kakao`,
+          kakaoResult.data,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
         const {
           status,
           data: { accessToken, refreshToken, currentPage },
@@ -39,7 +43,6 @@ function KakaoLogin() {
           return window.location.replace("/main/write");
         }
       } catch (e) {
-        console.error(e);
         window.location.replace("/");
         toast.error("이미 가입된 이메일 입니다.", {
           position: "top-center",
