@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import LogoSvg from "../../assets/svg/LogoSvg";
 import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import {

@@ -51,10 +51,9 @@ export const UserImg = styled.div`
   & > img {
     width: 36px;
     height: 36px;
+    object-fit: cover;
     border: none;
     border-radius: 50%;
-    opacity: 0.7;
-    object-fit: cover;
   }
 `;
 
