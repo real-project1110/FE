@@ -82,7 +82,7 @@ function Comment({ comment, refetch, groupId, commentId, setCommentCount, detail
       setTextValue(comment.comment);
       onCloseModal(e);
     },
-    [comment.comment]
+    [comment.comment, onCloseModal]
   );
 
   // 댓글 수정 저장
