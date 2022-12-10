@@ -256,7 +256,7 @@ export const Section3Second = styled.div`
 export const ScrollUpBtn = styled(motion.div)`
   ${FlexCenterBox};
   position: fixed;
-  bottom: 15vh;
+  bottom: 10vh;
   right: 5vw;
   width: 60px;
   height: 60px;
