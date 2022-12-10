@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 const CustomHelmet = ({ title }) => {
   return (
     <Helmet>
-      <title>{title ? `${title} | statUs` : "statUs"} </title>
+      <title>{title ? `${title} | Status` : "Status"} </title>
     </Helmet>
   );
 };
