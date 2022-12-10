@@ -23,6 +23,7 @@ export const CommentFormUserImg = styled.img`
   object-fit: cover;
   background-color: ${(props) => props.theme.color.lightGray};
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
 `;
 
 export const CommentInput = styled.input`
