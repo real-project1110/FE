@@ -14,6 +14,7 @@ import {
   Logo,
   Main,
   Nav,
+  ScrollUpBtn,
   Section1,
   Section1Btns,
   Section1Img,
@@ -28,7 +29,12 @@ import {
   Wrapper,
 } from "./styles";
 import { useNavigate } from "react-router-dom";
-import { useTransform, useViewportScroll } from "framer-motion";
+import {
+  AnimatePresence,
+  useTransform,
+  useViewportScroll,
+} from "framer-motion";
+import ArrowSvg from "../../assets/svg/ArrowSvg";
 
 const Start = () => {
   const [isTop, setIsTop] = useState(true);
@@ -67,6 +73,12 @@ const Start = () => {
     }
   }, []);
 
+  const onClickBtn = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   // 스크롤 이벤트를 등록
   useEffect(() => {
     window.addEventListener("scroll", onScrollFn);
@@ -208,6 +220,19 @@ const Start = () => {
           </Section3Second>
         </Section3>
       </Main>
+      <AnimatePresence>
+        {isTop ? null : (
+          <ScrollUpBtn
+            variants={BtnAni}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            onClick={onClickBtn}
+          >
+            <ArrowSvg _width={"20"} _height={"20"} />
+          </ScrollUpBtn>
+        )}
+      </AnimatePresence>
     </Wrapper>
   );
 };
@@ -223,4 +248,10 @@ const section1TextAni = {
 const section1Img = {
   initial: { opacity: 0, x: 100 },
   animate: { opacity: 1, x: 0 },
+};
+
+const BtnAni = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
 };

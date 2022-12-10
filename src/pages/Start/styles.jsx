@@ -252,3 +252,23 @@ export const Section3Second = styled.div`
     }
   }
 `;
+
+export const ScrollUpBtn = styled(motion.div)`
+  ${FlexCenterBox};
+  position: fixed;
+  bottom: 15vh;
+  right: 5vw;
+  width: 60px;
+  height: 60px;
+  background-color: ${(props) => props.theme.color.green};
+  border-radius: 50%;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  svg {
+    color: white;
+    transform: rotateZ(180deg);
+  }
+  &:hover {
+    background-color: ${(props) => props.theme.color.hoverGreen};
+  }
+`;
