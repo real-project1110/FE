@@ -256,10 +256,10 @@ export const Section3Second = styled.div`
 export const ScrollUpBtn = styled(motion.div)`
   ${FlexCenterBox};
   position: fixed;
-  bottom: 10vh;
-  right: 5vw;
-  width: 60px;
-  height: 60px;
+  bottom: 15vh;
+  right: 3vw;
+  width: 50px;
+  height: 50px;
   background-color: ${(props) => props.theme.color.green};
   border-radius: 50%;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
