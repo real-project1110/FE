@@ -4,6 +4,7 @@ import HomeHeader from "../../components/Common/Header/HomeHeader";
 import SideTeamBar from "../../components/Common/SideTeamBar";
 import { Wrapper, Body } from "./styles";
 import { existCookie } from "../../utils/existCookie";
+import CustomHelmet from "../../components/Common/Elements/CustomHelmet";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -16,13 +17,16 @@ const Main = () => {
   }, [navigate, pathname]);
 
   return (
-    <Wrapper>
-      <HomeHeader isMain={true} />
-      <Body>
-        <SideTeamBar />
-        <Outlet />
-      </Body>
-    </Wrapper>
+    <>
+      <CustomHelmet title={"팀 생성"} />
+      <Wrapper>
+        <HomeHeader isMain={true} />
+        <Body>
+          <SideTeamBar />
+          <Outlet />
+        </Body>
+      </Wrapper>
+    </>
   );
 };
 

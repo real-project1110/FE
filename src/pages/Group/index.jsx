@@ -19,6 +19,7 @@ import {
 } from "../../recoil/userAtoms";
 import { Wrapper, Body } from "./styles";
 import { AnimatePresence } from "framer-motion";
+import CustomHelmet from "../../components/Common/Elements/CustomHelmet";
 
 const Group = () => {
   const { groupId } = useParams();
@@ -91,17 +92,20 @@ const Group = () => {
   }, [socket, setOnlineList]);
 
   return (
-    <Wrapper>
-      <GroupHeader />
-      <Body>
-        <SideTeamBar />
-        <TeamNavBar />
-        <Outlet />
-        <AnimatePresence>
-          {isInviteModal ? <InviteModal /> : null}
-        </AnimatePresence>
-      </Body>
-    </Wrapper>
+    <>
+      <CustomHelmet title={group?.groupName} />
+      <Wrapper>
+        <GroupHeader />
+        <Body>
+          <SideTeamBar />
+          <TeamNavBar />
+          <Outlet />
+          <AnimatePresence>
+            {isInviteModal ? <InviteModal /> : null}
+          </AnimatePresence>
+        </Body>
+      </Wrapper>
+    </>
   );
 };
 
