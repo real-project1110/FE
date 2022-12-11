@@ -72,25 +72,6 @@ const Chat = () => {
     }
   }, [group, roomId, navigate]);
 
-  // // 만약 atom에 저장된 데이터와 일치하지 않을 경우 서버로부터 전달받은 상대 유저 데이터로 갈아치운다.
-  // useEffect(() => {
-  //   (async () => {
-  //     const {
-  //       status,
-  //       data: { data: compareUser },
-  //     } = await readReceiver({
-  //       roomId,
-  //       groupId,
-  //     });
-  //     if (status !== 200) return;
-  //     else {
-  //       if (compareUser?.groupUserId !== receiver?.groupUserId) {
-  //         setReceiver(compareUser);
-  //       }
-  //     }
-  //   })();
-  // });
-
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
     if (chatsData?.pages.length === 1) {
@@ -233,3 +214,22 @@ const Chat = () => {
 };
 
 export default Chat;
+
+// // 만약 atom에 저장된 데이터와 일치하지 않을 경우 서버로부터 전달받은 상대 유저 데이터로 갈아치운다.
+// useEffect(() => {
+//   (async () => {
+//     const {
+//       status,
+//       data: { data: compareUser },
+//     } = await readReceiver({
+//       roomId,
+//       groupId,
+//     });
+//     if (status !== 200) return;
+//     else {
+//       if (compareUser?.groupUserId !== receiver?.groupUserId) {
+//         setReceiver(compareUser);
+//       }
+//     }
+//   })();
+// });
