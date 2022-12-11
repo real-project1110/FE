@@ -29,7 +29,7 @@ const Chat = () => {
   const [pages, setPages] = useState(0);
   const navigate = useNavigate();
   const group = useRecoilValue(groupAtom);
-
+  console.log(chats);
   const {
     data: chatsData,
     fetchNextPage,
