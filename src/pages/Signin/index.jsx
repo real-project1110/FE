@@ -25,6 +25,8 @@ import { setAccessToken } from "../../shared/Cookie/Cookie";
 import BigLogoSvg from "../../assets/svg/BigLogoSvg";
 import { useNavigate } from "react-router-dom";
 import CustomHelmet from "../../components/Common/Elements/CustomHelmet";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signin() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
@@ -55,22 +57,34 @@ function Signin() {
   };
 
   const onSubmit = async (data) => {
-    const response = await signin(data);
-    const {
-      status,
-      data: { accessToken, refreshToken, currentPage },
-    } = response;
+    try{
+      const response = await signin(data);
+      const {
+        status,
+        data: { accessToken, refreshToken, currentPage },
+      } = response;
 
-    if (status === 200) {
-      setAccessToken(accessToken);
-      localStorage.setItem("token", refreshToken);
-
-      if (currentPage) {
-        return window.location.replace(`/groups/${currentPage}`);
-      } else {
-        return window.location.replace("/main/write");
+      if (status === 200) {
+        setAccessToken(accessToken);
+        localStorage.setItem("token", refreshToken);
+        if (currentPage) {
+          return window.location.replace(`/groups/${currentPage}`);
+        } else {
+          return window.location.replace("/main/write");
+        }
       }
-    }
+    } catch (err){
+        toast.error(err.response.data.errorMessage, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+      }
   };
 
   return (
@@ -105,7 +119,7 @@ function Signin() {
             label={"이메일"}
             errors={errors}
             errorName={"email"}
-          />
+            />
           <Input
             register={{
               ...register("password", {
@@ -120,7 +134,7 @@ function Signin() {
                 },
                 pattern: {
                   value:
-                    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
+                  /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
                   message: "영어, 특수문자 포함 8~20자리 입니다.",
                 },
               }),
@@ -130,15 +144,15 @@ function Signin() {
             onKeyUp={ActiveIsPassedLogin}
             _border={
               !watch("password")
-                ? "#BBBBBB"
-                : errors.password
-                ? "#FF2D53"
-                : "#5FCB94"
+              ? "#BBBBBB"
+              : errors.password
+              ? "#FF2D53"
+              : "#5FCB94"
             }
             label={"비밀번호"}
             errors={errors}
             errorName={"password"}
-          />
+            />
           <ButtonWrap>
             <button>계정 찾기</button>
             <button>비밀번호 찾기</button>
@@ -156,7 +170,7 @@ function Signin() {
                 alt="NaverLogin"
                 width="32px"
                 height="32px"
-              />
+                />
             </div>
             <div className="kakao">
               <img
@@ -165,7 +179,7 @@ function Signin() {
                 width="32px"
                 height="32px"
                 onClick={LoginWithKakao}
-              />
+                />
             </div>
             <div className="google">
               <img
@@ -173,7 +187,7 @@ function Signin() {
                 alt="GoogleLogin"
                 width="32px"
                 height="32px"
-              />
+                />
             </div>
           </SocialButtonWrap>
         </Form>
@@ -181,6 +195,7 @@ function Signin() {
       <ImageDiv>
         <img src={signinImage} alt={signinImage} />
       </ImageDiv>
+     <ToastContainer/>
     </Wrapper>
   );
 }
