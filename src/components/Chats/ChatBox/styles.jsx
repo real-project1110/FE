@@ -19,6 +19,11 @@ export const UserImg = styled.img`
   cursor: pointer;
 `;
 
+export const FakeDiv = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+`;
+
 export const Comment = styled.div`
   display: flex;
   justify-content: ${(props) => (props.isMe ? "flex-end" : "start")};
