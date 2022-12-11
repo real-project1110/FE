@@ -46,24 +46,27 @@ const Signup = () => {
 
   const onSubmit = useCallback(
     async (data) => {
-      if (isAuth === true) {
-        delete data.confirm;
-        delete data.emailNum;
-        const response = await signup(data);
-        if (response.status === 201) {
-          toast.success(response.data.message, {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          navigate("/signin");
-        } else {
-          return toast.error("회원가입 실패", {
+      try{
+        if(isAuth === true) {
+          delete data.confirm;
+          delete data.emailNum;
+          const response = await signup(data);
+          if (response.status === 201) {
+            toast.success(response.data.message, {
+              position: "top-center",
+              autoClose: 1000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            navigate("/signin");
+          }
+        } 
+      } catch(err) {
+          toast.error(err.response.data.errorMessage, {
             position: "top-center",
             autoClose: 1000,
             hideProgressBar: true,
@@ -74,18 +77,6 @@ const Signup = () => {
             theme: "light",
           });
         }
-      } else {
-        return toast.error("이메일 인증을 해주세요", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
     },
     [navigate, isAuth]
   );
@@ -93,7 +84,8 @@ const Signup = () => {
   // 이메일 중복 검사 및 인증 번호 받기
   const emailAuth = async (e) => {
     e.preventDefault();
-    const response = await checkEmail({ email: watch("email") });
+    try{
+      const response = await checkEmail({ email: watch("email") });
     if (response.status === 200) {
       toast.success("인증번호 발송", {
         position: "top-center",
@@ -106,8 +98,9 @@ const Signup = () => {
         theme: "light",
       });
       setAuthEmailMode(true);
-    } else if (response.status === 400) {
-      return toast.error("이미 가입된 이메일 입니다.", {
+    }
+    } catch(err) {
+      return toast.error(err.response.data.errorMessage, {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: true,
@@ -123,24 +116,26 @@ const Signup = () => {
   // 이메일 인증번호 보내기
   const checkEmailAuth = async (e) => {
     e.preventDefault();
-    const response = await checkEmailNum({
-      email: watch("email"),
-      certificationNum: Number(watch("emailNum")),
-    });
-    if (response.status === 200) {
-      toast.success("인증성공", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    try{
+      const response = await checkEmailNum({
+        email: watch("email"),
+        certificationNum: Number(watch("emailNum")),
       });
-      setIsAuth(true);
-    } else {
-      toast.error("인증번호를 확인해주세요!", {
+      if (response.status === 200) {
+        toast.success("인증성공", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setIsAuth(true);
+      }
+    } catch(err) {
+      toast.error(err.response.data.errorMessage, {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: true,

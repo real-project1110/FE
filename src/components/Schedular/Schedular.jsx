@@ -28,6 +28,7 @@ import { useRecoilValue } from "recoil";
 import { nowColor } from "../../recoil/ColorAtom";
 import Spinner from "../Common/Elements/Spinner";
 import { AnimatePresence } from "framer-motion";
+import { groupUserAtom } from "../../recoil/userAtoms";
 
 setOptions({
   theme: "ios",
@@ -75,8 +76,11 @@ const Schedular = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [tempColor, setTempColor] = useState("");
   const [addTitle, setAddTitle] = useState("");
+  const [groupUserId, setGroupUserId] = useState("")
   const colorPicker = useRef();
   const { groupId } = useParams();
+  const groupUser = useRecoilValue(groupUserAtom);
+  
 
   // 고를 수 있는 색상
   const colors = useMemo(() => {
@@ -91,7 +95,7 @@ const Schedular = () => {
       refetchOnWindowFocus: false,
       retry: 1,
       onSuccess: (data) => {
-        setMyEvents(data);
+        setMyEvents([...data]);
       },
       onError: (e) => {
         toast.error(e.message, {
@@ -140,6 +144,15 @@ const Schedular = () => {
     [tempColor]
   );
 
+  // 일정 등록 / 수정 창에서 나오는 기본 값들
+  const loadPopupForm = useCallback((event) => {
+    setTitle(event.title);
+    setDescription(event.description);
+    setDate([event.start, event.end]);
+    setSelectedColor(event.color || "gray");
+    setGroupUserId(event.groupUserId)
+  }, []);
+
   // 스케쥴을 등록하거나 수정할 때 발생하는 함수
   const saveEvent = useCallback(() => {
     const startDate = popupEventDate[0];
@@ -154,8 +167,22 @@ const Schedular = () => {
 
     // 일정 수정일 경우 실행
     if (isEdit) {
+      if(groupUserId !== groupUser.groupUserId){
+        toast.error("본인의 일정만 수정 가능합니다",{
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+        return;
+      }
       const index = myEvents.findIndex((x) => x.id === tempEvent.id);
       const newEventList = [...myEvents];
+      console.log(index)
       newEventList.splice(index, 1, newEvent);
       setMyEvents(newEventList);
       const scheduleId = tempEvent.scheduleId;
@@ -257,11 +284,26 @@ const Schedular = () => {
     editMutate,
     groupId,
     addTitle,
+    groupUser.groupUserId,
+    groupUserId
   ]);
 
   // 스케쥴을 삭제할 때 발생하는 함수
   const deleteEvent = useCallback(
     (event) => {
+      if(event.groupUserId !== groupUser.groupUserId){
+        toast.error("본인의 일정만 삭제 가능합니다",{
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+        return;
+      }
       const removeSchedule = {
         groupId: groupId,
         scheduleId: event.scheduleId,
@@ -269,16 +311,8 @@ const Schedular = () => {
       removeMutate(removeSchedule);
       setMyEvents(myEvents.filter((item) => item.id !== event.id));
     },
-    [myEvents, removeMutate, groupId]
+    [myEvents, removeMutate, groupId, groupUser.groupUserId]
   );
-
-  // 일정 등록 / 수정 창에서 나오는 기본 값들
-  const loadPopupForm = useCallback((event) => {
-    setTitle(event.title);
-    setDescription(event.description);
-    setDate([event.start, event.end]);
-    setSelectedColor(event.color || "gray");
-  }, []);
 
   // handle popup form changes
 
@@ -347,24 +381,38 @@ const Schedular = () => {
     },
     [deleteEvent]
   );
-
+  
   // 드래그앤 드롭, 리사이징 수정부분 api 요청
   const onEventUpdated = useCallback((args) => {
-    const { scheduleId, title, description, start, end, color, groupId } =
-      args.event;
-    const editEvent = {
-      scheduleId,
-      groupId,
-      body: {
-        title,
-        description,
-        start: Date.parse(start),
-        end: Date.parse(end),
-        color,
-      },
-    };
-    DragResizeSchedule(editEvent);
-  }, []);
+    if(args.event.groupUserId !== groupUser.groupUserId){
+        refetch()
+        toast.error("본인의 일정만 수정할 수 있습니다",{
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+    } else {
+      const { scheduleId, title, description, start, end, color, groupId } =
+        args.event;
+      const editEvent = {
+        scheduleId,
+        groupId,
+        body: {
+          title,
+          description,
+          start: Date.parse(start),
+          end: Date.parse(end),
+          color,
+        },
+      };
+      DragResizeSchedule(editEvent);
+    }
+  }, [groupUser.groupUserId, refetch]);
 
   // 팝업의 Header 텍스트
   const headerText = useMemo(

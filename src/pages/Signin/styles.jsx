@@ -38,6 +38,7 @@ export const ImageDiv = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
+  margin-left: -15%;
   & > img {
     position: absolute;
     bottom: 5%;
