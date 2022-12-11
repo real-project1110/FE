@@ -15,7 +15,7 @@ import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
 import { chatUserAtom } from "../../../recoil/userAtoms";
-import { readReceiver, useChatApis } from "../../../apis/chatApis";
+import { useChatApis } from "../../../apis/chatApis";
 import { ChatList, DayHeader, DaySection, Header, Wrapper } from "./styles";
 import { groupAtom } from "../../../recoil/groupAtoms";
 
@@ -72,24 +72,24 @@ const Chat = () => {
     }
   }, [group, roomId, navigate]);
 
-  // 만약 atom에 저장된 데이터와 일치하지 않을 경우 서버로부터 전달받은 상대 유저 데이터로 갈아치운다.
-  useEffect(() => {
-    (async () => {
-      const {
-        status,
-        data: { data: compareUser },
-      } = await readReceiver({
-        roomId,
-        groupId,
-      });
-      if (status !== 200) return;
-      else {
-        if (compareUser?.groupUserId !== receiver?.groupUserId) {
-          setReceiver(compareUser);
-        }
-      }
-    })();
-  });
+  // // 만약 atom에 저장된 데이터와 일치하지 않을 경우 서버로부터 전달받은 상대 유저 데이터로 갈아치운다.
+  // useEffect(() => {
+  //   (async () => {
+  //     const {
+  //       status,
+  //       data: { data: compareUser },
+  //     } = await readReceiver({
+  //       roomId,
+  //       groupId,
+  //     });
+  //     if (status !== 200) return;
+  //     else {
+  //       if (compareUser?.groupUserId !== receiver?.groupUserId) {
+  //         setReceiver(compareUser);
+  //       }
+  //     }
+  //   })();
+  // });
 
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
@@ -180,12 +180,14 @@ const Chat = () => {
       socket.off("message");
       socket.off("joinRoom");
       setPages(0);
+      // setReceiver(null);
     };
-  }, [socket, me, roomId]);
+  }, [socket, me, roomId, setReceiver]);
 
   useEffect(() => {
     refetch();
   }, [refetch]);
+
   return (
     <Wrapper as="main">
       <Header>
