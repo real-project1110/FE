@@ -45,7 +45,7 @@ const UserItem = ({
           `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
         ),
       }),
-    { retry: 0, staleTime: Infinity }
+    { retry: 0 }
   );
 
   const navigate = useNavigate();
