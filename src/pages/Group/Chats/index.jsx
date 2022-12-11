@@ -7,22 +7,27 @@ import React, {
 } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import ChatBox from "../../../components/Chats/ChatBox";
 import ChatForm from "../../../components/Chats/ChatForm";
 import useSocket from "../../../hooks/useSocket";
 import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import makeSection from "../../../utils/makeSection";
-import { chatUserAtom } from "../../../recoil/userAtoms";
-import { useChatApis } from "../../../apis/chatApis";
+import { readReceiver, useChatApis } from "../../../apis/chatApis";
 import { ChatList, DayHeader, DaySection, Header, Wrapper } from "./styles";
 import { groupAtom } from "../../../recoil/groupAtoms";
+import { useQuery } from "react-query";
 
 const Chat = () => {
   const { groupId, roomId } = useParams();
   const [chats, setChats] = useState([]);
-  const [receiver, setReceiver] = useRecoilState(chatUserAtom);
+
+  const { data: receiver } = useQuery(
+    ["receiver", roomId],
+    () => readReceiver({ groupId, roomId }),
+    { retry: 0, staleTime: Infinity }
+  );
   const me = useRecoilValue(groupUserAtom);
   const scrollRef = useRef(null);
   const [socket] = useSocket(groupId);
@@ -73,23 +78,38 @@ const Chat = () => {
 
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
-    if (chatsData?.pages.length === 1) {
-      setTimeout(() => {
-        scrollRef.current?.scrollToBottom();
-      }, 100);
+    if (pages === 0 && Object.keys(chatSections).length) {
+      scrollRef.current?.scrollToBottom();
     }
-  }, [chatsData]);
+  }, [chatSections, pages]);
 
   // 스크롤의 꼭대기를 찍었을 때 현재 height - 이전 height
   useEffect(() => {
-    if (height) {
-      setTimeout(() => {
-        scrollRef?.current.scrollTop(
-          scrollRef?.current.getScrollHeight() - height?.scrollHeight
-        );
-      }, 50);
+    if (height && chatSections) {
+      // setTimeout(() => {
+      //   scrollRef?.current.scrollTop(
+      //     scrollRef?.current.getScrollHeight() - height?.scrollHeight
+      //   );
+      // }, 50);
+
+      scrollRef?.current.scrollTop(
+        scrollRef?.current.getScrollHeight() - height?.scrollHeight
+      );
+    } else {
+      if (scrollRef.current) {
+        if (
+          scrollRef.current.getScrollHeight() <
+          scrollRef.current.getClientHeight() +
+            scrollRef.current.getScrollTop() +
+            150
+        ) {
+          scrollRef.current?.scrollToBottom();
+        }
+      }
     }
-  }, [height]);
+
+    //setTimeout(() => setHeight(null), 200);
+  }, [height, chatSections]);
 
   // 채팅방에 입장했을 때 소켓으로 입장 이벤트 보내기
   useEffect(() => {
@@ -135,18 +155,18 @@ const Chat = () => {
         // 내가 보낸 메시지가 아니라면 state에 추가
         if (data.groupUserId !== me.groupUserId) {
           setChats((prev) => [data, ...prev]);
-          if (scrollRef.current) {
-            if (
-              scrollRef.current.getScrollHeight() <
-              scrollRef.current.getClientHeight() +
-                scrollRef.current.getScrollTop() +
-                150
-            ) {
-              setTimeout(() => {
-                scrollRef.current?.scrollToBottom();
-              }, 50);
-            }
-          }
+          // if (scrollRef.current) {
+          //   if (
+          //     scrollRef.current.getScrollHeight() <
+          //     scrollRef.current.getClientHeight() +
+          //       scrollRef.current.getScrollTop() +
+          //       150
+          //   ) {
+          //     setTimeout(() => {
+          //       scrollRef.current?.scrollToBottom();
+          //     }, 50);
+          //   }
+          // }
         }
       });
     }
@@ -160,22 +180,26 @@ const Chat = () => {
       socket.off("message");
       socket.off("joinRoom");
       setPages(0);
-      // setReceiver(null);
     };
-  }, [socket, me, roomId, setReceiver]);
+  }, [socket, me, roomId]);
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch]);
 
   return (
     <Wrapper as="main">
       <Header>
-        <img
-          src={receiver?.groupAvatarImg}
-          alt={receiver?.groupUserNickname}
-          onError={handleImgError}
-        />
+        {receiver ? (
+          <img
+            src={receiver?.groupAvatarImg}
+            alt={receiver?.groupUserNickname}
+            onError={handleImgError}
+          />
+        ) : (
+          <div />
+        )}
+
         <h3>{receiver?.groupUserNickname}</h3>
       </Header>
       <ChatList>
@@ -213,6 +237,15 @@ const Chat = () => {
 };
 
 export default Chat;
+
+// 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
+// useEffect(() => {
+//   if (chatsData?.pages.length === 1) {
+//     setTimeout(() => {
+//       scrollRef.current?.scrollToBottom();
+//     }, 100);
+//   }
+// }, [chatsData]);
 
 // // 만약 atom에 저장된 데이터와 일치하지 않을 경우 서버로부터 전달받은 상대 유저 데이터로 갈아치운다.
 // useEffect(() => {

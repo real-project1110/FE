@@ -38,7 +38,7 @@ export const useChatApis = {
         `room/${roomId}?page=${pageParam}&pageSize=15`
       );
       return {
-        data: data.data,
+        data: data.getChat,
         currentPage: pageParam,
       };
     };
@@ -54,6 +54,6 @@ export const useChatApis = {
 };
 
 export const readReceiver = async ({ groupId, roomId }) => {
-  const data = await instance.get(`groups/${groupId}/room/${roomId}`);
-  return data;
+  const { data } = await instance.get(`groups/${groupId}/room/${roomId}`);
+  return data.data;
 };

@@ -24,6 +24,10 @@ export const Header = styled.div`
     font-weight: 500;
     font-size: 1.1rem;
   }
+  div {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
 `;
 export const ChatList = styled.div`
   width: 100%;

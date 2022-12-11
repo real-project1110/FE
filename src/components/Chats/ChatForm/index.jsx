@@ -30,7 +30,7 @@ const ChatForm = ({
   const textareaRef = useRef(null);
   const { mutate: addChatFn } = useMutation(addChat, {
     onSuccess: () => {
-      scrollRef.current?.scrollToBottom();
+      scrollRef?.current?.scrollToBottom();
     },
     onError: () => scrollRef.current?.scrollToBottom(),
   });
