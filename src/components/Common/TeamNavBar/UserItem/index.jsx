@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSetRecoilState } from "recoil";
+import { queryClient } from "../../../..";
 import { goChatRoom, readUnread } from "../../../../apis/chatApis";
 import useSocket from "../../../../hooks/useSocket";
 import { groupAtom } from "../../../../recoil/groupAtoms";
@@ -35,7 +36,7 @@ const UserItem = ({
   const [chatCount, setChatCount] = useState(0);
   const [socket] = useSocket(groupId);
 
-  const { data: unreadCount, refetch: unreadCountRefetch } = useQuery(
+  const { data: unreadCount } = useQuery(
     ["unread", myUserData?.groupUserId, user?.groupUserId],
     () =>
       readUnread({
@@ -45,7 +46,7 @@ const UserItem = ({
           `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
         ),
       }),
-    { retry: 0 }
+    { retry: 0, staleTime: Infinity }
   );
 
   const navigate = useNavigate();
@@ -76,6 +77,10 @@ const UserItem = ({
     if (status === 200) {
       setGroup((prev) => ({ ...prev, roomIds: [...prev.roomIds, roomId] }));
       navigate(`/groups/${groupId}/chats/${roomId}`);
+      queryClient.setQueryData(
+        ["unread", myUserData?.groupUserId, user?.groupUserId],
+        0
+      );
       setChatCount(0);
       setChatUser(user);
     } else {
@@ -101,7 +106,6 @@ const UserItem = ({
   useEffect(() => {
     if (socket && user && !isMe) {
       socket?.on("unread", (data) => {
-        console.log(user, data);
         if (data === user.groupUserId) setChatCount((prev) => prev + 1);
       });
       return () => {
@@ -110,9 +114,10 @@ const UserItem = ({
     }
   }, [socket, user, isMe]);
 
-  useEffect(() => {
-    unreadCountRefetch();
-  }, [unreadCountRefetch, groupId]);
+  // useEffect(() => {
+  //   unreadCountRefetch();
+  // }, [unreadCountRefetch, groupId]);
+
   return (
     <>
       <ToastContainer />
