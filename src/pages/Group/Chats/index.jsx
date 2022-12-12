@@ -38,7 +38,6 @@ const Chat = () => {
     data: chatsData,
     fetchNextPage,
     hasNextPage,
-    refetch,
   } = useChatApis.ReadChats(roomId);
 
   const [height, setHeight] = useState(null);
