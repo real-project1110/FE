@@ -176,9 +176,7 @@
 - 채팅방 나감(pages를 초기화) ⇒ 채팅방 입장(서버 데이터 가져옴) ⇒ 서버 데이터와 pages에 대한 조건문을 통한 채팅 state 업데이트
 
 </details>
-
 <br>
-
 <details>
 <summary> 로그인 유저 인식 문제 </summary>
 <br>
@@ -201,5 +199,61 @@
 ❗️ 해결
 
 - naviagate는 history가 남지만 replace는 history가 남지 않는다는 점을 확인해 로그인 성공시에 navigate(”/”)가 아닌 window.location.replace(”/”)로 변경하여 해결.
+
+</details>
+<br>
+<details>
+<summary> 파일리스트를 서버에 전송 </summary>
+<br>
+
+❓ 문제
+
+- 하나의 이미지 파일을 보냈을 때는 서버에서 req.file을 통해 받아오는데 성공 했지만 여러개의 이미지 파일을 보냈을 때는 서버에서 req.files를 통해 받아오지 못하는 상황 직면.
+- 기존 방식은 formData를 생성하지 않고 요청에 headers를 "multipart/form-data” 로 설정하여 {image:file}을 전송했지만 {image:fileList}로 전송할 경우 ㅈarr.forEach arr은 배열이 아니라는 에러가 발생.
+
+1️⃣ 1차 접근
+
+- 이미지를 담는 images라는 state 를 만들어 이미지를 추가할때마다 state 에 추가.
+- 서버에서는 배열 형태로 이미지들을 받아야한다고 생각했기 때문에 `{image:images}`로 전달 → 실패함.
+
+`실패이유`
+FileList 형태가 아닌 `[file,file,file]` 형태이기 때문에 서버에서 `req.files`로 인식불가
+
+❗️ 해결
+
+- formData 객체를 생성해 state 에 반복문을 통해 append(”image”,state[i])로 추가하여 서버에 전달 성공
+
+</details>
+<br>
+
+<details>
+<summary> 다른 유저의 일정 업데이트 </summary>
+<br>
+
+❓ 문제
+
+- 본인의 일정이 아닌 다른 사람의 drag&drop을 통한 업데이트를 시도했을 때 DB변화는 없지만 프론트단에서는 새로고침 하기 이전에는 실행되는것처럼 보여지는 현상이 발생.
+- 강제적인 optimistic ui
+
+1️⃣ 1차 접근
+
+- 상대방의 일정을 drag&drop을 통해 업데이트할 때 해당 일정의 userId를 가져와서 현재 로그인되어있는 userId와 일치하지 않다면 업데이트 함수를 실행하지 않는 방법으로 시도했으나 실패
+- 캘린더를 라이브러리로 구현했는데, 라이브러리 자체 속성에 dragToMove와 dragToResize라는 업데이트 관련 속성이 true값으로 고정되어있어, 화면상 업데이트가 무조건 실행이 되게 되어있음
+
+2️⃣ 2차 접근
+
+- dragToMove와 dragToResize라는 속성에 삼항연산자를 사용해서 userId가 맞지않다면 값을 바꿔보기로 시도했으나 실패
+- 두 속성들은 Component return 부분에 속해있어서 drag&drop이나 resizing할 일정의 userId를 가져올 방법이 없음
+
+3️⃣ 3차 접근
+
+- 그렇다면 변경된 데이터가 화면상에서만 보일뿐 DB에는 저장되지 않으니, drag&drop 과 resizing 하는 함수에 전체 일정의 data인 myEvents라는 state를 useQuery에서 가져온 data로 setState를 해줘서 프론트단의 일정도 원래대로 돌아오게 끔 시도했으나 실패
+- setState를 해준 후 data를 콘솔에 찍어봤을 때 일정의 시작 날짜와 끝나는 날짜 자체가 DB에 적용되기 전 라이브러리 자체의 수정된 데이터로 들어오게 되서 실패함
+
+❗️ 해결
+
+- 오류 테스트하던 중 발견했던 새로고침을 했을 때 프론트단에서도 원래대로 데이터가 돌아오는 것을 확인
+- drag&drop 과 resizing하는 함수에 해당 일정의 userId와 현재 로그인한 유저의 userId가 같지않다면 useQuery에서 가져온 refetch를 실행하는 로직으로 해결 완료
+- 라이브러리상 화면상 수정을 막을 방법이 없기에 화면 수정 => 아이디가 일치하지 않는다면 새롭게 서버로부터 데이터를 요청 => state를 최신화
 
 </details>
