@@ -50,22 +50,27 @@
   - 작성한 글은 요약된 정보로 보여지며 클릭을 통해 상세 게시글 모달을 확인 가능
   - 상세 게시글 모달에서는 게시글에 대한 전체 정보가 보여지며 이미지 클릭을 통해 상세 이미지를 슬라이드로 확인 가능<br>
     <img src="https://user-images.githubusercontent.com/86880916/207004487-dbe8b405-36b8-437f-ba31-df96dc546937.gif" width="80%"  >
+    <img src="https://user-images.githubusercontent.com/86880916/207005646-dbc2c0b1-abec-4179-a933-da0be2b7872f.gif" width="80%">
 
 - **그룹 회원 상태** <br>
 
   - 속한 그룹내에서 상태메시지와 상태 아이콘 등록 가능
   - 상태 아이콘은 유저의 오른쪽에 표시되며 마우스를 올려놓을 시에 해당 유저의 상태 메시지 확인 가능
   - 해당 그룹의 접속하고 있는 유저들을 실시간으로 표시
+    <img src="https://user-images.githubusercontent.com/86880916/207005834-2d2914be-6813-4d06-94c4-602e509f5e04.gif" width="80%">
 
 - **그룹 생성 및 초대** <br>
 
   - 그룹에서 유저 초대 가능
   - 오른쪽 상단의 알림 아이콘을 클릭하면 받은 초대 목록을 보여줌
   - 초대 수락시에 해당 그룹으로 이동
+    <img src="https://user-images.githubusercontent.com/86880916/207005907-78edce7f-c10e-433b-a574-59eb99db9de8.gif" width="80%">
+    <img src="https://user-images.githubusercontent.com/86880916/207006002-e4cf1c35-322a-4fad-9988-321a5325b688.gif" width="80%">
 
 - **실시간 채팅** <br>
   - 그룹내의 유저와 실시간 1대1 채팅
   - 상대방이 메시지를 읽지 않았을 경우 상대방의 화면에서 읽지 않은 메시지 수 표시
+    <img src="https://user-images.githubusercontent.com/86880916/207006068-77bb8920-8ed6-4149-8635-363c3fc25d6e.gif" width="80%">
 
 ### ✅ **담당 작업**
 
