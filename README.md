@@ -1,7 +1,3 @@
-# GitHub ReadMe
-
----
-
 # 항해 99 9기 4조 실전 프로젝트 - Status!
 
 ![브로셔](https://user-images.githubusercontent.com/86880916/206968459-29afd585-0182-40a0-baeb-624c45adce27.png)
@@ -16,7 +12,7 @@
 > 누가 어떤 일정이 있는지 확인한다!
 > 팀원이 어떤 상태인지 보여준다!
 
----
+[Status 바로가기](https://www.status.gift/) <br />
 
 ### 🗓️ 프로젝트 운영 기간
 
