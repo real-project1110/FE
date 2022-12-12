@@ -25,6 +25,9 @@ export const StatusList = styled.div`
   margin-top: 4px;
   display: flex;
   vertical-align: middle;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 export const StatusColor = styled.div`
   width: 10px;
