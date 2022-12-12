@@ -34,7 +34,7 @@
   - 이메일 인증을 통한 회원가입
   - 카카오 로그인을 통한 간편한 회원가입 및 로그인 기능
   - 로그인 시 가장 최근에 접속한 그룹 페이지로 이동<br>
-    <img src = "https://user-images.githubusercontent.com/86880916/206993820-f6738872-0fd7-4af3-8ec3-dc27f0156322.gif" width="width size%" height="height size%">
+    <img src = "https://user-images.githubusercontent.com/86880916/206993820-f6738872-0fd7-4af3-8ec3-dc27f0156322.gif" width="100%" height="100%%" aspectRatio="1/1">
 
 - **캘린더 및 상태등록** <br>
 
