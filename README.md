@@ -41,7 +41,7 @@
   - 카카오 로그인을 통한 간편한 회원가입 및 로그인 기능
   - 로그인 시 가장 최근에 접속한 그룹 페이지로 이동
 
-- **캘린더 및 상태등록** <br>
+- ## **캘린더 및 상태등록** <br>
 
   - 상태에 대한 색상을 등록하여 일정 작성 ex) 휴가중, 연차, 출장 등...
   - 작성한 회원이 아닐 시 수정 불가
@@ -49,7 +49,7 @@
     <br><br>
     <img src="https://user-images.githubusercontent.com/86880916/207003947-b7e3d38b-98ba-454d-ab3d-c4145e578d81.gif" width="80%"  >
 
-- **게시판** <br>
+- ## **게시판** <br>
 
   - 자유게시판과 공지게시판으로 나누어 보여줌
   - 자유게시판에 게시글을 등록하여 공지게시판으로 이동 가능
@@ -60,7 +60,7 @@
     <img src="https://user-images.githubusercontent.com/86880916/207004487-dbe8b405-36b8-437f-ba31-df96dc546937.gif" width="80%"  >
     <img src="https://user-images.githubusercontent.com/86880916/207005646-dbc2c0b1-abec-4179-a933-da0be2b7872f.gif" width="80%">
 
-- **그룹 회원 상태** <br>
+- ## **그룹 회원 상태** <br>
 
   - 속한 그룹내에서 상태메시지와 상태 아이콘 등록 가능
   - 상태 아이콘은 유저의 오른쪽에 표시되며 마우스를 올려놓을 시에 해당 유저의 상태 메시지 확인 가능
@@ -68,7 +68,7 @@
     <br><br>
     <img src="https://user-images.githubusercontent.com/86880916/207005834-2d2914be-6813-4d06-94c4-602e509f5e04.gif" width="80%">
 
-- **그룹 생성 및 초대** <br>
+- ## **그룹 생성 및 초대** <br>
 
   - 그룹에서 유저 초대 가능
   - 오른쪽 상단의 알림 아이콘을 클릭하면 받은 초대 목록을 보여줌
@@ -77,7 +77,7 @@
     <img src="https://user-images.githubusercontent.com/86880916/207005907-78edce7f-c10e-433b-a574-59eb99db9de8.gif" width="80%">
     <img src="https://user-images.githubusercontent.com/86880916/207006002-e4cf1c35-322a-4fad-9988-321a5325b688.gif" width="80%">
 
-- **실시간 채팅** <br>
+- ## **실시간 채팅** <br>
   - 그룹내의 유저와 실시간 1대1 채팅
   - 상대방이 메시지를 읽지 않았을 경우 상대방의 화면에서 읽지 않은 메시지 수 표시
     <br><br>
