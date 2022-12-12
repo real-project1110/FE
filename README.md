@@ -11,6 +11,10 @@
 ### 📖 프로젝트 소개
 
 > [statUs] 원활한 팀 업무와 팀 내 커뮤니케이션을 도와주는 서비스
+>
+> 팀의 일정을 확인한다!
+> 누가 어떤 일정이 있는지 확인한다!
+> 팀원이 어떤 상태인지 보여준다!
 
 ### 🗓️ 프로젝트 운영 기간
 
@@ -23,7 +27,9 @@
 
 👨🏻‍💻 안치영: [https://github.com/Returnmakdo](https://github.com/Returnmakdo)
 
-### ⛑️ **담당 작업**
+### ✅ **기능 소개**
+
+### ✅ **담당 작업**
 
 👷🏻‍♂️ 한세준
 
@@ -41,7 +47,18 @@
 - 예외처리 : 예외에 대한 alert 작업
 - 배포 : Vercel을 통한 배포
 
-### 🏗️ 기술 스택
+### 💬 기술적 의사결정
+
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black"/>&nbsp;
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"/>&nbsp;
+<img src="https://img.shields.io/badge/styled-components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>&nbsp;
+<img src="https://img.shields.io/badge/-react--query-red?style=for-the-badge&logo=React Query&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/-Recoil-blueviolet?style=for-the-badge&logo=Recoil&logoColor=white">
+<br>
+
+<img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"/>&nbsp;
+<img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=white"/>&nbsp;
+<img src="https://img.shields.io/badge/-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white">
 
 - **React**
 - **react-query**
