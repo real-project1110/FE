@@ -28,6 +28,18 @@
 
 👨🏻‍💻 안치영: [https://github.com/Returnmakdo](https://github.com/Returnmakdo)
 
+### 👥 백엔드 팀원 소개
+
+👨🏻‍💻 김정현: [https://github.com/1005jh](https://github.com/1005jh)
+
+👨🏻‍💻 정현진: [https://github.com/hyunjin9603](https://github.com/hyunjin9603)
+
+👨🏻‍💻 유동희: [https://github.com/donghee44](https://github.com/donghee44)
+
+### 👥 디자이너
+
+👨🏻‍💻 문예진
+
 ---
 
 ### 💚 **주요 기능**
