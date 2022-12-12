@@ -40,6 +40,7 @@
   - 상태에 대한 색상을 등록하여 일정 작성 ex) 휴가중, 연차, 출장 등...
   - 작성한 회원이 아닐 시 수정 불가
   - 드래그앤드롭을 통한 일정 수정
+    <img src="https://user-images.githubusercontent.com/86880916/207002992-406dd0ed-da73-4b69-b67a-0305e1367ceb.gif" width="100%" height="100%">
 
 - **게시판** <br>
 
