@@ -79,7 +79,9 @@ const Chat = () => {
   // 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
   useEffect(() => {
     if (pages === 0 && Object.keys(chatSections).length) {
-      scrollRef.current?.scrollToBottom();
+      setTimeout(() => {
+        scrollRef.current?.scrollToBottom();
+      }, 50);
     }
   }, [chatSections, pages]);
 

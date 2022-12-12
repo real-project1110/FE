@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# GitHub ReadMe
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+# 항해 99 9기 4조 실전 프로젝트 - Status!
 
-In the project directory, you can run:
+![브로셔](https://user-images.githubusercontent.com/86880916/206968459-29afd585-0182-40a0-baeb-624c45adce27.png)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📖 프로젝트 소개
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> [statUs] 원활한 팀 업무와 팀 내 커뮤니케이션을 도와주는 서비스
+>
+> 팀의 일정을 확인한다!
+> 누가 어떤 일정이 있는지 확인한다!
+> 팀원이 어떤 상태인지 보여준다!
 
-### `npm test`
+### 🗓️ 프로젝트 운영 기간
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 개발 기간: 2022년 11월 11일 ~ 2022년 12월 16일
+- 운영 기간: 2022년 12월 07일 ~ 2022년 12월 15일
 
-### `npm run build`
+### 👥 프론트엔드 팀원 소개
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+👨🏻‍💻 한세준: [https://github.com/hansejun](https://github.com/hansejun)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+👨🏻‍💻 안치영: [https://github.com/Returnmakdo](https://github.com/Returnmakdo)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### ✅ **기능 소개**
 
-### `npm run eject`
+### ✅ **담당 작업**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+👷🏻‍♂️ 한세준
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- 레이아웃: 레이아웃, 글로벌 스타일, 애니메이션 효과
+- 그룹 구현: 그룹 생성/수정/삭제, 그룹 초대
+- 그룹 유저 : 상태 메시지 및 상태 아이콘, 프로필 변경
+- 소켓 : 실시간 채팅 / 안읽은 메시지 알림 / 실시간 접속 유저 표시
+- 필요한 util 함수 제작 : token 디코드, 쿠키 여부, 시간 관련 함수
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+👷🏻‍♂️ 안치영
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- 로그인, 회원가입 : 유효성 검증, 이메일을 통한 인증 확인, 소셜로그인
+- 캘린더 구현 : 상태 생성/수정/삭제, 일정 생성/수정/삭제, 드래그앤드롭
+- 게시판 구현 : 게시글 생성/수정/삭제, 댓글 생성/수정/삭제, 좋아요. 상세페이지, 상세 이미지, 이미지 슬라이드
+- 예외처리 : 예외에 대한 alert 작업
+- 배포 : Vercel을 통한 배포
 
-## Learn More
+### 💬 기술적 의사결정
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black"/>&nbsp;
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"/>&nbsp;
+<img src="https://img.shields.io/badge/styled-components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>&nbsp;
+<img src="https://img.shields.io/badge/-react--query-red?style=for-the-badge&logo=React Query&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/-Recoil-blueviolet?style=for-the-badge&logo=Recoil&logoColor=white">
+<br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"/>&nbsp;
+<img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=white"/>&nbsp;
+<img src="https://img.shields.io/badge/-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white">
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **React**
+- **react-query**
+- **recoil**
+- **styled-components**
+- **Axios**
