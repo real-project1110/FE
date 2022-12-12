@@ -4,7 +4,7 @@
 
 # 항해 99 9기 4조 실전 프로젝트 - Status!
 
-![status.png]()
+![브로셔](https://user-images.githubusercontent.com/86880916/206968459-29afd585-0182-40a0-baeb-624c45adce27.png)
 
 ---
 
