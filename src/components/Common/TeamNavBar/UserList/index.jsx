@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -24,6 +25,7 @@ const UserList = () => {
   const groupUserList = useRecoilValue(groupUserListAtom);
   const onlineList = useRecoilValue(onlineListAtom);
   const setIsInviteModal = useSetRecoilState(inviteModalAtom);
+  const [unreads, setUnreads] = useState({});
 
   // 나의 상태와 메시지를 변경하는 함수
   const { mutate: editStatusFn } = useMutation(editGroupUserState, {
@@ -46,6 +48,14 @@ const UserList = () => {
     },
     [status, groupId, editStatusFn]
   );
+
+  const hasUnReadUser = useMemo(() => {
+    console.log(unreads);
+    const keys = Object.keys(unreads);
+    const values = Object.values(unreads);
+    console.log(keys.filter((_, idx) => values[idx] > 0));
+    return keys.filter((_, idx) => values[idx] > 0);
+  }, [unreads]);
 
   // 마운트 되었을 때 나의 상태와 메시지를 저장하는 함수
   useEffect(() => {
@@ -80,6 +90,8 @@ const UserList = () => {
             status={status}
             groupId={groupId}
             isLoggedIn={onlineList.includes(groupUser?.groupUserId)}
+            unreads={unreads}
+            setUnreads={setUnreads}
           />
           <IconList
             user={groupUser}
@@ -98,6 +110,9 @@ const UserList = () => {
                       (user) => user.groupUserId !== groupUser.groupUserId
                     )
                     .sort((a, b) =>
+                      hasUnReadUser.includes(a.groupUserId + "") ? -1 : 1
+                    )
+                    .sort((a, b) =>
                       onlineList.includes(a.groupUserId) ? -1 : 1
                     )
                     .map((user) => (
@@ -107,6 +122,8 @@ const UserList = () => {
                         myUserData={groupUser}
                         groupId={groupId}
                         isLoggedIn={onlineList.includes(user.groupUserId)}
+                        unreads={unreads}
+                        setUnreads={setUnreads}
                       />
                     ))}
               </>
