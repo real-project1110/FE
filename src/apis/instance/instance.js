@@ -35,3 +35,13 @@ export default instance;
 //   }
 //   return config;
 // });
+
+// instance.interceptors.request.use(
+//   function (config) {
+//     config.headers["Authorization"] = `Bearer ${myToken}`;
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   }
+// );
