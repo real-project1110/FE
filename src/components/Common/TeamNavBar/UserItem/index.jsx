@@ -27,13 +27,14 @@ const UserItem = ({
   myUserData,
   groupId,
   isLoggedIn,
+  unreads,
+  setUnreads,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
   const setChatUser = useSetRecoilState(chatUserAtom);
   const setGroup = useSetRecoilState(groupAtom);
-  const [chatCount, setChatCount] = useState(0);
   const [socket] = useSocket(groupId);
 
   const { data: unreadCount } = useQuery(
@@ -54,16 +55,16 @@ const UserItem = ({
       ),
     }
   );
-
   const navigate = useNavigate();
-  // 마우스가 유저에게로 올라갈 때 실행
+
+  // 마우스가 유저에게로 올라갈 때 실행 (상태 메시지 위ㅊㅣ)
   const onHover = useCallback((e) => {
     setMouseX(e.pageX);
     setMouseY(e.pageY);
     setIsHover(true);
   }, []);
 
-  // 마우스가 유저에게 떠날 때 실행
+  // 마우스가 유저에게 떠날 때 실행 (상태 메시지 위ㅊㅣ)
   const onLeave = useCallback(() => {
     setIsHover(false);
   }, []);
@@ -87,7 +88,8 @@ const UserItem = ({
         ["unread", myUserData?.groupUserId, user?.groupUserId],
         0
       );
-      setChatCount(0);
+      setUnreads((prev) => ({ ...prev, [user.groupUserId]: 0 }));
+      //setChatCount(0);
       setChatUser(user);
     } else {
       return toast.error("채팅방 입장에 실패하였습니다.", {
@@ -104,31 +106,40 @@ const UserItem = ({
   };
 
   useEffect(() => {
-    if (unreadCount) {
-      setChatCount(unreadCount);
+    if (unreadCount && user) {
+      setUnreads((prev) => ({ ...prev, [user.groupUserId]: unreadCount }));
+    } else {
+      setUnreads((prev) => ({ ...prev, [user?.groupUserId]: 0 }));
     }
-  }, [unreadCount]);
+  }, [unreadCount, user, setUnreads]);
 
   useEffect(() => {
     if (socket && user && !isMe) {
       socket?.on("unread", (data) => {
-        if (
-          !localStorage.getItem(
-            `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
-          )
-        ) {
-          localStorage.setItem(
-            `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`,
-            (new Date().getTime() - 300).toString()
-          );
+        if (data === +user?.groupUserId) {
+          if (
+            !localStorage.getItem(
+              `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
+            )
+          ) {
+            localStorage.setItem(
+              `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`,
+              (new Date().getTime() - 300).toString()
+            );
+          }
         }
-        if (data === user.groupUserId) setChatCount((prev) => prev + 1);
+
+        if (data === user.groupUserId)
+          setUnreads((prev) => ({
+            ...prev,
+            [user.groupUserId]: prev[user.groupUserId] + 1,
+          }));
       });
       return () => {
         socket.off("unread");
       };
     }
-  }, [socket, user, isMe, groupId, myUserData]);
+  }, [socket, user, isMe, groupId, myUserData, setUnreads]);
 
   // useEffect(() => {
   //   unreadRefetch();
@@ -154,9 +165,10 @@ const UserItem = ({
           {user.groupUserNickname}
           {isMe && <strong>나</strong>}
         </span>
-
         <Icon>{getIcon(isMe ? status : user?.status)}</Icon>
-        {chatCount > 0 && <UnReadBox>{chatCount}</UnReadBox>}
+        {unreads && unreads[user?.groupUserId] > 0 && (
+          <UnReadBox>{unreads[user?.groupUserId]}</UnReadBox>
+        )}
         {isHover && user?.statusMessage && (
           <UserStatusModal style={{ left: mouseX + 20, top: mouseY - 20 }}>
             {user?.statusMessage}
