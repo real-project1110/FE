@@ -50,10 +50,9 @@ const UserList = () => {
   );
 
   const hasUnReadUser = useMemo(() => {
-    console.log(unreads);
     const keys = Object.keys(unreads);
     const values = Object.values(unreads);
-    console.log(keys.filter((_, idx) => values[idx] > 0));
+
     return keys.filter((_, idx) => values[idx] > 0);
   }, [unreads]);
 

@@ -15,12 +15,6 @@ import {
 } from "./styles";
 
 function ImageModal({ layoutId, setShowImage, detail }) {
-  //const detail = useRecoilValue(PostDetailAtom);
-  // const [currentImage, setCurrentImage] = useState(
-  //   detail?.postImg?.map((x) => x.postImg)
-  // );
-  // console.log(currentImage[0]);
-  // detail?.postImg?.map((x)=> x.postImg)
   const settings = {
     dots: false,
     infinite: true,
