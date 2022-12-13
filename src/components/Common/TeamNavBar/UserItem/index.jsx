@@ -35,7 +35,6 @@ const UserItem = ({
   const [mouseY, setMouseY] = useState(0);
   const setChatUser = useSetRecoilState(chatUserAtom);
   const setGroup = useSetRecoilState(groupAtom);
-  //const [chatCount, setChatCount] = useState(0);
   const [socket] = useSocket(groupId);
 
   const { data: unreadCount } = useQuery(
@@ -56,16 +55,16 @@ const UserItem = ({
       ),
     }
   );
-
   const navigate = useNavigate();
-  // 마우스가 유저에게로 올라갈 때 실행
+
+  // 마우스가 유저에게로 올라갈 때 실행 (상태 메시지 위ㅊㅣ)
   const onHover = useCallback((e) => {
     setMouseX(e.pageX);
     setMouseY(e.pageY);
     setIsHover(true);
   }, []);
 
-  // 마우스가 유저에게 떠날 때 실행
+  // 마우스가 유저에게 떠날 때 실행 (상태 메시지 위ㅊㅣ)
   const onLeave = useCallback(() => {
     setIsHover(false);
   }, []);
