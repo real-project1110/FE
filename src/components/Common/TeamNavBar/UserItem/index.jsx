@@ -46,7 +46,13 @@ const UserItem = ({
           `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
         ),
       }),
-    { retry: 0, staleTime: Infinity }
+    {
+      retry: 0,
+      staleTime: Infinity,
+      enabled: !!localStorage.getItem(
+        `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
+      ),
+    }
   );
 
   const navigate = useNavigate();
@@ -106,17 +112,27 @@ const UserItem = ({
   useEffect(() => {
     if (socket && user && !isMe) {
       socket?.on("unread", (data) => {
+        if (
+          !localStorage.getItem(
+            `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`
+          )
+        ) {
+          localStorage.setItem(
+            `${groupId}-${myUserData?.groupUserId}-${user?.groupUserId}`,
+            (new Date().getTime() - 300).toString()
+          );
+        }
         if (data === user.groupUserId) setChatCount((prev) => prev + 1);
       });
       return () => {
         socket.off("unread");
       };
     }
-  }, [socket, user, isMe]);
+  }, [socket, user, isMe, groupId, myUserData]);
 
   // useEffect(() => {
-  //   unreadCountRefetch();
-  // }, [unreadCountRefetch, groupId]);
+  //   unreadRefetch();
+  // }, [unreadRefetch]);
 
   return (
     <>
