@@ -66,6 +66,7 @@ function Signin() {
       localStorage.setItem("token", refreshToken);
 
       if (currentPage) {
+        //return navigate(`/groups/${currentPage}`);
         return window.location.replace(`/groups/${currentPage}`);
       } else {
         return window.location.replace("/main/write");
