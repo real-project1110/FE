@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Eventcalendar,
-  setOptions,
-  Popup,
-  Button,
-  Input,
-  Textarea,
-  Datepicker,
-} from "@mobiscroll/react";
+import { Eventcalendar, setOptions, Popup, Button, Input, Textarea, Datepicker } from "@mobiscroll/react";
 import { useState, useCallback, useMemo, useRef } from "react";
 import "./schedule.css";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
@@ -15,13 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useMutation, useQuery } from "react-query";
-import {
-  addSchedule,
-  DragResizeSchedule,
-  editSchedule,
-  readSchedule,
-  removeSchedule,
-} from "../../apis/scheduleApi";
+import { addSchedule, DragResizeSchedule, editSchedule, readSchedule, removeSchedule } from "../../apis/scheduleApi";
 import { useParams } from "react-router-dom";
 import { Wrapper } from "./styles";
 import { useRecoilValue } from "recoil";
@@ -76,11 +62,10 @@ const Schedular = () => {
   const [selectedColor, setSelectedColor] = useState("");
   const [tempColor, setTempColor] = useState("");
   const [addTitle, setAddTitle] = useState("");
-  const [groupUserId, setGroupUserId] = useState("")
+  const [groupUserId, setGroupUserId] = useState("");
   const colorPicker = useRef();
   const { groupId } = useParams();
   const groupUser = useRecoilValue(groupUserAtom);
-  
 
   // 고를 수 있는 색상
   const colors = useMemo(() => {
@@ -88,29 +73,25 @@ const Schedular = () => {
   }, [existColors]);
 
   // 스케쥴을 가져오는 요청
-  const { refetch, isLoading } = useQuery(
-    ["schedules", groupId],
-    () => readSchedule(groupId),
-    {
-      refetchOnWindowFocus: false,
-      retry: 1,
-      onSuccess: (data) => {
-        setMyEvents([...data]);
-      },
-      onError: (e) => {
-        toast.error(e.message, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      },
-    }
-  );
+  const { refetch, isLoading } = useQuery(["schedules", groupId], () => readSchedule(groupId), {
+    refetchOnWindowFocus: false,
+    retry: 1,
+    onSuccess: (data) => {
+      setMyEvents([...data]);
+    },
+    onError: (e) => {
+      toast.error(e.message, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    },
+  });
 
   // 스케쥴을 추가하는 요청
   const { mutate: addMutate } = useMutation(addSchedule, {
@@ -150,7 +131,7 @@ const Schedular = () => {
     setDescription(event.description);
     setDate([event.start, event.end]);
     setSelectedColor(event.color || "gray");
-    setGroupUserId(event.groupUserId)
+    setGroupUserId(event.groupUserId);
   }, []);
 
   // 스케쥴을 등록하거나 수정할 때 발생하는 함수
@@ -167,8 +148,8 @@ const Schedular = () => {
 
     // 일정 수정일 경우 실행
     if (isEdit) {
-      if(groupUserId !== groupUser.groupUserId){
-        toast.error("본인의 일정만 수정 가능합니다",{
+      if (groupUserId !== groupUser.groupUserId) {
+        toast.error("본인의 일정만 수정 가능합니다", {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: true,
@@ -177,12 +158,12 @@ const Schedular = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-        })
+        });
         return;
       }
       const index = myEvents.findIndex((x) => x.id === tempEvent.id);
       const newEventList = [...myEvents];
-      console.log(index)
+      console.log(index);
       newEventList.splice(index, 1, newEvent);
       setMyEvents(newEventList);
       const scheduleId = tempEvent.scheduleId;
@@ -285,14 +266,14 @@ const Schedular = () => {
     groupId,
     addTitle,
     groupUser.groupUserId,
-    groupUserId
+    groupUserId,
   ]);
 
   // 스케쥴을 삭제할 때 발생하는 함수
   const deleteEvent = useCallback(
     (event) => {
-      if(event.groupUserId !== groupUser.groupUserId){
-        toast.error("본인의 일정만 삭제 가능합니다",{
+      if (event.groupUserId !== groupUser.groupUserId) {
+        toast.error("본인의 일정만 삭제 가능합니다", {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: true,
@@ -301,7 +282,7 @@ const Schedular = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-        })
+        });
         return;
       }
       const removeSchedule = {
@@ -381,12 +362,13 @@ const Schedular = () => {
     },
     [deleteEvent]
   );
-  
+
   // 드래그앤 드롭, 리사이징 수정부분 api 요청
-  const onEventUpdated = useCallback((args) => {
-    if(args.event.groupUserId !== groupUser.groupUserId){
-        refetch()
-        toast.error("본인의 일정만 수정할 수 있습니다",{
+  const onEventUpdated = useCallback(
+    (args) => {
+      if (args.event.groupUserId !== groupUser.groupUserId) {
+        refetch();
+        toast.error("본인의 일정만 수정할 수 있습니다", {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: true,
@@ -395,30 +377,28 @@ const Schedular = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-        })
-    } else {
-      const { scheduleId, title, description, start, end, color, groupId } =
-        args.event;
-      const editEvent = {
-        scheduleId,
-        groupId,
-        body: {
-          title,
-          description,
-          start: Date.parse(start),
-          end: Date.parse(end),
-          color,
-        },
-      };
-      DragResizeSchedule(editEvent);
-    }
-  }, [groupUser.groupUserId, refetch]);
+        });
+      } else {
+        const { scheduleId, title, description, start, end, color, groupId } = args.event;
+        const editEvent = {
+          scheduleId,
+          groupId,
+          body: {
+            title,
+            description,
+            start: Date.parse(start),
+            end: Date.parse(end),
+            color,
+          },
+        };
+        DragResizeSchedule(editEvent);
+      }
+    },
+    [groupUser.groupUserId, refetch]
+  );
 
   // 팝업의 Header 텍스트
-  const headerText = useMemo(
-    () => (isEdit ? "일정 수정" : "일정 추가"),
-    [isEdit]
-  );
+  const headerText = useMemo(() => (isEdit ? "일정 수정" : "일정 추가"), [isEdit]);
 
   // 팝업의 버튼 이름 등
   const popupButtons = useMemo(() => {
@@ -492,13 +472,7 @@ const Schedular = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <Wrapper
-          variants={calendarAni}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{ type: "tween", duration: 0.7 }}
-        >
+        <Wrapper variants={calendarAni} initial="initial" animate="animate" exit="exit" transition={{ type: "tween", duration: 0.7 }}>
           <ToastContainer />
           <Eventcalendar
             view={viewSettings}
@@ -526,18 +500,8 @@ const Schedular = () => {
             responsive={responsivePopup}
           >
             <div className="mbsc-form-group">
-              <Input
-                label="이름"
-                value={isEdit ? popupEventTitle : addTitle}
-                onChange={titleChange}
-                required="required"
-              />
-              <Textarea
-                label="상세 내용"
-                value={popupEventDescription}
-                onChange={descriptionChange}
-                required="required"
-              />
+              <Input label="이름" value={isEdit ? popupEventTitle : addTitle} onChange={titleChange} required="required" />
+              <Textarea label="상세 내용" value={popupEventDescription} onChange={descriptionChange} required="required" />
             </div>
             <div className="mbsc-form-group">
               <Input ref={startRef} label="시작 날짜" />
@@ -553,19 +517,11 @@ const Schedular = () => {
               />
               <div onClick={openColorPicker} className="event-color-c">
                 <div className="event-color-label">Color</div>
-                <div
-                  className="event-color"
-                  style={{ background: selectedColor }}
-                ></div>
+                <div className="event-color" style={{ background: selectedColor }}></div>
               </div>
               {isEdit ? (
                 <div className="mbsc-button-group">
-                  <Button
-                    className="mbsc-button-block"
-                    color="danger"
-                    variant="outline"
-                    onClick={onDeleteClick}
-                  >
+                  <Button className="mbsc-button-block" color="danger" variant="outline" onClick={onDeleteClick}>
                     일정 삭제하기
                   </Button>
                 </div>
@@ -587,19 +543,8 @@ const Schedular = () => {
               {colors?.map((color, index) => {
                 if (index < 5) {
                   return (
-                    <div
-                      key={index}
-                      onClick={changeColor}
-                      className={
-                        "crud-color-c " +
-                        (tempColor === color ? "selected" : "")
-                      }
-                      data-value={color}
-                    >
-                      <div
-                        className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                        style={{ background: color }}
-                      ></div>
+                    <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
+                      <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
                     </div>
                   );
                 } else return null;
@@ -609,19 +554,8 @@ const Schedular = () => {
               {colors?.map((color, index) => {
                 if (index >= 5) {
                   return (
-                    <div
-                      key={index}
-                      onClick={changeColor}
-                      className={
-                        "crud-color-c " +
-                        (tempColor === color ? "selected" : "")
-                      }
-                      data-value={color}
-                    >
-                      <div
-                        className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check"
-                        style={{ background: color }}
-                      ></div>
+                    <div key={index} onClick={changeColor} className={"crud-color-c " + (tempColor === color ? "selected" : "")} data-value={color}>
+                      <div className="crud-color mbsc-icon mbsc-font-icon mbsc-icon-material-check" style={{ background: color }}></div>
                     </div>
                   );
                 } else return null;
