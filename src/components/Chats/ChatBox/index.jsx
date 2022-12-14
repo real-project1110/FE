@@ -3,7 +3,6 @@ import "dayjs/locale/ko";
 import React from "react";
 import { handleImgError } from "../../../utils/handleImgError";
 import { ChatContainer, Comment, FakeDiv, UserImg } from "./styles";
-
 dayjs.locale("ko");
 const ChatBox = ({ isMe, otherUser, chat }) => {
   return (

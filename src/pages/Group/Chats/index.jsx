@@ -87,12 +87,6 @@ const Chat = () => {
   // 스크롤의 꼭대기를 찍었을 때 현재 height - 이전 height
   useEffect(() => {
     if (height && chatSections) {
-      // setTimeout(() => {
-      //   scrollRef?.current.scrollTop(
-      //     scrollRef?.current.getScrollHeight() - height?.scrollHeight
-      //   );
-      // }, 50);
-
       scrollRef?.current.scrollTop(
         scrollRef?.current.getScrollHeight() - height?.scrollHeight
       );
@@ -108,8 +102,6 @@ const Chat = () => {
         }
       }
     }
-
-    //setTimeout(() => setHeight(null), 200);
   }, [height, chatSections]);
 
   // 채팅방에 입장했을 때 소켓으로 입장 이벤트 보내기
@@ -156,18 +148,6 @@ const Chat = () => {
         // 내가 보낸 메시지가 아니라면 state에 추가
         if (data.groupUserId !== me.groupUserId) {
           setChats((prev) => [data, ...prev]);
-          // if (scrollRef.current) {
-          //   if (
-          //     scrollRef.current.getScrollHeight() <
-          //     scrollRef.current.getClientHeight() +
-          //       scrollRef.current.getScrollTop() +
-          //       150
-          //   ) {
-          //     setTimeout(() => {
-          //       scrollRef.current?.scrollToBottom();
-          //     }, 50);
-          //   }
-          // }
         }
       });
     }
@@ -183,10 +163,6 @@ const Chat = () => {
       setPages(0);
     };
   }, [socket, me, roomId]);
-
-  // useEffect(() => {
-  //   refetch();
-  // }, [refetch]);
 
   return (
     <Wrapper as="main">
@@ -238,31 +214,3 @@ const Chat = () => {
 };
 
 export default Chat;
-
-// 채팅방에 처음 입장했을 때 스크롤 밑으로 보내기
-// useEffect(() => {
-//   if (chatsData?.pages.length === 1) {
-//     setTimeout(() => {
-//       scrollRef.current?.scrollToBottom();
-//     }, 100);
-//   }
-// }, [chatsData]);
-
-// // 만약 atom에 저장된 데이터와 일치하지 않을 경우 서버로부터 전달받은 상대 유저 데이터로 갈아치운다.
-// useEffect(() => {
-//   (async () => {
-//     const {
-//       status,
-//       data: { data: compareUser },
-//     } = await readReceiver({
-//       roomId,
-//       groupId,
-//     });
-//     if (status !== 200) return;
-//     else {
-//       if (compareUser?.groupUserId !== receiver?.groupUserId) {
-//         setReceiver(compareUser);
-//       }
-//     }
-//   })();
-// });
