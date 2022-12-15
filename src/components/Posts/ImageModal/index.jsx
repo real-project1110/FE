@@ -17,6 +17,7 @@ function ImageModal({ layoutId, setShowImage, detail }) {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: false,
+    initialSlide: +layoutId,
   };
   return (
     <Wrapper
