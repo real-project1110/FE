@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { queryClient } from "../..";
 import { addGroup, editGroupImage, inviteUsers } from "../../apis/groupApi";
 import CancelSvg from "../../assets/svg/CancelSvg";
+import ImageSvg from "../../assets/svg/ImageSvg";
 
 import {
   Button,
@@ -239,7 +240,11 @@ const CreateGroup = () => {
             </SubTitle>
             <ImgLabel _background={preview}>
               <File type="file" accept="image/*" onChange={onChangePreview} />
-              {!preview && <span>+ 업로드 아이콘</span>}
+              {!preview && (
+                <span>
+                  <ImageSvg />
+                </span>
+              )}
             </ImgLabel>
             {preview ? (
               <DeleteImgBtn onClick={onDeleteImg}>사진 제거</DeleteImgBtn>
