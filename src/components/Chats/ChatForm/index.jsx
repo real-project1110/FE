@@ -70,6 +70,7 @@ const ChatForm = ({
     ]
   );
 
+  // textarea에서 enter 클릭 시 채팅 전송 shift+Enter 클릭시 줄바꿈.
   const onKeydownChat = useCallback(
     (e) => {
       if (e.key === "Enter") {
@@ -82,6 +83,7 @@ const ChatForm = ({
     [onSubmit]
   );
 
+  // textarea에서 줄바꿈이 일어날 때마다 자동으로 사이즈를 키워줌
   useEffect(() => {
     if (textareaRef.current) {
       autosize(textareaRef.current);

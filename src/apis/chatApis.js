@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "react-query";
 import instance from "./instance/instance";
 
+// 채팅룸 id를 받아오는 요청
 export const goChatRoom = async (payload) => {
   const data = await instance.get(
     `groups/${payload.groupId}/room?sender=${payload.sender}&receiver=${payload.receiver}`
@@ -8,18 +9,13 @@ export const goChatRoom = async (payload) => {
   return data;
 };
 
-// export const readChats = async (payload) => {
-//   const { data } = await instance.get(
-//     `room/${payload.roomId}?page=${payload.page}&pageSize=${payload.pageSize}`
-//   );
-//   return data.data;
-// };
-
+// 채팅 메시지를 생성하는 요청
 export const addChat = async (payload) => {
   const data = await instance.post(`room/${payload.roomId}`, payload.body);
   return data;
 };
 
+// 읽지 않은 메시지의 갯수를 받아오는 요청
 export const readUnread = async (payload) => {
   if (payload.timestamps) {
     const { data } = await instance.get(
@@ -31,6 +27,7 @@ export const readUnread = async (payload) => {
   }
 };
 
+// 채팅룸에 메시지들을 받아오는 요청
 export const useChatApis = {
   ReadChats: (roomId) => {
     const getChats = async ({ pageParam = 1 }) => {
@@ -53,6 +50,7 @@ export const useChatApis = {
   },
 };
 
+// 채팅창에서 받는 사람에 대한 정보를 받아오는 요청
 export const readReceiver = async ({ groupId, roomId }) => {
   const { data } = await instance.get(`groups/${groupId}/room/${roomId}`);
   return data.data;

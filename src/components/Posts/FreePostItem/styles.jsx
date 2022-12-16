@@ -110,7 +110,19 @@ export const FakeImg = styled.div`
   border-radius: 50%;
 `;
 
-export const Content = styled.div``;
+export const Content = styled.div`
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: box;
+  margin-top: 1px;
+  max-height: 80px;
+  overflow: hidden;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+`;
 
 export const ImageWrap = styled.div`
   margin-top: 0.5rem;

@@ -53,7 +53,7 @@ export const PostContent = styled.p`
   display: -webkit-box;
   display: -ms-flexbox;
   display: box;
-  max-height: 80px;
+  max-height: 60px;
   overflow: hidden;
   vertical-align: top;
   text-overflow: ellipsis;

@@ -133,6 +133,18 @@ export const ImgLabel = styled.label`
   transition: background-color 0.1s linear;
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
+    span {
+      svg {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+  span {
+    ${FlexCenterBox};
+    svg {
+      width: 5rem;
+      color: rgba(0, 0, 0, 0.2);
+    }
   }
 `;
 

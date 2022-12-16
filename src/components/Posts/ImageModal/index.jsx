@@ -1,12 +1,7 @@
 import React from "react";
-// import { useState } from "react";
-// import { useRecoilValue } from "recoil";
 import CancelSvg from "../../../assets/svg/CancelSvg";
-// import { PostDetailAtom } from "../../../recoil/groupAtoms";
 import {
   BigImage,
-  // Blur,
-  // BlurBackground,
   Header,
   ImageSlide,
   ImageWrap,
@@ -15,12 +10,6 @@ import {
 } from "./styles";
 
 function ImageModal({ layoutId, setShowImage, detail }) {
-  //const detail = useRecoilValue(PostDetailAtom);
-  // const [currentImage, setCurrentImage] = useState(
-  //   detail?.postImg?.map((x) => x.postImg)
-  // );
-  // console.log(currentImage[0]);
-  // detail?.postImg?.map((x)=> x.postImg)
   const settings = {
     dots: false,
     infinite: true,
@@ -28,6 +17,7 @@ function ImageModal({ layoutId, setShowImage, detail }) {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: false,
+    initialSlide: +layoutId,
   };
   return (
     <Wrapper
@@ -57,10 +47,6 @@ function ImageModal({ layoutId, setShowImage, detail }) {
           </StyledSlider>
         </ImageSlide>
       </ImageWrap>
-      {/* <BlurBackground>
-        <Blur currentImage={currentImage[0]} />
-      
-      </BlurBackground> */}
     </Wrapper>
   );
 }

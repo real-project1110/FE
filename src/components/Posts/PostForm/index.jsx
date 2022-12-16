@@ -42,7 +42,6 @@ function PostForm() {
   const { mutate: editPostFn } = useMutation(editPost, {
     onSuccess: () => queryClient.invalidateQueries(["freePosts", groupId]),
   });
-  const [isHover, setIsHover] = useState(0);
   const [imagePreview, setImagePreview] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [textValue, setTextValue] = useState();
@@ -160,7 +159,7 @@ function PostForm() {
             </PhotoLabel>
             <PreviewBox>
               {imagePreview?.map((image, idx) => (
-                <Preview key={idx} onMouseOver={() => setIsHover(1)} onMouseOut={() => setIsHover(0)}>
+                <Preview key={idx}>
                   <PreviewImg src={image} alt={`${image}-${idx}`} onError={handleImgError} />
 
                   <Delete
