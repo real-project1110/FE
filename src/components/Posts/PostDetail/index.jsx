@@ -19,31 +19,9 @@ import { groupUserAtom } from "../../../recoil/userAtoms";
 import { handleImgError } from "../../../utils/handleImgError";
 import Comment from "../Comment";
 import { CommentForm } from "../Comment/styles";
-import {
-  CommentFormUserImg,
-  CommentInput,
-  CommentSubmitBtn,
-} from "../CommentList/styles";
-import {
-  CommentCount,
-  Content,
-  FakeImg,
-  PostComment,
-  PostImgWrap,
-  PostLike,
-  PostLikeCount,
-  PostResponse,
-  UserImg,
-} from "../FreePostItem/styles";
-import {
-  Cancel,
-  DetailPost,
-  DetailPostUserBox,
-  DetailPostUserInfo,
-  DetailWrapper,
-  Images,
-  PostContent,
-} from "./styles";
+import { CommentFormUserImg, CommentInput, CommentSubmitBtn } from "../CommentList/styles";
+import { CommentCount, Content, FakeImg, PostComment, PostImgWrap, PostLike, PostLikeCount, PostResponse, UserImg } from "../FreePostItem/styles";
+import { Cancel, DetailPost, DetailPostUserBox, DetailPostUserInfo, DetailWrapper, Images, PostContent } from "./styles";
 import ImageModal from "../ImageModal";
 import CancelSvg from "../../../assets/svg/CancelSvg";
 import getTime from "../../../utils/getTime";
@@ -79,13 +57,7 @@ function PostDetail() {
     groupId: groupId,
     postId: detail.postId,
   };
-  const {
-    data: getComment,
-    fetchNextPage,
-    isSuccess,
-    hasNextPage,
-    refetch,
-  } = useReadComments(readCommentData);
+  const { data: getComment, fetchNextPage, isSuccess, hasNextPage, refetch } = useReadComments(readCommentData);
 
   const { ref, inView } = useInView();
 
@@ -174,44 +146,13 @@ function PostDetail() {
 
   return (
     <>
-      <AnimatePresence>
-        {showImage && (
-          <ImageModal
-            layoutId={layoutId}
-            detail={detail}
-            setShowImage={setShowImage}
-          />
-        )}
-      </AnimatePresence>
-      <DetailPost
-        onClick={onCloseModal}
-        variants={bgAni}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ type: "tween", duration: 0.2 }}
-      >
-        <motion.div
-          variants={modalAni}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{ type: "tween", duration: 0.2 }}
-        >
+      <AnimatePresence>{showImage && <ImageModal layoutId={layoutId} detail={detail} setShowImage={setShowImage} />}</AnimatePresence>
+      <DetailPost onClick={onCloseModal} variants={bgAni} initial="initial" animate="animate" exit="exit" transition={{ type: "tween", duration: 0.2 }}>
+        <motion.div variants={modalAni} initial="initial" animate="animate" exit="exit" transition={{ type: "tween", duration: 0.2 }}>
           <Scrollbars autoHide onScrollStop={fetchNextPage}>
             <DetailWrapper onClick={(e) => e.stopPropagation()}>
               <DetailPostUserBox>
-                <UserImg>
-                  {detail.groupAvatarImg ? (
-                    <img
-                      src={detail.groupAvatarImg}
-                      alt="profile"
-                      onError={handleImgError}
-                    />
-                  ) : (
-                    <FakeImg />
-                  )}
-                </UserImg>
+                <UserImg>{detail.groupAvatarImg ? <img src={detail.groupAvatarImg} alt="profile" onError={handleImgError} /> : <FakeImg />}</UserImg>
                 <DetailPostUserInfo>
                   <div>
                     <strong>{detail.groupUserNickname}</strong>
@@ -225,16 +166,8 @@ function PostDetail() {
               <PostContent>
                 <PostImgWrap>
                   {detail?.postImg?.map((image, idx) => (
-                    <Images
-                      key={image.postImg}
-                      onClick={() => ImageModalOpen(idx + "")}
-                      layoutId={idx + ""}
-                    >
-                      <img
-                        src={image.postImg}
-                        alt="postImg"
-                        onError={handleImgError}
-                      />
+                    <Images key={image.postImg} onClick={() => ImageModalOpen(idx + "")} layoutId={idx + ""}>
+                      <img src={image.postImg} alt="postImg" onError={handleImgError} />
                       <div />
                     </Images>
                   ))}
@@ -253,21 +186,11 @@ function PostDetail() {
               </PostContent>
               <CommentForm>
                 {groupUser && groupUser.groupAvatarImg ? (
-                  <CommentFormUserImg
-                    src={groupUser.groupAvatarImg}
-                    alt={groupUser.groupUserNickname}
-                    onError={handleImgError}
-                  />
+                  <CommentFormUserImg src={groupUser.groupAvatarImg} alt={groupUser.groupUserNickname} onError={handleImgError} />
                 ) : (
                   <FakeImg />
                 )}
-                <CommentInput
-                  value={postComment}
-                  placeholder="댓글을 남겨주세요."
-                  type="text"
-                  onChange={onChange}
-                  onKeyPress={onKeyPress}
-                />
+                <CommentInput value={postComment} placeholder="댓글을 남겨주세요." type="text" onChange={onChange} onKeyPress={onKeyPress} />
                 <CommentSubmitBtn onClick={Submit}>
                   <CommentPostSvg />
                 </CommentSubmitBtn>
