@@ -27,7 +27,7 @@ export const readUnread = async (payload) => {
   }
 };
 
-// 채팅룸에 메시지들을 받아오는 요청
+/** 채팅룸에 메시지들을 받아오는 요청 */
 export const useChatApis = {
   ReadChats: (roomId) => {
     const getChats = async ({ pageParam = 1 }) => {

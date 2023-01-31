@@ -4,6 +4,7 @@ import statusImage3 from "../assets/image/status3.webp";
 import statusImage4 from "../assets/image/status4.webp";
 import statusImage5 from "../assets/image/status5.webp";
 import statusImage6 from "../assets/image/status6.webp";
+
 export const getIcon = (num) => {
   switch (num) {
     case 1:
