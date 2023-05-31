@@ -115,7 +115,17 @@ function PostForm() {
       }
       showForm(false);
     },
-    [addPostFn, editMode, groupId, imageFiles, setEditPostData, showForm, textValue, editPostFn, editPostData]
+    [
+      addPostFn,
+      editMode,
+      groupId,
+      imageFiles,
+      setEditPostData,
+      showForm,
+      textValue,
+      editPostFn,
+      editPostData,
+    ]
   );
 
   // text가 변경될 때 onChange 함수
@@ -134,7 +144,14 @@ function PostForm() {
   }, [editPostData, setEditPostData, setEditMode, editMode]);
 
   return (
-    <Wrapper onClick={onCloseModal} variants={bgAni} initial="initial" animate="animate" exit="exit" transition={{ type: "tween", duration: 0.2 }}>
+    <Wrapper
+      onClick={onCloseModal}
+      variants={bgAni}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.2 }}
+    >
       <ToastContainer />
       <EditorWrapper
         onClick={(e) => e.stopPropagation()}
@@ -155,12 +172,22 @@ function PostForm() {
             <PhotoLabel htmlFor="input-file">
               <FontAwesomeIcon icon={faImage} />
 
-              <ImgInput type="file" id="input-file" multiple accept="image/*" onChange={handleAddImages} />
+              <ImgInput
+                type="file"
+                id="input-file"
+                multiple
+                accept="image/*"
+                onChange={handleAddImages}
+              />
             </PhotoLabel>
             <PreviewBox>
               {imagePreview?.map((image, idx) => (
                 <Preview key={idx}>
-                  <PreviewImg src={image} alt={`${image}-${idx}`} onError={handleImgError} />
+                  <PreviewImg
+                    src={image}
+                    alt={`${image}-${idx}`}
+                    onError={handleImgError}
+                  />
 
                   <Delete
                     onClick={(event) => {
@@ -173,7 +200,12 @@ function PostForm() {
                 </Preview>
               ))}
             </PreviewBox>
-            <PostInput placeholder="공유하고 싶은 소식이 있나요? 사소한 이야기라도 좋아요 :)" onChange={onChangeText} value={textValue} required />
+            <PostInput
+              placeholder="공유하고 싶은 소식이 있나요? 사소한 이야기라도 좋아요 :)"
+              onChange={onChangeText}
+              value={textValue}
+              required
+            />
             <SubmitBtn>
               <Posting>게시</Posting>
               <PostButtonSvg />

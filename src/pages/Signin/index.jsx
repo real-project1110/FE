@@ -59,6 +59,7 @@ function Signin() {
   const onSubmit = async (data) => {
     try {
       const response = await signin(data);
+      if (!response.data) return alert("회원 정보를 찾을 수 없습니다.");
       const {
         status,
         data: { accessToken, refreshToken, currentPage },
