@@ -1,7 +1,8 @@
 import axios from "axios";
 import { getCookieToken } from "../../shared/Cookie/Cookie";
 
-const baseURL = process.env.REACT_APP_SERVER_URL;
+// const baseURL = process.env.REACT_APP_SERVER_URL;
+const baseURL = "https://wjdgusgg.shop:4000/";
 
 const myToken = getCookieToken();
 
